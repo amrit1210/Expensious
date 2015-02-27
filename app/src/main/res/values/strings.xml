@@ -1,6 +1,22 @@
 <resources>
     <string name="app_name">Expensious</string>
-
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="hint_note">Note</string>
+
+    <string name="btn_reset">Reset Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_sign_up">Sign Up</string>
+
+    <string name="forgot_pass">Forgot Password?</string>
+    <string name="new_user">New User, Sign Up</string>
+    <string name="reset_pass">To reset your password, enter the email you registered with Expensious</string>
+
+    <string name="cb_remember">Remember Me</string>
+    <string name="cb_include">Include in total</string>
+
 </resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="main_color_100">#FFE1BEE7</color>
+    <color name="main_color_200">#FFCE93D8</color>
+    <color name="main_color_300">#FFBA68C8</color>
+    <color name="main_color_400">#FFAB47BC</color>
+    <color name="main_color_500">#FF9c27b0</color>
+    <color name="main_color_600">#FF8E24AA</color>
+    <color name="main_color_700">#FF7B1FA2</color>
+    <color name="main_color_800">#FF6A1B9A</color>
+
+    <color name="main_color_indigo_100">#FFE1BEE7</color>
+    <color name="main_color_indigo_200">#FFCE93D8</color>
+    <color name="main_color_indigo_300">#FFBA68C8</color>
+    <color name="main_color_indigo_400">#FFAB47BC</color>
+    <color name="main_color_indigo_500">#FF673AB7</color>
+    <color name="main_color_indigo_600">#FF8E24AA</color>
+    <color name="main_color_indigo_700">#FF512DA8</color>
+    <color name="main_color_indigo_800">#FF6A1B9A</color>
+
+    <color name="main_color_grey_100">#FFF5F5F5</color>
+    <color name="main_color_grey_200">#FFEEEEEE</color>
+    <color name="main_color_grey_300">#FFE0E0E0</color>
+    <color name="main_color_grey_400">#FFBDBDBD</color>
+    <color name="main_color_grey_500">#FF9E9E9E</color>
+    <color name="main_color_grey_600">#FF9E9E9E</color>
+    <color name="main_color_grey_700">#FF616161</color>
+    <color name="main_color_grey_800">#FF424242</color>
+
+    <color name="accent_color_100">#FFFF80AB</color>
+    <color name="accent_color_200">#FFFF4081</color>
+    <color name="accent_color_400">#FFF50057</color>
+    <color name="accent_color_700">#FFC51162</color>
+
+    <color name="white_15_percent">#26FFFFFF</color>
+    <color name="white_30_percent">#4CFFFFFF</color>
+    <color name="white_70_percent">#B2FFFFFF</color>
+</resources>

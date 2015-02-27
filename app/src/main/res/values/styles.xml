@@ -2,7 +2,49 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+        <item name="actionBarStyle">@style/ActionBarStyle</item>
+        <item name="colorPrimary">@color/main_color_500</item>
+        <item name="colorPrimaryDark">@color/main_color_700</item>
+        <item name="colorAccent">@color/accent_color_200</item>
     </style>
 
+    <style name="ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="titleTextStyle">@style/ActionBarStyle.TitleTextStyle</item>
+        <item name="background">@color/main_color_500</item>
+    </style>
+
+    <style name="ActionBarStyle.TitleTextStyle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextViewAppearance" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextViewAppearance.Heading" parent="TextViewAppearance">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">40sp</item>
+        <item name="android:paddingTop">35sp</item>
+        <item name="android:paddingBottom">35sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/main_color_500</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="EditTextAppearance" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="EditTextAppearance.Heading" parent="EditTextAppearance">
+        <item name="android:paddingBottom">35sp</item>
+        <item name="android:paddingTop">35sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/main_color_500</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:textSize">40sp</item>
+    </style>
 </resources>
