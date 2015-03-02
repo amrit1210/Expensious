@@ -39,12 +39,60 @@
     </style>
 
     <style name="EditTextAppearance.Heading" parent="EditTextAppearance">
+        <item name="android:background">@color/main_color_500</item>
         <item name="android:paddingBottom">35sp</item>
         <item name="android:paddingTop">35sp</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@color/main_color_500</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
         <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="EditTextAppearance.Editable" parent="EditTextAppearance">
+        <item name="android:paddingTop">15sp</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:layout_marginTop">15sp</item>
+        <item name="android:layout_marginLeft">10sp</item>
+    </style>
+
+    <style name="EditTextAppearance.Editable.Unedit" parent="EditTextAppearance.Editable">
+        <item name="android:editable">false</item>
+    </style>
+
+    <style name="ButtonStyle" parent="@android:style/TextAppearance.Widget.Button">
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ButtonStyle.Transparent" parent="ButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">#00000000</item>
+    </style>
+
+    <style name="ButtonStyle.RaisedEmpty" parent="@style/ButtonStyle">
+        <item name="android:textColor">@drawable/selector_text_empty</item>
+        <item name="android:background">@drawable/selector_background_empty</item>
+    </style>
+
+    <style name="ButtonStyle.RaisedFull" parent="@style/ButtonStyle">
+        <item name="android:textColor">@drawable/selector_text_full</item>
+        <item name="android:background">@drawable/selector_background_full</item>
+    </style>
+
+    <style name="CheckBoxStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">25sp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="IconTextViewStyle" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:layout_margin">5sp</item>
+        <item name="android:textColor">@color/main_color_grey_500</item>
     </style>
 </resources>

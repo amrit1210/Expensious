@@ -1,9 +1,12 @@
 package com.example.dhruvgupta.expensious;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 
 public class LoginActivity extends ActionBarActivity {
@@ -11,9 +14,12 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_account);
+        setContentView(R.layout.activity_signup);
     }
 
+    public void OnEditClick (View v) {
+        Toast.makeText(this, "Yes! Yes! Yes!", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

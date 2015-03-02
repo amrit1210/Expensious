@@ -6,37 +6,39 @@
 
     <EditText
         style="@style/EditTextAppearance.Heading"
-        android:hint="Account Name"/>
+        android:hint="@string/hint_account_name"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:divider="?android:attr/dividerVertical"
+        android:dividerPadding="8sp"
+        android:paddingTop="10sp"
+        android:layout_gravity="center"
+        android:showDividers="middle">
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/ButtonStyle.Transparent"
             android:layout_weight="7"
-            android:background="#00000000"
+            android:text="@string/btn_currency"
+            android:stateListAnimator="@android:animator/fade_in"
             android:id="@+id/add_acc_btn_cur"/>
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
+            style="@style/ButtonStyle.Transparent"
+            android:text="@string/btn_zero_bal"
+            android:id="@+id/add_acc_btn_amt"
+            android:stateListAnimator="@android:animator/fade_in"
             android:layout_weight="3"/>
         </LinearLayout>
 
     <EditText
-        style="@style/EditTextAppearance"
+        style="@style/EditTextAppearance.Editable"
         android:hint="@string/hint_note"
-        android:paddingTop="15sp"
-        android:textSize="22sp"
-        android:layout_marginTop="25sp" />
+        android:layout_marginTop="15sp"
+        android:id="@+id/add_acc_note" />
 
     <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25sp"
-        android:textSize="20sp"
-        android:text="@string/cb_include"
+        style="@style/CheckBoxStyle"
+        android:text="@string/cb_include_total"
         android:id="@+id/add_acc_cb" />
 </LinearLayout>

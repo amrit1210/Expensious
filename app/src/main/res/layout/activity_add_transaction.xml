@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_trans_btn">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_zero_bal"
+            android:padding="35sp"
+            android:gravity="end"
+            android:textSize="40sp"
+            android:id="@+id/add_trans_btn_amt"
+            style="@style/ButtonStyle.RaisedFull" />
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_3_btn"
+        android:layout_below="@id/add_trans_btn">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15sp">
+
+
+
+                <Button
+                    style="@style/ButtonStyle.Transparent"
+                    android:layout_weight="1"
+                    android:text="@string/btn_date"
+                    android:stateListAnimator="@android:animator/fade_in"
+                    android:id="@+id/add_trans_btn_date"/>
+
+                <Button
+                    style="@style/ButtonStyle.Transparent"
+                    android:text="@string/btn_time"
+                    android:id="@+id/add_trans_btn_time"
+                    android:stateListAnimator="@android:animator/fade_in"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <EditText
+                    style="@style/EditTextAppearance.Editable.Unedit"
+                    android:layout_weight="1"
+                    android:onClick="OnFromAccountClick"
+                    android:hint="@string/hint_from_account"
+                    android:id="@+id/add_trans_from_account"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <EditText
+                    style="@style/EditTextAppearance.Editable.Unedit"
+                    android:layout_weight="1"
+                    android:onClick="OnToAccountClick"
+                    android:visibility="gone"
+                    android:hint="@string/hint_to_account"
+                    android:id="@+id/add_trans_to_account"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <EditText
+                    style="@style/EditTextAppearance.Editable.Unedit"
+                    android:layout_weight="1"
+                    android:onClick="OnCategoryClick"
+                    android:hint="@string/hint_category"
+                    android:id="@+id/add_trans_category"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <EditText
+                    style="@style/EditTextAppearance.Editable.Unedit"
+                    android:layout_weight="1"
+                    android:onClick="OnPersonClick"
+                    android:hint="@string/hint_person"
+                    android:id="@+id/add_trans_person"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <EditText
+                    style="@style/EditTextAppearance.Editable"
+                    android:hint="@string/hint_note"
+                    android:id="@+id/add_trans_note"
+                    android:gravity="left" />
+
+            </LinearLayout>
+
+            <CheckBox
+                style="@style/CheckBoxStyle"
+                android:text="@string/cb_include_report"
+                android:id="@+id/add_acc_cb" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ll_3_btn"
+        android:divider="?android:attr/dividerVertical"
+        android:dividerPadding="8sp"
+        android:showDividers="middle">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_expense"
+            android:stateListAnimator="@android:animator/fade_in"
+            android:background="#00000000"
+            android:id="@+id/add_trans_btn_expense"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:text="@string/btn_income"
+            android:id="@+id/add_trans_btn_income"
+            android:stateListAnimator="@android:animator/fade_in"
+            android:layout_weight="1"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:text="@string/btn_transfer"
+            android:id="@+id/add_trans_btn_transfer"
+            android:stateListAnimator="@android:animator/fade_in"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</RelativeLayout>

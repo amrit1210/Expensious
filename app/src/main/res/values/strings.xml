@@ -7,16 +7,32 @@
     <string name="hint_password">Password</string>
     <string name="hint_confirm_password">Confirm Password</string>
     <string name="hint_note">Note</string>
+    <string name="hint_from_account">From Account</string>
+    <string name="hint_to_account">To Account</string>
+    <string name="hint_category">Category</string>
+    <string name="hint_person">Person</string>
+    <string name="hint_account_name">Account Name</string>
 
-    <string name="btn_reset">Reset Password</string>
-    <string name="btn_login">Login</string>
-    <string name="btn_sign_up">Sign Up</string>
+    <string name="btn_reset">RESET PASSWORD</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_zero_bal">0.00</string>
+    <string name="btn_currency">CUR</string>
+    <string name="btn_income">INCOME</string>
+    <string name="btn_expense">EXPENSE</string>
+    <string name="btn_transfer">TRANSFER</string>
+    <string name="btn_sign_up">SIGN UP</string>
+    <string name="btn_date">DATE</string>
+    <string name="btn_time">TIME</string>
 
     <string name="forgot_pass">Forgot Password?</string>
     <string name="new_user">New User, Sign Up</string>
     <string name="reset_pass">To reset your password, enter the email you registered with Expensious</string>
 
     <string name="cb_remember">Remember Me</string>
-    <string name="cb_include">Include in total</string>
+    <string name="cb_include_total">Include in total</string>
+    <string name="cb_include_report">Include in report</string>
 
+    <string name="fonticon_email">{fa-envelope}</string>
+    <string name="fonticon_username">{fa-user}</string>
+    <string name="fonticon_password">{fa-user-secret}</string>
 </resources>
