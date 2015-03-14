@@ -6,7 +6,8 @@
 
     <EditText
         style="@style/EditTextAppearance.Heading"
-        android:hint="@string/hint_account_name"/>
+        android:hint="@string/hint_account_name"
+        android:id="@+id/add_acc_name"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +21,7 @@
             style="@style/ButtonStyle.Transparent"
             android:layout_weight="7"
             android:text="@string/btn_currency"
+            android:onClick="selectCurrency"
             android:stateListAnimator="@android:animator/fade_in"
             android:id="@+id/add_acc_btn_cur"/>
 
@@ -27,9 +29,10 @@
             style="@style/ButtonStyle.Transparent"
             android:text="@string/btn_zero_bal"
             android:id="@+id/add_acc_btn_amt"
+            android:onClick="enterAmount"
             android:stateListAnimator="@android:animator/fade_in"
             android:layout_weight="3"/>
-        </LinearLayout>
+    </LinearLayout>
 
     <EditText
         style="@style/EditTextAppearance.Editable"
@@ -41,4 +44,12 @@
         style="@style/CheckBoxStyle"
         android:text="@string/cb_include_total"
         android:id="@+id/add_acc_cb" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="done"
+        android:id="@+id/add_acc_btn_save"
+        android:onClick="onSave"/>
+
 </LinearLayout>

@@ -145,27 +145,21 @@
         android:dividerPadding="8sp"
         android:showDividers="middle">
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/ButtonStyle.Transparent"
             android:layout_weight="1"
             android:text="@string/btn_expense"
             android:stateListAnimator="@android:animator/fade_in"
-            android:background="#00000000"
             android:id="@+id/add_trans_btn_expense"/>
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
+            style="@style/ButtonStyle.Transparent"
             android:text="@string/btn_income"
             android:id="@+id/add_trans_btn_income"
             android:stateListAnimator="@android:animator/fade_in"
             android:layout_weight="1"/>
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
+            style="@style/ButtonStyle.Transparent"
             android:text="@string/btn_transfer"
             android:id="@+id/add_trans_btn_transfer"
             android:stateListAnimator="@android:animator/fade_in"

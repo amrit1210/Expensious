@@ -72,6 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_password"
+                    android:maxLength="16"
                     android:id="@+id/signUp_password"
                     android:inputType="textPassword"
                     android:layout_marginLeft="10sp"
@@ -93,6 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_confirm_password"
+                    android:maxLength="16"
                     android:id="@+id/signUp_confirm_password"
                     android:inputType="textPassword"
                     android:layout_marginLeft="10sp"
@@ -116,6 +118,7 @@
                 android:id="@+id/signUp_btn"
                 android:layout_marginTop="25sp"
                 android:text="@string/btn_sign_up"
+                android:onClick="onSignUp"
                 style="@style/ButtonStyle.RaisedFull"/>
         </com.balysv.materialripple.MaterialRippleLayout>
 
