@@ -17,6 +17,7 @@
             android:textSize="40sp"
             android:id="@+id/add_trans_btn_amt"
             style="@style/ButtonStyle.RaisedFull" />
+
     </com.balysv.materialripple.MaterialRippleLayout>
 
     <ScrollView
@@ -34,8 +35,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15sp">
-
-
 
                 <Button
                     style="@style/ButtonStyle.Transparent"
@@ -57,8 +56,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
@@ -71,8 +68,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-
 
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
@@ -88,8 +83,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
@@ -102,8 +95,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-
 
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
@@ -118,8 +109,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-
                 <EditText
                     style="@style/EditTextAppearance.Editable"
                     android:hint="@string/hint_note"
@@ -132,6 +121,7 @@
                 style="@style/CheckBoxStyle"
                 android:text="@string/cb_include_report"
                 android:id="@+id/add_acc_cb" />
+
         </LinearLayout>
 
     </ScrollView>
@@ -144,6 +134,7 @@
         android:divider="?android:attr/dividerVertical"
         android:dividerPadding="8sp"
         android:showDividers="middle">
+
         <Button
             style="@style/ButtonStyle.Transparent"
             android:layout_weight="1"
@@ -164,6 +155,7 @@
             android:id="@+id/add_trans_btn_transfer"
             android:stateListAnimator="@android:animator/fade_in"
             android:layout_weight="1"/>
+
     </LinearLayout>
 
 </RelativeLayout>

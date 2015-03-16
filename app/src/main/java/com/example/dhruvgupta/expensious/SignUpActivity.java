@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 /**
  * Created by Gaurav on 3/11/15.

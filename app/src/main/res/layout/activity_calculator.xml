@@ -75,6 +75,7 @@
             android:divider="?android:attr/dividerVertical"
             android:dividerPadding="8sp"
             android:showDividers="none">
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/digit_7"
@@ -87,6 +88,7 @@
                 android:id="@+id/digit_8"
                 android:text="8"
                 android:stateListAnimator="@android:animator/fade_in"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/digit_9"

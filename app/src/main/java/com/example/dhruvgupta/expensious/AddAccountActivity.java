@@ -20,7 +20,7 @@ public class AddAccountActivity extends ActionBarActivity
 {
     EditText mAcc_Name,mAcc_Note;
     CheckBox mInclude;
-    Button mAcc_Cur,mAcc_Amt,mAcc_Save,mAcc_Discard;
+    Button mAcc_Cur,mAcc_Amt,mAcc_Save;
     AccountsDBHelper accountsDBHelper;
     ArrayList<AccountsDB> al;
     @Override
@@ -33,7 +33,6 @@ public class AddAccountActivity extends ActionBarActivity
         mAcc_Cur =(Button)findViewById(R.id.add_acc_btn_cur);
         mAcc_Amt =(Button)findViewById(R.id.add_acc_btn_amt);
         mAcc_Save =(Button)findViewById(R.id.add_acc_btn_save);
-        mAcc_Discard =(Button)findViewById(R.id.add_acc_btn_discard);
         mInclude=(CheckBox)findViewById(R.id.add_acc_cb);
 
         accountsDBHelper =new AccountsDBHelper(AddAccountActivity.this);

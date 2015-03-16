@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +12,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Set;
 
 public class LoginActivity extends ActionBarActivity
 {
@@ -30,7 +27,7 @@ public class LoginActivity extends ActionBarActivity
         mEmail=(EditText)findViewById(R.id.logIn_email);
         mPassword=(EditText)findViewById(R.id.logIn_password);
         mRemember=(CheckBox)findViewById(R.id.logIn_remember);
-        usersDBHelper=new UsersDBHelper(LoginActivity.this);
+		usersDBHelper=new UsersDBHelper(LoginActivity.this);
     }
 
     public void onLogin(View v)
@@ -75,8 +72,8 @@ public class LoginActivity extends ActionBarActivity
 
     public void onForgot(View v)
     {
-//        Intent i=new Intent(LoginActivity.this,ResetActivity.class);
-//        startActivity(i);
+        Intent i=new Intent(LoginActivity.this,ResetActivity.class);
+        startActivity(i);
     }
     public void onNewUser(View v)
     {

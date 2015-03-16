@@ -120,7 +120,9 @@
                 android:text="@string/btn_sign_up"
                 android:onClick="onSignUp"
                 style="@style/ButtonStyle.RaisedFull"/>
+
         </com.balysv.materialripple.MaterialRippleLayout>
 
     </RelativeLayout>
+
 </ScrollView>

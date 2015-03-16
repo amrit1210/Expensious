@@ -62,9 +62,12 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/reset_btn"
                 android:layout_marginTop="25sp"
+                android:onClick="onReset"
                 style="@style/ButtonStyle.RaisedFull"
                 android:text="@string/btn_reset"/>
+
         </com.balysv.materialripple.MaterialRippleLayout>
+
         </RelativeLayout>
 
 </ScrollView>

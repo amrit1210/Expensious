@@ -64,7 +64,6 @@
                     android:layout_marginRight="8sp"
                     android:layout_marginTop="5sp"/>
 
-
             </LinearLayout>
 
             <CheckBox
@@ -122,4 +121,5 @@
         </LinearLayout>
 
     </RelativeLayout>
+
 </ScrollView>
