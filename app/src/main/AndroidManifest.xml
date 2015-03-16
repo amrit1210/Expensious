@@ -25,6 +25,8 @@
             android:name=".AddAccountActivity"/>
         <activity
             android:name=".ResetActivity"/>
+        <activity
+            android:name=".Calculator"/>
     </application>
 
 </manifest>
