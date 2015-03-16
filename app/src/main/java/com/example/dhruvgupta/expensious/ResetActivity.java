@@ -1,6 +1,7 @@
 package com.example.dhruvgupta.expensious;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,7 +16,7 @@ import javax.mail.MessagingException;
 public class ResetActivity extends ActionBarActivity
 {
     Button mReset;
-    EditText mEmail;
+    EditText mResetEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,7 +24,7 @@ public class ResetActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset);
         mReset = (Button) findViewById(R.id.reset_btn);
-        mEmail=(EditText)findViewById(R.id.reset_email);
+        mResetEmail=(EditText)findViewById(R.id.reset_email);
     }
 
     public void onReset(View v)

@@ -23,7 +23,7 @@ public class MailSender extends Authenticator
     final String host = "smtp.gmail.com";
     private static final String address = "shubhampuri87@gmail.com";
     final String pass = "Shhubhamrock27";
-    final String to = "harpreet.42425@gmail.com";
+    final String to = "grvgupta36@gmail.com";
     Multipart multiPart;
 
     public void sendEmail() throws AddressException, MessagingException
@@ -66,7 +66,7 @@ public class MailSender extends Authenticator
             Log.i("check", "connecting");
 
             transport.connect(host, address, pass);
-            Log.i("check", "wana send");
+            Log.i("check", "wanna send");
 
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
