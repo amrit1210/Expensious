@@ -8,24 +8,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 
 /**
  * Created by Gaurav on 3/14/15.
  */
 public class Calculator extends ActionBarActivity
 {
-EditText minput;
+TextView minput;
 
     String s = "0";
     float result = 0;
     char lO=' ';
+    String inDigit=null;
+    int flag;
 
 @Override
 protected void onCreate(Bundle savedInstanceState)
         {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-        minput=(EditText)findViewById(R.id.input);
+        minput=(TextView)findViewById(R.id.input);
 
 
         }
@@ -37,18 +40,22 @@ protected void onCreate(Bundle savedInstanceState)
          case R.id.add:
              compute();
              lO = '+';
+             s="0";
              break;
          case R.id.sub:
              compute();
              lO = '-';
+             s="0";
              break;
          case R.id.div:
              compute();
              lO = '/';
+             s="1";
              break;
          case R.id.mul:
              compute();
              lO = '*';
+             s="1";
              break;
          case R.id.result:
              compute();
@@ -66,25 +73,29 @@ protected void onCreate(Bundle savedInstanceState)
     {
         // TODO Auto-generated method stub
         float inNum = Float.parseFloat(s);
-        s = "0";
+        s="0";
         if (lO == ' ')
         {
             result = inNum;
         }
         else if (lO == '+')
         {
+
             result += inNum;
         }
         else if (lO == '-')
         {
+
             result -= inNum;
         }
         else if (lO == '*')
         {
+            s="1";
             result *= inNum;
         }
         else if (lO == '/')
         {
+            s="1";
             result /= inNum;
         }
         else if (lO == '=')
@@ -97,7 +108,7 @@ protected void onCreate(Bundle savedInstanceState)
 
     public void  onOperand(View v)
 {
-<<<<<<< HEAD
+
     switch(v.getId())
     {
         case R.id.digit_0:
@@ -110,28 +121,63 @@ protected void onCreate(Bundle savedInstanceState)
         case R.id.digit_7:
         case R.id.digit_8:
         case R.id.digit_9:
-        case R.id.digit_point:
-            String inDigit = ((Button) v).getText().toString();
-            if (s.equals("0"))
+            inDigit = ((Button) v).getText().toString();
+            if(inDigit.equals("1"))
+            {
+                flag=1;
+            }
+            if((s.equals("0")&& lO=='+')||(s.equals("0")&& lO=='-'))
+            {
+                s=inDigit;
+            }
+           else if (s.equals("0")||((s.equals("1")&&(lO!=' '))))
             {
                 s= inDigit;
             }
-            else
+            else if((s.equals("1")&& lO=='*')||(s.equals("1")&& lO=='/'))
             {
-                s+=inDigit;
+                s=inDigit;
+            }
+             else
+            {
+                 s+=inDigit;
             }
             minput.setText(s);
+
             if(lO == '=')
             {
                 result=0;
                 lO =' ';
             }
             break;
+        case R.id.digit_point:
+            String point = ((Button) v).getText().toString();
+            if(((lO=='*')||(lO=='/'))&&(s.equals("1")))
+            {
+                if(inDigit.equals("1")&&(flag==1))
+                {
+                    s="1";
+                }
+                else
+                {
+                    s="0";
+                }
+                s+=point;
+            }
 
+            if(!s.contains("."))
+            {
+                s+=point;
 
+            }
+            else
+            {
+
+            }
+            minput.setText(s);
+            break;
     }
-=======
->>>>>>> 2ae7a35e77b4beaf5ebd91823650389c9a33dfdf
+
 
 }
 
