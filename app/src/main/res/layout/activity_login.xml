@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity"
-    android:background="#123456">
+    android:background="@drawable/theme">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,7 +22,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff"
             android:orientation="vertical"
             android:id="@+id/ll_signin"
             android:layout_alignParentBottom="true">
@@ -39,6 +38,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_email"
+                    android:textColorHint="@android:color/white"
+                    android:textColor="@android:color/white"
                     android:id="@+id/logIn_email"
                     android:inputType="textEmailAddress"
                     android:layout_marginRight="8sp"
@@ -59,8 +60,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_password"
                     android:id="@+id/logIn_password"
+                    android:textColorHint="@android:color/white"
+                    android:textColor="@android:color/white"
                     android:inputType="textPassword"
-                    android:layout_marginLeft="10sp"
                     android:layout_marginRight="8sp"
                     android:layout_marginTop="5sp"/>
 
@@ -69,7 +71,7 @@
             <CheckBox
                 style="@style/CheckBoxStyle"
                 android:text="@string/cb_remember"
-                android:layout_marginLeft="10sp"
+                android:textColor="@android:color/white"
                 android:layout_marginRight="8sp"
                 android:id="@+id/logIn_remember" />
 
@@ -81,7 +83,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_login"
-                    android:layout_marginLeft="10sp"
                     android:id="@+id/logIn_btn"
                     android:onClick="onLogin"
                     android:layout_marginRight="8sp"
@@ -93,7 +94,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10sp"
                 android:layout_marginRight="5sp"
                 android:layout_marginBottom="10sp"
                 android:layout_marginTop="10sp" >
@@ -102,6 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/forgot_pass"
+                    android:textColor="@android:color/white"
                     android:layout_weight="1"
                     android:onClick="onForgot"
                     android:textSize="15sp"/>
@@ -111,6 +112,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:layout_weight="1"
+                    android:textColor="@android:color/white"
                     android:layout_marginRight="8sp"
                     android:textSize="15sp"
                     android:onClick="onNewUser"

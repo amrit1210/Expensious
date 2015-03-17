@@ -107,14 +107,14 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">25sp</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="IconTextViewStyle" >
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:layout_margin">5sp</item>
-        <item name="android:textColor">@color/main_color_grey_500</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>
