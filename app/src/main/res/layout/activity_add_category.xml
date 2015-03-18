@@ -12,6 +12,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/main_color_500"
             android:id="@+id/add_category_icon"
             android:layout_weight="3"/>
         <EditText

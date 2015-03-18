@@ -3,6 +3,7 @@ package com.example.dhruvgupta.expensious;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,8 @@ public class AddAccountActivity extends ActionBarActivity
     Button mAcc_Cur,mAcc_Amt,mAcc_Save;
     AccountsDBHelper accountsDBHelper;
     ArrayList<AccountsDB> al;
+    int flag,id,u_id;
+    int i;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -34,39 +37,73 @@ public class AddAccountActivity extends ActionBarActivity
         mAcc_Amt =(Button)findViewById(R.id.add_acc_btn_amt);
         mAcc_Save =(Button)findViewById(R.id.add_acc_btn_save);
         mInclude=(CheckBox)findViewById(R.id.add_acc_cb);
+        flag=0;
+        i=0;
 
         accountsDBHelper =new AccountsDBHelper(AddAccountActivity.this);
         al=new ArrayList<>();
+
+        if(getIntent().getStringExtra("acc_name")!=null)
+        {
+            flag=1;
+            id=getIntent().getIntExtra("acc_id",0);
+            u_id=getIntent().getIntExtra("acc_uid",0);
+            mAcc_Name.setText(getIntent().getStringExtra("acc_name"));
+            mAcc_Cur.setText(getIntent().getStringExtra("acc_cur"));
+            mAcc_Amt.setText(getIntent().getFloatExtra("acc_bal",0)+"");
+            mAcc_Note.setText(getIntent().getStringExtra("acc_note"));
+            i=(getIntent().getIntExtra("acc_show",0));
+            if (i==1)
+            {
+                mInclude.setChecked(true);
+            }
+            else
+                mInclude.setChecked(false);
+        }
     }
 
     public void selectCurrency(View v)
     {
-
+    mAcc_Cur.setText("Rs.");
     }
 
     public  void enterAmount(View v)
     {
-        Intent intent=new Intent(AddAccountActivity.this,Calculator.class);
-        startActivity(intent);
+       /* Intent intent=new Intent(AddAccountActivity.this,Calculator.class);
+        startActivity(intent);*/
+        mAcc_Amt.setText("0");
     }
 
-    public  void onSave(View v)
-    {
-        int i=0;
-        if(mInclude.isChecked())
-        {
+    public  void onSave(View v) {
+
+        if (mInclude.isChecked()) {
             i = 1;
         }
-        if(mAcc_Name.length()>0)
-        {
+        else
+            i=0;
+        if (mAcc_Name.length() < 0) {
             mAcc_Name.setError("Enter Account name");
         }
-        if(mAcc_Name.getError()==null && mAcc_Cur.getError()==null)
-        {
-            if (accountsDBHelper.addAccount(mAcc_Name.getText().toString(), Integer.parseInt(mAcc_Amt.getText().toString()),
-                    mAcc_Note.getText().toString(), mAcc_Cur.getText().toString(), i))
+        if (mAcc_Name.getError() == null && mAcc_Cur.getError() == null) {
+            Log.i("Flag",flag+"");
+            if(flag==1)
             {
-                Toast.makeText(AddAccountActivity.this, "Account Created", Toast.LENGTH_LONG).show();
+                if(accountsDBHelper.updateAccountData(id,mAcc_Name.getText().toString(),Float.parseFloat(mAcc_Amt.getText().toString()),mAcc_Note.getText().toString(),mAcc_Cur.getText().toString(),i))
+                {
+                    Toast.makeText(AddAccountActivity.this, "Account Updated", Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
+                    startActivity(intent);
+                }
+
+            }
+            else
+            {
+                if (accountsDBHelper.addAccount(mAcc_Name.getText().toString(), Float.parseFloat(mAcc_Amt.getText().toString()),
+                        mAcc_Note.getText().toString(), mAcc_Cur.getText().toString(), i)) {
+                    Toast.makeText(AddAccountActivity.this, "Account Created", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(AddAccountActivity.this, AccountsActivity.class);
+                    startActivity(intent);
+                }
             }
         }
     }

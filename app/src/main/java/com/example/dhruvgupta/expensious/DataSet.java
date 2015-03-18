@@ -13,7 +13,8 @@ class SignUpDB
 
 class AccountsDB
 {
-    int acc_id,acc_u_id,acc_balance,acc_show;
+    int acc_id,acc_u_id,acc_show;
+    float acc_balance;
     String acc_name,acc_note,acc_currency;
 }
 

@@ -22,6 +22,7 @@ TextView minput;
     char lO=' ';
     String inDigit=null;
     int flag;
+    float inNum=0;
 
 @Override
 protected void onCreate(Bundle savedInstanceState)
@@ -72,7 +73,7 @@ protected void onCreate(Bundle savedInstanceState)
     private void compute()
     {
         // TODO Auto-generated method stub
-        float inNum = Float.parseFloat(s);
+         inNum = Float.parseFloat(s);
         s="0";
         if (lO == ' ')
         {
@@ -156,10 +157,17 @@ protected void onCreate(Bundle savedInstanceState)
             {
                 if(inDigit.equals("1")&&(flag==1))
                 {
-                    s="1";
+                    if(inNum==1.00)
+                    {
+                        s="0";
+                    }
+                    else {
+                        s = "1";
+                    }
                 }
                 else
                 {
+
                     s="0";
                 }
                 s+=point;
@@ -176,6 +184,8 @@ protected void onCreate(Bundle savedInstanceState)
             }
             minput.setText(s);
             break;
+
+
     }
 
 

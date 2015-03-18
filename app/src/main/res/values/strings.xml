@@ -29,6 +29,8 @@
     <string name="new_user">New User? Sign Up</string>
     <string name="income">Income</string>
     <string name="expense">Expense</string>
+    <string name="Edit">Edit</string>
+    <string name="Delete">Delete</string>
     <string name="main_category">Main Category</string>
     <string name="sub_category">Sub Category of</string>
     <string name="reset_pass">To reset your password, enter the email you registered with Expensious</string>

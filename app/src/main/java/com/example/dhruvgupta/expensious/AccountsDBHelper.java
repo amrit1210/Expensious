@@ -37,7 +37,7 @@ public class AccountsDBHelper extends SQLiteOpenHelper
                 +"("+ ACCOUNTS_COL_ACC_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + ACCOUNTS_COL_ACC_UID +" INTEGER,"
                 + ACCOUNTS_COL_ACC_NAME +" TEXT,"
-                + ACCOUNTS_COL_ACC_BALANCE +" INTEGER,"
+                + ACCOUNTS_COL_ACC_BALANCE +" REAL,"
                 + ACCOUNTS_COL_ACC_NOTE +" TEXT,"
                 + ACCOUNTS_COL_ACC_CURRENCY +" TEXT,"
                 + ACCOUNTS_COL_ACC_SHOW +" INTEGER)";
@@ -50,7 +50,7 @@ public class AccountsDBHelper extends SQLiteOpenHelper
 
     }
 
-    public boolean addAccount(String name,int balance,String note,String currency,int show)
+    public boolean addAccount(String name,float balance,String note,String currency,int show)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -64,7 +64,23 @@ public class AccountsDBHelper extends SQLiteOpenHelper
         db.insert(ACCOUNTS_TABLE,null,contentValues);
         return true;
     }
-
+    public boolean updateAccountData(int id, String name, float balance ,String note,String currency,int show )
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(ACCOUNTS_COL_ACC_NAME,name);
+        contentValues.put(ACCOUNTS_COL_ACC_BALANCE,balance);
+        contentValues.put(ACCOUNTS_COL_ACC_CURRENCY,currency);
+        contentValues.put(ACCOUNTS_COL_ACC_NOTE,note);
+        contentValues.put(ACCOUNTS_COL_ACC_SHOW,show);
+        db.update(ACCOUNTS_TABLE,contentValues,ACCOUNTS_COL_ACC_ID+"="+id,null);
+        return true;
+    }
+    public void deleteAccount(int id)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        db.delete(ACCOUNTS_TABLE,ACCOUNTS_COL_ACC_ID+"="+id,null);
+    }
     public Cursor getAccountData(int id)
     {
         SQLiteDatabase db=this.getReadableDatabase();
@@ -81,8 +97,10 @@ public class AccountsDBHelper extends SQLiteOpenHelper
         while(c.isAfterLast()==false)
         {
             AccountsDB a1=new AccountsDB();
+            a1.acc_id=c.getInt(c.getColumnIndex(ACCOUNTS_COL_ACC_ID));
+            a1.acc_u_id=c.getInt(c.getColumnIndex(ACCOUNTS_COL_ACC_UID));
             a1.acc_name=c.getString(c.getColumnIndex(ACCOUNTS_COL_ACC_NAME));
-            a1.acc_balance=c.getInt(c.getColumnIndex(ACCOUNTS_COL_ACC_BALANCE));
+            a1.acc_balance=c.getFloat(c.getColumnIndex(ACCOUNTS_COL_ACC_BALANCE));
             a1.acc_currency=c.getString(c.getColumnIndex(ACCOUNTS_COL_ACC_CURRENCY));
             a1.acc_note=c.getString(c.getColumnIndex(ACCOUNTS_COL_ACC_NOTE));
             a1.acc_show=c.getInt(c.getColumnIndex(ACCOUNTS_COL_ACC_SHOW));
