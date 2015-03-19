@@ -50,6 +50,6 @@
         android:layout_height="wrap_content"
         android:text="done"
         android:id="@+id/add_acc_btn_save"
-        android:onClick="onSave"/>
+        android:onClick="onSaveAccount"/>
 
 </LinearLayout>

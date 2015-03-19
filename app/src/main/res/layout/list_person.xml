@@ -6,12 +6,12 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/list_category_img"/>
+        android:id="@+id/list_person_color"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10sp"
         android:layout_gravity="center"
         android:textSize="30sp"
-        android:id="@+id/list_category_name"/>
+        android:id="@+id/list_person_name"/>
 </LinearLayout>
