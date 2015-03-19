@@ -2,12 +2,14 @@ package com.example.dhruvgupta.expensious;
 
 import android.text.method.DateTimeKeyListener;
 
+import java.sql.Blob;
+
 /**
  * Created by Gaurav on 3/11/15.
  */
 class SignUpDB
 {
-    String u_name,u_email,u_password;
+    String u_name,u_email,u_password,u_image;
     int u_id,u_fid;
 }
 
@@ -16,6 +18,12 @@ class AccountsDB
     int acc_id,acc_u_id,acc_show;
     float acc_balance;
     String acc_name,acc_note,acc_currency;
+}
+
+class PersonDB
+{
+    int p_id,p_u_id;
+    String p_name,p_color;
 }
 
 class CategoryDB

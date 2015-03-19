@@ -1,22 +1,36 @@
 package com.example.dhruvgupta.expensious;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 
 /**
  * Created by Gaurav on 3/11/15.
  */
-public class SignUpActivity extends ActionBarActivity
+public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMenuItemClickListener
 {
     EditText mName,mEmail,mPassword,mConfirm_Password;
+    ImageView mImage;
+    String image = "";
     UsersDBHelper usersDBHelper;
     ArrayList<SignUpDB> al;
     @Override
@@ -28,6 +42,7 @@ public class SignUpActivity extends ActionBarActivity
         mEmail=(EditText)findViewById(R.id.signUp_email);
         mPassword=(EditText)findViewById(R.id.signUp_password);
         mConfirm_Password=(EditText)findViewById(R.id.signUp_confirm_password);
+        mImage = (ImageView)findViewById(R.id.signup_image);
 
         usersDBHelper =new UsersDBHelper(SignUpActivity.this);
         al=new ArrayList<>();
@@ -135,6 +150,110 @@ public class SignUpActivity extends ActionBarActivity
         });
     }
 
+    public void showPopup (View v)
+    {
+        PopupMenu popup = new PopupMenu(this, v);
+
+        popup.setOnMenuItemClickListener(this);
+        popup.inflate(R.menu.popup_menu_gallery_camera);
+        popup.show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.Gallery:
+                Intent i_gallery = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i_gallery, 2);
+                return true;
+            case R.id.Camera:
+                Intent i_camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                i_camera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+                startActivityForResult(i_camera, 1);
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                File f = new File(Environment.getExternalStorageDirectory()
+                        .toString());
+                for (File temp : f.listFiles()) {
+                    if (temp.getName().equals("temp.jpg")) {
+                        f = temp;
+                        break;
+                    }
+                }
+                try {
+                    Bitmap bm;
+                    BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+
+                    bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
+                            btmapOptions);
+                    bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
+
+                    String path = android.os.Environment
+                            .getExternalStorageDirectory()
+                            + File.separator
+                            + "Phoenix" + File.separator + "default";
+                    f.delete();
+                    File file = new File(path, String.valueOf(System
+                            .currentTimeMillis()) + ".jpg");
+                    try
+                    {
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] b = baos.toByteArray();
+                        image = Base64.encodeToString(b, Base64.DEFAULT);
+
+                        byte[] decodedString = Base64.decode(image.trim(),Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        mImage.setImageBitmap(decodedByte);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if (requestCode == 2) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+                Bitmap bm = BitmapFactory.decodeFile(picturePath);
+                bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
+                try
+                {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] b = baos.toByteArray();
+                    image = Base64.encodeToString(b, Base64.DEFAULT);
+
+                    byte[] decodedString = Base64.decode(image.trim(),Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    mImage.setImageBitmap(decodedByte);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public void onSignUp(View v)
     {
         if(!(mName.length()==0 || mEmail.length()==0 || mPassword.length()==0 || mConfirm_Password.length()==0))
@@ -146,13 +265,19 @@ public class SignUpActivity extends ActionBarActivity
                 mEmail.setText(null);
             }
 
+            if(image.equals(""))
+            {
+                int id = getResources().getIdentifier("user_48", "drawable", getPackageName());
+                mImage.setImageResource(id);
+            }
+
             if(mEmail.getError()==null && mPassword.getError()==null)
             {
                 if(mPassword.getText().toString().equals(mConfirm_Password.getText().toString()))
                 {
                     if(mName.getError()==null&&mEmail.getError()==null&&mPassword.getError()==null&&mConfirm_Password.getError()==null)
                     {
-                        if(usersDBHelper.addUser(mName.getText().toString(), mEmail.getText().toString(), mPassword.getText().toString()))
+                        if(usersDBHelper.addUser(mName.getText().toString(), mEmail.getText().toString(), mPassword.getText().toString(),image))
                         {
                             Toast.makeText(SignUpActivity.this,"You are Signed Up!!", Toast.LENGTH_LONG).show();
                             mName.setText(null);

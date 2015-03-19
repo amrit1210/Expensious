@@ -24,7 +24,6 @@ import java.util.ArrayList;
  */
 public class AccountsActivity extends ActionBarActivity
 {
-    TextView acc_name,acc_cur,acc_amt;
     ListView listView;
     ArrayList<AccountsDB>al;
     AccountsAdapter ad;
@@ -34,9 +33,7 @@ public class AccountsActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
         listView = (ListView) findViewById(R.id.accounts_list);
-        acc_name =(TextView)findViewById(R.id.list_account_name);
-        acc_cur=(TextView)findViewById(R.id.list_account_cur);
-        acc_amt=(TextView)findViewById(R.id.list_account_name);
+
         accountsDBHelper=new AccountsDBHelper(AccountsActivity.this);
         al=accountsDBHelper.getAllAccounts();
         ad=new AccountsAdapter(AccountsActivity.this,R.layout.list_account,al);

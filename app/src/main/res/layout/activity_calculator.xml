@@ -23,12 +23,14 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/del"
-            android:text="del"
+            android:padding="10sp"
+            android:layout_gravity="center"
+            android:layout_margin="15sp"
             android:onClick="onOperator"
             android:stateListAnimator="@android:animator/fade_in"
-            android:background="#fff"
+            android:background="@drawable/delete"
             android:layout_weight="8"/>
         </LinearLayout>
 

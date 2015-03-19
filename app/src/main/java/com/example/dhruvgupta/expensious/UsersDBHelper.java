@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 
 /**
@@ -18,6 +19,7 @@ public class UsersDBHelper extends SQLiteOpenHelper
     public static final String DATABASE_NAME="Expensious";
     public static final String USER_TABLE="users";
     public static final String USER_COL_ID="u_id";
+    public static final String USER_COL_IMAGE="u_image";
     public static final String USER_COL_NAME="u_name";
     public static final String USER_COL_EMAIL="u_email";
     public static final String USER_COL_PASSWORD="u_pass";
@@ -34,6 +36,7 @@ public class UsersDBHelper extends SQLiteOpenHelper
         String create_table_users="CREATE TABLE "+USER_TABLE
                 +"("+USER_COL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 +USER_COL_NAME+" TEXT,"
+                +USER_COL_IMAGE+" TEXT,"
                 +USER_COL_EMAIL+" TEXT,"
                 +USER_COL_PASSWORD+" TEXT,"
                 +USER_COL_FID+" INTEGER)";
@@ -46,7 +49,7 @@ public class UsersDBHelper extends SQLiteOpenHelper
 
     }
 
-    public boolean addUser(String name, String email, String password)
+    public boolean addUser(String name, String email, String password, String image)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -54,6 +57,7 @@ public class UsersDBHelper extends SQLiteOpenHelper
         contentValues.put(USER_COL_NAME,name);
         contentValues.put(USER_COL_EMAIL,email);
         contentValues.put(USER_COL_PASSWORD,password);
+        contentValues.put(USER_COL_IMAGE,image);
 
         db.insert(USER_TABLE,null,contentValues);
         return true;
@@ -101,9 +105,10 @@ public class UsersDBHelper extends SQLiteOpenHelper
             s1.u_name=c.getString(c.getColumnIndex(USER_COL_NAME));
             s1.u_email=c.getString(c.getColumnIndex(USER_COL_EMAIL));
             s1.u_password=c.getString(c.getColumnIndex(USER_COL_PASSWORD));
+            s1.u_image=c.getString(c.getColumnIndex(USER_COL_IMAGE));
             s1.u_fid=c.getInt(c.getColumnIndex(USER_COL_FID));
             arrayList.add(s1);
-            Log.i("USER 1:", s1.u_id +"\t"+ s1.u_name +"\t"+ s1.u_email +"\t"+ s1.u_password +"\t"+ s1.u_fid);
+            Log.i("USER 1:", s1.u_id +"\t"+ s1.u_name +"\t"+ s1.u_email +"\t"+ s1.u_password +"\t"+ s1.u_image +"\t"+ s1.u_fid);
             c.moveToNext();
         }
         return  arrayList;

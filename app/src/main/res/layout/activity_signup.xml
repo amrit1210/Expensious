@@ -8,14 +8,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <IconTextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/fonticon_camera"
-            android:textColor="@color/main_color_grey_700"
             android:layout_marginTop="40sp"
             android:id="@+id/signup_image"
-            android:textSize="40sp"
+            android:onClick="showPopup"
+            android:src="@drawable/camera_48"
             android:padding="20sp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/circle"/>
@@ -32,7 +31,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20sp">
+                android:layout_marginTop="10sp">
 
                 <IconTextView
                     style="@style/IconTextViewStyle"

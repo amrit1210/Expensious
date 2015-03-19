@@ -11,6 +11,7 @@
     <string name="hint_to_account">To Account</string>
     <string name="hint_category">Category</string>
     <string name="hint_person">Person</string>
+    <string name="hint_person_name">Person Name</string>
     <string name="hint_account_name">Account Name</string>
     <string name="hint_category_name">Category Name</string>
 
@@ -31,6 +32,8 @@
     <string name="expense">Expense</string>
     <string name="Edit">Edit</string>
     <string name="Delete">Delete</string>
+    <string name="Gallery">Gallery</string>
+    <string name="Camera">Camera</string>
     <string name="main_category">Main Category</string>
     <string name="sub_category">Sub Category of</string>
     <string name="reset_pass">To reset your password, enter the email you registered with Expensious</string>
@@ -52,5 +55,4 @@
     <string name="fonticon_email">{fa-envelope}</string>
     <string name="fonticon_username">{fa-user}</string>
     <string name="fonticon_password">{fa-user-secret}</string>
-    <string name="fonticon_camera">{fa-camera}</string>
 </resources>
