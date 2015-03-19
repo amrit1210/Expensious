@@ -70,6 +70,26 @@ public class UsersDBHelper extends SQLiteOpenHelper
         return c;
     }
 
+    public int getUserColId(String email)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor c= db.rawQuery("select * from "+USER_TABLE,null);
+        String s=null;
+        int user_id=0;
+        c.moveToFirst();
+        while (c.isAfterLast()==false)
+        {
+            s=c.getString(c.getColumnIndex(USER_COL_EMAIL));
+            if(s.equals(email))
+            {
+                user_id = c.getInt(c.getColumnIndex(USER_COL_ID));
+                break;
+            }
+            c.moveToNext();
+        }
+        return user_id;
+    }
+
     public ArrayList getUserColEmail()
     {
         SQLiteDatabase db=this.getReadableDatabase();

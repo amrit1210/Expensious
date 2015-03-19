@@ -1,6 +1,7 @@
 package com.example.dhruvgupta.expensious;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class LoginActivity extends ActionBarActivity
     EditText mEmail,mPassword;
     CheckBox mRemember;
     UsersDBHelper usersDBHelper;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,7 +56,13 @@ public class LoginActivity extends ActionBarActivity
                 s=c.getString(c.getColumnIndex(usersDBHelper.USER_COL_PASSWORD));
                 if(mPassword.getText().toString().equals(s))
                 {
-                    Toast.makeText(LoginActivity.this,"You are Logged In",Toast.LENGTH_LONG).show();
+                    SharedPreferences sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+                    SharedPreferences.Editor spEdit = sharedPreferences.edit();
+                    spEdit.putString("EMAIL",mEmail.getText().toString());
+                    spEdit.putString("PASSWORD",mPassword.getText().toString());
+                    spEdit.putInt("UID",usersDBHelper.getUserColId(mEmail.getText().toString()));
+                    spEdit.commit();
+                    Toast.makeText(LoginActivity.this,"You are Logged In"+sharedPreferences.getInt("UID",1110),Toast.LENGTH_LONG).show();
                 }
                 else
                 {
