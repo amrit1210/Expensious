@@ -6,6 +6,7 @@
 
     <TextView
         android:text="Balance Amount"
+        android:id="@+id/accounts_bal"
         style="@style/TextViewAppearance.Heading"/>
 
     <ListView

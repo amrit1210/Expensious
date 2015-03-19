@@ -74,7 +74,7 @@ public class AddAccountActivity extends ActionBarActivity
         mAcc_Amt.setText("0");
     }
 
-    public  void onSave(View v) {
+    public  void onSaveAccount(View v) {
 
         if (mInclude.isChecked()) {
             i = 1;

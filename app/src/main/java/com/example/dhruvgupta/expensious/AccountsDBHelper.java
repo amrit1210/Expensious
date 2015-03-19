@@ -88,6 +88,7 @@ public class AccountsDBHelper extends SQLiteOpenHelper
         return c;
     }
 
+
     public ArrayList<AccountsDB> getAllAccounts()
     {
         ArrayList<AccountsDB> arrayList = new ArrayList<>();
