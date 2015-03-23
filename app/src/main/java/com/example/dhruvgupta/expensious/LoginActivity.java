@@ -18,8 +18,7 @@ public class LoginActivity extends ActionBarActivity
 {
     EditText mEmail,mPassword;
     CheckBox mRemember;
-    UsersDBHelper usersDBHelper;
-    SharedPreferences sharedPreferences;
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,14 +28,14 @@ public class LoginActivity extends ActionBarActivity
         mEmail=(EditText)findViewById(R.id.logIn_email);
         mPassword=(EditText)findViewById(R.id.logIn_password);
         mRemember=(CheckBox)findViewById(R.id.logIn_remember);
-		usersDBHelper=new UsersDBHelper(LoginActivity.this);
+		dbHelper =new DBHelper(LoginActivity.this);
     }
 
     public void onLogin(View v)
     {
         int id;
         String s;
-        ArrayList al1=usersDBHelper.getUserColEmail();
+        ArrayList al1= dbHelper.getUserColEmail();
         if(mEmail.length()==0)
         {
             mEmail.setError("Enter Email");
@@ -51,18 +50,20 @@ public class LoginActivity extends ActionBarActivity
             {
                 id=al1.indexOf(mEmail.getText().toString());
                 id=id+1;
-                Cursor c = usersDBHelper.getUserData(id);
+                Cursor c = dbHelper.getUserData(id);
                 c.moveToFirst();
-                s=c.getString(c.getColumnIndex(usersDBHelper.USER_COL_PASSWORD));
+                s=c.getString(c.getColumnIndex(DBHelper.USER_COL_PASSWORD));
                 if(mPassword.getText().toString().equals(s))
                 {
                     SharedPreferences sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
                     SharedPreferences.Editor spEdit = sharedPreferences.edit();
                     spEdit.putString("EMAIL",mEmail.getText().toString());
                     spEdit.putString("PASSWORD",mPassword.getText().toString());
-                    spEdit.putInt("UID",usersDBHelper.getUserColId(mEmail.getText().toString()));
+                    spEdit.putInt("UID", dbHelper.getUserColId(mEmail.getText().toString()));
                     spEdit.commit();
                     Toast.makeText(LoginActivity.this,"You are Logged In"+sharedPreferences.getInt("UID",1110),Toast.LENGTH_LONG).show();
+                    Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
+                    startActivity(i);
                 }
                 else
                 {

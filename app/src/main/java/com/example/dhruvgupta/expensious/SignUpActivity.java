@@ -31,7 +31,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
     EditText mName,mEmail,mPassword,mConfirm_Password;
     ImageView mImage;
     String image = "";
-    UsersDBHelper usersDBHelper;
+    DBHelper dbHelper;
     ArrayList<SignUpDB> al;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,7 +44,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
         mConfirm_Password=(EditText)findViewById(R.id.signUp_confirm_password);
         mImage = (ImageView)findViewById(R.id.signup_image);
 
-        usersDBHelper =new UsersDBHelper(SignUpActivity.this);
+        dbHelper =new DBHelper(SignUpActivity.this);
         al=new ArrayList<>();
 
         mName.setOnFocusChangeListener(new View.OnFocusChangeListener()
@@ -258,7 +258,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
     {
         if(!(mName.length()==0 || mEmail.length()==0 || mPassword.length()==0 || mConfirm_Password.length()==0))
         {
-            ArrayList al1= usersDBHelper.getUserColEmail();
+            ArrayList al1= dbHelper.getUserColEmail();
             if (al1.contains(mEmail.getText().toString()))
             {
                 mEmail.setError("Email already exists");
@@ -277,13 +277,15 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                 {
                     if(mName.getError()==null&&mEmail.getError()==null&&mPassword.getError()==null&&mConfirm_Password.getError()==null)
                     {
-                        if(usersDBHelper.addUser(mName.getText().toString(), mEmail.getText().toString(), mPassword.getText().toString(),image))
+                        if(dbHelper.addUser(mName.getText().toString(), mEmail.getText().toString(), mPassword.getText().toString(),image))
                         {
                             Toast.makeText(SignUpActivity.this,"You are Signed Up!!", Toast.LENGTH_LONG).show();
                             mName.setText(null);
                             mEmail.setText(null);
                             mPassword.setText(null);
                             mConfirm_Password.setText(null);
+                            Intent i=new Intent(SignUpActivity.this,LoginActivity.class);
+                            startActivity(i);
                         }
                     }
                 }
@@ -314,7 +316,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                 mConfirm_Password.setError("Enter Confirm Password");
             }
         }
-        al= usersDBHelper.getAllUsers();
+        al= dbHelper.getAllUsers();
     }
 
     @Override

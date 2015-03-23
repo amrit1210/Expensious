@@ -1,6 +1,7 @@
 package com.example.dhruvgupta.expensious;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -22,7 +23,7 @@ public class AddAccountActivity extends ActionBarActivity
     EditText mAcc_Name,mAcc_Note;
     CheckBox mInclude;
     Button mAcc_Cur,mAcc_Amt,mAcc_Save;
-    AccountsDBHelper accountsDBHelper;
+    DBHelper dbHelper;
     ArrayList<AccountsDB> al;
     int flag,id,u_id;
     int i;
@@ -40,7 +41,7 @@ public class AddAccountActivity extends ActionBarActivity
         flag=0;
         i=0;
 
-        accountsDBHelper =new AccountsDBHelper(AddAccountActivity.this);
+        dbHelper =new DBHelper(AddAccountActivity.this);
         al=new ArrayList<>();
 
         if(getIntent().getStringExtra("acc_name")!=null)
@@ -58,13 +59,15 @@ public class AddAccountActivity extends ActionBarActivity
                 mInclude.setChecked(true);
             }
             else
+            {
                 mInclude.setChecked(false);
+            }
         }
     }
 
     public void selectCurrency(View v)
     {
-    mAcc_Cur.setText("Rs.");
+        mAcc_Cur.setText("Rs.");
     }
 
     public  void enterAmount(View v)
@@ -74,21 +77,28 @@ public class AddAccountActivity extends ActionBarActivity
         mAcc_Amt.setText("0");
     }
 
-    public  void onSaveAccount(View v) {
-
-        if (mInclude.isChecked()) {
+    public  void onSaveAccount(View v)
+    {
+        SharedPreferences sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+        if (mInclude.isChecked())
+        {
             i = 1;
         }
         else
+        {
             i=0;
-        if (mAcc_Name.length() < 0) {
+        }
+        if (mAcc_Name.length() < 0)
+        {
             mAcc_Name.setError("Enter Account name");
         }
-        if (mAcc_Name.getError() == null && mAcc_Cur.getError() == null) {
+        if (mAcc_Name.getError() == null && mAcc_Cur.getError() == null)
+        {
             Log.i("Flag",flag+"");
             if(flag==1)
             {
-                if(accountsDBHelper.updateAccountData(id,mAcc_Name.getText().toString(),Float.parseFloat(mAcc_Amt.getText().toString()),mAcc_Note.getText().toString(),mAcc_Cur.getText().toString(),i))
+                if(dbHelper.updateAccountData(id,mAcc_Name.getText().toString(),Float.parseFloat(mAcc_Amt.getText()
+                        .toString()),mAcc_Note.getText().toString(),mAcc_Cur.getText().toString(),i))
                 {
                     Toast.makeText(AddAccountActivity.this, "Account Updated", Toast.LENGTH_LONG).show();
                     Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
@@ -98,8 +108,9 @@ public class AddAccountActivity extends ActionBarActivity
             }
             else
             {
-                if (accountsDBHelper.addAccount(mAcc_Name.getText().toString(), Float.parseFloat(mAcc_Amt.getText().toString()),
-                        mAcc_Note.getText().toString(), mAcc_Cur.getText().toString(), i)) {
+                if(dbHelper.addAccount(sp.getInt("UID",0),mAcc_Name.getText().toString(),Float.parseFloat
+                        (mAcc_Amt.getText().toString()),mAcc_Note.getText().toString(), mAcc_Cur.getText().toString(), i))
+                {
                     Toast.makeText(AddAccountActivity.this, "Account Created", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(AddAccountActivity.this, AccountsActivity.class);
                     startActivity(intent);

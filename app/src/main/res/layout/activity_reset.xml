@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/theme">
@@ -33,7 +34,7 @@
 
                 <IconTextView
                     style="@style/IconTextViewStyle"
-                    android:text="@string/fonticon_email" />
+                    android:text="@string/font_icon_email" />
 
                 <EditText
                     android:layout_width="match_parent"

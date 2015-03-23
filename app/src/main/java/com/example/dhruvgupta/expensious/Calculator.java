@@ -6,8 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 
 /**
@@ -15,194 +13,182 @@ import android.widget.TextView;
  */
 public class Calculator extends ActionBarActivity
 {
-TextView minput;
+    TextView mInput;
 
     String s = "0";
     float result = 0;
-    char lO=' ';
+    char Logic =' ';
     String inDigit=null;
     int flag;
     float inNum=0;
 
-@Override
-protected void onCreate(Bundle savedInstanceState)
-        {
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
-        minput=(TextView)findViewById(R.id.input);
+        mInput =(TextView)findViewById(R.id.input);
+    }
 
-
+    public void onOperator(View v)
+    {
+        switch(v.getId())
+        {
+            case R.id.add:
+                compute();
+                Logic = '+';
+                s="0";
+                break;
+            case R.id.sub:
+                compute();
+                Logic = '-';
+                s="0";
+                break;
+            case R.id.div:
+                compute();
+                Logic = '/';
+                s="1";
+                break;
+            case R.id.mul:
+                compute();
+                Logic = '*';
+                s="1";
+                break;
+            case R.id.result:
+                compute();
+                Logic = '=';
+                break;
+            case R.id.del:
+                result = 0;
+                s = "0";
+                Logic = ' ';
+                mInput.setText("0");
+                break;
         }
+    }
 
- public void onOperator(View v)
- {
-     switch(v.getId())
-     {
-         case R.id.add:
-             compute();
-             lO = '+';
-             s="0";
-             break;
-         case R.id.sub:
-             compute();
-             lO = '-';
-             s="0";
-             break;
-         case R.id.div:
-             compute();
-             lO = '/';
-             s="1";
-             break;
-         case R.id.mul:
-             compute();
-             lO = '*';
-             s="1";
-             break;
-         case R.id.result:
-             compute();
-             lO = '=';
-             break;
-         case R.id.del:
-             result = 0;
-             s = "0";
-             lO = ' ';
-             minput.setText("0");
-             break;
-     }
- }
     private void compute()
     {
         // TODO Auto-generated method stub
-         inNum = Float.parseFloat(s);
+        inNum = Float.parseFloat(s);
         s="0";
-        if (lO == ' ')
+        if (Logic == ' ')
         {
             result = inNum;
         }
-        else if (lO == '+')
+        else if (Logic == '+')
         {
-
             result += inNum;
         }
-        else if (lO == '-')
+        else if (Logic == '-')
         {
-
             result -= inNum;
         }
-        else if (lO == '*')
+        else if (Logic == '*')
         {
             s="1";
             result *= inNum;
         }
-        else if (lO == '/')
+        else if (Logic == '/')
         {
             s="1";
             result /= inNum;
         }
-        else if (lO == '=')
+        else if (Logic == '=')
         {
             // Keep the result for the next operation
         }
-        minput.setText(String.valueOf(result));
+        mInput.setText(String.valueOf(result));
     }
 
-
     public void  onOperand(View v)
-{
-
-    switch(v.getId())
     {
-        case R.id.digit_0:
-        case R.id.digit_1:
-        case R.id.digit_2:
-        case R.id.digit_3:
-        case R.id.digit_4:
-        case R.id.digit_5:
-        case R.id.digit_6:
-        case R.id.digit_7:
-        case R.id.digit_8:
-        case R.id.digit_9:
-            inDigit = ((Button) v).getText().toString();
-            if(inDigit.equals("1"))
-            {
-                flag=1;
-            }
-            if((s.equals("0")&& lO=='+')||(s.equals("0")&& lO=='-'))
-            {
-                s=inDigit;
-            }
-           else if (s.equals("0")||((s.equals("1")&&(lO!=' '))))
-            {
-                s= inDigit;
-            }
-            else if((s.equals("1")&& lO=='*')||(s.equals("1")&& lO=='/'))
-            {
-                s=inDigit;
-            }
-             else
-            {
-                 s+=inDigit;
-            }
-            minput.setText(s);
-
-            if(lO == '=')
-            {
-                result=0;
-                lO =' ';
-            }
-            break;
-        case R.id.digit_point:
-            String point = ((Button) v).getText().toString();
-            if(((lO=='*')||(lO=='/'))&&(s.equals("1")))
-            {
-                if(inDigit.equals("1")&&(flag==1))
+        switch(v.getId())
+        {
+            case R.id.digit_0:
+            case R.id.digit_1:
+            case R.id.digit_2:
+            case R.id.digit_3:
+            case R.id.digit_4:
+            case R.id.digit_5:
+            case R.id.digit_6:
+            case R.id.digit_7:
+            case R.id.digit_8:
+            case R.id.digit_9:
+                inDigit = ((Button) v).getText().toString();
+                if(inDigit.equals("1"))
                 {
-                    if(inNum==1.00)
+                    flag=1;
+                }
+                if((s.equals("0")&& Logic =='+')||(s.equals("0")&& Logic =='-'))
+                {
+                    s=inDigit;
+                }
+                else if (s.equals("0")||((s.equals("1")&&(Logic !=' '))))
+                {
+                    s= inDigit;
+                }
+                else if((s.equals("1")&& Logic =='*')||(s.equals("1")&& Logic =='/'))
+                {
+                    s=inDigit;
+                }
+                else
+                {
+                     s+=inDigit;
+                }
+                mInput.setText(s);
+
+                if(Logic == '=')
+                {
+                    result=0;
+                    Logic =' ';
+                }
+                break;
+            case R.id.digit_point:
+                String point = ((Button) v).getText().toString();
+                if(((Logic =='*')||(Logic =='/'))&&(s.equals("1")))
+                {
+                    if(inDigit.equals("1")&&(flag==1))
+                    {
+                        if(inNum==1.00)
+                        {
+                            s="0";
+                        }
+                        else
+                        {
+                            s = "1";
+                        }
+                    }
+                    else
                     {
                         s="0";
                     }
-                    else {
-                        s = "1";
-                    }
+                    s+=point;
+                }
+                if(!s.contains("."))
+                {
+                    s+=point;
                 }
                 else
                 {
 
-                    s="0";
                 }
-                s+=point;
-            }
-
-            if(!s.contains("."))
-            {
-                s+=point;
-
-            }
-            else
-            {
-
-            }
-            minput.setText(s);
-            break;
-
-
+                mInput.setText(s);
+                break;
+        }
     }
 
-
-}
-
-
-@Override
-public boolean onCreateOptionsMenu(Menu menu)
-        {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
-        }
+    }
 
-@Override
-public boolean onOptionsItemSelected(MenuItem item)
-        {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -215,5 +201,5 @@ public boolean onOptionsItemSelected(MenuItem item)
         }
 
         return super.onOptionsItemSelected(item);
-        }
-        }
+    }
+}

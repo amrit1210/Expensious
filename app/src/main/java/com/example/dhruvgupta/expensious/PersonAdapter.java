@@ -9,16 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Amrit on 3/19/2015.
  */
-public class PersonAdapter extends ArrayAdapter<PersonDB> {
+public class PersonAdapter extends ArrayAdapter<PersonDB>
+{
     Context context1;
     int layout;
     ArrayList<PersonDB>al;
-    public PersonAdapter(Context context, int resource, ArrayList<PersonDB>objects) {
+    public PersonAdapter(Context context, int resource, ArrayList<PersonDB>objects)
+    {
         super(context, resource, objects);
         context1=context;
         layout=resource;
@@ -26,14 +27,15 @@ public class PersonAdapter extends ArrayAdapter<PersonDB> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         LayoutInflater in=(LayoutInflater)context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView=in.inflate(layout,null);
-        final ImageView mimageView=(ImageView)convertView.findViewById(R.id.list_person_color);
-        final TextView  mpersonName=(TextView)convertView.findViewById(R.id.list_person_name);
+        final ImageView mImageView=(ImageView)convertView.findViewById(R.id.list_person_color);
+        final TextView  mPersonName=(TextView)convertView.findViewById(R.id.list_person_name);
         PersonDB db=al.get(position);
-      //  mimageView.setBackground(personDB.p_color.toString());
-        mpersonName.setText(db.p_name);
+//        mImageView.setBackground(personDB.p_color.toString());
+        mPersonName.setText(db.p_name);
         return convertView;
     }
 }

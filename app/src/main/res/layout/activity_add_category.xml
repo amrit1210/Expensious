@@ -15,6 +15,7 @@
             android:background="@color/main_color_500"
             android:id="@+id/add_category_icon"
             android:layout_weight="3"/>
+
         <EditText
             style="@style/EditTextAppearance.Heading"
             android:hint="@string/hint_category_name"
@@ -35,16 +36,18 @@
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/add_category_C_type">
+                android:id="@+id/add_category_ie_type">
+
+                <RadioButton
+                    style="@style/RadioButtonStyle"
+                    android:text="@string/expense"
+                    android:checked="true"
+                    android:id="@+id/add_cat_radio_expense"/>
 
                 <RadioButton
                     style="@style/RadioButtonStyle"
                     android:text="@string/income"
                     android:id="@+id/add_cat_radio_income"/>
-                <RadioButton
-                    style="@style/RadioButtonStyle"
-                    android:text="@string/expense"
-                    android:id="@+id/add_cat_radio_expense"/>
 
             </RadioGroup>
 
@@ -60,12 +63,13 @@
                     <RadioButton
                         style="@style/RadioButtonStyle"
                         android:text="@string/main_category"
-                        android:id="@+id/add_cat_main"/>
+                        android:checked="true"
+                        android:id="@+id/add_cat_radio_main"/>
 
                     <RadioButton
                         style="@style/RadioButtonStyle"
                         android:text="@string/sub_category"
-                        android:id="@+id/add_cat_sub"/>
+                        android:id="@+id/add_cat_radio_sub"/>
 
                 </RadioGroup>
 
@@ -73,11 +77,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
-                    android:entries="@array/main_categories"
+                    android:entries="@array/main_categories_expense"
                     android:id="@+id/spinner_category"
                     android:clickable="true"/>
 
             </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_cat_btn_save"
+                android:text="Save"
+                android:layout_marginTop="10sp"
+                android:layout_gravity="center"
+                android:onClick="onSaveCategory"/>
 
         </LinearLayout>
 

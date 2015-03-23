@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Expensious</string>
     <string name="action_settings">Settings</string>
 
@@ -30,29 +31,86 @@
     <string name="new_user">New User? Sign Up</string>
     <string name="income">Income</string>
     <string name="expense">Expense</string>
-    <string name="Edit">Edit</string>
-    <string name="Delete">Delete</string>
-    <string name="Gallery">Gallery</string>
-    <string name="Camera">Camera</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
     <string name="main_category">Main Category</string>
     <string name="sub_category">Sub Category of</string>
     <string name="reset_pass">To reset your password, enter the email you registered with Expensious</string>
 
-    <array  name="main_categories">
-
+    <array  name="main_categories_expense">
         <item name="0">SELECT</item>
-        <item name="1">CSE</item>
-        <item name="2">MEC</item>
-        <item name="3">ECE</item>
-        <item name="4">EEE</item>
+        <item name="1">FOOD</item>
+        <item name="2">ENTERTAINMENT</item>
+        <item name="3">TRAVEL FARE</item>
+        <item name="4">HEALTH</item>
+        <item name="5">BEAUTY</item>
+        <item name="6">CLOTHING</item>
+        <item name="7">BILLS</item>
+        <item name="8">STATIONARY</item>
+        <item name="9">EDUCATIONAL</item>
+        <item name="10">TAX PAYMENT</item>
+    </array>
 
+    <array name="sub_categories_expense">
+        <item name="1.1">VEGETABLES</item>
+        <item name="1.2">FRUITS</item>
+        <item name="2.1">MOVIES</item>
+        <item name="2.2">TELEVISION</item>
+        <item name="3.1">AUTO FARE</item>
+        <item name="3.2">BUS FARE</item>
+        <item name="3.3">TRAIN FARE</item>
+        <item name="3.4">FLIGHT FARE</item>
+        <item name="3.5">TAXI FARE</item>
+        <item name="4.1">SURGERY</item>
+        <item name="4.2">MEDICINES</item>
+        <item name="5.1">MANICURE</item>
+        <item name="5.2">PEDICURE</item>
+        <item name="5.3">HAIR DRESSING</item>
+        <item name="6.1">SHIRTS</item>
+        <item name="6.2">PANTS</item>
+        <item name="6.3">T-SHIRTS</item>
+        <item name="6.4">SHOES</item>
+        <item name="6.5">SANDALS</item>
+        <item name="6.6">SWEATER</item>
+        <item name="6.7">SKIRTS</item>
+        <item name="6.8">JACKET</item>
+        <item name="7.1">PHONE BILL</item>
+        <item name="7.2">ELECTRICITY BILL</item>
+        <item name="7.3">WATER BILL</item>
+        <item name="8.1">COPY</item>
+        <item name="8.2">PEN</item>
+        <item name="8.3">PENCIL</item>
+        <item name="9.1">SCHOOL FEES</item>
+        <item name="9.2">TUITION FEES</item>
+        <item name="9.3">ADMISSION FEES</item>
+        <item name="10.1">INCOME TAX</item>
+        <item name="10.2">SALES TAX</item>
+        <item name="10.3">PROPERTY TAX</item>
+    </array>
+
+    <array name="main_category_income">
+        <item name="1">SALARY</item>
+        <item name="2">WAGES</item>
+        <item name="3">PROVIDENT FUND</item>
+        <item name="4">MED_CLAIM</item>
+        <item name="5">PENSION</item>
+        <item name="6">CAPITAL GAINS</item>
+        <item name="7">HOUSE PROPERTY</item>
+    </array>
+
+    <array name="sub_categories_income">
+        <item name="2.1">DAILY</item>
+        <item name="2.2">WEEKLY</item>
     </array>
 
     <string name="cb_remember">Remember Me</string>
     <string name="cb_include_total">Include in total</string>
     <string name="cb_include_report">Include in report</string>
 
-    <string name="fonticon_email">{fa-envelope}</string>
-    <string name="fonticon_username">{fa-user}</string>
-    <string name="fonticon_password">{fa-user-secret}</string>
+    <string name="font_icon_email">{fa-envelope}</string>
+    <string name="font_icon_username">{fa-user}</string>
+    <string name="font_icon_password">{fa-user-secret}</string>
+
 </resources>

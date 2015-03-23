@@ -5,10 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFFFF">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/calculator">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,6 +34,7 @@
             android:stateListAnimator="@android:animator/fade_in"
             android:background="@drawable/delete"
             android:layout_weight="8"/>
+
         </LinearLayout>
 
     <LinearLayout
@@ -40,6 +43,7 @@
         android:layout_below="@id/calculator"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -50,30 +54,35 @@
             android:divider="?android:attr/dividerVertical"
             android:dividerPadding="8sp"
             android:showDividers="none">
+
             <Button
                 style="@style/ButtonStyle.Calculator.Grey"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:id="@+id/add"
                 android:onClick="onOperator"
                 android:text="+"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator.Grey"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:id="@+id/sub"
                 android:onClick="onOperator"
                 android:text="-"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator.Grey"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:id="@+id/mul"
                 android:onClick="onOperator"
                 android:text="*"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator.Grey"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:id="@+id/div"
                 android:onClick="onOperator"
                 android:text="/"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -110,6 +119,7 @@
                 android:layout_marginRight="5sp"/>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -119,6 +129,7 @@
             android:divider="?android:attr/dividerVertical"
             android:dividerPadding="8sp"
             android:showDividers="none">
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/digit_4"
@@ -126,12 +137,14 @@
                 android:onClick="onOperand"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:layout_marginLeft="5sp"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/digit_5"
                 android:text="5"
                 android:onClick="onOperand"
                 android:stateListAnimator="@android:animator/fade_in"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/digit_6"
@@ -139,7 +152,9 @@
                 android:onClick="onOperand"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:layout_marginRight="5sp"/>
+
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -149,6 +164,7 @@
             android:divider="?android:attr/dividerVertical"
             android:dividerPadding="8sp"
             android:showDividers="none">
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/digit_1"
@@ -156,12 +172,14 @@
                 android:onClick="onOperand"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:layout_marginLeft="5sp"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/digit_2"
                 android:text="2"
                 android:onClick="onOperand"
                 android:stateListAnimator="@android:animator/fade_in"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:stateListAnimator="@android:animator/fade_in"
@@ -169,7 +187,9 @@
                 android:text="3"
                 android:onClick="onOperand"
                 android:layout_marginRight="5sp"/>
+
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -179,6 +199,7 @@
             android:divider="?android:attr/dividerVertical"
             android:dividerPadding="8sp"
             android:showDividers="none">
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/digit_point"
@@ -186,12 +207,14 @@
                 android:onClick="onOperand"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:layout_marginLeft="5sp"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/digit_0"
                 android:onClick="onOperand"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:text="0"/>
+
             <Button
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/result"
@@ -199,6 +222,7 @@
                 android:onClick="onOperator"
                 android:stateListAnimator="@android:animator/fade_in"
                 android:layout_marginRight="5sp"/>
+
         </LinearLayout>
 
     </LinearLayout>

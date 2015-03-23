@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="main_color_100">#FFE1BEE7</color>
     <color name="main_color_200">#FFCE93D8</color>
     <color name="main_color_300">#FFBA68C8</color>
@@ -35,4 +36,5 @@
     <color name="white_15_percent">#26FFFFFF</color>
     <color name="white_30_percent">#4CFFFFFF</color>
     <color name="white_70_percent">#B2FFFFFF</color>
+
 </resources>

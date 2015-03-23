@@ -5,20 +5,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 /**
- * Created by Amrit on 3/17/2015.
+ * Created by Gaurav on 19-Mar-15.
  */
-public class AccountsAdapter extends ArrayAdapter <AccountsDB>
+public class CategoriesAdapter extends ArrayAdapter<CategoryDB>
 {
     Context context1;
     int layout;
-    ArrayList<AccountsDB>al;
-
-    public AccountsAdapter(Context context, int resource,ArrayList<AccountsDB>objects)
+    ArrayList<CategoryDB> al;
+    public CategoriesAdapter(Context context, int resource,ArrayList<CategoryDB>objects)
     {
         super(context, resource,objects);
         context1=context;
@@ -34,16 +34,12 @@ public class AccountsAdapter extends ArrayAdapter <AccountsDB>
             LayoutInflater in =(LayoutInflater)context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView=in.inflate(layout,null);
         }
-        final TextView name=(TextView)convertView.findViewById(R.id.list_account_name);
-        final TextView cur=(TextView)convertView.findViewById(R.id.list_account_cur);
-        final TextView amt=(TextView)convertView.findViewById(R.id.list_account_amt);
+        final ImageView image=(ImageView)convertView.findViewById(R.id.list_category_img);
+        final TextView name=(TextView)convertView.findViewById(R.id.list_category_name);
+        CategoryDB db=al.get(position);
 
-        AccountsDB db=al.get(position);
-
-        name.setText(db.acc_name);
-        cur.setText(db.acc_currency);
-        amt.setText(db.acc_balance+"");
-
+        name.setText(db.c_name);
+        image.setImageResource(R.drawable.user_48);
         return convertView;
     }
 }
