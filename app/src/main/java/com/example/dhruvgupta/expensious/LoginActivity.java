@@ -61,15 +61,17 @@ public class LoginActivity extends ActionBarActivity
                     spEdit.putString("PASSWORD",mPassword.getText().toString());
                     spEdit.putInt("UID", dbHelper.getUserColId(mEmail.getText().toString()));
                     spEdit.commit();
-                    Toast.makeText(LoginActivity.this,"You are Logged In"+sharedPreferences.getInt("UID",1110),Toast.LENGTH_LONG).show();
-                    Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
+                    Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
+                            Toast.LENGTH_LONG).show();
+//                    Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
+                    Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
                     startActivity(i);
                 }
                 else
                 {
-                Toast.makeText(LoginActivity.this,"Incorrect Password",Toast.LENGTH_LONG).show();
-                mPassword.setText(null);
-                mPassword.setError("Enter Correct Password");
+                    Toast.makeText(LoginActivity.this,"Incorrect Password",Toast.LENGTH_LONG).show();
+                    mPassword.setText(null);
+                    mPassword.setError("Enter Correct Password");
                 }
             }
             else

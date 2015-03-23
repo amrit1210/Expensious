@@ -97,9 +97,9 @@ public class DBHelper extends SQLiteOpenHelper
 
         String create_table_persons="CREATE TABLE IF NOT EXISTS "+ PERSON_TABLE
                 +"("+ PERSON_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + PERSON_COL_UID +" INTEGER,"
                 + PERSON_COL_NAME +" TEXT,"
-                + PERSON_COL_COLOR +" TEXT,"
-                + PERSON_COL_UID +" INTEGER)";
+                + PERSON_COL_COLOR +" TEXT)";
         db.execSQL(create_table_persons);
     }
 
@@ -127,8 +127,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ USER_TABLE +" where "+ USER_COL_ID +"="+ id, null);
-            return c;
+            return db.rawQuery("select * from "+ USER_TABLE +" where "+ USER_COL_ID +"="+ id, null);
         }
         catch(Exception ae)
         {
@@ -143,7 +142,7 @@ public class DBHelper extends SQLiteOpenHelper
         {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor c = db.rawQuery("select * from "+ USER_TABLE, null);
-            String s = null;
+            String s;
             int user_id = 0;
             c.moveToFirst();
             while (!c.isAfterLast())
@@ -173,7 +172,7 @@ public class DBHelper extends SQLiteOpenHelper
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor c = db.rawQuery("select * from "+ USER_TABLE, null);
             ArrayList al = new ArrayList();
-            String s = null;
+            String s;
             c.moveToFirst();
             while (!c.isAfterLast())
             {
@@ -270,8 +269,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ ACCOUNTS_TABLE +" where "+ ACCOUNTS_COL_ACC_ID +"="+ id, null);
-            return c;
+            return db.rawQuery("select * from "+ ACCOUNTS_TABLE +" where "+ ACCOUNTS_COL_ACC_ID +"="+ id, null);
         }
         catch(Exception ae)
         {
@@ -286,7 +284,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ ACCOUNTS_TABLE +" where "+ ACCOUNTS_COL_ACC_UID +"="+u_id, null);
+            Cursor c = db.rawQuery("select * from "+ ACCOUNTS_TABLE +" where "+ ACCOUNTS_COL_ACC_UID +"="+ u_id, null);
             c.moveToFirst();
             while(!c.isAfterLast())
             {
@@ -313,13 +311,14 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public boolean addPerson(String name, String color)
+    public boolean addPerson(String name, String color,int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
         contentValues.put(PERSON_COL_NAME,name);
         contentValues.put(PERSON_COL_COLOR,color);
+        contentValues.put(PERSON_COL_UID, u_id);
 
         return db.insert(PERSON_TABLE, null, contentValues) > 0;
     }
@@ -346,8 +345,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select *from "+ PERSON_TABLE +" where "+ PERSON_COL_ID +"="+ id, null);
-            return c;
+            return db.rawQuery("select *from "+ PERSON_TABLE +" where "+ PERSON_COL_ID +"="+ id, null);
         }
         catch(Exception ae)
         {
@@ -356,15 +354,15 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public ArrayList<PersonDB> getAllPerson()
+    public ArrayList<PersonDB> getAllPersons(int u_id)
     {
         ArrayList<PersonDB> arrayList = new ArrayList<>();
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ PERSON_TABLE, null);
+            Cursor c = db.rawQuery("select * from "+ PERSON_TABLE +" where "+ PERSON_COL_UID +"="+ u_id, null);
             c.moveToFirst();
-            while (c.isAfterLast() == false)
+            while (!c.isAfterLast())
             {
                 PersonDB p1 = new PersonDB();
                 p1.p_id = c.getInt(c.getColumnIndex(PERSON_COL_ID));
@@ -421,8 +419,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ CATEGORY_TABLE +" where "+ CATEGORY_COL_C_ID +"="+ id, null);
-            return c;
+            return db.rawQuery("select * from "+ CATEGORY_TABLE +" where "+ CATEGORY_COL_C_ID +"="+ id, null);
         }
         catch(Exception ae)
         {

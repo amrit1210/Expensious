@@ -12,7 +12,6 @@ import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -26,7 +25,7 @@ public class MailSender extends Authenticator
     final String to = "grvgupta36@gmail.com";
     Multipart multiPart;
 
-    public void sendEmail() throws AddressException, MessagingException
+    public void sendEmail() throws MessagingException
 	{
         String finalString = "";
         Properties props = System.getProperties();

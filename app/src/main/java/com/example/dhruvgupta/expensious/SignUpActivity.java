@@ -160,11 +160,13 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
+    public boolean onMenuItemClick(MenuItem item)
+    {
         switch (item.getItemId())
         {
             case R.id.Gallery:
-                Intent i_gallery = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent i_gallery=new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(i_gallery, 2);
                 return true;
             case R.id.Camera:
@@ -179,33 +181,34 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                File f = new File(Environment.getExternalStorageDirectory()
-                        .toString());
-                for (File temp : f.listFiles()) {
-                    if (temp.getName().equals("temp.jpg")) {
+        if (resultCode == RESULT_OK)
+        {
+            if (requestCode == 1)
+            {
+                File f = new File(Environment.getExternalStorageDirectory().toString());
+                for (File temp : f.listFiles())
+                {
+                    if (temp.getName().equals("temp.jpg"))
+                    {
                         f = temp;
                         break;
                     }
                 }
-                try {
+                try
+                {
                     Bitmap bm;
-                    BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
-                    bm = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                            btmapOptions);
+                    bm = BitmapFactory.decodeFile(f.getAbsolutePath(),bitmapOptions);
                     bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
 
-                    String path = android.os.Environment
-                            .getExternalStorageDirectory()
-                            + File.separator
-                            + "Phoenix" + File.separator + "default";
+                    String path = android.os.Environment.getExternalStorageDirectory()+ File.separator + "Phoenix"
+                            + File.separator + "default";
                     f.delete();
-                    File file = new File(path, String.valueOf(System
-                            .currentTimeMillis()) + ".jpg");
+                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
                     try
                     {
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -217,18 +220,22 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                         mImage.setImageBitmap(decodedByte);
                     }
-                    catch (Exception e) {
+                    catch (Exception e)
+                    {
                         e.printStackTrace();
                     }
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
-            } else if (requestCode == 2) {
+            }
+            else if (requestCode == 2)
+            {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-                Cursor cursor = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
+                Cursor cursor = getContentResolver().query(selectedImage,filePathColumn, null, null, null);
                 cursor.moveToFirst();
 
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
@@ -247,7 +254,8 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                     Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                     mImage.setImageBitmap(decodedByte);
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -275,9 +283,11 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
             {
                 if(mPassword.getText().toString().equals(mConfirm_Password.getText().toString()))
                 {
-                    if(mName.getError()==null&&mEmail.getError()==null&&mPassword.getError()==null&&mConfirm_Password.getError()==null)
+                    if(mName.getError()==null && mEmail.getError()==null
+                            && mPassword.getError()==null && mConfirm_Password.getError()==null)
                     {
-                        if(dbHelper.addUser(mName.getText().toString(), mEmail.getText().toString(), mPassword.getText().toString(),image))
+                        if(dbHelper.addUser(mName.getText().toString(), mEmail.getText().toString(),
+                                mPassword.getText().toString(),image))
                         {
                             Toast.makeText(SignUpActivity.this,"You are Signed Up!!", Toast.LENGTH_LONG).show();
                             mName.setText(null);
@@ -287,11 +297,16 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                             Intent i=new Intent(SignUpActivity.this,LoginActivity.class);
                             startActivity(i);
                         }
+                        else
+                        {
+                            Toast.makeText(SignUpActivity.this, "Error Signing Up", Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
                 else
                 {
-                    Toast.makeText(SignUpActivity.this,"Password and Confirm password must be same",Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignUpActivity.this,"Password and Confirm password must be same",
+                            Toast.LENGTH_LONG).show();
                     mConfirm_Password.setError("Confirm Password must be same");
                     mConfirm_Password.setText(null);
                 }

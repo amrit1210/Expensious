@@ -23,9 +23,10 @@ public class AddAccountActivity extends ActionBarActivity
     EditText mAcc_Name,mAcc_Note;
     CheckBox mInclude;
     Button mAcc_Cur,mAcc_Amt,mAcc_Save;
+
     DBHelper dbHelper;
-    ArrayList<AccountsDB> al;
-    int flag,id,u_id;
+
+    int flag,acc_id,u_id;
     int i;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -42,12 +43,11 @@ public class AddAccountActivity extends ActionBarActivity
         i=0;
 
         dbHelper =new DBHelper(AddAccountActivity.this);
-        al=new ArrayList<>();
 
         if(getIntent().getStringExtra("acc_name")!=null)
         {
             flag=1;
-            id=getIntent().getIntExtra("acc_id",0);
+            acc_id=getIntent().getIntExtra("acc_id",0);
             u_id=getIntent().getIntExtra("acc_uid",0);
             mAcc_Name.setText(getIntent().getStringExtra("acc_name"));
             mAcc_Cur.setText(getIntent().getStringExtra("acc_cur"));
@@ -77,7 +77,7 @@ public class AddAccountActivity extends ActionBarActivity
         mAcc_Amt.setText("0");
     }
 
-    public  void onSaveAccount(View v)
+    public void onSaveAccount(View v)
     {
         SharedPreferences sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         if (mInclude.isChecked())
@@ -97,10 +97,16 @@ public class AddAccountActivity extends ActionBarActivity
             Log.i("Flag",flag+"");
             if(flag==1)
             {
-                if(dbHelper.updateAccountData(id,mAcc_Name.getText().toString(),Float.parseFloat(mAcc_Amt.getText()
+                if(dbHelper.updateAccountData(acc_id,mAcc_Name.getText().toString(),Float.parseFloat(mAcc_Amt.getText()
                         .toString()),mAcc_Note.getText().toString(),mAcc_Cur.getText().toString(),i))
                 {
                     Toast.makeText(AddAccountActivity.this, "Account Updated", Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(AddAccountActivity.this, "Error updating Account", Toast.LENGTH_LONG).show();
                     Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
                     startActivity(intent);
                 }
@@ -113,6 +119,12 @@ public class AddAccountActivity extends ActionBarActivity
                 {
                     Toast.makeText(AddAccountActivity.this, "Account Created", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(AddAccountActivity.this, AccountsActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(AddAccountActivity.this, "Error creating Account", Toast.LENGTH_LONG).show();
+                    Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
                     startActivity(intent);
                 }
             }

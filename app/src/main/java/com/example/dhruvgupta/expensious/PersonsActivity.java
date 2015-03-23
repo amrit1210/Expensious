@@ -17,29 +17,28 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 /**
- * Created by Gaurav on 13-Mar-15.
+ * Created by Amrit on 3/19/2015.
  */
-public class AccountsActivity extends ActionBarActivity
+public class PersonsActivity extends ActionBarActivity
 {
     ListView listView;
-    ArrayList<AccountsDB> al;
-    AccountsAdapter accountsAdapter;
+    PersonsAdapter personsAdapter;
     DBHelper dbHelper;
-    SharedPreferences sp;
+    ArrayList<PersonDB> al;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accounts);
+        setContentView(R.layout.activity_persons);
 
-        listView = (ListView) findViewById(R.id.accounts_list);
+        listView=(ListView)findViewById(R.id.persons_list);
 
-        sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-        dbHelper =new DBHelper(AccountsActivity.this);
+        SharedPreferences sp=getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+        dbHelper=new DBHelper(PersonsActivity.this);
 
-        al= dbHelper.getAllAccounts(sp.getInt("UID",0));
-        accountsAdapter =new AccountsAdapter(AccountsActivity.this,R.layout.list_account,al);
-        listView.setAdapter(accountsAdapter);
+        al= dbHelper.getAllPersons(sp.getInt("UID",0));
+        personsAdapter =new PersonsAdapter(PersonsActivity.this,R.layout.list_person,al);
+        listView.setAdapter(personsAdapter);
         registerForContextMenu(listView);
     }
 
@@ -73,37 +72,31 @@ public class AccountsActivity extends ActionBarActivity
     {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int listPosition = info.position;
-        AccountsDB acc_DB = (AccountsDB)listView.getAdapter().getItem(listPosition);
+        PersonDB per_DB = (PersonDB)listView.getAdapter().getItem(listPosition);
         int id=item.getItemId();
 
         if(id==R.id.Edit)
         {
-            Cursor c= dbHelper.getAccountData(acc_DB.acc_id);
+            Cursor c= dbHelper.getPersonData(per_DB.p_id);
             c.moveToFirst();
-            int acc_id=c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_ID));
-            int acc_uid=c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
-            String acc_name=c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
-            float acc_bal=c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
-            String acc_cur=c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
-            String acc_note=c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-            int acc_show=c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
-            Intent i=new Intent(AccountsActivity.this,AddAccountActivity.class);
-            i.putExtra("acc_id",acc_id);
-            i.putExtra("acc_uid",acc_uid);
-            i.putExtra("acc_name",acc_name);
-            i.putExtra("acc_bal",acc_bal);
-            i.putExtra("acc_cur",acc_cur);
-            i.putExtra("acc_note",acc_note);
-            i.putExtra("acc_show",acc_show);
+            int p_id=c.getInt(c.getColumnIndex(DBHelper.PERSON_COL_ID));
+            int p_uid=c.getInt(c.getColumnIndex(DBHelper.PERSON_COL_UID));
+            String p_name=c.getString(c.getColumnIndex(DBHelper.PERSON_COL_NAME));
+            String p_color=c.getString(c.getColumnIndex(DBHelper.PERSON_COL_COLOR));
+            Intent i=new Intent(PersonsActivity.this,AddPersonActivity.class);
+            i.putExtra("p_id",p_id);
+            i.putExtra("p_uid",p_uid);
+            i.putExtra("p_name",p_name);
+            i.putExtra("p_color",p_color);
             startActivity(i);
         }
 
         if(id==R.id.Delete)
         {
-            dbHelper.deleteAccount(acc_DB.acc_id);
-            Intent i=new Intent(AccountsActivity.this,AccountsActivity.class);
+            dbHelper.deletePerson(per_DB.p_id);
+            Intent i=new Intent(PersonsActivity.this,PersonsActivity.class);
             startActivity(i);
-            Toast.makeText(AccountsActivity.this, "Account Deleted", Toast.LENGTH_LONG).show();
+            Toast.makeText(PersonsActivity.this, "Person Deleted", Toast.LENGTH_LONG).show();
         }
 
         return super.onContextItemSelected(item);
