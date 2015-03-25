@@ -41,12 +41,14 @@
                     style="@style/ButtonStyle.Transparent"
                     android:layout_weight="1"
                     android:text="@string/btn_date"
+                    android:onClick="onDateClick"
                     android:stateListAnimator="@android:animator/fade_in"
                     android:id="@+id/add_trans_btn_date"/>
 
                 <Button
                     style="@style/ButtonStyle.Transparent"
                     android:text="@string/btn_time"
+                    android:onClick="onTimeClick"
                     android:id="@+id/add_trans_btn_time"
                     android:stateListAnimator="@android:animator/fade_in"
                     android:layout_weight="1"/>
@@ -60,7 +62,7 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="OnFromAccountClick"
+                    android:onClick="onFromAccountClick"
                     android:hint="@string/hint_from_account"
                     android:id="@+id/add_trans_from_account"/>
 
@@ -73,7 +75,7 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="OnToAccountClick"
+                    android:onClick="onToAccountClick"
                     android:visibility="gone"
                     android:hint="@string/hint_to_account"
                     android:id="@+id/add_trans_to_account"/>
@@ -87,7 +89,7 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="OnCategoryClick"
+                    android:onClick="onCategoryClick"
                     android:hint="@string/hint_category"
                     android:id="@+id/add_trans_category"/>
 
@@ -100,7 +102,7 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="OnPersonClick"
+                    android:onClick="onPersonClick"
                     android:hint="@string/hint_person"
                     android:id="@+id/add_trans_person"/>
 

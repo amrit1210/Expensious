@@ -33,9 +33,13 @@
         <activity
             android:name=".AddPersonActivity"/>
         <activity
+            android:name=".AddTransactionsActivity"/>
+        <activity
             android:name=".PersonsActivity"/>
         <activity
             android:name=".ResetActivity"/>
+        <activity
+            android:name=".AccountsViewList"/>
         <activity
             android:name=".Calculator"/>
     </application>

@@ -18,9 +18,9 @@ public class CategoriesAdapter extends ArrayAdapter<CategoryDB>
     Context context1;
     int layout;
     ArrayList<CategoryDB> al;
-    public CategoriesAdapter(Context context, int resource,ArrayList<CategoryDB>objects)
+    public CategoriesAdapter(Context context, int resource, ArrayList<CategoryDB>objects)
     {
-        super(context, resource,objects);
+        super(context, resource, objects);
         context1=context;
         layout=resource;
         al=objects;
@@ -34,8 +34,10 @@ public class CategoriesAdapter extends ArrayAdapter<CategoryDB>
             LayoutInflater in =(LayoutInflater)context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView=in.inflate(layout,null);
         }
+
         final ImageView image=(ImageView)convertView.findViewById(R.id.list_category_img);
         final TextView name=(TextView)convertView.findViewById(R.id.list_category_name);
+
         CategoryDB db=al.get(position);
 
         name.setText(db.c_name);
