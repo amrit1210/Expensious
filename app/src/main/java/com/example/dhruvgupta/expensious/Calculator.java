@@ -1,5 +1,6 @@
 package com.example.dhruvgupta.expensious;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Gaurav on 3/14/15.
@@ -19,6 +21,7 @@ public class Calculator extends ActionBarActivity
     float result = 0;
     char Logic =' ';
     String inDigit=null;
+    Button mEquals;
     int flag;
     float inNum=0;
 
@@ -28,6 +31,7 @@ public class Calculator extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calculator);
         mInput =(TextView)findViewById(R.id.input);
+        mEquals = (Button)findViewById(R.id.result);
     }
 
     public void onOperator(View v)
@@ -37,31 +41,48 @@ public class Calculator extends ActionBarActivity
             case R.id.add:
                 compute();
                 Logic = '+';
+                mEquals.setText("=");
                 s="0";
                 break;
             case R.id.sub:
                 compute();
                 Logic = '-';
+                mEquals.setText("=");
                 s="0";
                 break;
             case R.id.div:
                 compute();
                 Logic = '/';
+                mEquals.setText("=");
                 s="1";
                 break;
             case R.id.mul:
                 compute();
                 Logic = '*';
+                mEquals.setText("=");
                 s="1";
                 break;
             case R.id.result:
-                compute();
-                Logic = '=';
+                if(mEquals.getText() == "=")
+                {
+                    compute();
+                    Logic = '=';
+                    mEquals.setText("Done");
+                }
+                else
+                {
+                    Toast.makeText(this,result+"",Toast.LENGTH_LONG).show();
+                    Intent i = new Intent();
+                    i.putExtra("RESULT",result);
+                    setResult(1, i);
+                    this.finish();
+                }
                 break;
             case R.id.del:
                 result = 0;
                 s = "0";
                 Logic = ' ';
+                mEquals.setText("=");
                 mInput.setText("0");
                 break;
         }
@@ -115,6 +136,7 @@ public class Calculator extends ActionBarActivity
             case R.id.digit_7:
             case R.id.digit_8:
             case R.id.digit_9:
+                mEquals.setText("=");
                 inDigit = ((Button) v).getText().toString();
                 if(inDigit.equals("1"))
                 {
@@ -150,14 +172,17 @@ public class Calculator extends ActionBarActivity
                 {
                     if(inDigit.equals("1")&&(flag==1))
                     {
-                        if(inNum==1.00)
+                        if(inNum==1)
                         {
-                            s="0";
+                            if(s=="1")
+                                s="0";
+//                            else
+//                                s="1";
                         }
-                        else
-                        {
-                            s = "1";
-                        }
+//                        else
+//                        {
+//                            s = "1";
+//                        }
                     }
                     else
                     {

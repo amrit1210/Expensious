@@ -43,3 +43,8 @@ class TransactionsDB
     int t_id,u_id,t_c_id,t_sub_id,t_amount,t_p_id,t_show;
     String t_type,t_from_acc,t_to_acc,t_note,t_datetime;
 }
+
+class CurrencyDB
+{
+    String c_name, c_code, c_symbol;
+}

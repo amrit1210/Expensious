@@ -23,9 +23,10 @@ public class AddCategoryActivity extends ActionBarActivity
 {
     EditText mCat_Name;
     ImageView mCat_image;
-    RadioGroup mCat_rg_ie,mCat_rg_type;
+    RadioGroup mCat_rg_ie_type,mCat_rg_type;
     RadioButton mCat_Income,mCat_Expense,mCat_Main,mCat_Sub;
     Spinner mCat_Spinner_Sub;
+    SharedPreferences sp;
 
     String c_IE_type;
 
@@ -45,13 +46,15 @@ public class AddCategoryActivity extends ActionBarActivity
 
         mCat_Name=(EditText)findViewById(R.id.add_category_name);
         mCat_image=(ImageView)findViewById(R.id.add_category_icon);
-        mCat_rg_ie=(RadioGroup)findViewById(R.id.add_category_ie_type);
+        mCat_rg_ie_type =(RadioGroup)findViewById(R.id.add_category_ie_type);
         mCat_rg_type=(RadioGroup)findViewById(R.id.add_category_type);
         mCat_Income=(RadioButton)findViewById(R.id.add_cat_radio_income);
         mCat_Expense=(RadioButton)findViewById(R.id.add_cat_radio_expense);
         mCat_Main=(RadioButton)findViewById(R.id.add_cat_radio_main);
         mCat_Sub=(RadioButton)findViewById(R.id.add_cat_radio_sub);
         mCat_Spinner_Sub=(Spinner)findViewById(R.id.spinner_category);
+
+        sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
 
         flag=0;
         i=0;
@@ -96,11 +99,11 @@ public class AddCategoryActivity extends ActionBarActivity
         int id = getResources().getIdentifier("user_48", "drawable", getPackageName());
         mCat_image.setImageResource(id);
 
-        if (mCat_rg_ie.getCheckedRadioButtonId() == mCat_Income.getId())
+        if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Income.getId())
         {
             c_IE_type="Income";
         }
-        else if (mCat_rg_ie.getCheckedRadioButtonId() == mCat_Expense.getId())
+        else if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Expense.getId())
         {
             c_IE_type="Expense";
         }
@@ -123,7 +126,7 @@ public class AddCategoryActivity extends ActionBarActivity
             mCat_Spinner_Sub.setEnabled(true);
 
             dbHelper =new DBHelper(AddCategoryActivity.this);
-            al_main= dbHelper.getAllCategories(c_IE_type);
+            al_main= dbHelper.getAllCategories(sp.getInt("UID",0),c_IE_type);
             ad=new CategoriesAdapter(AddCategoryActivity.this,R.layout.list_category,al_main);
             mCat_Spinner_Sub.setAdapter(ad);
 

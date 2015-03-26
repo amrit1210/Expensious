@@ -457,16 +457,14 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public ArrayList<CategoryDB> getAllCategories(int u_id, String type)
+    public ArrayList<CategoryDB> getAllCategories(int u_id,String type)
     {
         ArrayList<CategoryDB> arrayList = new ArrayList<>();
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor c = db.rawQuery("select * from "+ CATEGORY_TABLE +" where "+ CATEGORY_COL_C_TYPE +"="+ type
-                    + " and " + CATEGORY_COL_C_UID + "=" + u_id
-
-                    , null);
+                    + " and " + CATEGORY_COL_C_UID + "=" + u_id, null);
             c.moveToFirst();
             while (!c.isAfterLast())
             {

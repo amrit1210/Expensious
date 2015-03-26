@@ -1,6 +1,7 @@
 package com.example.dhruvgupta.expensious;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -27,6 +28,8 @@ public class CategoriesActivity extends ActionBarActivity
     ArrayList<CategoryDB> al;
     CategoriesAdapter ad;
     DBHelper dbHelper;
+    SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -35,6 +38,7 @@ public class CategoriesActivity extends ActionBarActivity
         mList_cat = (ListView) findViewById(R.id.category_list);
         mCat_Income = (Button) findViewById(R.id.category_btn_income);
         mCat_Expense = (Button) findViewById(R.id.category_btn_expense);
+        sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
 
         mCat_Income.setOnClickListener(new View.OnClickListener()
         {
@@ -55,7 +59,7 @@ public class CategoriesActivity extends ActionBarActivity
         });
 
         dbHelper =new DBHelper(CategoriesActivity.this);
-        al= dbHelper.getAllCategories(c_type);
+        al= dbHelper.getAllCategories(sp.getInt("UID",0),c_type);
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);

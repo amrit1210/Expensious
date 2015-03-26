@@ -41,6 +41,8 @@
         <activity
             android:name=".AccountsViewList"/>
         <activity
+            android:name=".CurrencyViewList"/>
+        <activity
             android:name=".Calculator"/>
     </application>
 

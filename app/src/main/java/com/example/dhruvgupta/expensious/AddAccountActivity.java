@@ -67,14 +67,22 @@ public class AddAccountActivity extends ActionBarActivity
 
     public void selectCurrency(View v)
     {
-        mAcc_Cur.setText("Rs.");
+        mAcc_Cur.setText("₹");
     }
 
     public  void enterAmount(View v)
     {
-       /* Intent intent=new Intent(AddAccountActivity.this,Calculator.class);
-        startActivity(intent);*/
-        mAcc_Amt.setText("0");
+        Intent intent=new Intent(AddAccountActivity.this,Calculator.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+            if(requestCode == 1 && resultCode == 1)
+            {
+                mAcc_Amt.setText(data.getExtras().getFloat("RESULT",0.0f)+"");
+            }
     }
 
     public void onSaveAccount(View v)
