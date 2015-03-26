@@ -67,7 +67,8 @@ public class AddAccountActivity extends ActionBarActivity
 
     public void selectCurrency(View v)
     {
-        mAcc_Cur.setText("₹");
+        Intent i = new Intent(AddAccountActivity.this, CurrencyViewList.class);
+        startActivityForResult(i,2);
     }
 
     public  void enterAmount(View v)
@@ -82,6 +83,10 @@ public class AddAccountActivity extends ActionBarActivity
             if(requestCode == 1 && resultCode == 1)
             {
                 mAcc_Amt.setText(data.getExtras().getFloat("RESULT",0.0f)+"");
+            }
+            else if (requestCode == 2 && resultCode == 1)
+            {
+                mAcc_Cur.setText(data.getExtras().getString("CUR_SYM",""));
             }
     }
 

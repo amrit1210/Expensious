@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_zero_bal"
+            android:onClick="onAmountClick"
             android:padding="35sp"
             android:gravity="end"
             android:textSize="40sp"
@@ -142,12 +143,14 @@
             style="@style/ButtonStyle.Transparent"
             android:layout_weight="1"
             android:text="@string/btn_expense"
+            android:onClick="onExpenseClick"
             android:stateListAnimator="@android:animator/fade_in"
             android:id="@+id/add_trans_btn_expense"/>
 
         <Button
             style="@style/ButtonStyle.Transparent"
             android:text="@string/btn_income"
+            android:onClick="onIncomeClick"
             android:id="@+id/add_trans_btn_income"
             android:stateListAnimator="@android:animator/fade_in"
             android:layout_weight="1"/>
@@ -155,6 +158,7 @@
         <Button
             style="@style/ButtonStyle.Transparent"
             android:text="@string/btn_transfer"
+            android:onClick="onTransferClick"
             android:id="@+id/add_trans_btn_transfer"
             android:stateListAnimator="@android:animator/fade_in"
             android:layout_weight="1"/>

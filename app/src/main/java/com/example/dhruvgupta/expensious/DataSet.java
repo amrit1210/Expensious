@@ -46,5 +46,5 @@ class TransactionsDB
 
 class CurrencyDB
 {
-    String c_name, c_code, c_symbol;
+    String c_name=null, c_code=null, c_symbol=null;
 }

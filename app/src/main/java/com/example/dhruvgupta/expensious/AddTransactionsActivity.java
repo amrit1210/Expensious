@@ -22,8 +22,8 @@ import java.util.Calendar;
 public class AddTransactionsActivity extends ActionBarActivity
 {
     int mYear,mMonth,mDay,mHour,mMin,mSec;
-    Button mDate,mTime;
-    EditText mFromAcc, mToAcc;
+    Button mDate, mTime, mAmt;
+    EditText mFromAcc, mToAcc, mCategory, mPerson;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -31,8 +31,35 @@ public class AddTransactionsActivity extends ActionBarActivity
         setContentView(R.layout.activity_add_transaction);
         mDate=(Button)findViewById(R.id.add_trans_btn_date);
         mTime=(Button)findViewById(R.id.add_trans_btn_time);
+        mAmt=(Button)findViewById(R.id.add_trans_btn_amt);
         mFromAcc = (EditText)findViewById(R.id.add_trans_from_account);
         mToAcc = (EditText)findViewById(R.id.add_trans_to_account);
+        mCategory = (EditText)findViewById(R.id.add_trans_category);
+        mPerson = (EditText)findViewById(R.id.add_trans_person);
+    }
+
+    public void onExpenseClick(View v)
+    {
+        mFromAcc.setVisibility(View.VISIBLE);
+        mToAcc.setVisibility(View.GONE);
+        mCategory.setVisibility(View.VISIBLE);
+        mPerson.setVisibility(View.VISIBLE);
+    }
+
+    public void onIncomeClick(View v)
+    {
+        mFromAcc.setVisibility(View.GONE);
+        mToAcc.setVisibility(View.VISIBLE);
+        mCategory.setVisibility(View.VISIBLE);
+        mPerson.setVisibility(View.VISIBLE);
+    }
+
+    public void onTransferClick(View v)
+    {
+        mFromAcc.setVisibility(View.VISIBLE);
+        mToAcc.setVisibility(View.VISIBLE);
+        mCategory.setVisibility(View.GONE);
+        mPerson.setVisibility(View.GONE);
     }
 
     public void onDateClick(View v)
@@ -68,8 +95,6 @@ public class AddTransactionsActivity extends ActionBarActivity
         }, mHour, mMin, true);//Yes 24 hour time
         mTimePicker.setTitle("Select Time");
         mTimePicker.show();
-
-
     }
 
     public void onFromAccountClick(View v)
@@ -84,6 +109,10 @@ public class AddTransactionsActivity extends ActionBarActivity
         startActivityForResult(i, 2);
     }
 
+    public void onAmountClick(View v){
+        Intent i=new Intent(AddTransactionsActivity.this,Calculator.class);
+        startActivityForResult(i, 3);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -92,6 +121,8 @@ public class AddTransactionsActivity extends ActionBarActivity
                 mFromAcc.setText(data.getExtras().getString("Acc_Name"));
             else if (requestCode==2)
                 mToAcc.setText(data.getExtras().getString("Acc_Name"));
+            else if (requestCode==3)
+                mAmt.setText(data.getExtras().getFloat("RESULT")+"");
         }
     }
 

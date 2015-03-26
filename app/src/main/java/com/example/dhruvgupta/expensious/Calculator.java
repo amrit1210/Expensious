@@ -71,7 +71,6 @@ public class Calculator extends ActionBarActivity
                 }
                 else
                 {
-                    Toast.makeText(this,result+"",Toast.LENGTH_LONG).show();
                     Intent i = new Intent();
                     i.putExtra("RESULT",result);
                     setResult(1, i);

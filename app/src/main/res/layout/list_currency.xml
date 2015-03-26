@@ -10,22 +10,24 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_marginLeft="5sp"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:id="@+id/list_currency_name"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/list_currency_code"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:gravity="end" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/list_currency_symbol"
-        android:textSize="30sp"
-        android:gravity="end"
+        android:textSize="20sp"
+        android:ems="2"
+        android:layout_marginLeft="10sp"
+        android:gravity="right"
         android:layout_marginRight="5sp"/>
 
 </LinearLayout>
