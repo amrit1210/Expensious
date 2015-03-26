@@ -64,7 +64,8 @@ public class LoginActivity extends ActionBarActivity
                     Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
                             Toast.LENGTH_LONG).show();
 //                    Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
-                    Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
+//                    Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
+                    Intent i=new Intent(LoginActivity.this,AddCategoryActivity.class);
                     startActivity(i);
                 }
                 else

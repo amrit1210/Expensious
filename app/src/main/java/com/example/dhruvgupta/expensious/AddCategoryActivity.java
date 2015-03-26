@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,9 +111,10 @@ public class AddCategoryActivity extends ActionBarActivity
 
         if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Main.getId())
         {
-            if(dbHelper.addCategory(sp.getInt("UID",0),mCat_Name.getText().toString(),c_IE_type,mCat_image.toString()))
+            if(dbHelper.addCategory(sp.getInt("UID",0),mCat_Name.getText().toString(),c_IE_type,"Image"))
             {
-                Toast.makeText(AddCategoryActivity.this,"Main Category Added",Toast.LENGTH_SHORT).show();
+                Log.i("Category 1",mCat_Name.getText().toString()+c_IE_type+mCat_image.toString());
+                Toast.makeText(AddCategoryActivity.this,"Main Category Added "+c_IE_type,Toast.LENGTH_SHORT).show();
                 Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
                 startActivity(i);
             }
@@ -124,6 +126,8 @@ public class AddCategoryActivity extends ActionBarActivity
         else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
         {
             mCat_Spinner_Sub.setEnabled(true);
+            mCat_Spinner_Sub.setVisibility(View.VISIBLE);
+            mCat_image.setVisibility(View.GONE);
 
             dbHelper =new DBHelper(AddCategoryActivity.this);
             al_main= dbHelper.getAllCategories(sp.getInt("UID",0),c_IE_type);

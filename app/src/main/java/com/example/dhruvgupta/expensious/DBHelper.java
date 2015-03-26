@@ -90,7 +90,7 @@ public class DBHelper extends SQLiteOpenHelper
 
         String create_table_subcategory="CREATE TABLE IF NOT EXISTS "+ SUBCATEGORY_TABLE
                 +"("+ SUBCATEGORY_COL_SUB_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + SUBCATEGORY_COL_SUB_CID +" INTEGER,"
+                + SUBCATEGORY_COL_SUB_CID +" INTEGER REFERENCES "+ CATEGORY_TABLE + "(" + CATEGORY_COL_C_ID + "),"
                 + SUBCATEGORY_COL_SUB_NAME +" TEXT,"
                 + SUBCATEGORY_COL_SUB_ICON +" TEXT)";
         db.execSQL(create_table_subcategory);
@@ -393,6 +393,9 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(CATEGORY_COL_C_TYPE,type);
         contentValues.put(CATEGORY_COL_C_ICON,icon);
 
+
+        Log.i("Add Category",contentValues+"");
+
         return db.insert(CATEGORY_TABLE, null, contentValues) > 0;
     }
 
@@ -463,7 +466,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ CATEGORY_TABLE +" where "+ CATEGORY_COL_C_TYPE +"="+ type
+            Cursor c = db.rawQuery("select * from "+ CATEGORY_TABLE +" where "+ CATEGORY_COL_C_TYPE + "=Expense"
                     + " and " + CATEGORY_COL_C_UID + "=" + u_id, null);
             c.moveToFirst();
             while (!c.isAfterLast())

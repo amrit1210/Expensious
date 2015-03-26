@@ -33,9 +33,13 @@
         <activity
             android:name=".AddPersonActivity"/>
         <activity
+            android:name=".AddCategoryActivity"/>
+        <activity
             android:name=".AddTransactionsActivity"/>
         <activity
             android:name=".PersonsActivity"/>
+        <activity
+            android:name=".CategoriesActivity"/>
         <activity
             android:name=".ResetActivity"/>
         <activity

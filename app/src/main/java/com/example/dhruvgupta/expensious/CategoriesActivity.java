@@ -35,30 +35,29 @@ public class CategoriesActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
+
         mList_cat = (ListView) findViewById(R.id.category_list);
         mCat_Income = (Button) findViewById(R.id.category_btn_income);
         mCat_Expense = (Button) findViewById(R.id.category_btn_expense);
         sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
 
-        mCat_Income.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                c_type="Income";
-            }
-        });
-
-        mCat_Expense.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                c_type="Expense";
-            }
-        });
-
+        al=new ArrayList<>();
         dbHelper =new DBHelper(CategoriesActivity.this);
+
+    }
+
+    public void onIncomeBtnClick(View v)
+    {
+        c_type="Income";
+        al= dbHelper.getAllCategories(sp.getInt("UID",0),c_type);
+        ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
+        mList_cat.setAdapter(ad);
+        registerForContextMenu(mList_cat);
+    }
+
+    public void onExpenseBtnClick(View v)
+    {
+        c_type="Expense";
         al= dbHelper.getAllCategories(sp.getInt("UID",0),c_type);
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
