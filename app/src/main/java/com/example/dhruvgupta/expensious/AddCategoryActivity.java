@@ -34,8 +34,7 @@ public class AddCategoryActivity extends ActionBarActivity
     DBHelper dbHelper;
     CategoriesAdapter ad;
 
-    ArrayList<CategoryDB> al_main;
-    ArrayList<SubCategoryDB> al_sub;
+    ArrayList<CategoryDB> categoryDBArrayList;
 
     int flag,c_id,c_u_id;
     int i;
@@ -60,37 +59,8 @@ public class AddCategoryActivity extends ActionBarActivity
         flag=0;
         i=0;
 
-        mCat_Spinner_Sub.setEnabled(false);
-
         dbHelper =new DBHelper(AddCategoryActivity.this);
-        al_main =new ArrayList<>();
-        al_sub =new ArrayList<>();
-
-        if(getIntent().getStringExtra("c_name")!=null)
-        {
-            flag=1;
-            c_id=getIntent().getIntExtra("c_id",0);
-            c_u_id=getIntent().getIntExtra("c_u_id",0);
-            mCat_Name.setText(getIntent().getStringExtra("c_name"));
-            c_IE_type = getIntent().getStringExtra("c_type");
-            int id = getResources().getIdentifier("user_48", "drawable", getPackageName());
-            mCat_image.setImageResource(id);
-            if(c_IE_type.equals("Income"))
-            {
-                mCat_Income.setChecked(true);
-                mCat_Expense.setChecked(false);
-            }
-            else if(c_IE_type.equals("Expense"))
-            {
-                mCat_Expense.setChecked(true);
-                mCat_Income.setChecked(false);
-            }
-        }
-    }
-
-    public  void onSaveCategory(View v)
-    {
-        SharedPreferences sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+        categoryDBArrayList =new ArrayList<>();
 
         if (mCat_Name.length() < 0)
         {
@@ -103,47 +73,83 @@ public class AddCategoryActivity extends ActionBarActivity
         if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Income.getId())
         {
             c_IE_type="Income";
+            categoryDBArrayList = dbHelper.getAllCategories(sp.getInt("UID",0),c_IE_type);
+            ad=new CategoriesAdapter(AddCategoryActivity.this,R.layout.list_category, categoryDBArrayList);
+            mCat_Spinner_Sub.setAdapter(ad);
         }
         else if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Expense.getId())
         {
             c_IE_type="Expense";
-        }
-
-        if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Main.getId())
-        {
-            if(dbHelper.addCategory(sp.getInt("UID",0),mCat_Name.getText().toString(),c_IE_type,"Image"))
-            {
-                Log.i("Category 1",mCat_Name.getText().toString()+c_IE_type+mCat_image.toString());
-                Toast.makeText(AddCategoryActivity.this,"Main Category Added "+c_IE_type,Toast.LENGTH_SHORT).show();
-                Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
-                startActivity(i);
-            }
-            else
-            {
-                Toast.makeText(AddCategoryActivity.this,"Error creating category",Toast.LENGTH_SHORT).show();
-            }
-        }
-        else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
-        {
-            mCat_Spinner_Sub.setEnabled(true);
-            mCat_Spinner_Sub.setVisibility(View.VISIBLE);
-            mCat_image.setVisibility(View.GONE);
-
-            dbHelper =new DBHelper(AddCategoryActivity.this);
-            al_main= dbHelper.getAllCategories(sp.getInt("UID",0),c_IE_type);
-            ad=new CategoriesAdapter(AddCategoryActivity.this,R.layout.list_category,al_main);
+            categoryDBArrayList = dbHelper.getAllCategories(sp.getInt("UID",0),c_IE_type);
+            ad=new CategoriesAdapter(AddCategoryActivity.this,R.layout.list_category, categoryDBArrayList);
             mCat_Spinner_Sub.setAdapter(ad);
+        }
 
-            int colId= dbHelper.getCategoryColId(mCat_Spinner_Sub.getSelectedItem().toString());
-            if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),mCat_image.toString()))
+        mCat_rg_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId)
             {
-                Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
-                Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
-                startActivity(i);
+                if(group.getCheckedRadioButtonId() == mCat_Main.getId())
+                {
+                    mCat_Spinner_Sub.setEnabled(false);
+                    mCat_image.setVisibility(View.VISIBLE);
+                }
+                else if(group.getCheckedRadioButtonId() == mCat_Sub.getId())
+                {
+                    mCat_Spinner_Sub.setEnabled(true);
+                    mCat_image.setVisibility(View.GONE);
+                }
             }
-            else
+        });
+
+        if(getIntent().getStringExtra("c_name")!=null)
+        {
+            flag=1;
+            c_id=getIntent().getIntExtra("c_id",0);
+            c_u_id=getIntent().getIntExtra("c_u_id",0);
+            mCat_Name.setText(getIntent().getStringExtra("c_name"));
+            c_IE_type = getIntent().getStringExtra("c_type");
+            int id1 = getResources().getIdentifier("user_48", "drawable", getPackageName());
+            mCat_image.setImageResource(id1);
+        }
+    }
+
+    public  void onSaveCategory(View v)
+    {
+        SharedPreferences sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+
+        if(mCat_Name.getError()!= null)
+        {
+            if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Main.getId())
             {
-                Toast.makeText(AddCategoryActivity.this,"Error creating category",Toast.LENGTH_SHORT).show();
+                if(dbHelper.addCategory(sp.getInt("UID",0),mCat_Name.getText().toString(),c_IE_type,"Image"))
+                {
+                    Log.i("Category 1",mCat_Name.getText().toString()+c_IE_type+mCat_image.toString());
+                    Toast.makeText(AddCategoryActivity.this,"Main Category Added "+c_IE_type,Toast.LENGTH_SHORT).show();
+                    Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
+                    startActivity(i);
+                }
+                else
+                {
+                    Toast.makeText(AddCategoryActivity.this,"Error creating category",Toast.LENGTH_SHORT).show();
+                }
+            }
+            else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
+            {
+                dbHelper =new DBHelper(AddCategoryActivity.this);
+
+                int colId= dbHelper.getCategoryColId(mCat_Spinner_Sub.getSelectedItem().toString());
+                if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),mCat_image.toString()))
+                {
+                    Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
+                    Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
+                    startActivity(i);
+                }
+                else
+                {
+                    Toast.makeText(AddCategoryActivity.this,"Error creating category",Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

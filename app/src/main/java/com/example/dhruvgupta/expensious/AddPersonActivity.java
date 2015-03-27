@@ -49,6 +49,11 @@ public class AddPersonActivity  extends ActionBarActivity
         }
     }
 
+    public void onPersonClick(View v)
+    {
+
+    }
+
     public void onSavePerson(View v)
     {
         if (mPerson_Name.length() < 0)
