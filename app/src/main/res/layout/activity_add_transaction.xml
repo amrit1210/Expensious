@@ -124,8 +124,12 @@
             <CheckBox
                 style="@style/CheckBoxStyle"
                 android:text="@string/cb_include_report"
-                android:id="@+id/add_acc_cb" />
-
+                android:id="@+id/add_trans_cb" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/save_trans"
+                android:onClick="onSaveTransaction"/>
         </LinearLayout>
 
     </ScrollView>

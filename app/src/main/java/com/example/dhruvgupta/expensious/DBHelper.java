@@ -5,9 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.method.DateTimeKeyListener;
 import android.util.Log;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Gaurav on 3/11/15.
@@ -33,6 +36,21 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String ACCOUNTS_COL_ACC_SHOW ="acc_show";
     public static final String ACCOUNTS_COL_ACC_CURRENCY="acc_currency";
     public static final String ACCOUNTS_COL_ACC_NOTE ="acc_note";
+
+    public static final String TRANSACTION_TABLE="transactions";
+    public static final String TRANSACTION_COL_ID ="trans_id";
+    public static final String TRANSACTION_COL_UID ="trans_u_id";
+    public static final String TRANSACTION_COL_FROM_ACC ="trans_from_acc_name";
+    public static final String TRANSACTION_COL_TO_ACC ="trans_to_acc_balance";
+    public static final String TRANSACTION_COL_SHOW ="trans_show";
+    public static final String TRANSACTION_COL_DATE="trans_date";
+    public static final String TRANSACTION_COL_TIME="trans_time";
+    public static final String TRANSACTION_COL_CATEGORY="trans_category";
+    public static final String TRANSACTION_COL_SUBCATEGORY="trans_subcategory";
+    public static final String TRANSACTION_COL_NOTE ="trans_note";
+    public static final String TRANSACTION_COL_TYPE="trans_type";
+    public static final String TRANSACTION_COL_PERSON="trans_person";
+    public static final String TRANSACTION_COL_BALANCE="trans_balance";
 
     public static final String PERSON_TABLE ="persons";
     public static final String PERSON_COL_ID ="p_id";
@@ -79,6 +97,22 @@ public class DBHelper extends SQLiteOpenHelper
                 + ACCOUNTS_COL_ACC_CURRENCY +" TEXT,"
                 + ACCOUNTS_COL_ACC_SHOW +" INTEGER)";
         db.execSQL(create_table_accounts);
+
+        String create_table_transactions="CREATE TABLE IF NOT EXISTS "+ TRANSACTION_TABLE
+                +"("+ TRANSACTION_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + TRANSACTION_COL_UID+" INTEGER,"
+                + TRANSACTION_COL_FROM_ACC +" INTEGER,"
+                + TRANSACTION_COL_TO_ACC +" INTEGER,"
+                + TRANSACTION_COL_PERSON+" INTEGER,"
+                +TRANSACTION_COL_CATEGORY +" INTEGER,"
+                +TRANSACTION_COL_SUBCATEGORY +" INTEGER,"
+                + TRANSACTION_COL_NOTE +" TEXT,"
+                + TRANSACTION_COL_TYPE +" TEXT,"
+                + TRANSACTION_COL_DATE +" TEXT,"
+                + TRANSACTION_COL_TIME +" TEXT,"
+                + TRANSACTION_COL_BALANCE + " REAL,"
+                + TRANSACTION_COL_SHOW +" INTEGER)";
+        db.execSQL(create_table_transactions);
 
         String create_table_category="CREATE TABLE IF NOT EXISTS "+ CATEGORY_TABLE
                 +"("+ CATEGORY_COL_C_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -277,7 +311,37 @@ public class DBHelper extends SQLiteOpenHelper
             return null;
         }
     }
-
+    public int getAccountColId(int u_id,String acc_name)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ ACCOUNTS_TABLE, null);
+            String s;
+            int acc_id = 0,user_id;
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                user_id=c.getInt(c.getColumnIndex(ACCOUNTS_COL_ACC_UID));
+                if(user_id==u_id)
+                {
+                    s = c.getString(c.getColumnIndex(ACCOUNTS_COL_ACC_NAME));
+                    if (s.equals(acc_name)) {
+                        acc_id = c.getInt(c.getColumnIndex(ACCOUNTS_COL_ACC_ID));
+                        break;
+                    }
+                }
+                c.moveToNext();
+            }
+            c.close();
+            return acc_id;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return 0;
+        }
+    }
     public ArrayList<AccountsDB> getAllAccounts(int u_id)
     {
         ArrayList<AccountsDB> arrayList = new ArrayList<>();
@@ -311,6 +375,109 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
+    public boolean addTransaction(int u_id,int from_acc,int to_acc,float balance,String note,int p_id,int cat_id,int sub_id,
+                                  int show,String type,String date,String time)
+    {
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(TRANSACTION_COL_UID,u_id);
+        contentValues.put(TRANSACTION_COL_FROM_ACC,from_acc);
+        contentValues.put(TRANSACTION_COL_TO_ACC,to_acc);
+        contentValues.put(TRANSACTION_COL_BALANCE,balance);
+        contentValues.put(TRANSACTION_COL_PERSON,p_id);
+        contentValues.put(TRANSACTION_COL_NOTE,note);
+        contentValues.put(TRANSACTION_COL_SHOW,show);
+        contentValues.put(TRANSACTION_COL_TYPE,type);
+        contentValues.put(TRANSACTION_COL_CATEGORY,cat_id);
+        contentValues.put(TRANSACTION_COL_SUBCATEGORY,sub_id);
+        contentValues.put(TRANSACTION_COL_DATE,date);
+        contentValues.put(TRANSACTION_COL_TIME,time);
+
+        return db.insert(TRANSACTION_TABLE, null, contentValues) > 0;
+    }
+
+    public boolean updateTransactionData(int id, int from_acc,int to_acc,int p_id,int cat_id, int sub_id, float balance ,String note,int show,String type,String date,String time )
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(TRANSACTION_COL_FROM_ACC,from_acc);
+        contentValues.put(TRANSACTION_COL_BALANCE,balance);
+        contentValues.put(TRANSACTION_COL_TO_ACC,to_acc);
+        contentValues.put(TRANSACTION_COL_TYPE,type);
+        contentValues.put(TRANSACTION_COL_PERSON,p_id);
+        contentValues.put(TRANSACTION_COL_CATEGORY,cat_id);
+        contentValues.put(TRANSACTION_COL_SUBCATEGORY,sub_id);
+        contentValues.put(TRANSACTION_COL_DATE,date);
+        contentValues.put(TRANSACTION_COL_TIME,time);
+        contentValues.put(TRANSACTION_COL_NOTE,note);
+        contentValues.put(TRANSACTION_COL_SHOW,show);
+        contentValues.put(TRANSACTION_COL_TYPE,type);
+
+        return db.update(TRANSACTION_TABLE, contentValues, TRANSACTION_COL_ID +"="+ id, null) > 0;
+    }
+
+    public int deleteTransaction(int id)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        return db.delete(TRANSACTION_TABLE, TRANSACTION_COL_ID +"="+ id, null);
+    }
+
+    public Cursor getTransactionData(int id)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            return db.rawQuery("select * from "+ TRANSACTION_TABLE +" where "+ TRANSACTION_COL_ID +"="+ id, null);
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<TransactionsDB> getAllTransactions(int u_id)
+    {
+        ArrayList<TransactionsDB> arrayList = new ArrayList<>();
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Log.d("DB",""+db.isOpen());
+            Cursor c = db.rawQuery("select * from "+ TRANSACTION_TABLE +" where "+ TRANSACTION_COL_UID +"="+ u_id, null);
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                TransactionsDB t1=new TransactionsDB();
+                t1.t_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_ID));
+                t1.t_u_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_UID));
+                t1.t_from_acc=c.getInt(c.getColumnIndex(TRANSACTION_COL_FROM_ACC));
+                t1.t_to_acc=c.getInt(c.getColumnIndex(TRANSACTION_COL_TO_ACC));
+                t1.t_balance=c.getFloat(c.getColumnIndex(TRANSACTION_COL_BALANCE));
+                t1.t_p_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_PERSON));
+                t1.t_note=c.getString(c.getColumnIndex(TRANSACTION_COL_NOTE));
+                t1.t_show=c.getInt(c.getColumnIndex(TRANSACTION_COL_SHOW));
+                t1.t_date=c.getString(c.getColumnIndex(TRANSACTION_COL_DATE));
+                t1.t_time=c.getString(c.getColumnIndex(TRANSACTION_COL_TIME));
+                t1.t_type=c.getString(c.getColumnIndex(TRANSACTION_COL_TYPE));
+                t1.t_c_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_CATEGORY));
+                t1.t_sub_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_SUBCATEGORY));
+                arrayList.add(t1);
+                Log.i("Transaction :", t1.t_id +"\t"+ t1.t_u_id +"\t"+t1.t_from_acc +"\t"+t1.t_to_acc+"\t"+ t1.t_balance+"\t"+ t1.t_type
+                        +"\t"+ t1.t_c_id+"\t"+ t1.t_sub_id+"\t"+ t1.t_p_id+"\t"+ t1.t_date+"\t"+ t1.t_time +"\t"+ t1.t_note +"\t"+ t1.t_show);
+                c.moveToNext();
+            }
+            c.close();
+            return  arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
     public boolean addPerson(String name, String color,int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
@@ -353,6 +520,37 @@ public class DBHelper extends SQLiteOpenHelper
             return null;
         }
     }
+    public int getPersonColId(int u_id,String person_name)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ PERSON_TABLE, null);
+            String s;
+            int p_id = 0,user_id;
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                user_id=c.getInt(c.getColumnIndex(PERSON_COL_UID));
+                if(user_id==u_id)
+                {
+                    s = c.getString(c.getColumnIndex(PERSON_COL_NAME));
+                    if (s.equals(person_name)) {
+                        p_id = c.getInt(c.getColumnIndex(PERSON_COL_ID));
+                        break;
+                    }
+                }
+                c.moveToNext();
+            }
+            c.close();
+            return p_id;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return 0;
+        }
+    }
 
     public ArrayList<PersonDB> getAllPersons(int u_id)
     {
@@ -392,7 +590,6 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(CATEGORY_COL_C_NAME,name);
         contentValues.put(CATEGORY_COL_C_TYPE,type);
         contentValues.put(CATEGORY_COL_C_ICON,icon);
-
 
         Log.i("Add Category",contentValues+"");
 
@@ -466,7 +663,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ CATEGORY_TABLE +" where "+ CATEGORY_COL_C_TYPE + "=Expense"
+            Cursor c = db.rawQuery("select * from "+ CATEGORY_TABLE +" where "+ CATEGORY_COL_C_TYPE + "=" + type
                     + " and " + CATEGORY_COL_C_UID + "=" + u_id, null);
             c.moveToFirst();
             while (!c.isAfterLast())

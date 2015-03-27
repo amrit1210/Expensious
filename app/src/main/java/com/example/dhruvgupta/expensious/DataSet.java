@@ -40,8 +40,9 @@ class SubCategoryDB
 
 class TransactionsDB
 {
-    int t_id,u_id,t_c_id,t_sub_id,t_amount,t_p_id,t_show;
-    String t_type,t_from_acc,t_to_acc,t_note,t_datetime;
+    int t_id,t_u_id,t_c_id,t_sub_id,t_p_id,t_from_acc,t_to_acc,t_show;
+    float t_balance;
+    String t_type,t_note,t_date,t_time;
 }
 
 class CurrencyDB
