@@ -111,7 +111,7 @@ public class AddAccountActivity extends ActionBarActivity
             if(flag==1)
             {
                 if(dbHelper.updateAccountData(acc_id,mAcc_Name.getText().toString(),Float.parseFloat(mAcc_Amt.getText()
-                        .toString()),mAcc_Note.getText().toString(),mAcc_Cur.getText().toString(),i))
+                        .toString()),mAcc_Note.getText().toString(),mAcc_Cur.getText().toString(),i,sp.getInt("UID",0)))
                 {
                     Toast.makeText(AddAccountActivity.this, "Account Updated", Toast.LENGTH_LONG).show();
                     Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);

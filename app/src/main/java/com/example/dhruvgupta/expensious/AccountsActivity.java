@@ -87,6 +87,7 @@ public class AccountsActivity extends ActionBarActivity
             String acc_cur=c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
             String acc_note=c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
             int acc_show=c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+            c.close();
             Intent i=new Intent(AccountsActivity.this,AddAccountActivity.class);
             i.putExtra("acc_id",acc_id);
             i.putExtra("acc_uid",acc_uid);

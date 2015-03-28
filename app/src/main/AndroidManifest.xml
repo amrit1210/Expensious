@@ -37,6 +37,8 @@
         <activity
             android:name=".AddCategoryActivity"/>
         <activity
+            android:name=".TransactonsActivity"/>
+        <activity
             android:name=".AddTransactionsActivity"/>
         <activity
             android:name=".CategoriesActivity"/>

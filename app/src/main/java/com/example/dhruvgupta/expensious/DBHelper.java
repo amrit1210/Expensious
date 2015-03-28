@@ -278,7 +278,7 @@ public class DBHelper extends SQLiteOpenHelper
         return db.insert(ACCOUNTS_TABLE, null, contentValues) > 0;
     }
 
-    public boolean updateAccountData(int id, String name, float balance ,String note,String currency,int show )
+    public boolean updateAccountData(int acc_id, String name, float balance ,String note,String currency,int show,int u_id )
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -289,7 +289,7 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(ACCOUNTS_COL_ACC_NOTE,note);
         contentValues.put(ACCOUNTS_COL_ACC_SHOW,show);
 
-        return db.update(ACCOUNTS_TABLE, contentValues, ACCOUNTS_COL_ACC_ID +"="+ id, null) > 0;
+        return db.update(ACCOUNTS_TABLE, contentValues, ACCOUNTS_COL_ACC_ID +"="+ acc_id+" and "+ACCOUNTS_COL_ACC_UID+"="+u_id, null) > 0;
     }
 
     public int deleteAccount(int id)
@@ -398,7 +398,8 @@ public class DBHelper extends SQLiteOpenHelper
         return db.insert(TRANSACTION_TABLE, null, contentValues) > 0;
     }
 
-    public boolean updateTransactionData(int id, int from_acc,int to_acc,int p_id,int cat_id, int sub_id, float balance ,String note,int show,String type,String date,String time )
+    public boolean updateTransactionData(int id, int from_acc,int to_acc,int p_id,int cat_id, int sub_id, float balance ,
+                                         String note,int show,String type,String date,String time,int u_id )
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -414,7 +415,6 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(TRANSACTION_COL_TIME,time);
         contentValues.put(TRANSACTION_COL_NOTE,note);
         contentValues.put(TRANSACTION_COL_SHOW,show);
-        contentValues.put(TRANSACTION_COL_TYPE,type);
 
         return db.update(TRANSACTION_TABLE, contentValues, TRANSACTION_COL_ID +"="+ id, null) > 0;
     }
@@ -519,6 +519,7 @@ public class DBHelper extends SQLiteOpenHelper
             ae.printStackTrace();
             return null;
         }
+
     }
     public int getPersonColId(int u_id,String person_name)
     {
