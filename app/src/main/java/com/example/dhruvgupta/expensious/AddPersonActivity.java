@@ -1,14 +1,21 @@
 package com.example.dhruvgupta.expensious;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -49,9 +56,62 @@ public class AddPersonActivity  extends ActionBarActivity
         }
     }
 
-    public void onPersonClick(View v)
+    public void onPersonIcon(View v)
     {
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddPersonActivity.this);
 
+        LayoutInflater inflater = getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.dialog_person, null));
+
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//                LayoutInflater inflater = getLayoutInflater();
+//                View layout = inflater.inflate(R.layout.custom_toast,
+//                        (ViewGroup) findViewById(R.id.toast_layout_root));
+//                SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFS",MODE_PRIVATE);
+//                String s=sharedPreferences.getString("REG_NO","1110");
+//                s= s+sharedPreferences.getString("NAME","ABC");
+//
+//                TextView text = (TextView) layout.findViewById(R.id.text);
+//                text.setText(s);
+//
+//                Toast toast = new Toast(MainActivity.this);
+//                toast.setGravity(Gravity.CENTER_VERTICAL, 100, -100);
+//                toast.setDuration(Toast.LENGTH_SHORT);
+//                toast.setView(layout);
+//                toast.show();
+//            }
+//        });
+//        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//            }
+//        });
+        builder.create();
+        builder.show();
+    }
+
+    public void onDialogPerson(View v)
+    {
+        int id = v.getId();
+        Uri fileUri= Uri.parse("");
+        if (id == R.id.amber_yellow)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.amber_yellow);
+        else if (id == R.id.blood_red)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.blood_red);
+        else if (id == R.id.blue)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.blue);
+        else if (id == R.id.blue_grey)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.blue_grey);
+        else if (id == R.id.brown)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.brown);
+        else if (id == R.id.brownie)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.brownie);
+
+        Toast.makeText(AddPersonActivity.this,"click working fine"+ v.getResources(), Toast.LENGTH_LONG).show();
+        mPerson_Color.setImageURI(fileUri);
     }
 
     public void onSavePerson(View v)

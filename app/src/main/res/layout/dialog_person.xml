@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginRight="15sp">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="3">
+
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/amber_yellow"
+        android:src="@drawable/amber_yellow"
+        android:onClick="onDialogPerson"/>
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/blood_red"
+        android:src="@drawable/blood_red"
+        android:onClick="onDialogPerson"/>
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/blue"
+        android:src="@drawable/blue"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/blue_grey"
+        android:src="@drawable/blue_grey"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/brown"
+        android:src="@drawable/brown"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/brownie"
+        android:src="@drawable/brownie"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/cyan"
+        android:src="@drawable/cyan"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/dark_green"
+        android:src="@drawable/dark_green"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/deep_purple"
+        android:src="@drawable/deep_purple"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/green"
+        android:src="@drawable/green"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/grey"
+        android:src="@drawable/grey"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/indigo"
+        android:src="@drawable/indigo"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/light_blue"
+        android:src="@drawable/light_blue"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/light_green"
+        android:src="@drawable/light_green"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/lime"
+        android:src="@drawable/lime"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/orange"
+        android:src="@drawable/orange"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/pink"
+        android:src="@drawable/pink"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/purple"
+        android:src="@drawable/purple"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/red"
+        android:src="@drawable/red"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/teal"
+        android:src="@drawable/teal"
+        android:onClick="onDialogPerson" />
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:id="@+id/yellow"
+        android:src="@drawable/yellow" />
+</GridLayout>
+</ScrollView>
