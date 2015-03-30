@@ -33,6 +33,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
     String mType, t_date, t_time, t_type;
     int t_id, t_u_id, t_category,t_subcategory, t_fromAccount, t_toAccount, t_person, intentFlag;
     Button mExp,mInc,mTrans;
+    String from_acc=null,to_acc=null,person=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,17 @@ public class AddTransactionsActivity extends ActionBarActivity {
         mInc=(Button)findViewById(R.id.add_trans_btn_income);
         mTrans=(Button)findViewById(R.id.add_trans_btn_transfer);
         mType = "Expense";
+        final Calendar calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mHour = calendar.get(Calendar.HOUR_OF_DAY);
+        mMin = calendar.get(Calendar.MINUTE);
+        mDate.setText(new StringBuilder()
+                // Month is 0 based, just add 1
+                .append(mYear).append(" ").append("-").append(mMonth + 1).append("-")
+                .append(mDay));
+        mTime.setText(new StringBuilder().append(mHour).append(":").append(mMin));//Yes 24 hour time
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper = new DBHelper(AddTransactionsActivity.this);
         intentFlag = 0;
@@ -73,52 +85,63 @@ public class AddTransactionsActivity extends ActionBarActivity {
             t_subcategory= getIntent().getIntExtra("t_subcategory",0);
             if (t_type.equals("Expense")) {
                 flag = 0;
+                t_toAccount=0;
+                to_acc=null;
                 if(t_fromAccount!=0) {
                     Cursor c1 = dbHelper.getAccountData(t_fromAccount);
                     c1.moveToFirst();
-                    String from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mFromAcc.setText(from_acc);
                     c1.close();
                 }
-                onExpenseClick(mExp);
                 t_person = getIntent().getIntExtra("t_person", 0);
-                Cursor c =dbHelper.getPersonData(t_person);
-                c.moveToFirst();
-                String person=c.getString(c.getColumnIndex(DBHelper.PERSON_COL_NAME));
-                mPerson.setText(person);
-                c.close();
+                if(t_person!=0) {
+                    Cursor c = dbHelper.getPersonData(t_person);
+                    c.moveToFirst();
+                    person = c.getString(c.getColumnIndex(DBHelper.PERSON_COL_NAME));
+                    mPerson.setText(person);
+                    c.close();
+                }
+                onExpenseClick(mExp);
+
             }
             if (t_type.equals("Income")) {
                 flag = 1;
+                t_fromAccount=0;
+                from_acc=null;
                 if(t_toAccount!=0) {
                     Cursor c1 = dbHelper.getAccountData(t_toAccount);
                     c1.moveToFirst();
-                    String to_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    to_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mToAcc.setText(to_acc);
                     c1.close();
                 }
-                onIncomeClick(mInc);
+
                 t_person = getIntent().getIntExtra("t_person", 0);
-                Cursor c2 =dbHelper.getPersonData(t_person);
-                c2.moveToFirst();
-                String person=c2.getString(c2.getColumnIndex(DBHelper.PERSON_COL_NAME));
-                mPerson.setText(person);
-                c2.close();
+                if(t_person!=0) {
+                    Cursor c2 = dbHelper.getPersonData(t_person);
+                    c2.moveToFirst();
+                    person = c2.getString(c2.getColumnIndex(DBHelper.PERSON_COL_NAME));
+                    mPerson.setText(person);
+                    c2.close();
+                }
+                onIncomeClick(mInc);
             }
              if (t_type.equals("Transfer")) {
                 flag = 2;
-
+                t_person=0;
+                 person=null;
                  if(t_fromAccount!=0) {
                      Cursor c1 = dbHelper.getAccountData(t_fromAccount);
                      c1.moveToFirst();
-                     String from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                     from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                      mFromAcc.setText(from_acc);
                      c1.close();
                  }
                  if(t_toAccount!=0) {
                      Cursor c2 = dbHelper.getAccountData(t_toAccount);
                      c2.moveToFirst();
-                     String to_acc = c2.getString(c2.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                      to_acc = c2.getString(c2.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                      mToAcc.setText(to_acc);
                      c2.close();
                  }
@@ -153,29 +176,86 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
             if (intentFlag == 1) {
 
+                if(from_acc!=null)
+                {
+                    t_fromAccount=dbHelper.getAccountColId(sp.getInt("UID",0),from_acc);
+                }
+                if(to_acc!=null)
+                {
+                    t_toAccount=dbHelper.getAccountColId(sp.getInt("UID",0),to_acc);
+                }
+                if(person!=null)
+                {
+                    t_person=dbHelper.getPersonColId(sp.getInt("UID",0),person);
+                }
                 amt = Float.parseFloat(mAmt.getText().toString());
-                boolean b = dbHelper.updateTransactionData(t_id, t_fromAccount, t_toAccount,t_person,t_category,t_subcategory, amt, mNote.getText().toString(),show, t_type, mDate.getText().toString(), mTime.getText().toString(),sp.getInt("UID",0));
-
-              /*  if(flag==0)
+                if(amt<=0)
                 {
+                    mAmt.setError("Enter amount");
+                }
+                else
+                {
+                    mAmt.setError(null);
+                }
+                  if(flag==0)
+                {
+                    mToAcc.setError(null);
+                    if(t_fromAccount<=0)
+                    {
+                        mFromAcc.setError("Enter from Account");
+                    }
+                    else
+                    {
+                        mFromAcc.setError(null);
+                    }
+                }
+               else if(flag==1)
+                {
+                    mFromAcc.setError(null);
+                    if(t_toAccount<=0)
+                    {
+                        mToAcc.setError("Enter to Account");
+                    }
+                    else
+                    {
+                        mToAcc.setError(null);
+                    }
 
                 }
-                if(flag==1)
+               else if(flag==2)
                 {
+                    if(t_fromAccount<=0)
+                    {
+                        mFromAcc.setError("Enter from Account");
+                    }
+                    else
+                    {
+                        mFromAcc.setError(null);
+                    }
+                    if(t_toAccount<=0)
+                    {
+                        mToAcc.setError("Enter to Account");
+                    }
+                    else
+                    {
+                        mToAcc.setError(null);
+                    }
 
                 }
-                if(flag==2)
-                {
+                if(mFromAcc.getError()==null && mToAcc.getError()==null && mAmt.getError()==null) {
+                    boolean b = dbHelper.updateTransactionData(t_id, t_fromAccount, t_toAccount, t_person, t_category, t_subcategory, amt, mNote.getText().toString(), show, t_type, mDate.getText().toString(), mTime.getText().toString(), sp.getInt("UID", 0));
 
-                }*/
-                if (b) {
-                    Toast.makeText(AddTransactionsActivity.this, "Transaction Updated", Toast.LENGTH_LONG).show();
+
+                    if (b) {
+                        Toast.makeText(AddTransactionsActivity.this, "Transaction Updated", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(AddTransactionsActivity.this, "Error updating Transaction", Toast.LENGTH_LONG).show();
+                    }
                     Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
                     startActivity(intent);
-                } else {
-                    Toast.makeText(AddTransactionsActivity.this, "Error updating Transaction", Toast.LENGTH_LONG).show();
                 }
-
 
             } else {
                 if (flag == 0) {
@@ -185,7 +265,11 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
                         boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, 0, amt, mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(), mTime.getText().toString());
-                        Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
+                        if(b) {
+                            Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
+                            startActivity(intent);
+                        }
                     }
                     else
                     {
@@ -196,8 +280,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
-                       boolean b= dbHelper.addTransaction(sp.getInt("UID", 0), 0, acc_id, Float.parseFloat(mAmt.getText().toString()), mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(), mTime.getText().toString());
-                        Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
+                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), 0, acc_id, Float.parseFloat(mAmt.getText().toString()), mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(), mTime.getText().toString());
+                        if (b) {
+                            Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
+                            startActivity(intent);
+                        }
                     }
                     else
                     {
@@ -207,17 +295,21 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     if (mFromAcc.length()>0 && mToAcc.length()>0) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         int acc_id1 = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
-                        boolean b=dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, acc_id1, Float.parseFloat(mAmt.getText().toString()), mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(), mTime.getText().toString());
-                        Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
+                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, acc_id1, Float.parseFloat(mAmt.getText().toString()), mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(), mTime.getText().toString());
+                        if (b) {
+                            Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
+                            startActivity(intent);
+                        }
                     }
 
 
                 } else {
                     Toast.makeText(AddTransactionsActivity.this, "Error Adding Transaction", Toast.LENGTH_LONG).show();
-
+                    Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
+                    startActivity(intent);
                 }
-                Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
-                startActivity(intent);
+
 
             }
         }
@@ -303,6 +395,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
     public void onFromAccountClick(View v)
     {
+
         Intent i=new Intent(AddTransactionsActivity.this,AccountsViewList.class);
         startActivityForResult(i, 1);
     }
@@ -325,19 +418,38 @@ public class AddTransactionsActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1){
-            if (requestCode==1)
+        if (resultCode == 1) {
+            if (requestCode == 1) {
                 mFromAcc.setText(data.getExtras().getString("Acc_Name"));
-            else if (requestCode==2)
+                from_acc = mFromAcc.getText().toString();
+                if(mFromAcc.length()<=0)
+                {
+                    mFromAcc.setError("Enter from Account");
+                }
+                else
+                {
+                    mFromAcc.setError(null);
+                }
+            } else if (requestCode == 2) {
                 mToAcc.setText(data.getExtras().getString("Acc_Name"));
-            else if (requestCode==3)
-                mAmt.setText(data.getExtras().getFloat("RESULT")+"");
-            else if (requestCode==4)
+                to_acc = mToAcc.getText().toString();
+                if(mFromAcc.length()<=0)
+                {
+                    mFromAcc.setError("Enter from Account");
+                }
+                else
+                {
+                    mFromAcc.setError(null);
+                }
+            } else if (requestCode == 3)
+                mAmt.setText(data.getExtras().getFloat("RESULT") + "");
+            else if (requestCode == 4) {
                 mPerson.setText(data.getExtras().getString("Person_Name"));
+                person = mPerson.getText().toString();
+            }
         }
-    }
 
-    @Override
+    }    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
