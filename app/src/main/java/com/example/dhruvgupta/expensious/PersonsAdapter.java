@@ -1,12 +1,17 @@
 package com.example.dhruvgupta.expensious;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.pkmmte.view.CircularImageView;
 
 import java.util.ArrayList;
 
@@ -36,11 +41,15 @@ public class PersonsAdapter extends ArrayAdapter<PersonDB>
             convertView = in.inflate(layout, null);
         }
 
-        final ImageView mImageView=(ImageView)convertView.findViewById(R.id.list_person_color);
+        final CircularImageView mImageView=(CircularImageView)convertView.findViewById(R.id.list_person_color);
         final TextView  mPersonName=(TextView)convertView.findViewById(R.id.list_person_name);
 
         PersonDB db=al.get(position);
-        mImageView.setImageResource(R.drawable.user_48);
+
+        byte[] decodedString = Base64.decode(db.p_color.trim(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        mImageView.setImageBitmap(decodedByte);
         mPersonName.setText(db.p_name);
         return convertView;
     }

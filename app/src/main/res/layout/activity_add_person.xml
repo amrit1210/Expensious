@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -10,12 +11,13 @@
         android:background="@color/main_color_500"
         android:orientation="horizontal">
 
-            <ImageView
+            <com.pkmmte.view.CircularImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onClick="onPersonIcon"
+                app:border="false"
                 android:id="@+id/add_person_icon"
-                android:layout_weight="3"/>
+                android:onClick="onPersonIcon"
+                android:layout_weight="3" />
 
             <EditText
                 style="@style/EditTextAppearance.Heading"

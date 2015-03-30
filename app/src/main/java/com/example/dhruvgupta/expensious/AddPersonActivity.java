@@ -4,9 +4,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,14 +23,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pkmmte.view.CircularImageView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Created by Amrit on 3/19/2015.
  */
 public class AddPersonActivity  extends ActionBarActivity
 {
-    ImageView mPerson_Color;
+    CircularImageView mPerson_Color;
     EditText mPerson_Name;
-
+    String color = "";
+    AlertDialog.Builder builder;
+    AlertDialog ad;
     DBHelper dbHelper;
 
     SharedPreferences sp;
@@ -37,7 +51,7 @@ public class AddPersonActivity  extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_person);
 
-        mPerson_Color =(ImageView)findViewById(R.id.add_person_icon);
+        mPerson_Color =(CircularImageView)findViewById(R.id.add_person_icon);
         mPerson_Name =(EditText)findViewById(R.id.add_person_name);
 
         dbHelper =new DBHelper(AddPersonActivity.this);
@@ -51,50 +65,24 @@ public class AddPersonActivity  extends ActionBarActivity
             p_id=getIntent().getIntExtra("p_id",0);
             u_id=getIntent().getIntExtra("p_uid",0);
             mPerson_Name.setText(getIntent().getStringExtra("p_name"));
-            int color_id = getResources().getIdentifier("user_48", "drawable", getPackageName());
-            mPerson_Color.setBackgroundColor(color_id);
+            byte[] decodedString = Base64.decode(getIntent().getStringExtra("p_color").trim(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            mPerson_Color.setImageBitmap(decodedByte);
         }
     }
 
     public void onPersonIcon(View v)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(AddPersonActivity.this);
+        builder = new AlertDialog.Builder(AddPersonActivity.this);
 
         LayoutInflater inflater = getLayoutInflater();
 
         builder.setView(inflater.inflate(R.layout.dialog_person, null));
 
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int id) {
-//                LayoutInflater inflater = getLayoutInflater();
-//                View layout = inflater.inflate(R.layout.custom_toast,
-//                        (ViewGroup) findViewById(R.id.toast_layout_root));
-//                SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFS",MODE_PRIVATE);
-//                String s=sharedPreferences.getString("REG_NO","1110");
-//                s= s+sharedPreferences.getString("NAME","ABC");
-//
-//                TextView text = (TextView) layout.findViewById(R.id.text);
-//                text.setText(s);
-//
-//                Toast toast = new Toast(MainActivity.this);
-//                toast.setGravity(Gravity.CENTER_VERTICAL, 100, -100);
-//                toast.setDuration(Toast.LENGTH_SHORT);
-//                toast.setView(layout);
-//                toast.show();
-//            }
-//        });
-//        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//            }
-//        });
-        builder.create();
-        builder.show();
+        ad = builder.show();
     }
 
-    public void onDialogPerson(View v)
-    {
+    public void onDialogPerson(View v) throws IOException {
         int id = v.getId();
         Uri fileUri= Uri.parse("");
         if (id == R.id.amber_yellow)
@@ -109,9 +97,58 @@ public class AddPersonActivity  extends ActionBarActivity
             fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.brown);
         else if (id == R.id.brownie)
             fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.brownie);
+        else if (id == R.id.cyan)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.cyan);
+        else if (id == R.id.dark_green)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.dark_green);
+        else if (id == R.id.deep_purple)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.deep_purple);
+        else if (id == R.id.green)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.green);
+        else if (id == R.id.grey)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.grey);
+        else if (id == R.id.indigo)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.indigo);
+        else if (id == R.id.light_blue)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.light_blue);
+        else if (id == R.id.light_green)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.light_green);
+        else if (id == R.id.lime)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.lime);
+        else if (id == R.id.orange)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.orange);
+        else if (id == R.id.pink)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.pink);
+        else if (id == R.id.purple)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.purple);
+        else if (id == R.id.red)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.red);
+        else if (id == R.id.teal)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.teal);
+        else if (id == R.id.yellow)
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.yellow);
 
-        Toast.makeText(AddPersonActivity.this,"click working fine"+ v.getResources(), Toast.LENGTH_LONG).show();
-        mPerson_Color.setImageURI(fileUri);
+//        Bitmap decodedByte = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
+        InputStream image_stream = getContentResolver().openInputStream(fileUri);
+        Bitmap decodedByte= BitmapFactory.decodeStream(image_stream );
+
+        //mPerson_Color.setImageURI(fileUri);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        color = Base64.encodeToString(b, Base64.DEFAULT);
+
+        byte[] decodedString = Base64.decode(color.trim(), Base64.DEFAULT);
+        Bitmap decodedByt = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        mPerson_Color.setBorderColor(getResources().getColor(R.color.accent_color_200));
+        mPerson_Color.setBorderWidth(10);
+        mPerson_Color.setSelectorColor(getResources().getColor(R.color.main_color_grey_500));
+        mPerson_Color.setSelectorStrokeColor(getResources().getColor(R.color.main_color_indigo_200));
+        mPerson_Color.setSelectorStrokeWidth(10);
+        mPerson_Color.setImageBitmap(decodedByt);
+
+        ad.dismiss();
     }
 
     public void onSavePerson(View v)
@@ -124,7 +161,7 @@ public class AddPersonActivity  extends ActionBarActivity
         {
             if(flag==1)
             {
-                if(dbHelper.updatePersonData(p_id,mPerson_Name.getText().toString(),mPerson_Color.toString()))
+                if(dbHelper.updatePersonData(p_id,mPerson_Name.getText().toString(),color))
                 {
                     Toast.makeText(AddPersonActivity.this, "Person Added", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
@@ -139,7 +176,7 @@ public class AddPersonActivity  extends ActionBarActivity
             }
             else
             {
-                if(dbHelper.addPerson(mPerson_Name.getText().toString(),mPerson_Color.toString(),sp.getInt("UID",0)))
+                if(dbHelper.addPerson(mPerson_Name.getText().toString(),color,sp.getInt("UID",0)))
                 {
                     Toast.makeText(AddPersonActivity.this, "Person Updated", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
