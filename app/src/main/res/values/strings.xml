@@ -22,6 +22,8 @@
     <string name="btn_currency">CUR</string>
     <string name="btn_income">INCOME</string>
     <string name="btn_expense">EXPENSE</string>
+    <string name="btn_loan">LOAN</string>
+    <string name="btn_debt">DEBT</string>
     <string name="btn_transfer">TRANSFER</string>
     <string name="btn_sign_up">SIGN UP</string>
     <string name="btn_date">DATE</string>

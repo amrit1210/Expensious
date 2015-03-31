@@ -65,7 +65,8 @@ public class AddPersonActivity  extends ActionBarActivity
             p_id=getIntent().getIntExtra("p_id",0);
             u_id=getIntent().getIntExtra("p_uid",0);
             mPerson_Name.setText(getIntent().getStringExtra("p_name"));
-            byte[] decodedString = Base64.decode(getIntent().getStringExtra("p_color").trim(), Base64.DEFAULT);
+            color = getIntent().getStringExtra("p_color");
+            byte[] decodedString = Base64.decode(color.trim(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             mPerson_Color.setImageBitmap(decodedByte);
         }

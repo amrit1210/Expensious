@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/detailed_add_ld_btn">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_zero_bal"
+            android:onClick="onAmountClick"
+            android:padding="35sp"
+            android:gravity="end"
+            android:textSize="40sp"
+            android:id="@+id/detailed_add_ld_amt"
+            style="@style/ButtonStyle.RaisedFull" />
+
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/add_trans_ll_type"
+        android:layout_below="@id/detailed_add_ld_btn">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15sp">
+
+                <Button
+                    style="@style/ButtonStyle.Transparent"
+                    android:layout_weight="1"
+                    android:text="@string/btn_date"
+                    android:onClick="onDateClick"
+                    android:stateListAnimator="@android:animator/fade_in"
+                    android:id="@+id/detailed_add_ld_date"/>
+
+                <Button
+                    style="@style/ButtonStyle.Transparent"
+                    android:text="@string/btn_time"
+                    android:onClick="onTimeClick"
+                    android:id="@+id/detailed_add_ld_time"
+                    android:stateListAnimator="@android:animator/fade_in"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    style="@style/EditTextAppearance.Editable.Unedit"
+                    android:layout_weight="1"
+                    android:onClick="onFromAccountClick"
+                    android:hint="@string/hint_from_account"
+                    android:id="@+id/detailed_add_ld_from_account"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    style="@style/EditTextAppearance.Editable.Unedit"
+                    android:layout_weight="1"
+                    android:onClick="onToAccountClick"
+                    android:visibility="gone"
+                    android:hint="@string/hint_to_account"
+                    android:id="@+id/detailed_add_ld_to_account"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    style="@style/EditTextAppearance.Editable"
+                    android:hint="@string/hint_note"
+                    android:id="@+id/detailed_add_ld_note"
+                    android:gravity="left" />
+
+            </LinearLayout>
+
+            <CheckBox
+                style="@style/CheckBoxStyle"
+                android:text="@string/cb_include_report"
+                android:id="@+id/detailed_add_ld_cb" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:id="@+id/save_detailed_ld"
+                android:onClick="onSaveTransaction"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
