@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.pkmmte.view.CircularImageView;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMenuItemClickListener
 {
     EditText mName,mEmail,mPassword,mConfirm_Password;
-    ImageView mImage;
+    CircularImageView mImage;
     String image = "";
     DBHelper dbHelper;
     ArrayList<SignUpDB> al;
@@ -42,7 +44,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
         mEmail=(EditText)findViewById(R.id.signUp_email);
         mPassword=(EditText)findViewById(R.id.signUp_password);
         mConfirm_Password=(EditText)findViewById(R.id.signUp_confirm_password);
-        mImage = (ImageView)findViewById(R.id.signup_image);
+        mImage = (CircularImageView)findViewById(R.id.signup_image);
 
         dbHelper =new DBHelper(SignUpActivity.this);
         al=new ArrayList<>();
@@ -203,7 +205,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
                     bm = BitmapFactory.decodeFile(f.getAbsolutePath(),bitmapOptions);
-                    bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
+                    bm = Bitmap.createScaledBitmap(bm, 200, 200, true);
 
                     String path = android.os.Environment.getExternalStorageDirectory()+ File.separator + "Phoenix"
                             + File.separator + "default";
@@ -242,7 +244,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                 String picturePath = cursor.getString(columnIndex);
                 cursor.close();
                 Bitmap bm = BitmapFactory.decodeFile(picturePath);
-                bm = Bitmap.createScaledBitmap(bm, 100, 100, true);
+                bm = Bitmap.createScaledBitmap(bm, 200, 200, true);
                 try
                 {
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -65,6 +65,7 @@
                     android:layout_weight="1"
                     android:onClick="onFromAccountClick"
                     android:hint="@string/hint_from_account"
+                    android:clickable="true"
                     android:id="@+id/detailed_add_ld_from_account"/>
 
             </LinearLayout>
@@ -79,6 +80,7 @@
                     android:onClick="onToAccountClick"
                     android:visibility="gone"
                     android:hint="@string/hint_to_account"
+                    android:clickable="true"
                     android:id="@+id/detailed_add_ld_to_account"/>
 
             </LinearLayout>

@@ -64,6 +64,7 @@
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
                     android:onClick="onFromAccountClick"
+                    android:clickable="true"
                     android:hint="@string/hint_from_account"
                     android:id="@+id/add_loan_debt_from_account"/>
 
@@ -78,6 +79,7 @@
                     android:layout_weight="1"
                     android:onClick="onToAccountClick"
                     android:visibility="gone"
+                    android:clickable="true"
                     android:hint="@string/hint_to_account"
                     android:id="@+id/add_loan_debt_to_account"/>
 
@@ -92,6 +94,7 @@
                     android:layout_weight="1"
                     android:onClick="onPersonClick"
                     android:hint="@string/hint_person"
+                    android:clickable="true"
                     android:id="@+id/add_loan_debt_person"/>
 
             </LinearLayout>
@@ -135,14 +138,14 @@
             style="@style/ButtonStyle.Transparent"
             android:layout_weight="1"
             android:text="@string/btn_loan"
-            android:onClick="onExpenseClick"
+            android:onClick="onLoanClick"
             android:stateListAnimator="@android:animator/fade_in"
             android:id="@+id/add_loan_debt_btn_loan"/>
 
         <Button
             style="@style/ButtonStyle.Transparent"
             android:text="@string/btn_debt"
-            android:onClick="onIncomeClick"
+            android:onClick="onDebtClick"
             android:id="@+id/add_loan_debt_btn_debt"
             android:stateListAnimator="@android:animator/fade_in"
             android:layout_weight="1"/>
