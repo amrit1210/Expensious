@@ -115,7 +115,7 @@ public class TransactonsActivity extends ActionBarActivity
 
         if(id==R.id.Delete)
         {
-           if(dbHelper.deleteTransaction(transactionsDB.t_id)>0)
+           if(dbHelper.deleteTransaction(transactionsDB.t_id,sp.getInt("UID",0))>0)
            {
                Intent i = new Intent(TransactonsActivity.this, TransactonsActivity.class);
                startActivity(i);

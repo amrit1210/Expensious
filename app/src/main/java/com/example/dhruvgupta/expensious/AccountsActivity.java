@@ -101,7 +101,7 @@ public class AccountsActivity extends ActionBarActivity
 
         if(id==R.id.Delete)
         {
-            dbHelper.deleteAccount(acc_DB.acc_id);
+            dbHelper.deleteAccount(acc_DB.acc_id,sp.getInt("UID",0));
             Intent i=new Intent(AccountsActivity.this,AccountsActivity.class);
             startActivity(i);
             Toast.makeText(AccountsActivity.this, "Account Deleted", Toast.LENGTH_LONG).show();

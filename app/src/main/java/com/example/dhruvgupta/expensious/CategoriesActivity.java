@@ -25,7 +25,7 @@ public class CategoriesActivity extends ActionBarActivity
     ListView mList_cat;
     Button mCat_Income,mCat_Expense;
     String c_type;
-    ArrayList<CategoryDB> al;
+    ArrayList<CategoryDB_Specific> al;
     CategoriesAdapter ad;
     DBHelper dbHelper;
     SharedPreferences sp;
@@ -43,13 +43,19 @@ public class CategoriesActivity extends ActionBarActivity
 
         al=new ArrayList<>();
         dbHelper =new DBHelper(CategoriesActivity.this);
+        c_type="Expense";
+        al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+        ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
+        mList_cat.setAdapter(ad);
+        registerForContextMenu(mList_cat);
+
 
     }
 
     public void onIncomeBtnClick(View v)
     {
         c_type="Income";
-        al= dbHelper.getAllCategories(sp.getInt("UID",0),c_type);
+        al= dbHelper.getAllCategories(sp.getInt("UID",0),1);
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);
@@ -58,7 +64,7 @@ public class CategoriesActivity extends ActionBarActivity
     public void onExpenseBtnClick(View v)
     {
         c_type="Expense";
-        al= dbHelper.getAllCategories(sp.getInt("UID",0),c_type);
+        al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);
@@ -94,7 +100,7 @@ public class CategoriesActivity extends ActionBarActivity
     {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int listPosition = info.position;
-        CategoryDB category_DB = (CategoryDB) mList_cat.getAdapter().getItem(listPosition);
+        CategoryDB_Specific category_DB = (CategoryDB_Specific) mList_cat.getAdapter().getItem(listPosition);
         int id=item.getItemId();
 
         if(id==R.id.Edit)
@@ -117,7 +123,7 @@ public class CategoriesActivity extends ActionBarActivity
 
         if(id==R.id.Delete)
         {
-            dbHelper.deleteCategory(category_DB.c_id);
+            dbHelper.deleteCategory(category_DB.c_id,sp.getInt("UID",0));
             Intent i=new Intent(CategoriesActivity.this,CategoriesActivity.class);
             startActivity(i);
             Toast.makeText(CategoriesActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();

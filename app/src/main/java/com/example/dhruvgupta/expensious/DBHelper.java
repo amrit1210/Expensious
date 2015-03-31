@@ -5,12 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.method.DateTimeKeyListener;
 import android.util.Log;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Gaurav on 3/11/15.
@@ -58,7 +55,8 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String PERSON_COL_COLOR ="p_color";
     public static final String PERSON_COL_UID ="p_uid";
 
-    public static final String CATEGORY_TABLE="category";
+    public static final String CATEGORY_MASTER="category_master";
+    public static final String CATEGORY_SPECIFIC ="category_specific";
     public static final String CATEGORY_COL_C_UID ="c_u_id";
     public static final String CATEGORY_COL_C_ID ="c_id";
     public static final String CATEGORY_COL_C_NAME ="c_name";
@@ -100,12 +98,12 @@ public class DBHelper extends SQLiteOpenHelper
 
         String create_table_transactions="CREATE TABLE IF NOT EXISTS "+ TRANSACTION_TABLE
                 +"("+ TRANSACTION_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + TRANSACTION_COL_UID+" INTEGER,"
+                + TRANSACTION_COL_UID +" INTEGER,"
                 + TRANSACTION_COL_FROM_ACC +" INTEGER,"
                 + TRANSACTION_COL_TO_ACC +" INTEGER,"
                 + TRANSACTION_COL_PERSON+" INTEGER,"
-                +TRANSACTION_COL_CATEGORY +" INTEGER,"
-                +TRANSACTION_COL_SUBCATEGORY +" INTEGER,"
+                + TRANSACTION_COL_CATEGORY +" INTEGER,"
+                + TRANSACTION_COL_SUBCATEGORY +" INTEGER,"
                 + TRANSACTION_COL_NOTE +" TEXT,"
                 + TRANSACTION_COL_TYPE +" TEXT,"
                 + TRANSACTION_COL_DATE +" TEXT,"
@@ -114,17 +112,24 @@ public class DBHelper extends SQLiteOpenHelper
                 + TRANSACTION_COL_SHOW +" INTEGER)";
         db.execSQL(create_table_transactions);
 
-        String create_table_category="CREATE TABLE IF NOT EXISTS "+ CATEGORY_TABLE
+        String create_table_category_master="CREATE TABLE IF NOT EXISTS "+ CATEGORY_MASTER
+                +"("+ CATEGORY_COL_C_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + CATEGORY_COL_C_NAME +" TEXT,"
+                + CATEGORY_COL_C_TYPE +" TEXT,"
+                + CATEGORY_COL_C_ICON +" TEXT)";
+        db.execSQL(create_table_category_master);
+
+        String create_table_category_specific="CREATE TABLE IF NOT EXISTS "+ CATEGORY_SPECIFIC
                 +"("+ CATEGORY_COL_C_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + CATEGORY_COL_C_UID +" INTEGER,"
                 + CATEGORY_COL_C_NAME +" TEXT,"
                 + CATEGORY_COL_C_TYPE +" TEXT,"
                 + CATEGORY_COL_C_ICON +" TEXT)";
-        db.execSQL(create_table_category);
+        db.execSQL(create_table_category_specific);
 
         String create_table_subcategory="CREATE TABLE IF NOT EXISTS "+ SUBCATEGORY_TABLE
                 +"("+ SUBCATEGORY_COL_SUB_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + SUBCATEGORY_COL_SUB_CID +" INTEGER REFERENCES "+ CATEGORY_TABLE + "(" + CATEGORY_COL_C_ID + "),"
+                + SUBCATEGORY_COL_SUB_CID +" INTEGER REFERENCES "+ CATEGORY_SPECIFIC + "(" + CATEGORY_COL_C_ID + "),"
                 + SUBCATEGORY_COL_SUB_NAME +" TEXT,"
                 + SUBCATEGORY_COL_SUB_ICON +" TEXT)";
         db.execSQL(create_table_subcategory);
@@ -292,10 +297,10 @@ public class DBHelper extends SQLiteOpenHelper
         return db.update(ACCOUNTS_TABLE, contentValues, ACCOUNTS_COL_ACC_ID +"="+ acc_id+" and "+ACCOUNTS_COL_ACC_UID+"="+u_id, null) > 0;
     }
 
-    public int deleteAccount(int id)
+    public int deleteAccount(int id,int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
-        return db.delete(ACCOUNTS_TABLE, ACCOUNTS_COL_ACC_ID +"="+ id, null);
+        return db.delete(ACCOUNTS_TABLE, ACCOUNTS_COL_ACC_ID +"="+ id +" and "+ ACCOUNTS_COL_ACC_UID +"="+ u_id, null);
     }
 
     public Cursor getAccountData(int id)
@@ -416,13 +421,14 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(TRANSACTION_COL_NOTE,note);
         contentValues.put(TRANSACTION_COL_SHOW,show);
 
-        return db.update(TRANSACTION_TABLE, contentValues, TRANSACTION_COL_ID +"="+ id, null) > 0;
+        return db.update(TRANSACTION_TABLE, contentValues, TRANSACTION_COL_ID +"="+ id +" and "
+                + TRANSACTION_COL_UID + "=" + u_id, null) > 0;
     }
 
-    public int deleteTransaction(int id)
+    public int deleteTransaction(int id,int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
-        return db.delete(TRANSACTION_TABLE, TRANSACTION_COL_ID +"="+ id, null);
+        return db.delete(TRANSACTION_TABLE, TRANSACTION_COL_ID +"="+ id +" and "+ TRANSACTION_COL_UID +"="+ u_id, null);
     }
 
     public Cursor getTransactionData(int id)
@@ -501,10 +507,10 @@ public class DBHelper extends SQLiteOpenHelper
         return db.update(PERSON_TABLE, contentValues, PERSON_COL_ID +"="+ id, null) > 0;
     }
 
-    public int deletePerson(int id)
+    public int deletePerson(int id,int u_id)
     {
         SQLiteDatabase db=this.getReadableDatabase();
-        return db.delete(PERSON_TABLE, PERSON_COL_ID +"="+ id, null);
+        return db.delete(PERSON_TABLE, PERSON_COL_ID +"="+ id +" and "+ PERSON_COL_UID +"="+ u_id, null);
     }
 
     public Cursor getPersonData(int id)
@@ -582,7 +588,21 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public boolean addCategory(int u_id,String name,String type,String icon)
+    public boolean addCategoryMaster(String name,int type,String icon)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(CATEGORY_COL_C_NAME,name);
+        contentValues.put(CATEGORY_COL_C_TYPE,type);
+        contentValues.put(CATEGORY_COL_C_ICON,icon);
+
+        Log.i("Add Category Master:",contentValues+"");
+
+        return db.insert(CATEGORY_MASTER, null, contentValues) > 0;
+    }
+
+    public boolean addCategorySpecific(int u_id,String name,int type,String icon)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -594,10 +614,10 @@ public class DBHelper extends SQLiteOpenHelper
 
         Log.i("Add Category",contentValues+"");
 
-        return db.insert(CATEGORY_TABLE, null, contentValues) > 0;
+        return db.insert(CATEGORY_SPECIFIC, null, contentValues) > 0;
     }
 
-    public boolean updateCategory(int id,String name,String type,String icon)
+    public boolean updateCategory(int u_id,int id,String name,int type,String icon)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -606,13 +626,14 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(CATEGORY_COL_C_TYPE,type);
         contentValues.put(CATEGORY_COL_C_ICON,icon);
 
-        return db.update(CATEGORY_TABLE, contentValues, CATEGORY_COL_C_ID +"="+ id, null) > 0;
+        return db.update(CATEGORY_SPECIFIC, contentValues, CATEGORY_COL_C_ID +"="+ id
+                + " and " + CATEGORY_COL_C_UID + "=" +u_id, null) > 0;
     }
 
-    public int deleteCategory(int id)
+    public int deleteCategory(int id,int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
-        return db.delete(CATEGORY_TABLE, CATEGORY_COL_C_ID +"="+ id, null);
+        return db.delete(CATEGORY_SPECIFIC, CATEGORY_COL_C_ID +"="+ id +" and "+ CATEGORY_COL_C_UID +"="+ u_id, null);
     }
 
     public Cursor getCategoryData(int id)
@@ -620,7 +641,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select * from "+ CATEGORY_TABLE +" where "+ CATEGORY_COL_C_ID +"="+ id, null);
+            return db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_ID +"="+ id, null);
         }
         catch(Exception ae)
         {
@@ -634,7 +655,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ CATEGORY_TABLE, null);
+            Cursor c = db.rawQuery("select * from "+ CATEGORY_SPECIFIC, null);
             String s;
             int cat_id = 0;
             c.moveToFirst();
@@ -658,18 +679,45 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public ArrayList<CategoryDB> getAllCategories(int u_id,String type)
+    public ArrayList<String> getCategoryColName(int u_id,int type)
     {
-        ArrayList<CategoryDB> arrayList = new ArrayList<>();
+        ArrayList<String> arrayList = new ArrayList<>();
+        String c_name=null;
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ CATEGORY_TABLE +" where "+ CATEGORY_COL_C_TYPE + "=" + type
+            Cursor c = db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_TYPE + "=" + type
                     + " and " + CATEGORY_COL_C_UID + "=" + u_id, null);
             c.moveToFirst();
             while (!c.isAfterLast())
             {
-                CategoryDB c1 = new CategoryDB();
+                c_name = c.getString(c.getColumnIndex(CATEGORY_COL_C_NAME));
+
+                arrayList.add(c_name);
+                Log.i("CATEGORY NAME :", c_name );
+                c.moveToNext();
+            }
+            c.close();
+            return arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+    public ArrayList<CategoryDB_Specific> getAllCategories(int u_id,int type)
+    {
+        ArrayList<CategoryDB_Specific> arrayList = new ArrayList<>();
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_TYPE + "=" + type
+                    + " and " + CATEGORY_COL_C_UID + "=" + u_id, null);
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                CategoryDB_Specific c1 = new CategoryDB_Specific();
                 c1.c_id = c.getInt(c.getColumnIndex(CATEGORY_COL_C_ID));
                 c1.c_u_id = c.getInt(c.getColumnIndex(CATEGORY_COL_C_UID));
                 c1.c_name = c.getString(c.getColumnIndex(CATEGORY_COL_C_NAME));

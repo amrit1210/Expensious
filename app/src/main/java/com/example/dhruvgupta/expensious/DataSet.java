@@ -26,10 +26,15 @@ class PersonDB
     String p_name,p_color;
 }
 
-class CategoryDB
+class CategoryDB_Specific
 {
     int c_id,c_u_id;
     String c_name,c_type,c_icon;
+}
+class CategoryDB_Master
+{
+    int c_id,c_type;
+    String c_name,c_icon;
 }
 
 class SubCategoryDB

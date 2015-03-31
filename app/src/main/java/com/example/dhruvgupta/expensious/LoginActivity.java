@@ -29,6 +29,7 @@ public class LoginActivity extends ActionBarActivity
         mPassword=(EditText)findViewById(R.id.logIn_password);
         mRemember=(CheckBox)findViewById(R.id.logIn_remember);
 		dbHelper =new DBHelper(LoginActivity.this);
+        CategoryDB_Master categoryDB_master=new CategoryDB_Master();
     }
 
     public void onLogin(View v)
@@ -64,8 +65,9 @@ public class LoginActivity extends ActionBarActivity
                     Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
                             Toast.LENGTH_LONG).show();
               // Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
-                Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
+               // Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
            // Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
+                    Intent i=new Intent(LoginActivity.this,AddCategoryActivity.class);
                     startActivity(i);
                 }
                 else

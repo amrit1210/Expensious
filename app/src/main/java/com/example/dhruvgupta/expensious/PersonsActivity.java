@@ -24,6 +24,7 @@ public class PersonsActivity extends ActionBarActivity
     ListView listView;
     PersonsAdapter personsAdapter;
     DBHelper dbHelper;
+    SharedPreferences sp;
     ArrayList<PersonDB> al;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,7 +34,7 @@ public class PersonsActivity extends ActionBarActivity
 
         listView=(ListView)findViewById(R.id.persons_list);
 
-        SharedPreferences sp=getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+        sp=getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper=new DBHelper(PersonsActivity.this);
 
         al= dbHelper.getAllPersons(sp.getInt("UID",0));
@@ -93,7 +94,7 @@ public class PersonsActivity extends ActionBarActivity
 
         if(id==R.id.Delete)
         {
-            dbHelper.deletePerson(per_DB.p_id);
+            dbHelper.deletePerson(per_DB.p_id,sp.getInt("UID",0));
             Intent i=new Intent(PersonsActivity.this,PersonsActivity.class);
             startActivity(i);
             Toast.makeText(PersonsActivity.this, "Person Deleted", Toast.LENGTH_LONG).show();
