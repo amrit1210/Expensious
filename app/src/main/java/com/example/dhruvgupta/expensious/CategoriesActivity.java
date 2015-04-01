@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,13 +23,14 @@ import java.util.ArrayList;
 */
 public class CategoriesActivity extends ActionBarActivity
 {
-    ListView mList_cat;
+
     Button mCat_Income,mCat_Expense;
-    String c_type;
-    ArrayList<CategoryDB_Specific> al;
+    int c_type;
     CategoriesAdapter ad;
+    ArrayList<CategoryDB_Specific>al;
     DBHelper dbHelper;
     SharedPreferences sp;
+    ListView mList_cat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,11 +42,11 @@ public class CategoriesActivity extends ActionBarActivity
         mCat_Income = (Button) findViewById(R.id.category_btn_income);
         mCat_Expense = (Button) findViewById(R.id.category_btn_expense);
         sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-
-        al=new ArrayList<>();
         dbHelper =new DBHelper(CategoriesActivity.this);
-        c_type="Expense";
-        al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+        c_type=0;
+      //  al1=setCategoryGroups();
+       al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);
@@ -52,10 +54,40 @@ public class CategoriesActivity extends ActionBarActivity
 
     }
 
+//    public ArrayList<Category_group> setCategoryGroups()
+//    { int i,j;
+//
+//        ArrayList<CategoryDB_Specific> al2=dbHelper.getAllCategories(sp.getInt("UID", 0), c_type);
+//        ArrayList<SubCategory_Child> ch_list;
+//        ArrayList<Category_group>group=new ArrayList<>();
+//       for(i=0;i<=10;i++)
+//       {
+//           Category_group gru=new Category_group();
+//           CategoryDB_Specific cat_specific=al2.get(i);
+//           gru.setName(cat_specific.c_name);
+//           ch_list=new ArrayList<>();
+//         /*  ArrayList<String> al1=dbHelper.getSubCategoryColName(sp.getInt("UID", 0),cat_specific.c_id);
+//           for(j=0;j<2;j++)
+//           {
+//               SubCategory_Child ch = new SubCategory_Child();
+//               ch.setName(al1.get(j));
+//              // ch.setImage(Images[j]);
+//               ch_list.add(ch);
+//           }
+//           gru.setItems(ch_list);*/
+//           group.add(gru);
+//
+//
+//       }
+//
+//
+//        return group;
+//    }
     public void onIncomeBtnClick(View v)
     {
-        c_type="Income";
-        al= dbHelper.getAllCategories(sp.getInt("UID",0),1);
+        c_type=1;
+      // al1= setCategoryGroups();
+        al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);
@@ -63,8 +95,9 @@ public class CategoriesActivity extends ActionBarActivity
 
     public void onExpenseBtnClick(View v)
     {
-        c_type="Expense";
-        al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+        c_type=0;
+       //al1= setCategoryGroups();
+        al=dbHelper.getAllCategories(sp.getInt("UID",0),1);
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);

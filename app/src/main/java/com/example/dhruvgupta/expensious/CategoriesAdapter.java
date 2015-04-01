@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by Gaurav on 19-Mar-15.
  */
-public class CategoriesAdapter extends ArrayAdapter<CategoryDB_Specific>
+public class CategoriesAdapter extends ArrayAdapter
 {
     Context context1;
     int layout;

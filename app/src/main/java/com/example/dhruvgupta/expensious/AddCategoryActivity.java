@@ -68,33 +68,13 @@ public class AddCategoryActivity extends ActionBarActivity
         int id = getResources().getIdentifier("user_48", "drawable", getPackageName());
         mCat_image.setImageResource(id);
 
-
-
-        mCat_rg_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        mCat_rg_ie_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId)
-            {
-                if(group.getCheckedRadioButtonId() == mCat_Main.getId())
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(group.getCheckedRadioButtonId()==mCat_Expense.getId())
                 {
-                    mCat_Spinner_Sub.setEnabled(false);
-                    mCat_image.setVisibility(View.VISIBLE);
-                }
-                else if(group.getCheckedRadioButtonId() == mCat_Sub.getId())
-                {
-                    mCat_Spinner_Sub.setEnabled(true);
-                    mCat_image.setVisibility(View.GONE);
-                    if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Income.getId())
-                    {
-                        c_IE_type=1;
-                        ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
-                        Log.i("ArrayList :",arrayList+"");
-                        ArrayAdapter arrayAdapter=new ArrayAdapter(AddCategoryActivity.this,android.R.layout.simple_spinner_item, arrayList);
-                         mCat_Spinner_Sub.setAdapter(arrayAdapter);
-                    }
-                    else if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Expense.getId())
-                    {
-                        c_IE_type=0;
+                    c_IE_type=0;
+
                         ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
                         Log.i("ArrayList :",arrayList+"");
                         try {
@@ -104,6 +84,53 @@ public class AddCategoryActivity extends ActionBarActivity
                         catch (Exception e)
                         {
                             Log.i("Error:",e.getMessage());
+                        }
+
+                }
+                else if(group.getCheckedRadioButtonId()==mCat_Income.getId())
+                {
+                    c_IE_type=1;
+                        ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
+                        Log.i("ArrayList :",arrayList+"");
+                        try {
+                            ArrayAdapter arrayAdapter=new ArrayAdapter(AddCategoryActivity.this,android.R.layout.simple_spinner_item, arrayList);
+                            mCat_Spinner_Sub.setAdapter(arrayAdapter);
+                        }
+                        catch (Exception e)
+                        {
+                            Log.i("Error:",e.getMessage());
+                        }
+
+                }
+
+
+            }
+        });
+        mCat_rg_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (group.getCheckedRadioButtonId() == mCat_Main.getId()) {
+                    mCat_Spinner_Sub.setEnabled(false);
+                    mCat_image.setVisibility(View
+                            .VISIBLE);
+                } else if (group.getCheckedRadioButtonId() == mCat_Sub.getId()) {
+                    mCat_Spinner_Sub.setEnabled(true);
+                    mCat_image.setVisibility(View.GONE);
+                    if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Income.getId()) {
+                        c_IE_type = 1;
+                        ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID", 0), c_IE_type);
+                        Log.i("ArrayList :", arrayList + "");
+                        ArrayAdapter arrayAdapter = new ArrayAdapter(AddCategoryActivity.this, android.R.layout.simple_spinner_item, arrayList);
+                        mCat_Spinner_Sub.setAdapter(arrayAdapter);
+                    } else if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Expense.getId()) {
+                        c_IE_type = 0;
+                        ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID", 0), c_IE_type);
+                        Log.i("ArrayList :", arrayList + "");
+                        try {
+                            ArrayAdapter arrayAdapter = new ArrayAdapter(AddCategoryActivity.this, android.R.layout.simple_spinner_item, arrayList);
+                            mCat_Spinner_Sub.setAdapter(arrayAdapter);
+                        } catch (Exception e) {
+                            Log.i("Error:", e.getMessage());
                         }
                     }
                 }
@@ -136,38 +163,35 @@ public class AddCategoryActivity extends ActionBarActivity
         if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Income.getId())
         {
             c_IE_type=1;
-            if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
+
+
+            ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
+            Log.i("ArrayList :",arrayList+"");
+            try {
+                ArrayAdapter arrayAdapter=new ArrayAdapter(AddCategoryActivity.this,android.R.layout.simple_spinner_item, arrayList);
+                mCat_Spinner_Sub.removeAllViews();
+                mCat_Spinner_Sub.setAdapter(arrayAdapter);
+            }
+            catch (Exception e)
             {
-                ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
-                Log.i("ArrayList :",arrayList+"");
-                try {
-                    ArrayAdapter arrayAdapter=new ArrayAdapter(AddCategoryActivity.this,android.R.layout.simple_spinner_item, arrayList);
-                    mCat_Spinner_Sub.removeAllViews();
-                    mCat_Spinner_Sub.setAdapter(arrayAdapter);
-                }
-                catch (Exception e)
-                {
-                    Log.i("Error:",e.getMessage());
-                }
+                Log.i("Error:",e.getMessage());
             }
 
         }
         else if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Expense.getId())
         {
             c_IE_type=0;
-            if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
+
+            ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
+            Log.i("ArrayList :",arrayList+"");
+            try {
+                ArrayAdapter arrayAdapter=new ArrayAdapter(AddCategoryActivity.this,android.R.layout.simple_spinner_item, arrayList);
+                mCat_Spinner_Sub.removeAllViews();
+                mCat_Spinner_Sub.setAdapter(arrayAdapter);
+            }
+            catch (Exception e)
             {
-                ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
-                Log.i("ArrayList :",arrayList+"");
-                try {
-                    ArrayAdapter arrayAdapter=new ArrayAdapter(AddCategoryActivity.this,android.R.layout.simple_spinner_item, arrayList);
-                    mCat_Spinner_Sub.removeAllViews();
-                    mCat_Spinner_Sub.setAdapter(arrayAdapter);
-                }
-                catch (Exception e)
-                {
-                    Log.i("Error:",e.getMessage());
-                }
+                Log.i("Error:",e.getMessage());
             }
         }
 
@@ -175,24 +199,23 @@ public class AddCategoryActivity extends ActionBarActivity
         {
             if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Main.getId())
             {
-                if(dbHelper.addCategorySpecific(sp.getInt("UID",0),mCat_Name.getText().toString(),c_IE_type,"Image"))
-                {
-                    Log.i("Category 1",mCat_Name.getText().toString()+c_IE_type+mCat_image.toString());
-                    Toast.makeText(AddCategoryActivity.this,"Main Category Added "+c_IE_type,Toast.LENGTH_SHORT).show();
-                    Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
-                    startActivity(i);
-                }
-                else
-                {
-                    Toast.makeText(AddCategoryActivity.this,"Error creating category",Toast.LENGTH_SHORT).show();
-                }
+                    if (dbHelper.addCategorySpecific(sp.getInt("UID", 0), mCat_Name.getText().toString(), c_IE_type, "Image")) {
+                        Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
+                        Toast.makeText(AddCategoryActivity.this, "Main Category Added " + c_IE_type, Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(AddCategoryActivity.this, CategoriesActivity.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(AddCategoryActivity.this, "Error creating category", Toast.LENGTH_SHORT).show();
+                    }
+
             }
             else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
             {
+
                 dbHelper =new DBHelper(AddCategoryActivity.this);
 
                 int colId= dbHelper.getCategoryColId(mCat_Spinner_Sub.getSelectedItem().toString());
-                if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),mCat_image.toString()))
+                if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),mCat_image.toString(),sp.getInt("UID",0)))
                 {
                     Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
                     Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);

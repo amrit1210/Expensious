@@ -68,6 +68,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String SUBCATEGORY_COL_SUB_CID ="sub_c_id";
     public static final String SUBCATEGORY_COL_SUB_NAME ="sub_name";
     public static final String SUBCATEGORY_COL_SUB_ICON ="sub_icon";
+    public static final String SUBCATEGORY_COL_SUB_UID="sub_uid";
 
     public DBHelper(Context context)
     {
@@ -737,11 +738,12 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public boolean addSubCategory(int c_id,String name,String icon)
+    public boolean addSubCategory(int c_id,String name,String icon, int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
+        contentValues.put(SUBCATEGORY_COL_SUB_UID,u_id);
         contentValues.put(SUBCATEGORY_COL_SUB_CID,c_id);
         contentValues.put(SUBCATEGORY_COL_SUB_NAME,name);
         contentValues.put(SUBCATEGORY_COL_SUB_ICON,icon);
@@ -749,7 +751,7 @@ public class DBHelper extends SQLiteOpenHelper
         return db.insert(SUBCATEGORY_TABLE, null, contentValues) > 0;
     }
 
-    public boolean updateSubCategory(int id,String name,String icon)
+    public boolean updateSubCategory(int id,String name,String icon, int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -759,14 +761,40 @@ public class DBHelper extends SQLiteOpenHelper
 
         return db.update(SUBCATEGORY_TABLE, contentValues, SUBCATEGORY_COL_SUB_ID +"="+ id, null) > 0;
     }
+    public ArrayList<String> getSubCategoryColName(int u_id,int c_id)
+    {
+        ArrayList<String> arrayList = new ArrayList<>();
+        String c_name=null;
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE +" where "+  SUBCATEGORY_COL_SUB_UID + "=" + u_id + " and "+ SUBCATEGORY_COL_SUB_CID +"="+c_id, null);
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                c_name = c.getString(c.getColumnIndex(SUBCATEGORY_COL_SUB_NAME));
 
-    public ArrayList<SubCategoryDB> getAllSubCategories()
+                arrayList.add(c_name);
+                Log.i("SUBCATEGORY NAME :", c_name );
+                c.moveToNext();
+            }
+            c.close();
+            return arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<SubCategoryDB> getAllSubCategories( int u_id)
     {
         ArrayList<SubCategoryDB> arrayList = new ArrayList<>();
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE, null);
+            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE +" where "+ SUBCATEGORY_COL_SUB_UID + " = "+u_id, null);
             c.moveToFirst();
             while (!c.isAfterLast())
             {
