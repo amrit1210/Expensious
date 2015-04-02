@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -30,7 +32,7 @@ public class AddCategoryActivity extends ActionBarActivity
     Spinner mCat_Spinner_Sub;
     SharedPreferences sp;
 
-    int c_IE_type;
+    int c_IE_type, colId=0;
 
     DBHelper dbHelper;
     CategoriesAdapter ad;
@@ -169,7 +171,6 @@ public class AddCategoryActivity extends ActionBarActivity
             Log.i("ArrayList :",arrayList+"");
             try {
                 ArrayAdapter arrayAdapter=new ArrayAdapter(AddCategoryActivity.this,android.R.layout.simple_spinner_item, arrayList);
-                mCat_Spinner_Sub.removeAllViews();
                 mCat_Spinner_Sub.setAdapter(arrayAdapter);
             }
             catch (Exception e)
@@ -186,7 +187,6 @@ public class AddCategoryActivity extends ActionBarActivity
             Log.i("ArrayList :",arrayList+"");
             try {
                 ArrayAdapter arrayAdapter=new ArrayAdapter(AddCategoryActivity.this,android.R.layout.simple_spinner_item, arrayList);
-                mCat_Spinner_Sub.removeAllViews();
                 mCat_Spinner_Sub.setAdapter(arrayAdapter);
             }
             catch (Exception e)
@@ -213,18 +213,36 @@ public class AddCategoryActivity extends ActionBarActivity
             {
 
                 dbHelper =new DBHelper(AddCategoryActivity.this);
+                mCat_Spinner_Sub.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                               @Override
+                                                               public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                                   colId = (int) parent.getItemIdAtPosition(position);
+                                                                   Log.i("COLID:",colId+"");
+                                                               }
 
-                int colId= dbHelper.getCategoryColId(mCat_Spinner_Sub.getSelectedItem().toString());
-                if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),mCat_image.toString(),sp.getInt("UID",0)))
+                                                               @Override
+                                                               public void onNothingSelected(AdapterView<?> parent) {
+                                                                    System.out.println("Nothing Selected");
+                                                               }
+
+
+                                                           }
+                );
+                if(colId>0)
                 {
-                    Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
-                    Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
-                    startActivity(i);
+                    if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),mCat_image.toString(),sp.getInt("UID",0)))
+                    {
+                        Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
+                        Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
+                        startActivity(i);
+                    }
+
                 }
                 else
                 {
                     Toast.makeText(AddCategoryActivity.this,"Error creating category",Toast.LENGTH_SHORT).show();
                 }
+
             }
         }
     }
