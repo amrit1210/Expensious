@@ -26,8 +26,8 @@
     <style name="TextViewAppearance.Heading" parent="TextViewAppearance">
         <item name="android:layout_width">match_parent</item>
         <item name="android:textSize">40sp</item>
-        <item name="android:paddingTop">35sp</item>
-        <item name="android:paddingBottom">35sp</item>
+        <item name="android:paddingTop">35dp</item>
+        <item name="android:paddingBottom">35dp</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@color/main_color_500</item>
         <item name="android:textColor">@android:color/white</item>
@@ -40,8 +40,8 @@
 
     <style name="EditTextAppearance.Heading" parent="EditTextAppearance">
         <item name="android:background">@color/main_color_500</item>
-        <item name="android:paddingBottom">35sp</item>
-        <item name="android:paddingTop">35sp</item>
+        <item name="android:paddingBottom">35dp</item>
+        <item name="android:paddingTop">35dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
@@ -49,11 +49,11 @@
     </style>
 
     <style name="EditTextAppearance.Editable" parent="EditTextAppearance">
-        <item name="android:paddingTop">15sp</item>
+        <item name="android:paddingTop">15dp</item>
         <item name="android:textSize">22sp</item>
         <item name="android:gravity">left</item>
-        <item name="android:layout_marginTop">15sp</item>
-        <item name="android:layout_marginLeft">10sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
     </style>
 
     <style name="EditTextAppearance.Editable.Unedit" parent="EditTextAppearance.Editable">
@@ -98,15 +98,15 @@
     <style name="RadioButtonStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">25sp</item>
-        <item name="android:layout_marginTop">20sp</item>
+        <item name="android:layout_marginLeft">25dp</item>
+        <item name="android:layout_marginTop">20dp</item>
         <item name="android:textSize">20sp</item>
     </style>
 
     <style name="CheckBoxStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">25sp</item>
+        <item name="android:layout_marginTop">25dp</item>
         <item name="android:textSize">18sp</item>
     </style>
 
@@ -114,7 +114,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:layout_margin">5sp</item>
+        <item name="android:layout_margin">5dp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>

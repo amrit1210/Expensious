@@ -35,6 +35,9 @@
         <activity
             android:name=".PersonsActivity"/>
         <activity
+            android:name=".PersonDialog"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
+        <activity
             android:name=".AddCategoryActivity"/>
         <activity
             android:name=".TransactonsActivity"/>

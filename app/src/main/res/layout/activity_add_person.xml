@@ -12,18 +12,17 @@
         android:orientation="horizontal">
 
             <com.pkmmte.view.CircularImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 app:border="false"
+                android:layout_gravity="center"
                 android:id="@+id/add_person_icon"
-                android:onClick="onPersonIcon"
-                android:layout_weight="3" />
+                android:onClick="onPersonIcon" />
 
             <EditText
                 style="@style/EditTextAppearance.Heading"
                 android:hint="@string/hint_person_name"
-                android:id="@+id/add_person_name"
-                android:layout_weight="1"/>
+                android:id="@+id/add_person_name"/>
 
     </LinearLayout>
 

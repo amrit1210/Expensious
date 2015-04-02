@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10sp">
+    android:padding="5dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginLeft="5sp"
+        android:layout_marginLeft="5dp"
         android:textSize="20sp"
         android:id="@+id/list_currency_name"/>
 
@@ -26,8 +26,8 @@
         android:id="@+id/list_currency_symbol"
         android:textSize="20sp"
         android:ems="2"
-        android:layout_marginLeft="10sp"
+        android:layout_marginLeft="10dp"
         android:gravity="right"
-        android:layout_marginRight="5sp"/>
+        android:layout_marginRight="5dp"/>
 
 </LinearLayout>

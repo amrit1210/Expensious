@@ -53,6 +53,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String PERSON_COL_ID ="p_id";
     public static final String PERSON_COL_NAME ="p_name";
     public static final String PERSON_COL_COLOR ="p_color";
+    public static final String PERSON_COL_COLOR_CODE ="p_color_code";
     public static final String PERSON_COL_UID ="p_uid";
 
     public static final String CATEGORY_MASTER="category_master";
@@ -139,7 +140,8 @@ public class DBHelper extends SQLiteOpenHelper
                 +"("+ PERSON_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + PERSON_COL_UID +" INTEGER,"
                 + PERSON_COL_NAME +" TEXT,"
-                + PERSON_COL_COLOR +" TEXT)";
+                + PERSON_COL_COLOR +" TEXT,"
+                + PERSON_COL_COLOR_CODE +" TEXT)";
         db.execSQL(create_table_persons);
     }
 
@@ -485,25 +487,27 @@ public class DBHelper extends SQLiteOpenHelper
             return null;
         }
     }
-    public boolean addPerson(String name, String color,int u_id)
+    public boolean addPerson(String name, String color, String colorCode, int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
         contentValues.put(PERSON_COL_NAME,name);
         contentValues.put(PERSON_COL_COLOR,color);
+        contentValues.put(PERSON_COL_COLOR_CODE,colorCode);
         contentValues.put(PERSON_COL_UID, u_id);
 
         return db.insert(PERSON_TABLE, null, contentValues) > 0;
     }
 
-    public boolean updatePersonData(int id, String name,String color)
+    public boolean updatePersonData(int id, String name,String color, String colorCode)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
         contentValues.put(PERSON_COL_NAME,name);
         contentValues.put(PERSON_COL_COLOR,color);
+        contentValues.put(PERSON_COL_COLOR_CODE,colorCode);
 
         return db.update(PERSON_TABLE, contentValues, PERSON_COL_ID +"="+ id, null) > 0;
     }
@@ -560,6 +564,33 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
+    public ArrayList getPersonColName(int u_id)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select " + PERSON_COL_NAME + " from "+ PERSON_TABLE + " where " + PERSON_COL_UID + "="
+                    + u_id, null);
+            ArrayList al = new ArrayList();
+            String s;
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                s = c.getString(c.getColumnIndex(PERSON_COL_NAME));
+                al.add(s);
+                c.moveToNext();
+            }
+            c.close();
+
+            return al;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
     public ArrayList<PersonDB> getAllPersons(int u_id)
     {
         ArrayList<PersonDB> arrayList = new ArrayList<>();
@@ -574,9 +605,10 @@ public class DBHelper extends SQLiteOpenHelper
                 p1.p_id = c.getInt(c.getColumnIndex(PERSON_COL_ID));
                 p1.p_name = c.getString(c.getColumnIndex(PERSON_COL_NAME));
                 p1.p_color = c.getString(c.getColumnIndex(PERSON_COL_COLOR));
+                p1.p_color_code = c.getString(c.getColumnIndex(PERSON_COL_COLOR_CODE));
                 p1.p_u_id = c.getInt(c.getColumnIndex(PERSON_COL_UID));
                 arrayList.add(p1);
-                Log.i("PERSON :", p1.p_id +"\t"+ p1.p_name +"\t"+ p1.p_color +"\t"+ p1.p_u_id);
+                Log.i("PERSON :", p1.p_id +"\t"+ p1.p_name +"\n\t"+ p1.p_color_code +"\t"+ p1.p_u_id);
                 c.moveToNext();
             }
             c.close();

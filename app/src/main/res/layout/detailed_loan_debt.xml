@@ -8,16 +8,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="5sp"
-        android:paddingRight="5sp"
-        android:paddingTop="15sp"
-        android:paddingBottom="15sp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         style="@style/TextViewAppearance.Heading"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="90sp"
-            android:layout_height="90sp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:id="@+id/detailed_loan_debt_img"
             android:layout_gravity="center"/>
 
@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Repay/Recover : "
-                android:layout_marginTop="5sp"
+                android:layout_marginTop="5dp"
                 android:textColor="@android:color/white"
                 android:id="@+id/detailed_ld_re_name"
                 android:textSize="20sp"/>
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Balance : "
-                android:layout_marginTop="5sp"
+                android:layout_marginTop="5dp"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"/>
 
@@ -84,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:layout_marginTop="5sp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:layout_marginTop="5sp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"

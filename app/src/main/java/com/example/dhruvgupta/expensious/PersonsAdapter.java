@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +47,16 @@ public class PersonsAdapter extends ArrayAdapter<PersonDB>
 
         PersonDB db=al.get(position);
 
-        byte[] decodedString = Base64.decode(db.p_color.trim(), Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        try {
+            byte[] decodedString = Base64.decode(db.p_color.trim(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-        mImageView.setImageBitmap(decodedByte);
-        mPersonName.setText(db.p_name);
+            mImageView.setImageBitmap(decodedByte);
+            mPersonName.setText(db.p_name);
+        }
+        catch (Exception e){
+            Log.i("Excep:PersonAdapter",e.getMessage());
+        }
         return convertView;
     }
 }

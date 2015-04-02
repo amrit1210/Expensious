@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_zero_bal"
             android:onClick="onAmountClick"
-            android:padding="35sp"
+            android:padding="35dp"
             android:gravity="end"
             android:textSize="40sp"
             android:id="@+id/detailed_add_ld_amt"
@@ -36,7 +36,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15sp">
+                android:layout_marginTop="15dp">
 
                 <Button
                     style="@style/ButtonStyle.Transparent"

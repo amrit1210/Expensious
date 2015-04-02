@@ -23,7 +23,7 @@ class AccountsDB
 class PersonDB
 {
     int p_id,p_u_id;
-    String p_name,p_color;
+    String p_name,p_color,p_color_code;
 }
 
 class CategoryDB_Specific

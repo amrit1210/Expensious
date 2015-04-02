@@ -2,18 +2,18 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="5dp">
 
     <com.pkmmte.view.CircularImageView
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        android:id="@+id/list_person_color"
-        android:onClick="onDialogPerson" />
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/list_person_color" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10sp"
+        android:layout_marginLeft="10dp"
         android:layout_gravity="center"
         android:textSize="20sp"
         android:id="@+id/list_person_name"/>

@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="?android:attr/dividerVertical"
-        android:dividerPadding="8sp"
-        android:paddingTop="10sp"
+        android:dividerPadding="8dp"
+        android:paddingTop="10dp"
         android:layout_gravity="center"
         android:showDividers="middle">
 
@@ -40,7 +40,7 @@
     <EditText
         style="@style/EditTextAppearance.Editable"
         android:hint="@string/hint_note"
-        android:layout_marginTop="15sp"
+        android:layout_marginTop="15dp"
         android:id="@+id/add_acc_note" />
 
     <CheckBox

@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_zero_bal"
             android:onClick="onAmountClick"
-            android:padding="35sp"
+            android:padding="35dp"
             android:gravity="end"
             android:textSize="40sp"
             android:id="@+id/add_trans_btn_amt"
@@ -36,7 +36,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15sp">
+                android:layout_marginTop="15dp">
 
                 <Button
                     style="@style/ButtonStyle.Transparent"
@@ -144,7 +144,7 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/add_trans_ll_type"
         android:divider="?android:attr/dividerVertical"
-        android:dividerPadding="8sp"
+        android:dividerPadding="8dp"
         android:showDividers="middle">
 
         <Button
