@@ -143,6 +143,7 @@
 
                 <IconTextView
                     style="@style/IconTextViewStyle.Black"
+                    android:paddingRight="8dp"
                     android:text="@string/font_icon_person"/>
 
                 <EditText

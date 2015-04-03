@@ -23,6 +23,8 @@ import com.pkmmte.view.CircularImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -264,8 +266,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
         }
     }
 
-    public void onSignUp(View v)
-    {
+    public void onSignUp(View v) throws FileNotFoundException {
         if(!(mName.length()==0 || mEmail.length()==0 || mPassword.length()==0 || mConfirm_Password.length()==0))
         {
             ArrayList al1= dbHelper.getUserColEmail();
@@ -277,9 +278,16 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
             if(image.equals(""))
             {
-                int id = getResources().getIdentifier("user_48", "drawable", getPackageName());
-                mImage.setImageResource(id);
-                image="Image";
+                Uri fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.user_48);
+                InputStream image_stream = getContentResolver().openInputStream(fileUri);
+                Bitmap decodedByte= BitmapFactory.decodeStream(image_stream );
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                decodedByte.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] b = baos.toByteArray();
+                image = Base64.encodeToString(b, Base64.DEFAULT);
+
+                mImage.setImageURI(fileUri);
             }
 
             if(mEmail.getError()==null && mPassword.getError()==null)
