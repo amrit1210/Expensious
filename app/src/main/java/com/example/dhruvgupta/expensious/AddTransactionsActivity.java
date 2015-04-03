@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
     CheckBox mShow;
     SharedPreferences sp;
     DBHelper dbHelper;
+    LinearLayout mLlFrom, mLlTo, mLlCat, mLlPer;
     EditText mFromAcc, mToAcc, mCategory, mPerson, mNote;
     String mType, t_date, t_time, t_type;
     int t_id, t_u_id, t_category,t_subcategory, t_fromAccount, t_toAccount, t_person, intentFlag;
@@ -51,6 +53,11 @@ public class AddTransactionsActivity extends ActionBarActivity {
         mExp=(Button)findViewById(R.id.add_trans_btn_expense);
         mInc=(Button)findViewById(R.id.add_trans_btn_income);
         mTrans=(Button)findViewById(R.id.add_trans_btn_transfer);
+        mLlFrom = (LinearLayout)findViewById(R.id.add_trans_ll_from_account);
+        mLlTo = (LinearLayout)findViewById(R.id.add_trans_ll_to_account);
+        mLlCat = (LinearLayout) findViewById(R.id.add_trans_ll_category);
+        mLlPer = (LinearLayout) findViewById(R.id.add_trans_ll_person);
+
         mType = "Expense";
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
@@ -60,8 +67,8 @@ public class AddTransactionsActivity extends ActionBarActivity {
         mMin = calendar.get(Calendar.MINUTE);
         mDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
-                .append(mYear).append(" ").append("-").append(mMonth + 1).append("-")
-                .append(mDay));
+                .append(mDay).append("-").append(mMonth + 1).append("-")
+                .append(mYear));
         mTime.setText(new StringBuilder().append(mHour).append(":").append(mMin));//Yes 24 hour time
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper = new DBHelper(AddTransactionsActivity.this);
@@ -324,10 +331,10 @@ public class AddTransactionsActivity extends ActionBarActivity {
     public void onExpenseClick(View v)
     {
         mExp.setPressed(true);
-        mFromAcc.setVisibility(View.VISIBLE);
-        mToAcc.setVisibility(View.GONE);
-        mCategory.setVisibility(View.VISIBLE);
-        mPerson.setVisibility(View.VISIBLE);
+        mLlFrom.setVisibility(View.VISIBLE);
+        mLlTo.setVisibility(View.GONE);
+        mLlCat.setVisibility(View.VISIBLE);
+        mLlPer.setVisibility(View.VISIBLE);
         mType="Expense";
         t_type="Expense";
         flag=0;
@@ -336,10 +343,10 @@ public class AddTransactionsActivity extends ActionBarActivity {
     public void onIncomeClick(View v)
     {
         mInc.setPressed(true);
-        mFromAcc.setVisibility(View.GONE);
-        mToAcc.setVisibility(View.VISIBLE);
-        mCategory.setVisibility(View.VISIBLE);
-        mPerson.setVisibility(View.VISIBLE);
+        mLlFrom.setVisibility(View.GONE);
+        mLlTo.setVisibility(View.VISIBLE);
+        mLlCat.setVisibility(View.VISIBLE);
+        mLlPer.setVisibility(View.VISIBLE);
         mType="Income";
         t_type="Income";
         flag =1;
@@ -349,10 +356,10 @@ public class AddTransactionsActivity extends ActionBarActivity {
     public void onTransferClick(View v)
     {
         mTrans.setPressed(true);
-        mFromAcc.setVisibility(View.VISIBLE);
-        mToAcc.setVisibility(View.VISIBLE);
-        mCategory.setVisibility(View.GONE);
-        mPerson.setVisibility(View.GONE);
+        mLlFrom.setVisibility(View.VISIBLE);
+        mLlTo.setVisibility(View.VISIBLE);
+        mLlCat.setVisibility(View.GONE);
+        mLlPer.setVisibility(View.GONE);
         mType="Transfer";
         t_type="Transfer";
         flag=2;

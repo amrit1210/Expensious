@@ -38,27 +38,55 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp">
 
-                <Button
-                    style="@style/ButtonStyle.Transparent"
-                    android:layout_weight="1"
-                    android:text="@string/btn_date"
-                    android:onClick="onDateClick"
-                    android:stateListAnimator="@android:animator/fade_in"
-                    android:id="@+id/add_loan_debt_btn_date"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2">
 
-                <Button
-                    style="@style/ButtonStyle.Transparent"
-                    android:text="@string/btn_time"
-                    android:onClick="onTimeClick"
-                    android:id="@+id/add_loan_debt_btn_time"
-                    android:stateListAnimator="@android:animator/fade_in"
-                    android:layout_weight="1"/>
+                    <IconTextView
+                        style="@style/IconTextViewStyle.Black"
+                        android:layout_gravity="center"
+                        android:text="@string/font_icon_date" />
+
+                    <Button
+                        style="@style/ButtonStyle.Transparent"
+                        android:text="@string/btn_date"
+                        android:onClick="onDateClick"
+                        android:layout_marginLeft="15dp"
+                        android:stateListAnimator="@android:animator/fade_in"
+                        android:id="@+id/add_loan_debt_btn_date"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3">
+
+                    <IconTextView
+                        style="@style/IconTextViewStyle.Black"
+                        android:layout_gravity="center"
+                        android:text="@string/font_icon_time" />
+
+                    <Button
+                        style="@style/ButtonStyle.Transparent"
+                        android:text="@string/btn_time"
+                        android:onClick="onTimeClick"
+                        android:id="@+id/add_loan_debt_btn_time"
+                        android:stateListAnimator="@android:animator/fade_in"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/add_loan_debt_ll_from_account">
+
+                <IconTextView
+                    style="@style/IconTextViewStyle.Black"
+                    android:text="@string/font_icon_account" />
 
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
@@ -72,13 +100,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/add_loan_debt_ll_to_account">
+
+                <IconTextView
+                    style="@style/IconTextViewStyle.Black"
+                    android:text="@string/font_icon_account" />
 
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
                     android:onClick="onToAccountClick"
-                    android:visibility="gone"
                     android:clickable="true"
                     android:hint="@string/hint_to_account"
                     android:id="@+id/add_loan_debt_to_account"/>
@@ -88,6 +121,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <IconTextView
+                    style="@style/IconTextViewStyle.Black"
+                    android:paddingRight="8dp"
+                    android:text="@string/font_icon_person" />
 
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
@@ -102,6 +140,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <IconTextView
+                    style="@style/IconTextViewStyle.Black"
+                    android:text="@string/font_icon_note" />
 
                 <EditText
                     style="@style/EditTextAppearance.Editable"

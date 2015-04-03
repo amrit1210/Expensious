@@ -114,5 +114,11 @@
     <string name="font_icon_email">{fa-envelope}</string>
     <string name="font_icon_username">{fa-user}</string>
     <string name="font_icon_password">{fa-user-secret}</string>
+    <string name="font_icon_date">{fa-calendar}</string>
+    <string name="font_icon_time">{fa-clock-o}</string>
+    <string name="font_icon_account">{fa-credit-card}</string>
+    <string name="font_icon_category">{fa-list}</string>
+    <string name="font_icon_person">{fa-male}</string>
+    <string name="font_icon_note">{fa-file-text}</string>
 
 </resources>
