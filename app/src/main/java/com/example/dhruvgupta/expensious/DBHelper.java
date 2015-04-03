@@ -133,6 +133,7 @@ public class DBHelper extends SQLiteOpenHelper
                 +"("+ SUBCATEGORY_COL_SUB_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SUBCATEGORY_COL_SUB_CID +" INTEGER REFERENCES "+ CATEGORY_SPECIFIC + "(" + CATEGORY_COL_C_ID + "),"
                 + SUBCATEGORY_COL_SUB_NAME +" TEXT,"
+                + SUBCATEGORY_COL_SUB_UID + " INTEGER "
                 + SUBCATEGORY_COL_SUB_ICON +" TEXT)";
         db.execSQL(create_table_subcategory);
 
@@ -775,10 +776,11 @@ public class DBHelper extends SQLiteOpenHelper
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
-        contentValues.put(SUBCATEGORY_COL_SUB_UID,u_id);
+
         contentValues.put(SUBCATEGORY_COL_SUB_CID,c_id);
         contentValues.put(SUBCATEGORY_COL_SUB_NAME,name);
         contentValues.put(SUBCATEGORY_COL_SUB_ICON,icon);
+       // contentValues.put(SUBCATEGORY_COL_SUB_UID,u_id);
 
         return db.insert(SUBCATEGORY_TABLE, null, contentValues) > 0;
     }

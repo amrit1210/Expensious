@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -87,7 +86,7 @@ public class CategoriesActivity extends ActionBarActivity
     {
         c_type=1;
       // al1= setCategoryGroups();
-        al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+        al= dbHelper.getAllCategories(sp.getInt("UID",0),1);
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);
@@ -97,7 +96,7 @@ public class CategoriesActivity extends ActionBarActivity
     {
         c_type=0;
        //al1= setCategoryGroups();
-        al=dbHelper.getAllCategories(sp.getInt("UID",0),1);
+        al=dbHelper.getAllCategories(sp.getInt("UID",0),0);
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);

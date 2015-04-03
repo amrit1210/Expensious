@@ -279,6 +279,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
             {
                 int id = getResources().getIdentifier("user_48", "drawable", getPackageName());
                 mImage.setImageResource(id);
+                image="Image";
             }
 
             if(mEmail.getError()==null && mPassword.getError()==null)
