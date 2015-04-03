@@ -49,10 +49,10 @@
     </style>
 
     <style name="EditTextAppearance.Editable" parent="EditTextAppearance">
-        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingTop">15dp</item>
         <item name="android:textSize">22sp</item>
         <item name="android:gravity">left</item>
-        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginLeft">10dp</item>
     </style>
 
@@ -106,7 +106,7 @@
     <style name="CheckBoxStyle" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginTop">25dp</item>
         <item name="android:textSize">18sp</item>
     </style>
 
@@ -116,9 +116,5 @@
         <item name="android:textSize">20sp</item>
         <item name="android:layout_margin">5dp</item>
         <item name="android:textColor">@android:color/white</item>
-    </style>
-
-    <style name="IconTextViewStyle.Black" parent="@style/IconTextViewStyle">
-        <item name="android:textColor">@android:color/black</item>
     </style>
 </resources>
