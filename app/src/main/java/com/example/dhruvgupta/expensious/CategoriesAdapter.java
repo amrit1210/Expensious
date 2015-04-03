@@ -17,8 +17,8 @@ public class CategoriesAdapter extends ArrayAdapter
 {
     Context context1;
     int layout;
-    ArrayList<CategoryDB_Specific> al;
-    public CategoriesAdapter(Context context, int resource, ArrayList<CategoryDB_Specific>objects)
+    ArrayList<String> al;
+    public CategoriesAdapter(Context context, int resource, ArrayList<String> objects)
     {
         super(context, resource, objects);
         context1=context;
@@ -38,9 +38,9 @@ public class CategoriesAdapter extends ArrayAdapter
         final ImageView image=(ImageView)convertView.findViewById(R.id.list_category_img);
         final TextView name=(TextView)convertView.findViewById(R.id.list_category_name);
 
-        CategoryDB_Specific db=al.get(position);
+        String c_name=al.get(position);
 
-        name.setText(db.c_name);
+        name.setText(c_name);
         image.setImageResource(R.drawable.user_48);
         return convertView;
     }

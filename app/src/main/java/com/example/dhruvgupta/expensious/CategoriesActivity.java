@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,7 +27,9 @@ public class CategoriesActivity extends ActionBarActivity
     Button mCat_Income,mCat_Expense;
     int c_type;
     CategoriesAdapter ad;
-    ArrayList<CategoryDB_Specific>al;
+    ArrayList<String> al;
+    ArrayList<SubCategoryDB>sub_cat_al;
+    ArrayList<CategoryDB_Specific>cat_al;
     DBHelper dbHelper;
     SharedPreferences sp;
     ListView mList_cat;
@@ -36,57 +39,49 @@ public class CategoriesActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
-
+        al=new ArrayList();
         mList_cat = (ListView) findViewById(R.id.category_list);
         mCat_Income = (Button) findViewById(R.id.category_btn_income);
         mCat_Expense = (Button) findViewById(R.id.category_btn_expense);
         sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper =new DBHelper(CategoriesActivity.this);
         c_type=0;
-      //  al1=setCategoryGroups();
-       al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+        cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+        for(int i=0;i<cat_al.size();i++)
+    {
+        CategoryDB_Specific categoryDB_specific=cat_al.get(i);
+        sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
+        al.add(categoryDB_specific.c_name);
+        for(int j=0;j<sub_cat_al.size();j++)
+        {
+            SubCategoryDB subCategoryDB=sub_cat_al.get(j);
+            al.add(subCategoryDB.sub_name);
+        }
 
+    }
+        Log.i("ArrayList:",al+"");
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);
-
-
     }
 
-//    public ArrayList<Category_group> setCategoryGroups()
-//    { int i,j;
-//
-//        ArrayList<CategoryDB_Specific> al2=dbHelper.getAllCategories(sp.getInt("UID", 0), c_type);
-//        ArrayList<SubCategory_Child> ch_list;
-//        ArrayList<Category_group>group=new ArrayList<>();
-//       for(i=0;i<=10;i++)
-//       {
-//           Category_group gru=new Category_group();
-//           CategoryDB_Specific cat_specific=al2.get(i);
-//           gru.setName(cat_specific.c_name);
-//           ch_list=new ArrayList<>();
-//         /*  ArrayList<String> al1=dbHelper.getSubCategoryColName(sp.getInt("UID", 0),cat_specific.c_id);
-//           for(j=0;j<2;j++)
-//           {
-//               SubCategory_Child ch = new SubCategory_Child();
-//               ch.setName(al1.get(j));
-//              // ch.setImage(Images[j]);
-//               ch_list.add(ch);
-//           }
-//           gru.setItems(ch_list);*/
-//           group.add(gru);
-//
-//
-//       }
-//
-//
-//        return group;
-//    }
     public void onIncomeBtnClick(View v)
     {
         c_type=1;
       // al1= setCategoryGroups();
-        al= dbHelper.getAllCategories(sp.getInt("UID",0),1);
+        cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),1);
+        for(int i=0;i<cat_al.size();i++)
+        {
+            CategoryDB_Specific categoryDB_specific=cat_al.get(i);
+            sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
+            al.add(categoryDB_specific.c_name);
+            for(int j=0;j<sub_cat_al.size();j++)
+            {
+                SubCategoryDB subCategoryDB=sub_cat_al.get(j);
+                al.add(subCategoryDB.sub_name);
+            }
+
+        }
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);
@@ -96,7 +91,19 @@ public class CategoriesActivity extends ActionBarActivity
     {
         c_type=0;
        //al1= setCategoryGroups();
-        al=dbHelper.getAllCategories(sp.getInt("UID",0),0);
+        cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+        for(int i=0;i<cat_al.size();i++)
+        {
+            CategoryDB_Specific categoryDB_specific=cat_al.get(i);
+            sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
+            al.add(categoryDB_specific.c_name);
+            for(int j=0;j<sub_cat_al.size();j++)
+            {
+                SubCategoryDB subCategoryDB=sub_cat_al.get(j);
+                al.add(subCategoryDB.sub_name);
+            }
+
+        }
         ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);
@@ -130,37 +137,37 @@ public class CategoriesActivity extends ActionBarActivity
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int listPosition = info.position;
-        CategoryDB_Specific category_DB = (CategoryDB_Specific) mList_cat.getAdapter().getItem(listPosition);
-        int id=item.getItemId();
-
-        if(id==R.id.Edit)
-        {
-            Cursor c= dbHelper.getCategoryData(category_DB.c_id);
-            c.moveToFirst();
-            int c_id=c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_ID));
-            int c_uid=c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_UID));
-            String c_name=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
-            String c_type=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_TYPE));
-            String c_icon=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_ICON));
-            Intent i=new Intent(CategoriesActivity.this,AddCategoryActivity.class);
-            i.putExtra("c_id",c_id);
-            i.putExtra("c_u_id",c_uid);
-            i.putExtra("c_name",c_name);
-            i.putExtra("c_type",c_type);
-            i.putExtra("c_icon",c_icon);
-            startActivity(i);
-        }
-
-        if(id==R.id.Delete)
-        {
-            dbHelper.deleteCategory(category_DB.c_id,sp.getInt("UID",0));
-            Intent i=new Intent(CategoriesActivity.this,CategoriesActivity.class);
-            startActivity(i);
-            Toast.makeText(CategoriesActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();
-        }
-        return super.onContextItemSelected(item);
+//        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+//        int listPosition = info.position;
+//        Object str1 =  mList_cat.getAdapter().getItem(listPosition);
+//        int id=item.getItemId();
+//
+//        if(id==R.id.Edit)
+//        {
+//            Cursor c= dbHelper.getCategoryData(category_DB.c_id);
+//            c.moveToFirst();
+//            int c_id=c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_ID));
+//            int c_uid=c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_UID));
+//            String c_name=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+//            String c_type=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_TYPE));
+//            String c_icon=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_ICON));
+//            Intent i=new Intent(CategoriesActivity.this,AddCategoryActivity.class);
+//            i.putExtra("c_id",c_id);
+//            i.putExtra("c_u_id",c_uid);
+//            i.putExtra("c_name",c_name);
+//            i.putExtra("c_type",c_type);
+//            i.putExtra("c_icon",c_icon);
+//            startActivity(i);
+//        }
+//
+//        if(id==R.id.Delete)
+//        {
+//            dbHelper.deleteCategory(category_DB.c_id,sp.getInt("UID",0));
+//            Intent i=new Intent(CategoriesActivity.this,CategoriesActivity.class);
+//            startActivity(i);
+//            Toast.makeText(CategoriesActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();
+//        }
+       return super.onContextItemSelected(item);
     }
 
     @Override

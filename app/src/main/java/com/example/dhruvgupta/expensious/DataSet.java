@@ -39,8 +39,8 @@ class CategoryDB_Master
 
 class SubCategoryDB
 {
-    int sub_id,sub_c_id;
-    String sub_name,sub_icon;
+    int sub_id,sub_c_id,sub_u_id;
+    String sub_name;
 }
 
 class TransactionsDB

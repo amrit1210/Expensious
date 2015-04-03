@@ -133,8 +133,7 @@ public class DBHelper extends SQLiteOpenHelper
                 +"("+ SUBCATEGORY_COL_SUB_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SUBCATEGORY_COL_SUB_CID +" INTEGER REFERENCES "+ CATEGORY_SPECIFIC + "(" + CATEGORY_COL_C_ID + "),"
                 + SUBCATEGORY_COL_SUB_NAME +" TEXT,"
-                + SUBCATEGORY_COL_SUB_UID + " INTEGER "
-                + SUBCATEGORY_COL_SUB_ICON +" TEXT)";
+                + SUBCATEGORY_COL_SUB_UID + " INTEGER)";
         db.execSQL(create_table_subcategory);
 
         String create_table_persons="CREATE TABLE IF NOT EXISTS "+ PERSON_TABLE
@@ -771,7 +770,7 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public boolean addSubCategory(int c_id,String name,String icon, int u_id)
+    public boolean addSubCategory(int c_id,String name,int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -779,19 +778,17 @@ public class DBHelper extends SQLiteOpenHelper
 
         contentValues.put(SUBCATEGORY_COL_SUB_CID,c_id);
         contentValues.put(SUBCATEGORY_COL_SUB_NAME,name);
-        contentValues.put(SUBCATEGORY_COL_SUB_ICON,icon);
-       // contentValues.put(SUBCATEGORY_COL_SUB_UID,u_id);
+        contentValues.put(SUBCATEGORY_COL_SUB_UID,u_id);
 
         return db.insert(SUBCATEGORY_TABLE, null, contentValues) > 0;
     }
 
-    public boolean updateSubCategory(int id,String name,String icon, int u_id)
+    public boolean updateSubCategory(int id,String name,int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
         contentValues.put(SUBCATEGORY_COL_SUB_NAME,name);
-        contentValues.put(SUBCATEGORY_COL_SUB_ICON,icon);
 
         return db.update(SUBCATEGORY_TABLE, contentValues, SUBCATEGORY_COL_SUB_ID +"="+ id, null) > 0;
     }
@@ -822,13 +819,13 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public ArrayList<SubCategoryDB> getAllSubCategories( int u_id)
+    public ArrayList<SubCategoryDB> getAllSubCategories(int u_id, int c_id)
     {
         ArrayList<SubCategoryDB> arrayList = new ArrayList<>();
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE +" where "+ SUBCATEGORY_COL_SUB_UID + " = "+u_id, null);
+            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE +" where "+ SUBCATEGORY_COL_SUB_UID + " = "+u_id+ " and " + SUBCATEGORY_COL_SUB_CID +" = "+c_id, null);
             c.moveToFirst();
             while (!c.isAfterLast())
             {
@@ -836,9 +833,9 @@ public class DBHelper extends SQLiteOpenHelper
                 sub1.sub_id = c.getInt(c.getColumnIndex(SUBCATEGORY_COL_SUB_ID));
                 sub1.sub_c_id = c.getInt(c.getColumnIndex(SUBCATEGORY_COL_SUB_CID));
                 sub1.sub_name = c.getString(c.getColumnIndex(SUBCATEGORY_COL_SUB_NAME));
-                sub1.sub_icon = c.getString(c.getColumnIndex(SUBCATEGORY_COL_SUB_ICON));
+                sub1.sub_u_id=c.getInt(c.getColumnIndex(SUBCATEGORY_COL_SUB_UID));
                 arrayList.add(sub1);
-                Log.i("SUBCATEGORY :", sub1.sub_id +"\t"+ sub1.sub_c_id +"\t"+ sub1.sub_name +"\t"+ sub1.sub_icon);
+                Log.i("SUBCATEGORY :", sub1.sub_id +"\t"+ sub1.sub_c_id +"\t"+ sub1.sub_name+"\t"+sub1.sub_u_id);
                 c.moveToNext();
             }
             c.close();
