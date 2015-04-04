@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:id="@+id/detailed_loan_debt_img"
+            android:id="@+id/detailed_recursive_img"
             android:layout_gravity="center"/>
 
         <LinearLayout
@@ -30,23 +30,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/total"
+                android:text="@string/start_date"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/repay"
+                android:text="@string/end_date"
                 android:layout_marginTop="5dp"
                 android:textColor="@android:color/white"
-                android:id="@+id/detailed_ld_re_name"
                 android:textSize="20sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/balance"
+                android:text="@string/amount"
                 android:layout_marginTop="5dp"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"/>
@@ -58,27 +57,21 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Amount"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/detailed_ld_total_amt"
-                    android:textSize="20sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cur"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/detailed_ld_total_cur"
-                    android:textSize="20sp"/>
+                android:text="Date"
+                android:textColor="@android:color/white"
+                android:id="@+id/detailed_rec_start_date"
+                android:textSize="20sp"/>
 
-            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textColor="@android:color/white"
+                android:id="@+id/detailed_rec_end_date"
+                android:textSize="20sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,37 +84,14 @@
                     android:layout_height="wrap_content"
                     android:text="Amount"
                     android:textColor="@android:color/white"
-                    android:id="@+id/detailed_ld_re_amt"
+                    android:id="@+id/detailed_rec_amt"
                     android:textSize="20sp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cur"
                     android:textColor="@android:color/white"
-                    android:id="@+id/detailed_ld_re_cur"
-                    android:textSize="20sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Amount"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/detailed_ld_remain_amt"
-                    android:textSize="20sp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cur"
-                    android:textColor="@android:color/white"
-                    android:id="@+id/detailed_ld_remain_cur"
+                    android:id="@+id/detailed_rec_cur"
                     android:textSize="20sp"/>
 
             </LinearLayout>
@@ -131,7 +101,7 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/detailed_ld_list">
+        android:id="@+id/detailed_rec_list">
     </ListView>
 
 </LinearLayout>

@@ -7,7 +7,7 @@
     <com.balysv.materialripple.MaterialRippleLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/add_trans_btn">
+        android:id="@+id/add_recursive_btn">
 
         <Button
             android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:padding="35dp"
             android:gravity="end"
             android:textSize="40sp"
-            android:id="@+id/add_trans_btn_amt"
+            android:id="@+id/add_recursive_btn_amt"
             style="@style/ButtonStyle.RaisedFull" />
 
     </com.balysv.materialripple.MaterialRippleLayout>
@@ -25,8 +25,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/add_trans_ll_type"
-        android:layout_below="@id/add_trans_btn">
+        android:layout_above="@+id/add_recursive_ll_type"
+        android:layout_below="@id/add_recursive_btn">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="2">
+                    android:layout_weight="1">
 
                     <IconTextView
                         style="@style/IconTextViewStyle.Black"
@@ -51,28 +51,27 @@
 
                     <Button
                         style="@style/ButtonStyle.Transparent"
-                        android:text="@string/btn_date"
+                        android:text="@string/btn_start_date"
                         android:onClick="onDateClick"
-                        android:layout_marginLeft="15dp"
                         android:stateListAnimator="@android:animator/fade_in"
-                        android:id="@+id/add_trans_btn_date"/>
+                        android:id="@+id/add_recursive_btn_start_date"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="3">
+                    android:layout_weight="1">
 
                     <IconTextView
                         style="@style/IconTextViewStyle.Black"
                         android:layout_gravity="center"
-                        android:text="@string/font_icon_time"/>
+                        android:text="@string/font_icon_date"/>
 
                     <Button
                         style="@style/ButtonStyle.Transparent"
-                        android:text="@string/btn_time"
-                        android:onClick="onTimeClick"
-                        android:id="@+id/add_trans_btn_time"
+                        android:text="@string/btn_end_date"
+                        android:onClick="onDateClick"
+                        android:id="@+id/add_recursive_btn_end_date"
                         android:stateListAnimator="@android:animator/fade_in"/>
                 </LinearLayout>
 
@@ -80,8 +79,31 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <IconTextView
+                    style="@style/IconTextViewStyle.Black"
+                    android:layout_width="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/font_icon_time"/>
+
+                <Button
+                    style="@style/ButtonStyle.Transparent"
+                    android:layout_width="match_parent"
+                    android:text="@string/btn_time"
+                    android:layout_weight="1"
+                    android:gravity="center|left"
+                    android:onClick="onTimeClick"
+                    android:stateListAnimator="@android:animator/fade_in"
+                    android:id="@+id/add_recursive_btn_time"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/add_trans_ll_from_account">
+                android:id="@+id/add_recursive_ll_from_account">
 
                 <IconTextView
                     style="@style/IconTextViewStyle.Black"
@@ -93,7 +115,7 @@
                     android:onClick="onFromAccountClick"
                     android:hint="@string/hint_from_account"
                     android:clickable="true"
-                    android:id="@+id/add_trans_from_account"/>
+                    android:id="@+id/add_recursive_from_account"/>
 
             </LinearLayout>
 
@@ -101,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:id="@+id/add_trans_ll_to_account">
+                android:id="@+id/add_recursive_ll_to_account">
 
                 <IconTextView
                     style="@style/IconTextViewStyle.Black"
@@ -113,14 +135,14 @@
                     android:onClick="onToAccountClick"
                     android:clickable="true"
                     android:hint="@string/hint_to_account"
-                    android:id="@+id/add_trans_to_account"/>
+                    android:id="@+id/add_recursive_to_account"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/add_trans_ll_category">
+                android:id="@+id/add_recursive_ll_category">
 
                 <IconTextView
                     style="@style/IconTextViewStyle.Black"
@@ -132,14 +154,14 @@
                     android:onClick="onCategoryClick"
                     android:hint="@string/hint_category"
                     android:clickable="true"
-                    android:id="@+id/add_trans_category"/>
+                    android:id="@+id/add_recursive_category"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/add_trans_ll_person">
+                android:id="@+id/add_recursive_ll_person">
 
                 <IconTextView
                     style="@style/IconTextViewStyle.Black"
@@ -152,7 +174,7 @@
                     android:onClick="onPersonClick"
                     android:hint="@string/hint_person"
                     android:clickable="true"
-                    android:id="@+id/add_trans_person"/>
+                    android:id="@+id/add_recursive_person"/>
 
             </LinearLayout>
 
@@ -167,19 +189,77 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable"
                     android:hint="@string/hint_note"
-                    android:id="@+id/add_trans_note"
+                    android:id="@+id/add_recursive_note"
                     android:gravity="left" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <IconTextView
+                    style="@style/IconTextViewStyle.Black"
+                    android:text="@string/font_icon_recurring"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recurring"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:paddingTop="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="22sp"/>
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/recursive"
+                    android:layout_marginTop="5dp"
+                    android:clickable="true"
+                    android:id="@+id/spinner_recursive" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <IconTextView
+                    style="@style/IconTextViewStyle.Black"
+                    android:text="@string/font_icon_alert"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/alert"
+                    android:paddingTop="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="9"
+                    android:textSize="22sp"/>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:layout_weight="1"
+                    android:layout_marginRight="8dp"
+                    android:id="@+id/switch1" />
 
             </LinearLayout>
 
             <CheckBox
                 style="@style/CheckBoxStyle"
                 android:text="@string/cb_include_report"
-                android:id="@+id/add_trans_cb" />
+                android:id="@+id/add_recursive_cb" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/save_trans"
+                android:id="@+id/save_recursive"
                 android:onClick="onSaveTransaction"/>
         </LinearLayout>
 
@@ -189,7 +269,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/add_trans_ll_type"
+        android:id="@+id/add_recursive_ll_type"
         android:divider="?android:attr/dividerVertical"
         android:dividerPadding="8dp"
         android:showDividers="middle">
@@ -200,13 +280,13 @@
             android:text="@string/btn_expense"
             android:onClick="onExpenseClick"
             android:stateListAnimator="@android:animator/fade_in"
-            android:id="@+id/add_trans_btn_expense"/>
+            android:id="@+id/add_recursive_btn_expense"/>
 
         <Button
             style="@style/ButtonStyle.Transparent"
             android:text="@string/btn_income"
             android:onClick="onIncomeClick"
-            android:id="@+id/add_trans_btn_income"
+            android:id="@+id/add_recursive_btn_income"
             android:stateListAnimator="@android:animator/fade_in"
             android:layout_weight="1"/>
 
@@ -214,7 +294,7 @@
             style="@style/ButtonStyle.Transparent"
             android:text="@string/btn_transfer"
             android:onClick="onTransferClick"
-            android:id="@+id/add_trans_btn_transfer"
+            android:id="@+id/add_recursive_btn_transfer"
             android:stateListAnimator="@android:animator/fade_in"
             android:layout_weight="1"/>
 

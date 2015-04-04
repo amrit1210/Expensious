@@ -32,17 +32,22 @@
     <string name="btn_end_date">END DATE</string>
 
     <string name="forgot_pass">Forgot Password?</string>
-    <string name="new_user">New User? Sign Up</string>
+    <string name="new_user">New User? Sig-n Up</string>
+    <string name="alert">Alert</string>
+    <string name="recurring">Recurring</string>
     <string name="income">Income</string>
     <string name="expense">Expense</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
-    <string name="start_date">Start Date</string>
-    <string name="end_date">End Date</string>
+    <string name="start_date">Start Date : </string>
+    <string name="end_date">End Date : </string>
     <string name="account">Account</string>
-    <string name="amount">Amount</string>
+    <string name="amount">Amount : </string>
+    <string name="total">Total : </string>
+    <string name="balance">Balance : </string>
+    <string name="repay">Repay/Recover : </string>
     <string name="main_category">Main Category</string>
     <string name="sub_category">Sub Category of</string>
     <string name="reset_pass">To reset your password, enter the email you registered with Expensious</string>
@@ -113,6 +118,13 @@
         <item name="2.2">WEEKLY</item>
     </array>
 
+    <array name="recursive">
+        <item name="1">YEARLY</item>
+        <item name="2">MONTHLY</item>
+        <item name="3">WEEKLY</item>
+        <item name="4">DAILY</item>
+    </array>
+
     <string name="cb_remember">Remember Me</string>
     <string name="cb_include_total">Include in total</string>
     <string name="cb_include_report">Include in report</string>
@@ -122,6 +134,8 @@
     <string name="font_icon_password">{fa-user-secret}</string>
     <string name="font_icon_date">{fa-calendar}</string>
     <string name="font_icon_time">{fa-clock-o}</string>
+    <string name="font_icon_alert">{fa-bell}</string>
+    <string name="font_icon_recurring">{fa-refresh}</string>
     <string name="font_icon_account">{fa-credit-card}</string>
     <string name="font_icon_category">{fa-list}</string>
     <string name="font_icon_person">{fa-male}</string>
