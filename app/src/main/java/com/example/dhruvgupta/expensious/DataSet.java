@@ -1,9 +1,5 @@
 package com.example.dhruvgupta.expensious;
 
-import android.text.method.DateTimeKeyListener;
-
-import java.sql.Blob;
-
 /**
  * Created by Gaurav on 3/11/15.
  */
@@ -53,4 +49,10 @@ class TransactionsDB
 class CurrencyDB
 {
     String c_name=null, c_code=null, c_symbol=null;
+}
+
+class BudgetDB
+{
+    int b_id,b_amount,b_uid;
+    String b_toDate,b_fromDate;
 }

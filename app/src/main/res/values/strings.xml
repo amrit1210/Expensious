@@ -28,6 +28,8 @@
     <string name="btn_sign_up">SIGN UP</string>
     <string name="btn_date">DATE</string>
     <string name="btn_time">TIME</string>
+    <string name="btn_start_date">START DATE</string>
+    <string name="btn_end_date">END DATE</string>
 
     <string name="forgot_pass">Forgot Password?</string>
     <string name="new_user">New User? Sign Up</string>
@@ -37,6 +39,10 @@
     <string name="delete">Delete</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="account">Account</string>
+    <string name="amount">Amount</string>
     <string name="main_category">Main Category</string>
     <string name="sub_category">Sub Category of</string>
     <string name="reset_pass">To reset your password, enter the email you registered with Expensious</string>

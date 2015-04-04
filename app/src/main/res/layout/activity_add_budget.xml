@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_budget_btn">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_zero_bal"
+            android:onClick="onAmountClick"
+            android:padding="35dp"
+            android:gravity="end"
+            android:textSize="40sp"
+            android:id="@+id/add_budget_btn_amt"
+            style="@style/ButtonStyle.RaisedFull" />
+
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/add_budget_btn">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <IconTextView
+                        style="@style/IconTextViewStyle.Black"
+                        android:layout_gravity="center"
+                        android:text="@string/font_icon_date"/>
+
+                    <Button
+                        style="@style/ButtonStyle.Transparent"
+                        android:text="@string/btn_start_date"
+                        android:onClick="onStartDateClick"
+                        android:id="@+id/add_budget_btn_start_date"
+                        android:stateListAnimator="@android:animator/fade_in"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <IconTextView
+                        style="@style/IconTextViewStyle.Black"
+                        android:layout_gravity="center"
+                        android:text="@string/font_icon_date"/>
+
+                    <Button
+                        style="@style/ButtonStyle.Transparent"
+                        android:text="@string/btn_end_date"
+                        android:onClick="onEndDateClick"
+                        android:id="@+id/add_budget_btn_end_date"
+                        android:stateListAnimator="@android:animator/fade_in"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <IconTextView
+                    style="@style/IconTextViewStyle.Black"
+                    android:text="@string/font_icon_account"/>
+
+                <EditText
+                    style="@style/EditTextAppearance.Editable.Unedit"
+                    android:layout_weight="1"
+                    android:onClick="onAccountClick"
+                    android:hint="@string/account"
+                    android:clickable="true"
+                    android:id="@+id/add_budget_account"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
