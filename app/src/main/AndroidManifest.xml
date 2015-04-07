@@ -46,6 +46,10 @@
         <activity
             android:name=".TransactonsActivity"/>
         <activity
+            android:name=".RecursiveActivity"/>
+        <activity
+            android:name=".AddRecursiveActivity"/>
+        <activity
             android:name=".AddTransactionsActivity"/>
         <activity
             android:name=".CategoriesActivity"/>

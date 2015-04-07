@@ -64,6 +64,24 @@ public class TransactonsActivity extends ActionBarActivity
         {
             return true;
         }
+        else if(id == R.id.action_acc)
+        {
+            Intent i =new Intent(this, AddAccountActivity.class);
+            startActivity(i);
+            return true;
+        }
+        else if (id == R.id.action_person)
+        {
+            Intent i =new Intent(this, AddPersonActivity.class);
+            startActivity(i);
+            return true;
+        }
+        else if (id == R.id.action_trans)
+        {
+            Intent i =new Intent(this, AddTransactionsActivity.class);
+            startActivity(i);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

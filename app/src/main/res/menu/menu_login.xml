@@ -9,5 +9,21 @@
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_acc"
+        android:title="Account"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_person"
+        android:title="Person"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_trans"
+        android:title="Transaction"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
 
 </menu>

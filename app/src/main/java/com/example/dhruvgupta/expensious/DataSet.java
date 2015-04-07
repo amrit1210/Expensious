@@ -51,6 +51,13 @@ class CurrencyDB
     String c_name=null, c_code=null, c_symbol=null;
 }
 
+class RecursiveDB
+{
+    int rec_id, rec_u_id, rec_c_id, rec_sub_id, rec_p_id, rec_from_acc, rec_to_acc, rec_show, rec_recurring, rec_alert;
+    float rec_balance;
+    String rec_type, rec_note, rec_start_date, rec_end_date, rec_time;
+}
+
 class BudgetDB
 {
     int b_id,b_u_id;

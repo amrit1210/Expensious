@@ -52,7 +52,7 @@
                     <Button
                         style="@style/ButtonStyle.Transparent"
                         android:text="@string/btn_start_date"
-                        android:onClick="onDateClick"
+                        android:onClick="onStartDateClick"
                         android:stateListAnimator="@android:animator/fade_in"
                         android:id="@+id/add_recursive_btn_start_date"/>
                 </LinearLayout>
@@ -70,7 +70,7 @@
                     <Button
                         style="@style/ButtonStyle.Transparent"
                         android:text="@string/btn_end_date"
-                        android:onClick="onDateClick"
+                        android:onClick="onEndDateClick"
                         android:id="@+id/add_recursive_btn_end_date"
                         android:stateListAnimator="@android:animator/fade_in"/>
                 </LinearLayout>
@@ -248,7 +248,7 @@
                     android:gravity="end"
                     android:layout_weight="1"
                     android:layout_marginRight="8dp"
-                    android:id="@+id/switch1" />
+                    android:id="@+id/switch_alert" />
 
             </LinearLayout>
 
@@ -260,7 +260,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/save_recursive"
-                android:onClick="onSaveTransaction"/>
+                android:onClick="onSaveRecursive"/>
         </LinearLayout>
 
     </ScrollView>

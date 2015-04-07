@@ -57,6 +57,24 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String TRANSACTION_COL_PERSON="trans_person";
     public static final String TRANSACTION_COL_BALANCE="trans_balance";
 
+    public static final String RECURSIVE_TABLE="recursive";
+    public static final String RECURSIVE_COL_ID ="rec_id";
+    public static final String RECURSIVE_COL_UID ="rec_u_id";
+    public static final String RECURSIVE_COL_FROM_ACC ="rec_from_acc_name";
+    public static final String RECURSIVE_COL_TO_ACC ="rec_to_acc_balance";
+    public static final String RECURSIVE_COL_SHOW ="rec_show";
+    public static final String RECURSIVE_COL_START_DATE="rec_start_date";
+    public static final String RECURSIVE_COL_END_DATE="rec_end_date";
+    public static final String RECURSIVE_COL_TIME="rec_time";
+    public static final String RECURSIVE_COL_RECURRING="rec_recurring";
+    public static final String RECURSIVE_COL_ALERT="rec_alert";
+    public static final String RECURSIVE_COL_CATEGORY="rec_category";
+    public static final String RECURSIVE_COL_SUBCATEGORY="rec_subcategory";
+    public static final String RECURSIVE_COL_NOTE ="rec_note";
+    public static final String RECURSIVE_COL_TYPE="rec_type";
+    public static final String RECURSIVE_COL_PERSON="rec_person";
+    public static final String RECURSIVE_COL_BALANCE="rec_balance";
+
     public static final String PERSON_TABLE ="persons";
     public static final String PERSON_COL_ID ="p_id";
     public static final String PERSON_COL_NAME ="p_name";
@@ -130,6 +148,25 @@ public class DBHelper extends SQLiteOpenHelper
                 + TRANSACTION_COL_BALANCE + " REAL,"
                 + TRANSACTION_COL_SHOW +" INTEGER)";
         db.execSQL(create_table_transactions);
+
+        String create_table_recursive="CREATE TABLE IF NOT EXISTS "+ RECURSIVE_TABLE
+                +"("+ RECURSIVE_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + RECURSIVE_COL_UID +" INTEGER,"
+                + RECURSIVE_COL_FROM_ACC +" INTEGER,"
+                + RECURSIVE_COL_TO_ACC +" INTEGER,"
+                + RECURSIVE_COL_PERSON+" INTEGER,"
+                + RECURSIVE_COL_CATEGORY +" INTEGER,"
+                + RECURSIVE_COL_SUBCATEGORY +" INTEGER,"
+                + RECURSIVE_COL_NOTE +" TEXT,"
+                + RECURSIVE_COL_TYPE +" TEXT,"
+                + RECURSIVE_COL_START_DATE +" TEXT,"
+                + RECURSIVE_COL_END_DATE +" TEXT,"
+                + RECURSIVE_COL_TIME +" TEXT,"
+                + RECURSIVE_COL_BALANCE + " REAL,"
+                + RECURSIVE_COL_RECURRING + " INTEGER,"
+                + RECURSIVE_COL_ALERT + " INTEGER,"
+                + RECURSIVE_COL_SHOW +" INTEGER)";
+        db.execSQL(create_table_recursive);
 
         String create_table_category_master="CREATE TABLE IF NOT EXISTS "+ CATEGORY_MASTER
                 +"("+ CATEGORY_COL_C_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -614,6 +651,123 @@ public class DBHelper extends SQLiteOpenHelper
             return null;
         }
     }
+
+    public boolean addRecursive(int u_id,int from_acc,int to_acc,float balance,String note,int p_id,int cat_id,int sub_id,
+                                int show,String type,String s_date,String e_date, String time, int recurring, int alert)
+    {
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(RECURSIVE_COL_UID,u_id);
+        contentValues.put(RECURSIVE_COL_FROM_ACC,from_acc);
+        contentValues.put(RECURSIVE_COL_TO_ACC,to_acc);
+        contentValues.put(RECURSIVE_COL_BALANCE,balance);
+        contentValues.put(RECURSIVE_COL_PERSON,p_id);
+        contentValues.put(RECURSIVE_COL_NOTE,note);
+        contentValues.put(RECURSIVE_COL_SHOW,show);
+        contentValues.put(RECURSIVE_COL_TYPE,type);
+        contentValues.put(RECURSIVE_COL_CATEGORY,cat_id);
+        contentValues.put(RECURSIVE_COL_SUBCATEGORY,sub_id);
+        contentValues.put(RECURSIVE_COL_START_DATE,s_date);
+        contentValues.put(RECURSIVE_COL_END_DATE,e_date);
+        contentValues.put(RECURSIVE_COL_TIME,time);
+        contentValues.put(RECURSIVE_COL_RECURRING,recurring);
+        contentValues.put(RECURSIVE_COL_ALERT,alert);
+
+        return db.insert(RECURSIVE_TABLE, null, contentValues) > 0;
+    }
+
+    public boolean updateRecursiveData(int id, int from_acc,int to_acc,int p_id,int cat_id, int sub_id, float balance ,
+                                       String note,int show,String type,String s_date,String e_date, String time,int recurring, int alert,int u_id )
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(RECURSIVE_COL_FROM_ACC,from_acc);
+        contentValues.put(RECURSIVE_COL_TO_ACC,to_acc);
+        contentValues.put(RECURSIVE_COL_BALANCE,balance);
+        contentValues.put(RECURSIVE_COL_PERSON,p_id);
+        contentValues.put(RECURSIVE_COL_NOTE,note);
+        contentValues.put(RECURSIVE_COL_SHOW,show);
+        contentValues.put(RECURSIVE_COL_TYPE,type);
+        contentValues.put(RECURSIVE_COL_CATEGORY,cat_id);
+        contentValues.put(RECURSIVE_COL_SUBCATEGORY,sub_id);
+        contentValues.put(RECURSIVE_COL_START_DATE,s_date);
+        contentValues.put(RECURSIVE_COL_END_DATE,e_date);
+        contentValues.put(RECURSIVE_COL_TIME,time);
+        contentValues.put(RECURSIVE_COL_RECURRING,recurring);
+        contentValues.put(RECURSIVE_COL_ALERT,alert);
+
+        return db.update(RECURSIVE_TABLE, contentValues, RECURSIVE_COL_ID +"="+ id +" and "
+                + RECURSIVE_COL_UID + "=" + u_id, null) > 0;
+    }
+
+    public int deleteRecursive(int id,int u_id)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        return db.delete(RECURSIVE_TABLE, RECURSIVE_COL_ID +"="+ id +" and "+ RECURSIVE_COL_UID +"="+ u_id, null);
+    }
+
+    public Cursor getRecursiveData(int id)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            return db.rawQuery("select * from "+ RECURSIVE_TABLE +" where "+ RECURSIVE_COL_ID +"="+ id, null);
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<RecursiveDB> getAllRecusive(int u_id)
+    {
+        ArrayList<RecursiveDB> arrayList = new ArrayList<>();
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Log.d("DB",""+db.isOpen());
+            Cursor c = db.rawQuery("select * from "+ RECURSIVE_TABLE +" where "+ RECURSIVE_COL_UID +"="+ u_id, null);
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                RecursiveDB rec1=new RecursiveDB();
+                rec1.rec_id=c.getInt(c.getColumnIndex(RECURSIVE_COL_ID));
+                rec1.rec_u_id=c.getInt(c.getColumnIndex(RECURSIVE_COL_UID));
+                rec1.rec_from_acc=c.getInt(c.getColumnIndex(RECURSIVE_COL_FROM_ACC));
+                rec1.rec_to_acc=c.getInt(c.getColumnIndex(RECURSIVE_COL_TO_ACC));
+                rec1.rec_balance=c.getFloat(c.getColumnIndex(RECURSIVE_COL_BALANCE));
+                rec1.rec_p_id=c.getInt(c.getColumnIndex(RECURSIVE_COL_PERSON));
+                rec1.rec_note=c.getString(c.getColumnIndex(RECURSIVE_COL_NOTE));
+                rec1.rec_show=c.getInt(c.getColumnIndex(RECURSIVE_COL_SHOW));
+                rec1.rec_start_date=c.getString(c.getColumnIndex(RECURSIVE_COL_START_DATE));
+                rec1.rec_end_date=c.getString(c.getColumnIndex(RECURSIVE_COL_END_DATE));
+                rec1.rec_time=c.getString(c.getColumnIndex(RECURSIVE_COL_TIME));
+                rec1.rec_type=c.getString(c.getColumnIndex(RECURSIVE_COL_TYPE));
+                rec1.rec_recurring=c.getInt(c.getColumnIndex(RECURSIVE_COL_RECURRING));
+                rec1.rec_alert=c.getInt(c.getColumnIndex(RECURSIVE_COL_ALERT));
+                rec1.rec_c_id=c.getInt(c.getColumnIndex(RECURSIVE_COL_CATEGORY));
+                rec1.rec_sub_id=c.getInt(c.getColumnIndex(RECURSIVE_COL_SUBCATEGORY));
+                arrayList.add(rec1);
+                Log.i("Transaction :", rec1.rec_id +"\t"+ rec1.rec_u_id +"\t"+rec1.rec_from_acc +"\t"+rec1.rec_to_acc+"\t"+ rec1.rec_balance
+                        +"\t"+ rec1.rec_type +"\t"+ rec1.rec_c_id+"\t"+ rec1.rec_sub_id+"\t"+ rec1.rec_p_id+"\t"+ rec1.rec_start_date +"\t"+
+                        rec1.rec_end_date +"\t"+ rec1.rec_time +"\t"+ rec1.rec_note +"\t"+ rec1.rec_show +"\t"+ rec1.rec_recurring +"\t"+
+                        rec1.rec_alert);
+                c.moveToNext();
+            }
+            c.close();
+            return  arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
     public boolean addPerson(String name, String color, String colorCode, int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
