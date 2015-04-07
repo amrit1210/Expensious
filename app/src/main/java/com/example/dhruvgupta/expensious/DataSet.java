@@ -53,6 +53,7 @@ class CurrencyDB
 
 class BudgetDB
 {
-    int b_id,b_amount,b_uid;
-    String b_toDate,b_fromDate;
+    int b_id,b_u_id;
+    float b_amount;
+    String b_currency,b_endDate, b_startDate;
 }

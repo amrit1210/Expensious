@@ -31,6 +31,10 @@
         <activity
             android:name=".AddAccountActivity"/>
         <activity
+            android:name=".AddBudgetActivity"/>
+        <activity
+            android:name=".BudgetsActivity"/>
+        <activity
             android:name=".AddPersonActivity"/>
         <activity
             android:name=".PersonsActivity"/>

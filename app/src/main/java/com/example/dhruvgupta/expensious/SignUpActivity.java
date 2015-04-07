@@ -269,11 +269,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
     public void onSignUp(View v) throws FileNotFoundException {
         if(!(mName.length()==0 || mEmail.length()==0 || mPassword.length()==0 || mConfirm_Password.length()==0))
         {
-            ArrayList al1= dbHelper.getUserColEmail();
+            ArrayList al1 = dbHelper.getUserColEmail();
+            if(al1!=null)
             if (al1.contains(mEmail.getText().toString()))
             {
-                mEmail.setError("Email already exists");
-                mEmail.setText(null);
+                    mEmail.setError("Email already exists");
+                    mEmail.setText(null);
             }
 
             if(image.equals(""))

@@ -31,16 +31,16 @@ public class AddCategoryActivity extends ActionBarActivity
     Spinner mCat_Spinner_Sub;
     SharedPreferences sp;
 
-    String name= "";
+    String name= "",c_name=null;
     int c_IE_type, colId=0;
 
     DBHelper dbHelper;
     CategoriesAdapter ad;
 
     ArrayList<CategoryDB_Specific> categoryDBSpecificArrayList;
-    String col=null;
-    int flag,c_id,c_u_id;
-    int i;
+    String col=null,sub_name=null;
+    int flag,c_id,c_u_id,sub_id=0;
+    int i,c_type=0;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -160,15 +160,47 @@ public class AddCategoryActivity extends ActionBarActivity
             }
         });
 
-        if(getIntent().getStringExtra("c_name")!=null)
+        if(getIntent().getIntExtra("cat_id",0)>0)
         {
             flag=1;
-            c_id=getIntent().getIntExtra("c_id",0);
+            c_id=getIntent().getIntExtra("cat_id",0);
             c_u_id=getIntent().getIntExtra("c_u_id",0);
-            mCat_Name.setText(getIntent().getStringExtra("c_name"));
+            c_name=getIntent().getStringExtra("c_name");
+            if(c_name!=null)
+            {
+                mCat_Name.setText(c_name);
+            }
+            //c_IE_type=getIntent().getIntExtra("c_type");
             name=mCat_Name.getText().toString();
+
             int id1 = getResources().getIdentifier("user_48", "drawable", getPackageName());
             mCat_image.setImageResource(id1);
+            c_type=getIntent().getIntExtra("c_type",0);
+            if(c_type==1)
+            {
+                mCat_Income.setChecked(true);
+                c_IE_type=1;
+            }
+            else
+            {
+                mCat_Expense.setChecked(true);
+                c_IE_type=0;
+            }
+            sub_name=getIntent().getStringExtra("sub_name");
+            if(sub_name != null)
+            {
+                mCat_Name.setText(sub_name);
+                mCat_Sub.setChecked(true);
+
+            }
+            else
+            {
+                mCat_Main.setChecked(true);
+            }
+            sub_id=getIntent().getIntExtra("sub_id",0);
+            if (sub_id != 0) {
+                mCat_Spinner_Sub.setSelection(sub_id);
+            }
         }
     }
 
@@ -212,7 +244,7 @@ public class AddCategoryActivity extends ActionBarActivity
                 {
                     if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Main.getId())
                     {
-                        if (dbHelper.updateCategory(sp.getInt("UID", 0),c_id, mCat_Name.getText().toString(), c_IE_type, "Image"))
+                        if (dbHelper.updateCategory(c_u_id,c_id, mCat_Name.getText().toString(), c_IE_type, "Image"))
                         {
                             Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
                             Toast.makeText(AddCategoryActivity.this, "Category Updated " + c_IE_type, Toast.LENGTH_SHORT).show();
@@ -227,10 +259,11 @@ public class AddCategoryActivity extends ActionBarActivity
                     else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
                     {
                         dbHelper =new DBHelper(AddCategoryActivity.this);
-
+                        colId = dbHelper.getCategoryColId(col);
+                        Log.i("COLID SUBCATEGORY:",colId+"");
                         if(colId>0)
                         {
-                            if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),sp.getInt("UID",0)))
+                            if(dbHelper.updateSubCategory(sub_id,mCat_Name.getText().toString(),sp.getInt("UID",0)))
                             {
                                 Toast.makeText(AddCategoryActivity.this,"Sub Category Updated",Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
@@ -239,7 +272,8 @@ public class AddCategoryActivity extends ActionBarActivity
                         }
                         else
                         {
-                            Toast.makeText(AddCategoryActivity.this,"Error updating category",Toast.LENGTH_SHORT).show();
+                            Log.i("COLID SUBCATEGORY:",colId+"");
+                            Toast.makeText(AddCategoryActivity.this,"Error updating subcategory",Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -277,7 +311,7 @@ public class AddCategoryActivity extends ActionBarActivity
                     }
                     else
                     {
-                        Toast.makeText(AddCategoryActivity.this,"Error creating category",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddCategoryActivity.this,"Error creating subcategory",Toast.LENGTH_SHORT).show();
                     }
                 }
             }

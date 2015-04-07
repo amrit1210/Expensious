@@ -34,6 +34,14 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String ACCOUNTS_COL_ACC_CURRENCY="acc_currency";
     public static final String ACCOUNTS_COL_ACC_NOTE ="acc_note";
 
+    public static final String BUDGETS_TABLE="budget";
+    public static final String BUDGETS_COL_B_ID ="b_id";
+    public static final String BUDGETS_COL_B_UID ="b_u_id";
+    public static final String BUDGETS_COL_B_AMOUNT ="b_amount";
+    public static final String BUDGETS_COL_B_CURRENCY="b_currency";
+    public static final String BUDGETS_COL_START_DATE="b_startDate";
+    public static final String BUDGETS_COL_END_DATE="b_endDate";
+
     public static final String TRANSACTION_TABLE="transactions";
     public static final String TRANSACTION_COL_ID ="trans_id";
     public static final String TRANSACTION_COL_UID ="trans_u_id";
@@ -98,12 +106,21 @@ public class DBHelper extends SQLiteOpenHelper
                 + ACCOUNTS_COL_ACC_SHOW +" INTEGER)";
         db.execSQL(create_table_accounts);
 
+        String create_table_budgets="CREATE TABLE IF NOT EXISTS "+ BUDGETS_TABLE
+                +"("+ BUDGETS_COL_B_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + BUDGETS_COL_B_UID +" INTEGER,"
+                + BUDGETS_COL_B_AMOUNT +" REAL,"
+                + BUDGETS_COL_B_CURRENCY +" TEXT,"
+                + BUDGETS_COL_START_DATE +" TEXT,"
+                + BUDGETS_COL_END_DATE +" TEXT)";
+        db.execSQL(create_table_budgets);
+
         String create_table_transactions="CREATE TABLE IF NOT EXISTS "+ TRANSACTION_TABLE
                 +"("+ TRANSACTION_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + TRANSACTION_COL_UID +" INTEGER,"
                 + TRANSACTION_COL_FROM_ACC +" INTEGER,"
                 + TRANSACTION_COL_TO_ACC +" INTEGER,"
-                + TRANSACTION_COL_PERSON+" INTEGER,"
+                + TRANSACTION_COL_PERSON +" INTEGER,"
                 + TRANSACTION_COL_CATEGORY +" INTEGER,"
                 + TRANSACTION_COL_SUBCATEGORY +" INTEGER,"
                 + TRANSACTION_COL_NOTE +" TEXT,"
@@ -133,7 +150,8 @@ public class DBHelper extends SQLiteOpenHelper
                 +"("+ SUBCATEGORY_COL_SUB_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + SUBCATEGORY_COL_SUB_CID +" INTEGER REFERENCES "+ CATEGORY_SPECIFIC + "(" + CATEGORY_COL_C_ID + "),"
                 + SUBCATEGORY_COL_SUB_NAME +" TEXT,"
-                + SUBCATEGORY_COL_SUB_UID + " INTEGER)";
+                + SUBCATEGORY_COL_SUB_UID + " INTEGER,"
+                + SUBCATEGORY_COL_SUB_ICON + " TEXT )";
         db.execSQL(create_table_subcategory);
 
         String create_table_persons="CREATE TABLE IF NOT EXISTS "+ PERSON_TABLE
@@ -297,7 +315,8 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(ACCOUNTS_COL_ACC_NOTE,note);
         contentValues.put(ACCOUNTS_COL_ACC_SHOW,show);
 
-        return db.update(ACCOUNTS_TABLE, contentValues, ACCOUNTS_COL_ACC_ID +"="+ acc_id+" and "+ACCOUNTS_COL_ACC_UID+"="+u_id, null) > 0;
+        return db.update(ACCOUNTS_TABLE, contentValues, ACCOUNTS_COL_ACC_ID +"="+ acc_id +" and "
+                + ACCOUNTS_COL_ACC_UID +"="+ u_id, null) > 0;
     }
 
     public int deleteAccount(int id,int u_id)
@@ -371,6 +390,114 @@ public class DBHelper extends SQLiteOpenHelper
                 arrayList.add(a1);
                 Log.i("ACCOUNT :", a1.acc_id +"\t"+ a1.acc_u_id +"\t"+ a1.acc_name +"\t"+ a1.acc_balance
                         +"\t"+ a1.acc_currency +"\t"+ a1.acc_note +"\t"+ a1.acc_show);
+                c.moveToNext();
+            }
+            c.close();
+            return  arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean addBudget(int u_id,float amount,String currency,String s_date,String e_date)
+    {
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(BUDGETS_COL_B_UID,u_id);
+        contentValues.put(BUDGETS_COL_B_AMOUNT,amount);
+        contentValues.put(BUDGETS_COL_B_CURRENCY,currency);
+        contentValues.put(BUDGETS_COL_START_DATE,s_date);
+        contentValues.put(BUDGETS_COL_END_DATE,e_date);
+
+        return db.insert(BUDGETS_TABLE, null, contentValues) > 0;
+    }
+
+    public boolean updateBudgetData(int u_id,int b_id,float amount,String currency,String s_date,String e_date)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(BUDGETS_COL_B_AMOUNT,amount);
+        contentValues.put(BUDGETS_COL_B_CURRENCY,currency);
+        contentValues.put(BUDGETS_COL_START_DATE,s_date);
+        contentValues.put(BUDGETS_COL_END_DATE,e_date);
+
+        return db.update(BUDGETS_TABLE, contentValues, BUDGETS_COL_B_ID +"="+ b_id +" and "
+                + BUDGETS_COL_B_UID +"="+ u_id, null) > 0;
+    }
+
+    public int deleteBudget(int b_id,int u_id)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        return db.delete(BUDGETS_TABLE, BUDGETS_COL_B_ID +"="+ b_id +" and "+ BUDGETS_COL_B_UID +"="+ u_id, null);
+    }
+
+    public Cursor getBudgetData(int b_id)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            return db.rawQuery("select * from "+ BUDGETS_TABLE +" where "+ BUDGETS_COL_B_ID +"="+ b_id, null);
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList getBudgetColDate()
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ BUDGETS_TABLE, null);
+            ArrayList al1 = new ArrayList();
+            ArrayList al2 = new ArrayList();
+            String s1,s2;
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                s1 = c.getString(c.getColumnIndex(BUDGETS_COL_START_DATE));
+                s2 = c.getString(c.getColumnIndex(BUDGETS_COL_END_DATE));
+                al1.add(s1);
+                c.moveToNext();
+            }
+            c.close();
+            return al1;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<BudgetDB> getAllBudgets(int u_id)
+    {
+        ArrayList<BudgetDB> arrayList = new ArrayList<>();
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ BUDGETS_TABLE +" where "+ BUDGETS_COL_B_UID +"="+ u_id, null);
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                BudgetDB b1=new BudgetDB();
+                b1.b_id=c.getInt(c.getColumnIndex(BUDGETS_COL_B_ID));
+                b1.b_u_id=c.getInt(c.getColumnIndex(BUDGETS_COL_B_UID));
+                b1.b_amount=c.getFloat(c.getColumnIndex(BUDGETS_COL_B_AMOUNT));
+                b1.b_currency=c.getString(c.getColumnIndex(BUDGETS_COL_B_CURRENCY));
+                b1.b_startDate=c.getString(c.getColumnIndex(BUDGETS_COL_START_DATE));
+                b1.b_endDate=c.getString(c.getColumnIndex(BUDGETS_COL_END_DATE));
+                arrayList.add(b1);
+                Log.i("BUDGET :", b1.b_id +"\t"+ b1.b_u_id +"\t"+ b1.b_amount +"\t"+ b1.b_currency
+                        +"\t"+ b1.b_startDate +"\t"+ b1.b_endDate);
                 c.moveToNext();
             }
             c.close();
@@ -739,6 +866,37 @@ public class DBHelper extends SQLiteOpenHelper
             return null;
         }
     }
+
+    public ArrayList<CategoryDB_Specific> getCategories(int u_id)
+    {
+        ArrayList<CategoryDB_Specific> arrayList = new ArrayList<>();
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+  CATEGORY_COL_C_UID + "=" + u_id, null);
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                CategoryDB_Specific c1 = new CategoryDB_Specific();
+                c1.c_id = c.getInt(c.getColumnIndex(CATEGORY_COL_C_ID));
+                c1.c_u_id = c.getInt(c.getColumnIndex(CATEGORY_COL_C_UID));
+                c1.c_name = c.getString(c.getColumnIndex(CATEGORY_COL_C_NAME));
+                c1.c_type = c.getString(c.getColumnIndex(CATEGORY_COL_C_TYPE));
+                c1.c_icon = c.getString(c.getColumnIndex(CATEGORY_COL_C_ICON));
+                arrayList.add(c1);
+                Log.i("CATEGORY :", c1.c_u_id +"\t"+ c1.c_id +"\t"+ c1.c_type +"\t"+ c1.c_name +"\t"+ c1.c_icon);
+                c.moveToNext();
+            }
+            c.close();
+            return arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
     public ArrayList<CategoryDB_Specific> getAllCategories(int u_id,int type)
     {
         ArrayList<CategoryDB_Specific> arrayList = new ArrayList<>();
@@ -790,7 +948,7 @@ public class DBHelper extends SQLiteOpenHelper
 
         contentValues.put(SUBCATEGORY_COL_SUB_NAME,name);
 
-        return db.update(SUBCATEGORY_TABLE, contentValues, SUBCATEGORY_COL_SUB_ID +"="+ id, null) > 0;
+        return db.update(SUBCATEGORY_TABLE, contentValues, SUBCATEGORY_COL_SUB_ID +"="+ id+" and "+SUBCATEGORY_COL_SUB_UID+" = "+u_id, null) > 0;
     }
     public ArrayList<String> getSubCategoryColName(int u_id,int c_id)
     {
@@ -818,6 +976,64 @@ public class DBHelper extends SQLiteOpenHelper
             return null;
         }
     }
+
+    public int deleteSubCategory(int id,int u_id)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        return db.delete(SUBCATEGORY_TABLE, SUBCATEGORY_COL_SUB_ID +"="+ id +" and "+ SUBCATEGORY_COL_SUB_UID +"="+ u_id, null);
+    }
+    public Cursor getSubCategoryData(int id, int u_id)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            return db.rawQuery("select * from "+ SUBCATEGORY_TABLE +" where "+ SUBCATEGORY_COL_SUB_ID +"="+ id+" and "+SUBCATEGORY_COL_SUB_UID+" = "+u_id, null);
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public int getSubCategoryColIds(String c_name)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE, null);
+            String s;
+//            int k=countCategory();
+            //int cat_id[] =new int[k];
+            int cat_id=0;
+            c.moveToFirst();
+            int i=0;
+            while (!c.isAfterLast())
+            {
+                s = c.getString(c.getColumnIndex(SUBCATEGORY_COL_SUB_NAME));
+                if (s.equals(c_name))
+                {
+                    cat_id = c.getInt(c.getColumnIndex(SUBCATEGORY_COL_SUB_ID));
+                    // i++;
+                }
+                c.moveToNext();
+            }
+            c.close();
+            return cat_id;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return 0;
+        }
+    }
+
+//    public int countSubCategory(){
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        int numRows = (int) DatabaseUtils.queryNumEntries(db, SUBCATEGORY_TABLE);
+//        return numRows;
+//    }
 
     public ArrayList<SubCategoryDB> getAllSubCategories(int u_id, int c_id)
     {
