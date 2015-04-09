@@ -41,7 +41,7 @@ class SubCategoryDB
 
 class TransactionsDB
 {
-    int t_id,t_u_id,t_c_id,t_sub_id,t_p_id,t_from_acc,t_to_acc,t_show;
+    int t_id,t_u_id,t_rec_id,t_c_id,t_sub_id,t_p_id,t_from_acc,t_to_acc,t_show;
     float t_balance;
     String t_type,t_note,t_date,t_time;
 }
@@ -55,7 +55,7 @@ class RecursiveDB
 {
     int rec_id, rec_u_id, rec_c_id, rec_sub_id, rec_p_id, rec_from_acc, rec_to_acc, rec_show, rec_recurring, rec_alert;
     float rec_balance;
-    String rec_type, rec_note, rec_start_date, rec_end_date, rec_time;
+    String rec_type, rec_note, rec_start_date, rec_end_date, rec_next_date, rec_time;
 }
 
 class BudgetDB

@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -29,11 +30,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
     Button mDate, mTime, mAmt;
     CheckBox mShow;
     SharedPreferences sp;
+    SimpleDateFormat sdf;
     DBHelper dbHelper;
     LinearLayout mLlFrom, mLlTo, mLlCat, mLlPer;
     EditText mFromAcc, mToAcc, mCategory, mPerson, mNote;
     String mType, t_date, t_time, t_type;
-    int t_id, t_u_id, t_category,t_subcategory, t_fromAccount, t_toAccount, t_person, intentFlag;
+    int t_id, t_u_id, t_rec_id, t_category,t_subcategory, t_fromAccount, t_toAccount, t_person, intentFlag;
     Button mExp,mInc,mTrans;
     String from_acc=null,to_acc=null,person=null;
 
@@ -65,10 +67,20 @@ public class AddTransactionsActivity extends ActionBarActivity {
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
         mHour = calendar.get(Calendar.HOUR_OF_DAY);
         mMin = calendar.get(Calendar.MINUTE);
+
         mDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
                 .append(mDay).append("-").append(mMonth + 1).append("-")
                 .append(mYear));
+
+        sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            mDate.setText(sdf.format(sdf.parse(mDate.getText().toString())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         mTime.setText(new StringBuilder().append(mHour).append(":").append(mMin));//Yes 24 hour time
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper = new DBHelper(AddTransactionsActivity.this);
@@ -78,6 +90,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
             intentFlag = 1;
             t_id = getIntent().getIntExtra("t_id", 0);
             t_u_id = getIntent().getIntExtra("t_u_id", 0);
+            t_rec_id = getIntent().getIntExtra("t_rec_id", 0);
             t_fromAccount = getIntent().getIntExtra("t_fromAccount", 0);
             t_toAccount = getIntent().getIntExtra("t_toAccount", 0);
             mAmt.setText(getIntent().getFloatExtra("t_bal", 0) + "");
@@ -250,18 +263,27 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                 }
                 if(mFromAcc.getError()==null && mToAcc.getError()==null && mAmt.getError()==null) {
-                    boolean b = dbHelper.updateTransactionData(t_id, t_fromAccount, t_toAccount, t_person, t_category, t_subcategory, amt, mNote.getText().toString(), show, t_type, mDate.getText().toString(), mTime.getText().toString(), sp.getInt("UID", 0));
+                    boolean b = dbHelper.updateTransactionData(t_id, t_fromAccount, t_toAccount, t_person, t_category, t_subcategory,
+                            amt, mNote.getText().toString(), show, t_type, mDate.getText().toString(), mTime.getText().toString(),
+                            sp.getInt("UID", 0), t_rec_id);
 
 
                     if (b) {
-                        Toast.makeText(AddTransactionsActivity.this, "Transaction Updated", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
-                        startActivity(intent);
+                        Toast.makeText(AddTransactionsActivity.this, "Transaction Updated :" + t_rec_id, Toast.LENGTH_LONG).show();
+                        if (t_rec_id == 0)
+                        {
+                            AddTransactionsActivity.this.finish();
+                        }
+                        else
+                        {
+                            Intent i = new Intent();
+                            i.putExtra("REC_ID", t_rec_id);
+                            setResult(1, i);
+                            AddTransactionsActivity.this.finish();
+                        }
                     } else {
                         Toast.makeText(AddTransactionsActivity.this, "Error updating Transaction", Toast.LENGTH_LONG).show();
                     }
-                    Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
-                    startActivity(intent);
                 }
 
             } else {
@@ -271,10 +293,11 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
-                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, 0, amt, mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(), mTime.getText().toString());
+                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, 0, amt, mNote.getText().toString(), p_id, 0,
+                                0, show, mType, mDate.getText().toString(), mTime.getText().toString(), 0);
                         if(b) {
                             Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
+                            Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
                             startActivity(intent);
                         }
                     }
@@ -287,10 +310,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
-                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), 0, acc_id, Float.parseFloat(mAmt.getText().toString()), mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(), mTime.getText().toString());
+                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), 0, acc_id, Float.parseFloat(mAmt.getText().toString()),
+                                mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(),
+                                mTime.getText().toString(), 0);
                         if (b) {
                             Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
+                            Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
                             startActivity(intent);
                         }
                     }
@@ -302,18 +327,19 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     if (mFromAcc.length()>0 && mToAcc.length()>0) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         int acc_id1 = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
-                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, acc_id1, Float.parseFloat(mAmt.getText().toString()), mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(), mTime.getText().toString());
+                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, acc_id1, Float.parseFloat(mAmt.getText().toString()),
+                                mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(),
+                                mTime.getText().toString(), 0);
                         if (b) {
                             Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
+                            Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
                             startActivity(intent);
                         }
                     }
 
-
                 } else {
                     Toast.makeText(AddTransactionsActivity.this, "Error Adding Transaction", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(AddTransactionsActivity.this, TransactonsActivity.class);
+                    Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
                     startActivity(intent);
                 }
 
@@ -321,11 +347,8 @@ public class AddTransactionsActivity extends ActionBarActivity {
             }
         }
 
-
         dbHelper.getAllTransactions(sp.getInt("UID", 0));
     }
-
-
 
 
     public void onExpenseClick(View v)
@@ -380,6 +403,11 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     {
                         if(view.isShown())
                             mDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            try {
+                                mDate.setText(sdf.format(sdf.parse(mDate.getText().toString())));
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                     }
                 }, mYear, mMonth, mDay);
         dpd.show();

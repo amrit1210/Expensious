@@ -12,73 +12,78 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 /**
- * Created by Amrit on 3/27/2015.
+ * Created by dhruvgupta on 4/9/2015.
  */
-public class TransactonsActivity extends ActionBarActivity
-{
+public class DetailedRecursive extends ActionBarActivity {
     ListView listView;
     ArrayList<TransactionsDB> al;
-    TransactionAdapter transactionadapter;
     DBHelper dbHelper;
+    TransactionAdapter transactionAdapter;
+    TextView s_date, e_date, amt, cur;
+    int rec_id;
+    Cursor c;
     SharedPreferences sp;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transactions);
+        setContentView(R.layout.detailed_recursive);
 
-        listView = (ListView) findViewById(R.id.trans_list);
+        s_date = (TextView) findViewById(R.id.detailed_rec_start_date);
+        e_date = (TextView) findViewById(R.id.detailed_rec_end_date);
+        amt = (TextView) findViewById(R.id.detailed_rec_amt);
+        listView = (ListView) findViewById(R.id.detailed_rec_list);
 
-        sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-        dbHelper =new DBHelper(TransactonsActivity.this);
+        sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+        dbHelper =new DBHelper(DetailedRecursive.this);
 
-        al= dbHelper.getAllTransactions(sp.getInt("UID", 0));
-        transactionadapter =new TransactionAdapter(TransactonsActivity.this,R.layout.list_transaction,al);
-        listView.setAdapter(transactionadapter);
+        rec_id = getIntent().getIntExtra("REC_ID", 0);
+        c = dbHelper.getRecursiveData(rec_id);
+        c.moveToFirst();
+        s_date.setText(c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_START_DATE)));
+        e_date.setText(c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_END_DATE)));
+        amt.setText(c.getFloat(c.getColumnIndex(DBHelper.RECURSIVE_COL_BALANCE))+"");
+        c.close();
+
+        al= dbHelper.getAllRecTrans(sp.getInt("UID", 0), rec_id);
+        transactionAdapter =new TransactionAdapter(DetailedRecursive.this,R.layout.list_transaction,al);
+        listView.setAdapter(transactionAdapter);
         registerForContextMenu(listView);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
+        if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id == R.id.action_acc)
-        {
-            Intent i =new Intent(this, AddAccountActivity.class);
+        } else if (id == R.id.action_acc) {
+            Intent i = new Intent(this, AddAccountActivity.class);
             startActivity(i);
             return true;
-        }
-        else if (id == R.id.action_person)
-        {
-            Intent i =new Intent(this, AddPersonActivity.class);
+        } else if (id == R.id.action_person) {
+            Intent i = new Intent(this, AddPersonActivity.class);
             startActivity(i);
             return true;
-        }
-        else if (id == R.id.action_trans)
-        {
-            Intent i =new Intent(this, AddTransactionsActivity.class);
+        } else if (id == R.id.action_trans) {
+            Intent i = new Intent(this, AddTransactionsActivity.class);
             startActivity(i);
             return true;
         }
@@ -100,6 +105,7 @@ public class TransactonsActivity extends ActionBarActivity
             c.moveToFirst();
             int t_id=c.getInt(c.getColumnIndex(DBHelper.TRANSACTION_COL_ID));
             int t_u_id=c.getInt(c.getColumnIndex(DBHelper.TRANSACTION_COL_UID));
+            int t_rec_id=c.getInt(c.getColumnIndex(DBHelper.TRANSACTION_COL_RECID));
             String t_date=c.getString(c.getColumnIndex(DBHelper.TRANSACTION_COL_DATE));
             float t_bal=c.getFloat(c.getColumnIndex(DBHelper.TRANSACTION_COL_BALANCE));
             String t_cur="Rs.";
@@ -113,9 +119,10 @@ public class TransactonsActivity extends ActionBarActivity
             String t_time=c.getString(c.getColumnIndex(DBHelper.TRANSACTION_COL_TIME));
             int t_show=c.getInt(c.getColumnIndex(DBHelper.TRANSACTION_COL_SHOW));
             c.close();
-            Intent i=new Intent(TransactonsActivity.this,AddTransactionsActivity.class);
+            Intent i=new Intent(DetailedRecursive.this, AddTransactionsActivity.class);
             i.putExtra("t_id",t_id);
             i.putExtra("t_u_id",t_u_id);
+            i.putExtra("t_rec_id",t_rec_id);
             i.putExtra("t_date",t_date);
             i.putExtra("t_bal",t_bal);
             i.putExtra("t_cur",t_cur);
@@ -128,20 +135,33 @@ public class TransactonsActivity extends ActionBarActivity
             i.putExtra("t_show",t_show);
             i.putExtra("t_person",t_person);
             i.putExtra("t_subcategory",t_subcategory);
-            startActivity(i);
+            startActivityForResult(i, 1);
         }
 
         if(id==R.id.Delete)
         {
-           if(dbHelper.deleteTransaction(transactionsDB.t_id,sp.getInt("UID",0))>0)
-           {
-               Intent i = new Intent(TransactonsActivity.this, TransactonsActivity.class);
-               startActivity(i);
-               Toast.makeText(TransactonsActivity.this, "Transaction Deleted", Toast.LENGTH_LONG).show();
-           }
+            if(dbHelper.deleteTransaction(transactionsDB.t_id,sp.getInt("UID",0))>0)
+            {
+                Intent i = new Intent(DetailedRecursive.this, DetailedRecursive.class);
+                startActivity(i);
+                Toast.makeText(DetailedRecursive.this, "Transaction Deleted", Toast.LENGTH_LONG).show();
+            }
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 1 && resultCode == 1)
+        {
+            rec_id = data.getExtras().getInt("REC_ID");
+            Intent i = new Intent(DetailedRecursive.this, DetailedRecursive.class);
+            i.putExtra("REC_ID", rec_id);
+            startActivity(i);
+        }
     }
 
     @Override
@@ -153,4 +173,3 @@ public class TransactonsActivity extends ActionBarActivity
         inflater.inflate(R.menu.context_menu,menu);
     }
 }
-

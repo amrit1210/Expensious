@@ -37,7 +37,8 @@ public class AddRecursiveActivity extends ActionBarActivity {
     Spinner mRec;
     Switch mAlert;
     CheckBox mShow;
-    Date start, end;
+    String mNextDate = null;
+    Date start, end, next = null;
     SharedPreferences sp;
     DBHelper dbHelper;
     SimpleDateFormat sdf;
@@ -93,6 +94,10 @@ public class AddRecursiveActivity extends ActionBarActivity {
         try {
             start = sdf.parse(mStartDate.getText().toString());
             end = sdf.parse(mEndDate.getText().toString());
+            next = sdf.parse(mStartDate.getText().toString());
+            mNextDate = sdf.format(next);
+            mStartDate.setText(mNextDate);
+            mEndDate.setText(sdf.format(end));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -124,6 +129,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
             mNote.setText(getIntent().getStringExtra("rec_note"));
             mStartDate.setText(getIntent().getStringExtra("rec_start_date"));
             mEndDate.setText(getIntent().getStringExtra("rec_end_date"));
+            mNextDate = getIntent().getStringExtra("rec_next_date");
             mTime.setText(getIntent().getStringExtra("rec_time"));
             rec_category = getIntent().getIntExtra("rec_category", 0);
             show = getIntent().getIntExtra("rec_show", 0);
@@ -332,12 +338,14 @@ public class AddRecursiveActivity extends ActionBarActivity {
 
                 }
                 if(mFromAcc.getError()==null && mToAcc.getError()==null && mAmt.getError()==null) {
-                    boolean b = dbHelper.updateRecursiveData(rec_id, rec_fromAccount, rec_toAccount, rec_person, rec_category, rec_subcategory, amt, mNote.getText().toString(), show, rec_type, mStartDate.getText().toString(), mEndDate.getText().toString(),
-                            mTime.getText().toString(), rec_recurring, rec_alert, sp.getInt("UID", 0));
-
+                    boolean b = dbHelper.updateRecursiveData(rec_id, rec_fromAccount, rec_toAccount, rec_person, rec_category,
+                            rec_subcategory, amt, mNote.getText().toString(), show, rec_type, mStartDate.getText().toString(),
+                            mEndDate.getText().toString(), mNextDate, mTime.getText().toString(),
+                            rec_recurring, rec_alert, sp.getInt("UID", 0));
 
                     if (b) {
                         Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Updated", Toast.LENGTH_LONG).show();
+                        startService(new Intent(this, RecursiveService.class));
                         Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                         startActivity(intent);
                     } else {
@@ -356,9 +364,10 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
                         boolean b = dbHelper.addRecursive(sp.getInt("UID", 0), acc_id, 0, Float.parseFloat(mAmt.getText().toString()),
                                 mNote.getText().toString(), p_id, 0, 0, show, mType, mStartDate.getText().toString(),
-                                mEndDate.getText().toString(), mTime.getText().toString(), rec_recurring, rec_alert);
+                                mEndDate.getText().toString(),mNextDate, mTime.getText().toString(), rec_recurring, rec_alert);
                         if(b) {
                             Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Added", Toast.LENGTH_LONG).show();
+                            startService(new Intent(this, RecursiveService.class));
                             Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                             startActivity(intent);
                         }
@@ -374,9 +383,10 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
                         boolean b = dbHelper.addRecursive(sp.getInt("UID", 0), 0, acc_id, Float.parseFloat(mAmt.getText().toString()),
                                 mNote.getText().toString(), p_id, 0, 0, show, mType, mStartDate.getText().toString(),
-                                mEndDate.getText().toString(), mTime.getText().toString(), rec_recurring, rec_alert);
+                                mEndDate.getText().toString(),mNextDate, mTime.getText().toString(), rec_recurring, rec_alert);
                         if (b) {
                             Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Added", Toast.LENGTH_LONG).show();
+                            startService(new Intent(this, RecursiveService.class));
                             Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                             startActivity(intent);
                         }
@@ -391,14 +401,14 @@ public class AddRecursiveActivity extends ActionBarActivity {
                         int acc_id1 = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         boolean b = dbHelper.addRecursive(sp.getInt("UID", 0), acc_id, acc_id1, Float.parseFloat(mAmt.getText().toString()),
                                 mNote.getText().toString(), p_id, 0, 0, show, mType, mStartDate.getText().toString(),
-                                mEndDate.getText().toString(), mTime.getText().toString(), rec_recurring, rec_alert);
+                                mEndDate.getText().toString(),mNextDate, mTime.getText().toString(), rec_recurring, rec_alert);
                         if (b) {
                             Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Added", Toast.LENGTH_LONG).show();
+                            startService(new Intent(this, RecursiveService.class));
                             Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                             startActivity(intent);
                         }
                     }
-
 
                 } else {
                     Toast.makeText(AddRecursiveActivity.this, "Error Adding Recursive Transaction", Toast.LENGTH_LONG).show();
@@ -409,7 +419,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
             }
         }
 
-        dbHelper.getAllRecusive(sp.getInt("UID", 0));
+        dbHelper.getAllRecursive(sp.getInt("UID", 0));
     }
 
     public void onExpenseClick(View v)
@@ -465,6 +475,9 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             mStartDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                         try {
                             start = sdf.parse(mStartDate.getText().toString());
+                            next = sdf.parse(mStartDate.getText().toString());
+                            mNextDate = sdf.format(next);
+                            mStartDate.setText(mNextDate);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -490,6 +503,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             mEndDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                         try {
                             end = sdf.parse(mEndDate.getText().toString());
+                            mEndDate.setText(sdf.format(end));
                             Log.i("end", mEndDate.getText().toString() + " : " + end);
                         } catch (ParseException e) {
                             e.printStackTrace();

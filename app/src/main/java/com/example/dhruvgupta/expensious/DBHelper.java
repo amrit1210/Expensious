@@ -45,6 +45,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String TRANSACTION_TABLE="transactions";
     public static final String TRANSACTION_COL_ID ="trans_id";
     public static final String TRANSACTION_COL_UID ="trans_u_id";
+    public static final String TRANSACTION_COL_RECID ="trans_rec_id";
     public static final String TRANSACTION_COL_FROM_ACC ="trans_from_acc_name";
     public static final String TRANSACTION_COL_TO_ACC ="trans_to_acc_balance";
     public static final String TRANSACTION_COL_SHOW ="trans_show";
@@ -65,6 +66,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String RECURSIVE_COL_SHOW ="rec_show";
     public static final String RECURSIVE_COL_START_DATE="rec_start_date";
     public static final String RECURSIVE_COL_END_DATE="rec_end_date";
+    public static final String RECURSIVE_COL_NEXT_DATE="rec_next_date";
     public static final String RECURSIVE_COL_TIME="rec_time";
     public static final String RECURSIVE_COL_RECURRING="rec_recurring";
     public static final String RECURSIVE_COL_ALERT="rec_alert";
@@ -136,6 +138,7 @@ public class DBHelper extends SQLiteOpenHelper
         String create_table_transactions="CREATE TABLE IF NOT EXISTS "+ TRANSACTION_TABLE
                 +"("+ TRANSACTION_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + TRANSACTION_COL_UID +" INTEGER,"
+                + TRANSACTION_COL_RECID +" INTEGER,"
                 + TRANSACTION_COL_FROM_ACC +" INTEGER,"
                 + TRANSACTION_COL_TO_ACC +" INTEGER,"
                 + TRANSACTION_COL_PERSON +" INTEGER,"
@@ -161,6 +164,7 @@ public class DBHelper extends SQLiteOpenHelper
                 + RECURSIVE_COL_TYPE +" TEXT,"
                 + RECURSIVE_COL_START_DATE +" TEXT,"
                 + RECURSIVE_COL_END_DATE +" TEXT,"
+                + RECURSIVE_COL_NEXT_DATE +" TEXT,"
                 + RECURSIVE_COL_TIME +" TEXT,"
                 + RECURSIVE_COL_BALANCE + " REAL,"
                 + RECURSIVE_COL_RECURRING + " INTEGER,"
@@ -548,7 +552,7 @@ public class DBHelper extends SQLiteOpenHelper
     }
 
     public boolean addTransaction(int u_id,int from_acc,int to_acc,float balance,String note,int p_id,int cat_id,int sub_id,
-                                  int show,String type,String date,String time)
+                                  int show,String type,String date,String time, int rec_id)
     {
 
         SQLiteDatabase db=this.getWritableDatabase();
@@ -566,12 +570,13 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(TRANSACTION_COL_SUBCATEGORY,sub_id);
         contentValues.put(TRANSACTION_COL_DATE,date);
         contentValues.put(TRANSACTION_COL_TIME,time);
+        contentValues.put(TRANSACTION_COL_RECID,rec_id);
 
         return db.insert(TRANSACTION_TABLE, null, contentValues) > 0;
     }
 
     public boolean updateTransactionData(int id, int from_acc,int to_acc,int p_id,int cat_id, int sub_id, float balance ,
-                                         String note,int show,String type,String date,String time,int u_id )
+                                         String note,int show,String type,String date,String time,int u_id, int rec_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -587,6 +592,7 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(TRANSACTION_COL_TIME,time);
         contentValues.put(TRANSACTION_COL_NOTE,note);
         contentValues.put(TRANSACTION_COL_SHOW,show);
+        contentValues.put(TRANSACTION_COL_RECID,rec_id);
 
         return db.update(TRANSACTION_TABLE, contentValues, TRANSACTION_COL_ID +"="+ id +" and "
                 + TRANSACTION_COL_UID + "=" + u_id, null) > 0;
@@ -637,9 +643,54 @@ public class DBHelper extends SQLiteOpenHelper
                 t1.t_type=c.getString(c.getColumnIndex(TRANSACTION_COL_TYPE));
                 t1.t_c_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_CATEGORY));
                 t1.t_sub_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_SUBCATEGORY));
+                t1.t_rec_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_RECID));
                 arrayList.add(t1);
                 Log.i("Transaction :", t1.t_id +"\t"+ t1.t_u_id +"\t"+t1.t_from_acc +"\t"+t1.t_to_acc+"\t"+ t1.t_balance+"\t"+ t1.t_type
-                        +"\t"+ t1.t_c_id+"\t"+ t1.t_sub_id+"\t"+ t1.t_p_id+"\t"+ t1.t_date+"\t"+ t1.t_time +"\t"+ t1.t_note +"\t"+ t1.t_show);
+                        +"\t"+ t1.t_c_id+"\t"+ t1.t_sub_id+"\t"+ t1.t_p_id+"\t"+ t1.t_date+"\t"+ t1.t_time +"\t"+ t1.t_note +"\t"+
+                        t1.t_show + "\t" + t1.t_rec_id);
+                c.moveToNext();
+            }
+            c.close();
+            return  arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList<TransactionsDB> getAllRecTrans(int u_id, int rec_id)
+    {
+        ArrayList<TransactionsDB> arrayList = new ArrayList<>();
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Log.d("DB",""+db.isOpen());
+            Cursor c = db.rawQuery("select * from "+ TRANSACTION_TABLE +" where "+ TRANSACTION_COL_UID +"="+ u_id + " and " +
+                    TRANSACTION_COL_RECID + "=" + rec_id, null);
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                TransactionsDB t1=new TransactionsDB();
+                t1.t_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_ID));
+                t1.t_u_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_UID));
+                t1.t_from_acc=c.getInt(c.getColumnIndex(TRANSACTION_COL_FROM_ACC));
+                t1.t_to_acc=c.getInt(c.getColumnIndex(TRANSACTION_COL_TO_ACC));
+                t1.t_balance=c.getFloat(c.getColumnIndex(TRANSACTION_COL_BALANCE));
+                t1.t_p_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_PERSON));
+                t1.t_note=c.getString(c.getColumnIndex(TRANSACTION_COL_NOTE));
+                t1.t_show=c.getInt(c.getColumnIndex(TRANSACTION_COL_SHOW));
+                t1.t_date=c.getString(c.getColumnIndex(TRANSACTION_COL_DATE));
+                t1.t_time=c.getString(c.getColumnIndex(TRANSACTION_COL_TIME));
+                t1.t_type=c.getString(c.getColumnIndex(TRANSACTION_COL_TYPE));
+                t1.t_c_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_CATEGORY));
+                t1.t_sub_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_SUBCATEGORY));
+                t1.t_rec_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_RECID));
+                arrayList.add(t1);
+                Log.i("Transaction :", t1.t_id +"\t"+ t1.t_u_id +"\t"+t1.t_from_acc +"\t"+t1.t_to_acc+"\t"+ t1.t_balance+"\t"+ t1.t_type
+                        +"\t"+ t1.t_c_id+"\t"+ t1.t_sub_id+"\t"+ t1.t_p_id+"\t"+ t1.t_date+"\t"+ t1.t_time +"\t"+ t1.t_note +"\t"+
+                        t1.t_show + "\t" + t1.t_rec_id);
                 c.moveToNext();
             }
             c.close();
@@ -653,7 +704,7 @@ public class DBHelper extends SQLiteOpenHelper
     }
 
     public boolean addRecursive(int u_id,int from_acc,int to_acc,float balance,String note,int p_id,int cat_id,int sub_id,
-                                int show,String type,String s_date,String e_date, String time, int recurring, int alert)
+                                int show,String type,String s_date,String e_date, String n_date, String time, int recurring, int alert)
     {
 
         SQLiteDatabase db=this.getWritableDatabase();
@@ -671,6 +722,7 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(RECURSIVE_COL_SUBCATEGORY,sub_id);
         contentValues.put(RECURSIVE_COL_START_DATE,s_date);
         contentValues.put(RECURSIVE_COL_END_DATE,e_date);
+        contentValues.put(RECURSIVE_COL_NEXT_DATE,n_date);
         contentValues.put(RECURSIVE_COL_TIME,time);
         contentValues.put(RECURSIVE_COL_RECURRING,recurring);
         contentValues.put(RECURSIVE_COL_ALERT,alert);
@@ -679,7 +731,8 @@ public class DBHelper extends SQLiteOpenHelper
     }
 
     public boolean updateRecursiveData(int id, int from_acc,int to_acc,int p_id,int cat_id, int sub_id, float balance ,
-                                       String note,int show,String type,String s_date,String e_date, String time,int recurring, int alert,int u_id )
+                                       String note,int show,String type,String s_date,String e_date, String n_date, String time,
+                                       int recurring, int alert,int u_id )
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -695,6 +748,7 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(RECURSIVE_COL_SUBCATEGORY,sub_id);
         contentValues.put(RECURSIVE_COL_START_DATE,s_date);
         contentValues.put(RECURSIVE_COL_END_DATE,e_date);
+        contentValues.put(RECURSIVE_COL_NEXT_DATE,n_date);
         contentValues.put(RECURSIVE_COL_TIME,time);
         contentValues.put(RECURSIVE_COL_RECURRING,recurring);
         contentValues.put(RECURSIVE_COL_ALERT,alert);
@@ -723,7 +777,7 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public ArrayList<RecursiveDB> getAllRecusive(int u_id)
+    public ArrayList<RecursiveDB> getAllRecursive(int u_id)
     {
         ArrayList<RecursiveDB> arrayList = new ArrayList<>();
         try
@@ -745,6 +799,7 @@ public class DBHelper extends SQLiteOpenHelper
                 rec1.rec_show=c.getInt(c.getColumnIndex(RECURSIVE_COL_SHOW));
                 rec1.rec_start_date=c.getString(c.getColumnIndex(RECURSIVE_COL_START_DATE));
                 rec1.rec_end_date=c.getString(c.getColumnIndex(RECURSIVE_COL_END_DATE));
+                rec1.rec_next_date=c.getString(c.getColumnIndex(RECURSIVE_COL_NEXT_DATE));
                 rec1.rec_time=c.getString(c.getColumnIndex(RECURSIVE_COL_TIME));
                 rec1.rec_type=c.getString(c.getColumnIndex(RECURSIVE_COL_TYPE));
                 rec1.rec_recurring=c.getInt(c.getColumnIndex(RECURSIVE_COL_RECURRING));
@@ -752,10 +807,10 @@ public class DBHelper extends SQLiteOpenHelper
                 rec1.rec_c_id=c.getInt(c.getColumnIndex(RECURSIVE_COL_CATEGORY));
                 rec1.rec_sub_id=c.getInt(c.getColumnIndex(RECURSIVE_COL_SUBCATEGORY));
                 arrayList.add(rec1);
-                Log.i("Transaction :", rec1.rec_id +"\t"+ rec1.rec_u_id +"\t"+rec1.rec_from_acc +"\t"+rec1.rec_to_acc+"\t"+ rec1.rec_balance
+                Log.i("Recursive :", rec1.rec_id +"\t"+ rec1.rec_u_id +"\t"+rec1.rec_from_acc +"\t"+rec1.rec_to_acc+"\t"+ rec1.rec_balance
                         +"\t"+ rec1.rec_type +"\t"+ rec1.rec_c_id+"\t"+ rec1.rec_sub_id+"\t"+ rec1.rec_p_id+"\t"+ rec1.rec_start_date +"\t"+
                         rec1.rec_end_date +"\t"+ rec1.rec_time +"\t"+ rec1.rec_note +"\t"+ rec1.rec_show +"\t"+ rec1.rec_recurring +"\t"+
-                        rec1.rec_alert);
+                        rec1.rec_alert + "\t" + rec1.rec_next_date);
                 c.moveToNext();
             }
             c.close();

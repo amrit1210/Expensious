@@ -37,9 +37,18 @@ public class RecursiveActivity extends ActionBarActivity
         sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper =new DBHelper(RecursiveActivity.this);
 
-        al= dbHelper.getAllRecusive(sp.getInt("UID", 0));
+        al= dbHelper.getAllRecursive(sp.getInt("UID", 0));
         recursiveAdapter =new RecursiveAdapter(RecursiveActivity.this,R.layout.list_recursive,al);
         listView.setAdapter(recursiveAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                RecursiveDB recDb = (RecursiveDB) recursiveAdapter.getItem(position);
+                Intent i = new Intent(RecursiveActivity.this, DetailedRecursive.class);
+                i.putExtra("REC_ID", recDb.rec_id);
+                startActivity(i);
+            }
+        });
         registerForContextMenu(listView);
     }
 
@@ -102,6 +111,7 @@ public class RecursiveActivity extends ActionBarActivity
             int rec_u_id=c.getInt(c.getColumnIndex(DBHelper.RECURSIVE_COL_UID));
             String rec_start_date=c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_START_DATE));
             String rec_end_date=c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_END_DATE));
+            String rec_next_date=c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_NEXT_DATE));
             float rec_bal=c.getFloat(c.getColumnIndex(DBHelper.RECURSIVE_COL_BALANCE));
             String rec_cur="Rs.";
             String rec_note=c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_NOTE));
@@ -121,6 +131,7 @@ public class RecursiveActivity extends ActionBarActivity
             i.putExtra("rec_u_id",rec_u_id);
             i.putExtra("rec_start_date",rec_start_date);
             i.putExtra("rec_end_date",rec_end_date);
+            i.putExtra("rec_next_date",rec_next_date);
             i.putExtra("rec_bal",rec_bal);
             i.putExtra("rec_cur",rec_cur);
             i.putExtra("rec_note",rec_note);

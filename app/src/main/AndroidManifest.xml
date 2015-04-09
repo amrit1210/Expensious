@@ -44,13 +44,15 @@
         <activity
             android:name=".AddCategoryActivity"/>
         <activity
-            android:name=".TransactonsActivity"/>
+            android:name=".TransactionsActivity"/>
         <activity
             android:name=".RecursiveActivity"/>
         <activity
             android:name=".AddRecursiveActivity"/>
         <activity
             android:name=".AddTransactionsActivity"/>
+        <activity
+            android:name=".DetailedRecursive" />
         <activity
             android:name=".CategoriesActivity"/>
         <activity
@@ -63,6 +65,7 @@
             android:name=".Calculator"/>
         <activity
             android:name=".PersonsViewList"/>
+        <service android:name=".RecursiveService" />
     </application>
 
 </manifest>
