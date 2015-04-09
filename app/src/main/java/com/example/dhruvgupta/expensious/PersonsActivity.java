@@ -82,6 +82,12 @@ public class PersonsActivity extends ActionBarActivity
             startActivity(i);
             return true;
         }
+        else if (id == R.id.action_budget)
+        {
+            Intent i =new Intent(this, AddBudgetActivity.class);
+            startActivity(i);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

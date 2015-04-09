@@ -64,10 +64,11 @@ public class LoginActivity extends ActionBarActivity
                     spEdit.commit();
                     Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
                             Toast.LENGTH_LONG).show();
-              // Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
-               // Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
-           Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
+//                    Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
+//                    Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
+//                    Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
 //                    Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
+                    Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
                     startActivity(i);
                 }
                 else

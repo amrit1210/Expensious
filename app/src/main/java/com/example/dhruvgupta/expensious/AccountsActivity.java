@@ -12,9 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Gaurav on 13-Mar-15.
@@ -22,8 +24,12 @@ import java.util.ArrayList;
 public class AccountsActivity extends ActionBarActivity
 {
     ListView listView;
-    ArrayList<AccountsDB> al;
+    TextView mAcc_amt;
+    float amt=0;
+    ArrayList<AccountsDB> allAccounts;
     AccountsAdapter accountsAdapter;
+    AccountsDB accountsDB;
+    Iterator<AccountsDB> accountsDBIterator;
     DBHelper dbHelper;
     SharedPreferences sp;
     @Override
@@ -32,13 +38,24 @@ public class AccountsActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accounts);
 
+        mAcc_amt = (TextView) findViewById(R.id.accounts_bal);
         listView = (ListView) findViewById(R.id.accounts_list);
 
         sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper =new DBHelper(AccountsActivity.this);
 
-        al= dbHelper.getAllAccounts(sp.getInt("UID",0));
-        accountsAdapter =new AccountsAdapter(AccountsActivity.this,R.layout.list_account,al);
+        allAccounts=dbHelper.getAllAccounts(sp.getInt("UID", 0));
+        accountsDBIterator =allAccounts.iterator();
+
+        while (accountsDBIterator.hasNext())
+        {
+            accountsDB = accountsDBIterator.next();
+            amt +=accountsDB.acc_balance;
+        }
+        mAcc_amt.setText(amt+"");
+
+        allAccounts= dbHelper.getAllAccounts(sp.getInt("UID",0));
+        accountsAdapter =new AccountsAdapter(AccountsActivity.this,R.layout.list_account,allAccounts);
         listView.setAdapter(accountsAdapter);
         registerForContextMenu(listView);
     }
@@ -79,6 +96,12 @@ public class AccountsActivity extends ActionBarActivity
         else if (id == R.id.action_trans)
         {
             Intent i =new Intent(this, AddTransactionsActivity.class);
+            startActivity(i);
+            return true;
+        }
+        else if (id == R.id.action_budget)
+        {
+            Intent i =new Intent(this, AddBudgetActivity.class);
             startActivity(i);
             return true;
         }
