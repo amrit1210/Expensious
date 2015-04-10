@@ -65,6 +65,10 @@
             android:name=".Calculator"/>
         <activity
             android:name=".PersonsViewList"/>
+        <activity
+            android:name=".AddLoanDebtActivity"/>
+        <activity
+            android:name=".LoanDebtActivity"/>
         <service android:name=".RecursiveService" />
     </application>
 

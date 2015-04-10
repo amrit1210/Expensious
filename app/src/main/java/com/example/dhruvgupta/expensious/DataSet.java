@@ -64,3 +64,10 @@ class BudgetDB
     float b_amount;
     String b_currency,b_endDate, b_startDate;
 }
+
+class LoanDebtDB
+{
+    int l_u_id,l_id,l_from_acc,l_to_acc,l_person,l_show,l_parent;
+    float l_balance;
+    String l_type,l_note,l_date,l_time;
+}

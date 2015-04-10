@@ -99,6 +99,21 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String SUBCATEGORY_COL_SUB_ICON ="sub_icon";
     public static final String SUBCATEGORY_COL_SUB_UID="sub_uid";
 
+    public static final String LOAN_DEBT_TABLE="loan_debt";
+    public static final String LOAN_DEBT_COL_UID="loan_debt_uid";
+    public static final String LOAN_DEBT_COL_ID="loan_debt_id";
+    public static final String LOAN_DEBT_COL_FROM_ACC="loan_debt_from_acc";
+    public static final String LOAN_DEBT_COL_TO_ACC="loan_debt_to_acc";
+    public static final String LOAN_DEBT_COL_PERSON="loan_debt_person";
+    public static final String LOAN_DEBT_COL_NOTE="loan_debt_note";
+    public static final String LOAN_DEBT_COL_TYPE="loan_debt_type";
+    public static final String LOAN_DEBT_COL_BALANCE="loan_debt_balance";
+    public static final String LOAN_DEBT_COL_DATE="loan_debt_date";
+    public static final String LOAN_DEBT_COL_TIME="loan_debt_time";
+    public static final String LOAN_DEBT_COL_SHOW="loan_debt_show";
+    public static final String LOAN_DEBT_COL_PARENT="loan_debt_parent";
+
+
     public DBHelper(Context context)
     {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -202,6 +217,14 @@ public class DBHelper extends SQLiteOpenHelper
                 + PERSON_COL_COLOR +" TEXT,"
                 + PERSON_COL_COLOR_CODE +" TEXT)";
         db.execSQL(create_table_persons);
+
+        String create_table_loan_debt="CREATE TABLE IF NOT EXISTS "+ LOAN_DEBT_TABLE
+                +"("+ LOAN_DEBT_COL_UID +"INTEGER," + LOAN_DEBT_COL_ID +"INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + LOAN_DEBT_COL_BALANCE +"REAL," + LOAN_DEBT_COL_DATE +"TEXT,"+ LOAN_DEBT_COL_TIME +"TEXT,"+
+                LOAN_DEBT_COL_FROM_ACC +"TEXT,"+ LOAN_DEBT_COL_TO_ACC +"TEXT," + LOAN_DEBT_COL_PERSON +"TEXT,"
+                + LOAN_DEBT_COL_NOTE +"TEXT," + LOAN_DEBT_COL_TYPE+"TEXT," + LOAN_DEBT_COL_SHOW+"INTEGER," +
+                LOAN_DEBT_COL_PARENT+"INTEGER";
+        db.execSQL(create_table_loan_debt);
     }
 
     @Override
@@ -1271,5 +1294,82 @@ public class DBHelper extends SQLiteOpenHelper
             ae.printStackTrace();
             return null;
         }
+    }
+
+    public boolean addLoanDebt(int u_id,float amt,String date,String time,int fromAcc,int toAcc,int person,String note){
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(LOAN_DEBT_COL_UID,u_id);
+        contentValues.put(LOAN_DEBT_COL_BALANCE,amt);
+        contentValues.put(LOAN_DEBT_COL_DATE,date);
+        contentValues.put(LOAN_DEBT_COL_TIME,time);
+        contentValues.put(LOAN_DEBT_COL_FROM_ACC,fromAcc);
+        contentValues.put(LOAN_DEBT_COL_TO_ACC,toAcc);
+        contentValues.put(LOAN_DEBT_COL_PERSON,person);
+        contentValues.put(LOAN_DEBT_COL_NOTE,note);
+
+        return db.insert(LOAN_DEBT_TABLE, null, contentValues) > 0;
+    }
+
+    public boolean updateLoanDebtData(int id, int from_acc,int to_acc,int p_id, float balance ,
+                                      String note,int show,String type,String date,String time,int u_id )
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(LOAN_DEBT_COL_FROM_ACC,from_acc);
+        contentValues.put(LOAN_DEBT_COL_BALANCE,balance);
+        contentValues.put(LOAN_DEBT_COL_TO_ACC,to_acc);
+        contentValues.put(LOAN_DEBT_COL_TYPE,type);
+        contentValues.put(LOAN_DEBT_COL_PERSON,p_id);
+        contentValues.put(LOAN_DEBT_COL_DATE,date);
+        contentValues.put(LOAN_DEBT_COL_TIME,time);
+        contentValues.put(LOAN_DEBT_COL_NOTE,note);
+        contentValues.put(LOAN_DEBT_COL_SHOW,show);
+
+        return db.update(LOAN_DEBT_TABLE, contentValues, LOAN_DEBT_COL_ID +"="+ id +" and "
+                + LOAN_DEBT_COL_UID + "=" + u_id, null) > 0;
+    }
+
+    public ArrayList<LoanDebtDB> getAllLoanDebt(int u_id)
+    {
+        ArrayList<LoanDebtDB> arrayList = new ArrayList<>();
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ LOAN_DEBT_TABLE +" where "+ LOAN_DEBT_COL_UID +"="+ u_id, null);
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                LoanDebtDB p1 = new LoanDebtDB();
+                p1.l_id = c.getInt(c.getColumnIndex(LOAN_DEBT_COL_ID));
+                p1.l_balance = c.getFloat(c.getColumnIndex(LOAN_DEBT_COL_BALANCE));
+                p1.l_date = c.getString(c.getColumnIndex(LOAN_DEBT_COL_DATE));
+                p1.l_time = c.getString(c.getColumnIndex(LOAN_DEBT_COL_TIME));
+                p1.l_from_acc = c.getInt(c.getColumnIndex(LOAN_DEBT_COL_FROM_ACC));
+                p1.l_to_acc = c.getInt(c.getColumnIndex(LOAN_DEBT_COL_TO_ACC));
+                p1.l_person = c.getInt(c.getColumnIndex(LOAN_DEBT_COL_PERSON));
+                p1.l_note = c.getString(c.getColumnIndex(LOAN_DEBT_COL_NOTE));
+                p1.l_type = c.getString(c.getColumnIndex(LOAN_DEBT_COL_TYPE));
+                arrayList.add(p1);
+                Log.i("PERSON :", p1.l_id +"\t"+ p1.l_balance +"\n\t"+ p1.l_date +"\t"+ p1.l_time +"\t"+ p1.l_from_acc +"\t"+
+                        p1.l_to_acc +"\t"+ p1.l_person +"\t"+ p1.l_person +"\t"+ p1.l_note +"\t"+ p1.l_type);
+                c.moveToNext();
+            }
+            c.close();
+            return arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+    public int deleteLoanDebt(int id,int u_id)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        return db.delete(LOAN_DEBT_TABLE, LOAN_DEBT_COL_ID +"="+ id +" and "+ LOAN_DEBT_COL_UID +"="+ u_id, null);
     }
 }
