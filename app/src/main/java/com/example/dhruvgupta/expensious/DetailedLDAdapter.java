@@ -11,14 +11,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Shubhz on 4/6/2015.
+ * Created by dhruvgupta on 4/12/2015.
  */
-public class LoanDebtAdapter extends ArrayAdapter {
+public class DetailedLDAdapter extends ArrayAdapter {
     Context context1;
     int layout;
     ArrayList<LoanDebtDB> al;
 
-    public LoanDebtAdapter(Context context, int resource,  ArrayList<LoanDebtDB> al1) {
+    public DetailedLDAdapter(Context context, int resource,  ArrayList<LoanDebtDB> al1) {
         super(context, resource, al1);
         context1=context;
         layout=resource;
@@ -39,7 +39,6 @@ public class LoanDebtAdapter extends ArrayAdapter {
         final TextView currency=(TextView)convertView.findViewById(R.id.list_loan_debt_cur);
         final TextView account=(TextView)convertView.findViewById(R.id.list_loan_debt_acc);
         final TextView amount=(TextView)convertView.findViewById(R.id.list_loan_debt_amt);
-        final TextView ld_type= (TextView)convertView.findViewById(R.id.list_loan_debt_type);
 
         DBHelper dbHelper=new DBHelper(getContext().getApplicationContext());
 
@@ -48,7 +47,6 @@ public class LoanDebtAdapter extends ArrayAdapter {
         note.setText(trans_db.l_note);
         time.setText(trans_db.l_time);
         amount.setText(trans_db.l_balance+"");
-        ld_type.setText(trans_db.l_type);
 
         if(trans_db.l_type.equals("Loan"))
         {
@@ -79,3 +77,4 @@ public class LoanDebtAdapter extends ArrayAdapter {
         return convertView;
     }
 }
+

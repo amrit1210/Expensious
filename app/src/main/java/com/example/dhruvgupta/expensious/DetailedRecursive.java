@@ -27,7 +27,7 @@ public class DetailedRecursive extends ActionBarActivity {
     TransactionAdapter transactionAdapter;
     TextView s_date, e_date, amt, cur;
     int rec_id;
-    Cursor c;
+
     SharedPreferences sp;
 
     @Override
@@ -38,17 +38,19 @@ public class DetailedRecursive extends ActionBarActivity {
         s_date = (TextView) findViewById(R.id.detailed_rec_start_date);
         e_date = (TextView) findViewById(R.id.detailed_rec_end_date);
         amt = (TextView) findViewById(R.id.detailed_rec_amt);
+        cur = (TextView) findViewById(R.id.detailed_rec_cur);
         listView = (ListView) findViewById(R.id.detailed_rec_list);
 
         sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper =new DBHelper(DetailedRecursive.this);
 
         rec_id = getIntent().getIntExtra("REC_ID", 0);
-        c = dbHelper.getRecursiveData(rec_id);
+        Cursor c = dbHelper.getRecursiveData(rec_id);
         c.moveToFirst();
         s_date.setText(c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_START_DATE)));
         e_date.setText(c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_END_DATE)));
         amt.setText(c.getFloat(c.getColumnIndex(DBHelper.RECURSIVE_COL_BALANCE))+"");
+        cur.setText("Cur");
         c.close();
 
         al= dbHelper.getAllRecTrans(sp.getInt("UID", 0), rec_id);
@@ -142,7 +144,80 @@ public class DetailedRecursive extends ActionBarActivity {
         {
             if(dbHelper.deleteTransaction(transactionsDB.t_id,sp.getInt("UID",0))>0)
             {
+                String t_type_old = transactionsDB.t_type;
+                int t_from_old = transactionsDB.t_from_acc;
+                int t_to_old = transactionsDB.t_to_acc;
+                float t_amt_old = transactionsDB.t_balance;
+
+                if (t_type_old.equals("Expense"))
+                {
+                    Cursor cursor = dbHelper.getAccountData(t_from_old);
+                    cursor.moveToFirst();
+
+                    float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                    String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                    String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                    int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                    int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                    bal = bal + t_amt_old;
+
+                    dbHelper.updateAccountData(t_from_old, name, bal, note, cur, show, uid);
+                    cursor.close();
+                }
+                else if (t_type_old.equals("Income"))
+                {
+                    Cursor cursor = dbHelper.getAccountData(t_to_old);
+                    cursor.moveToFirst();
+
+                    float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                    String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                    String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                    int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                    int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                    bal = bal - t_amt_old;
+
+                    dbHelper.updateAccountData(t_to_old, name, bal, note, cur, show, uid);
+                    cursor.close();
+                }
+                else if (t_type_old.equals("Transfer"))
+                {
+                    Cursor cursor = dbHelper.getAccountData(t_to_old);
+                    cursor.moveToFirst();
+
+                    float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                    String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                    String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                    int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                    int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                    bal = bal - t_amt_old;
+
+                    dbHelper.updateAccountData(t_to_old, name, bal, note, cur, show, uid);
+                    cursor.close();
+
+                    Cursor cursor1 = dbHelper.getAccountData(t_from_old);
+                    cursor1.moveToFirst();
+
+                    float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                    String name1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    String note1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                    String cur1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                    int show1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                    int uid1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                    bal1 = bal1 + t_amt_old;
+
+                    dbHelper.updateAccountData(t_from_old, name1, bal1, note1, cur1, show1, uid1);
+                    cursor1.close();
+                }
+
                 Intent i = new Intent(DetailedRecursive.this, DetailedRecursive.class);
+                i.putExtra("REC_ID", rec_id);
                 startActivity(i);
                 Toast.makeText(DetailedRecursive.this, "Transaction Deleted", Toast.LENGTH_LONG).show();
             }

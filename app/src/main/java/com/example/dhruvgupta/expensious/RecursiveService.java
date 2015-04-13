@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
@@ -69,6 +70,76 @@ public class RecursiveService extends Service {
                             recDB.rec_next_date, recDB.rec_time, recDB.rec_id);
                     if(a) {
                         Toast.makeText(RecursiveService.this, "Transaction Added", Toast.LENGTH_LONG).show();
+
+                        if (recDB.rec_type.equals("Expense"))
+                        {
+                            Cursor cursor = dbHelper.getAccountData(recDB.rec_from_acc);
+                            cursor.moveToFirst();
+
+                            float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                            String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                            String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                            int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                            int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                            bal = bal - recDB.rec_balance;
+
+                            dbHelper.updateAccountData(recDB.rec_from_acc, name, bal, note, cur, show, uid);
+                            cursor.close();
+
+                        }
+                        else if (recDB.rec_type.equals("Income"))
+                        {
+                            Cursor cursor = dbHelper.getAccountData(recDB.rec_to_acc);
+                            cursor.moveToFirst();
+
+                            float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                            String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                            String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                            int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                            int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                            bal = bal + recDB.rec_balance;
+
+                            dbHelper.updateAccountData(recDB.rec_to_acc, name, bal, note, cur, show, uid);
+                            cursor.close();
+
+                        }
+                        else if (recDB.rec_type.equals("Transfer"))
+                        {
+                            Cursor cursor = dbHelper.getAccountData(recDB.rec_from_acc);
+                            cursor.moveToFirst();
+
+                            float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                            String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                            String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                            int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                            int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                            bal = bal - recDB.rec_balance;
+
+                            dbHelper.updateAccountData(recDB.rec_from_acc, name, bal, note, cur, show, uid);
+                            cursor.close();
+
+                            Cursor cursor1 = dbHelper.getAccountData(recDB.rec_to_acc);
+                            cursor1.moveToFirst();
+
+                            float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                            String name1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                            String note1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                            String cur1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                            int show1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                            int uid1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                            bal1 = bal1 + recDB.rec_balance;
+
+                            dbHelper.updateAccountData(recDB.rec_to_acc, name1, bal1, note1, cur1, show1, uid1);
+                            cursor1.close();
+
+                        }
 
                         if (recDB.rec_alert ==1)
                             showNotification();

@@ -67,7 +67,7 @@ class BudgetDB
 
 class LoanDebtDB
 {
-    int l_u_id,l_id,l_from_acc,l_to_acc,l_person,l_show,l_parent;
+    int l_u_id,l_id,l_from_acc,l_to_acc,l_person,l_parent;
     float l_balance;
     String l_type,l_note,l_date,l_time;
 }

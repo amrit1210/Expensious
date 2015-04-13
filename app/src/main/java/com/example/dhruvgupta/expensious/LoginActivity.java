@@ -68,7 +68,8 @@ public class LoginActivity extends ActionBarActivity
 //                    Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
 //                    Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
 //                    Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
-                    Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
+//                    Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
+                    Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
                     startActivity(i);
                 }
                 else

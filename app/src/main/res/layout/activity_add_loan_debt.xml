@@ -151,16 +151,12 @@
 
             </LinearLayout>
 
-            <CheckBox
-                style="@style/CheckBoxStyle"
-                android:text="@string/cb_include_report"
-                android:id="@+id/add_loan_debt_cb" />
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Save"
                 android:id="@+id/save_loan_debt"
-                android:onClick="onSaveTransaction"/>
+                android:onClick="onSaveLoanDebt"/>
         </LinearLayout>
 
     </ScrollView>

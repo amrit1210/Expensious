@@ -1,4 +1,5 @@
 package com.example.dhruvgupta.expensious;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -11,43 +12,70 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.util.ArrayList;
 
-public class LoanDebtActivity extends ActionBarActivity
+/**
+ * Created by dhruvgupta on 4/12/2015.
+ */
+public class DetailedLoanDebt extends ActionBarActivity
 {
     ListView listView;
     ArrayList<LoanDebtDB> al;
     LoanDebtAdapter loanDebtAdapter;
     DBHelper dbHelper;
+    String type;
+    TextView mTotal, mReName, mReAmt, mRemaining, mTotCur, mReCur, mRemainCur;
     SharedPreferences sp;
+    int ld_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transactions);
 
+        mTotal = (TextView) findViewById(R.id.detailed_ld_total_amt);
+        mReName = (TextView) findViewById(R.id.detailed_ld_re_name);
+        mReAmt = (TextView) findViewById(R.id.detailed_ld_re_amt);
+        mRemaining = (TextView) findViewById(R.id.detailed_ld_remain_amt);
+        mTotCur = (TextView) findViewById(R.id.detailed_ld_total_cur);
+        mReCur = (TextView) findViewById(R.id.detailed_ld_re_cur);
+        mRemainCur = (TextView) findViewById(R.id.detailed_ld_remain_cur);
         listView = (ListView) findViewById(R.id.trans_list);
 
         sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-        dbHelper =new DBHelper(LoanDebtActivity.this);
+        dbHelper =new DBHelper(DetailedLoanDebt.this);
 
-        al= dbHelper.getAllLoanDebt(sp.getInt("UID", 0), 0);
-        loanDebtAdapter =new LoanDebtAdapter(LoanDebtActivity.this,R.layout.list_loan_debt,al);
+        ld_id = getIntent().getIntExtra("LD_ID", 0);
+        Cursor c = dbHelper.getLoanDebtData(ld_id);
+        c.moveToFirst();
+        type = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_TYPE));
+        mTotal.setText(c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_BALANCE)));
+        mTotCur.setText("Cur");
+        mReCur.setText("Cur");
+        mRemainCur.setText("Cur");
+
+        if (type.equals("Loan"))
+            mReName.setText("Recovered");
+        else if (type.equals("Debt"))
+            mReName.setText("Repaid");
+
+        c.close();
+
+        al= dbHelper.getAllLoanDebt(sp.getInt("UID", 0), ld_id);
+        loanDebtAdapter =new LoanDebtAdapter(DetailedLoanDebt.this,R.layout.list_loan_debt,al);
         listView.setAdapter(loanDebtAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                LoanDebtDB recDb = (LoanDebtDB) loanDebtAdapter.getItem(position);
-                Intent i = new Intent(LoanDebtActivity.this, DetailedLoanDebt.class);
-                i.putExtra("LD_ID", recDb.l_id);
-                startActivity(i);
-            }
-        });
         registerForContextMenu(listView);
+    }
+
+    public void onAdd(View v)
+    {
+        Intent i = new Intent(DetailedLoanDebt.this, DetailedAddLD.class);
+        i.putExtra("LD_ID", ld_id);
+        startActivity(i);
     }
 
     @Override
@@ -98,7 +126,7 @@ public class LoanDebtActivity extends ActionBarActivity
             String l_time = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_TIME));
             int l_parent = c.getInt(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_PARENT));
             c.close();
-            Intent i = new Intent(LoanDebtActivity.this, AddLoanDebtActivity.class);
+            Intent i = new Intent(DetailedLoanDebt.this, AddLoanDebtActivity.class);
             i.putExtra("l_id", l_id);
             i.putExtra("l_u_id", l_u_id);
             i.putExtra("l_date", l_date);
@@ -116,9 +144,9 @@ public class LoanDebtActivity extends ActionBarActivity
 
         if (id == R.id.Delete) {
             if (dbHelper.deleteLoanDebt(loanDebtDB.l_id, sp.getInt("UID", 0)) > 0) {
-                Intent i = new Intent(LoanDebtActivity.this, LoanDebtActivity.class);
+                Intent i = new Intent(DetailedLoanDebt.this, LoanDebtActivity.class);
                 startActivity(i);
-                Toast.makeText(LoanDebtActivity.this, "Loan/Debt Deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(DetailedLoanDebt.this, "Loan/Debt Deleted", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -134,3 +162,4 @@ public class LoanDebtActivity extends ActionBarActivity
         inflater.inflate(R.menu.context_menu,menu);
     }
 }
+

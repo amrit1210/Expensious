@@ -110,7 +110,6 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String LOAN_DEBT_COL_BALANCE="loan_debt_balance";
     public static final String LOAN_DEBT_COL_DATE="loan_debt_date";
     public static final String LOAN_DEBT_COL_TIME="loan_debt_time";
-    public static final String LOAN_DEBT_COL_SHOW="loan_debt_show";
     public static final String LOAN_DEBT_COL_PARENT="loan_debt_parent";
 
 
@@ -219,11 +218,10 @@ public class DBHelper extends SQLiteOpenHelper
         db.execSQL(create_table_persons);
 
         String create_table_loan_debt="CREATE TABLE IF NOT EXISTS "+ LOAN_DEBT_TABLE
-                +"("+ LOAN_DEBT_COL_UID +"INTEGER," + LOAN_DEBT_COL_ID +"INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + LOAN_DEBT_COL_BALANCE +"REAL," + LOAN_DEBT_COL_DATE +"TEXT,"+ LOAN_DEBT_COL_TIME +"TEXT,"+
-                LOAN_DEBT_COL_FROM_ACC +"TEXT,"+ LOAN_DEBT_COL_TO_ACC +"TEXT," + LOAN_DEBT_COL_PERSON +"TEXT,"
-                + LOAN_DEBT_COL_NOTE +"TEXT," + LOAN_DEBT_COL_TYPE+"TEXT," + LOAN_DEBT_COL_SHOW+"INTEGER," +
-                LOAN_DEBT_COL_PARENT+"INTEGER";
+                +"(" + LOAN_DEBT_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT," + LOAN_DEBT_COL_UID +" INTEGER,"
+                + LOAN_DEBT_COL_BALANCE +" REAL," + LOAN_DEBT_COL_DATE +" TEXT,"+ LOAN_DEBT_COL_TIME +" TEXT,"+
+                LOAN_DEBT_COL_FROM_ACC +" INTEGER,"+ LOAN_DEBT_COL_TO_ACC +" INTEGER," + LOAN_DEBT_COL_PERSON +" INTEGER,"
+                + LOAN_DEBT_COL_NOTE +" TEXT," + LOAN_DEBT_COL_TYPE+" TEXT," + LOAN_DEBT_COL_PARENT+" INTEGER )";
         db.execSQL(create_table_loan_debt);
     }
 
@@ -1228,7 +1226,6 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-
     public int getSubCategoryColIds(String c_name)
     {
         try
@@ -1296,8 +1293,9 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public boolean addLoanDebt(int u_id,float amt,String date,String time,int fromAcc,int toAcc,int person,String note){
-        SQLiteDatabase db = this.getReadableDatabase();
+    public boolean addLoanDebt(int u_id,float amt,String date,String time,int fromAcc,int toAcc,int person,String note, String type,
+                               int parent){
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
         contentValues.put(LOAN_DEBT_COL_UID,u_id);
@@ -1308,12 +1306,14 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(LOAN_DEBT_COL_TO_ACC,toAcc);
         contentValues.put(LOAN_DEBT_COL_PERSON,person);
         contentValues.put(LOAN_DEBT_COL_NOTE,note);
+        contentValues.put(LOAN_DEBT_COL_TYPE, type);
+        contentValues.put(LOAN_DEBT_COL_PARENT, parent);
 
         return db.insert(LOAN_DEBT_TABLE, null, contentValues) > 0;
     }
 
     public boolean updateLoanDebtData(int id, int from_acc,int to_acc,int p_id, float balance ,
-                                      String note,int show,String type,String date,String time,int u_id )
+                                      String note,String type,String date,String time, int u_id )
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -1326,19 +1326,19 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(LOAN_DEBT_COL_DATE,date);
         contentValues.put(LOAN_DEBT_COL_TIME,time);
         contentValues.put(LOAN_DEBT_COL_NOTE,note);
-        contentValues.put(LOAN_DEBT_COL_SHOW,show);
 
         return db.update(LOAN_DEBT_TABLE, contentValues, LOAN_DEBT_COL_ID +"="+ id +" and "
                 + LOAN_DEBT_COL_UID + "=" + u_id, null) > 0;
     }
 
-    public ArrayList<LoanDebtDB> getAllLoanDebt(int u_id)
+    public ArrayList<LoanDebtDB> getAllLoanDebt(int u_id, int parent)
     {
         ArrayList<LoanDebtDB> arrayList = new ArrayList<>();
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ LOAN_DEBT_TABLE +" where "+ LOAN_DEBT_COL_UID +"="+ u_id, null);
+            Cursor c = db.rawQuery("select * from "+ LOAN_DEBT_TABLE +" where "+ LOAN_DEBT_COL_UID +"="+ u_id + " and " +
+                    LOAN_DEBT_COL_PARENT + "=" + parent, null);
             c.moveToFirst();
             while (!c.isAfterLast())
             {
@@ -1352,9 +1352,10 @@ public class DBHelper extends SQLiteOpenHelper
                 p1.l_person = c.getInt(c.getColumnIndex(LOAN_DEBT_COL_PERSON));
                 p1.l_note = c.getString(c.getColumnIndex(LOAN_DEBT_COL_NOTE));
                 p1.l_type = c.getString(c.getColumnIndex(LOAN_DEBT_COL_TYPE));
+                p1.l_parent = c.getInt(c.getColumnIndex(LOAN_DEBT_COL_PARENT));
                 arrayList.add(p1);
                 Log.i("PERSON :", p1.l_id +"\t"+ p1.l_balance +"\n\t"+ p1.l_date +"\t"+ p1.l_time +"\t"+ p1.l_from_acc +"\t"+
-                        p1.l_to_acc +"\t"+ p1.l_person +"\t"+ p1.l_person +"\t"+ p1.l_note +"\t"+ p1.l_type);
+                        p1.l_to_acc +"\t"+ p1.l_person +"\t"+ p1.l_person +"\t"+ p1.l_note +"\t"+ p1.l_type +"\t"+ p1.l_parent);
                 c.moveToNext();
             }
             c.close();
@@ -1367,9 +1368,23 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
+    public Cursor getLoanDebtData(int id)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            return db.rawQuery("select * from "+ LOAN_DEBT_TABLE +" where "+ LOAN_DEBT_COL_ID +"="+ id, null);
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
     public int deleteLoanDebt(int id,int u_id)
     {
-        SQLiteDatabase db=this.getReadableDatabase();
+        SQLiteDatabase db=this.getWritableDatabase();
         return db.delete(LOAN_DEBT_TABLE, LOAN_DEBT_COL_ID +"="+ id +" and "+ LOAN_DEBT_COL_UID +"="+ u_id, null);
     }
 }
