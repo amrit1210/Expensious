@@ -54,6 +54,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
         mNote = (EditText) findViewById(R.id.add_loan_debt_note);
         mPerson = (EditText) findViewById(R.id.add_loan_debt_person);
         mType = "Loan";
+        dbHelper = new DBHelper(AddLoanDebtActivity.this);
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
 
         final Calendar calendar = Calendar.getInstance();
@@ -64,7 +65,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
         mMin = calendar.get(Calendar.MINUTE);
         mDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
-                .append(mDay).append(" ").append("-").append(mMonth + 1).append("-")
+                .append(mDay).append("-").append(mMonth + 1).append("-")
                 .append(mYear));
         mTime.setText(new StringBuilder().append(mHour).append(":").append(mMin));
 
@@ -209,6 +210,8 @@ public class AddLoanDebtActivity extends ActionBarActivity {
     public void onLoanClick(View v) {
         mLlFromAcc.setVisibility(View.VISIBLE);
         mLlToAcc.setVisibility(View.GONE);
+        mType = "Loan";
+        l_type = "Loan";
         flag=0;
     }
 
@@ -216,6 +219,8 @@ public class AddLoanDebtActivity extends ActionBarActivity {
     public void onDebtClick(View v){
         mLlFromAcc.setVisibility(View.GONE);
         mLlToAcc.setVisibility(View.VISIBLE);
+        mType = "Debt";
+        l_type = "Debt";
         flag=1;
     }
 
@@ -413,7 +418,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
                         boolean b = dbHelper.addLoanDebt(sp.getInt("UID", 0), amt, mDate.getText().toString(), mTime.getText().toString(),
-                                acc_id,0, p_id, mNote.getText().toString(), mType, 0);
+                                0, acc_id, p_id, mNote.getText().toString(), mType, 0);
                         if (b) {
                             Toast.makeText(AddLoanDebtActivity.this, "Added", Toast.LENGTH_LONG).show();
 

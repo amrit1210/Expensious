@@ -33,12 +33,12 @@ public class DetailedLDAdapter extends ArrayAdapter {
             LayoutInflater in=(LayoutInflater)context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView= in.inflate(layout,null);
         }
-        final TextView date=(TextView)convertView.findViewById(R.id.list_loan_debt_date);
-        final TextView note=(TextView)convertView.findViewById(R.id.list_loan_debt_note);
-        final TextView time=(TextView)convertView.findViewById(R.id.list_loan_debt_time);
-        final TextView currency=(TextView)convertView.findViewById(R.id.list_loan_debt_cur);
-        final TextView account=(TextView)convertView.findViewById(R.id.list_loan_debt_acc);
-        final TextView amount=(TextView)convertView.findViewById(R.id.list_loan_debt_amt);
+        final TextView date=(TextView)convertView.findViewById(R.id.list_add_ld_date);
+        final TextView note=(TextView)convertView.findViewById(R.id.list_add_ld_note);
+        final TextView time=(TextView)convertView.findViewById(R.id.list_add_ld_time);
+        final TextView currency=(TextView)convertView.findViewById(R.id.list_add_ld_cur);
+        final TextView account=(TextView)convertView.findViewById(R.id.list_add_ld_acc);
+        final TextView amount=(TextView)convertView.findViewById(R.id.list_add_ld_amt);
 
         DBHelper dbHelper=new DBHelper(getContext().getApplicationContext());
 
@@ -48,7 +48,7 @@ public class DetailedLDAdapter extends ArrayAdapter {
         time.setText(trans_db.l_time);
         amount.setText(trans_db.l_balance+"");
 
-        if(trans_db.l_type.equals("Loan"))
+        if(trans_db.l_type.equals("Debt"))
         {
             String from_acc=null;
             if(trans_db.l_from_acc!=0) {
@@ -60,7 +60,7 @@ public class DetailedLDAdapter extends ArrayAdapter {
             }
             account.setText(from_acc);
         }
-        else if(trans_db.l_type.equals("Debt"))
+        else if(trans_db.l_type.equals("Loan"))
         {
             String to_acc=null;
             if(trans_db.l_to_acc!=0) {

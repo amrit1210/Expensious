@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by dhruvgupta on 4/12/2015.
@@ -24,7 +26,7 @@ public class DetailedLoanDebt extends ActionBarActivity
 {
     ListView listView;
     ArrayList<LoanDebtDB> al;
-    LoanDebtAdapter loanDebtAdapter;
+    DetailedLDAdapter loanDebtAdapter;
     DBHelper dbHelper;
     String type;
     TextView mTotal, mReName, mReAmt, mRemaining, mTotCur, mReCur, mRemainCur;
@@ -35,7 +37,7 @@ public class DetailedLoanDebt extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transactions);
+        setContentView(R.layout.detailed_loan_debt);
 
         mTotal = (TextView) findViewById(R.id.detailed_ld_total_amt);
         mReName = (TextView) findViewById(R.id.detailed_ld_re_name);
@@ -44,7 +46,7 @@ public class DetailedLoanDebt extends ActionBarActivity
         mTotCur = (TextView) findViewById(R.id.detailed_ld_total_cur);
         mReCur = (TextView) findViewById(R.id.detailed_ld_re_cur);
         mRemainCur = (TextView) findViewById(R.id.detailed_ld_remain_cur);
-        listView = (ListView) findViewById(R.id.trans_list);
+        listView = (ListView) findViewById(R.id.detailed_ld_list);
 
         sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper =new DBHelper(DetailedLoanDebt.this);
@@ -53,20 +55,38 @@ public class DetailedLoanDebt extends ActionBarActivity
         Cursor c = dbHelper.getLoanDebtData(ld_id);
         c.moveToFirst();
         type = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_TYPE));
-        mTotal.setText(c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_BALANCE)));
+        Log.i("type", c.getFloat(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_BALANCE))+"");
+        mTotal.setText(c.getFloat(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_BALANCE))+"");
+
+        c.close();
+
         mTotCur.setText("Cur");
         mReCur.setText("Cur");
         mRemainCur.setText("Cur");
 
         if (type.equals("Loan"))
-            mReName.setText("Recovered");
+            mReName.setText("Recovered :");
         else if (type.equals("Debt"))
-            mReName.setText("Repaid");
+            mReName.setText("Repaid :");
 
-        c.close();
+        ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), ld_id);
+        float balance = 0;
+        Iterator<LoanDebtDB> iterator = null;
+        if (!arrayList.isEmpty())
+        {
+            iterator = arrayList.iterator();
+            while (iterator.hasNext())
+            {
+                LoanDebtDB ldDB = iterator.next();
+                balance += ldDB.l_balance;
+            }
+        }
+
+        mReAmt.setText(balance + "");
+        mRemaining.setText(Float.parseFloat(mTotal.getText().toString()) - balance + "");
 
         al= dbHelper.getAllLoanDebt(sp.getInt("UID", 0), ld_id);
-        loanDebtAdapter =new LoanDebtAdapter(DetailedLoanDebt.this,R.layout.list_loan_debt,al);
+        loanDebtAdapter =new DetailedLDAdapter(DetailedLoanDebt.this,R.layout.list_add_ld,al);
         listView.setAdapter(loanDebtAdapter);
         registerForContextMenu(listView);
     }
@@ -126,7 +146,7 @@ public class DetailedLoanDebt extends ActionBarActivity
             String l_time = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_TIME));
             int l_parent = c.getInt(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_PARENT));
             c.close();
-            Intent i = new Intent(DetailedLoanDebt.this, AddLoanDebtActivity.class);
+            Intent i = new Intent(DetailedLoanDebt.this, DetailedAddLD.class);
             i.putExtra("l_id", l_id);
             i.putExtra("l_u_id", l_u_id);
             i.putExtra("l_date", l_date);
@@ -143,8 +163,52 @@ public class DetailedLoanDebt extends ActionBarActivity
         }
 
         if (id == R.id.Delete) {
+            String l_type_old = loanDebtDB.l_type;
+            int l_to_old = loanDebtDB.l_to_acc;
+            int l_from_old = loanDebtDB.l_from_acc;
+            float l_amt_old = loanDebtDB.l_balance;
+            int l_parent = loanDebtDB.l_parent;
+            Log.i("Detailed To From", l_to_old + " ; " + l_from_old);
+
             if (dbHelper.deleteLoanDebt(loanDebtDB.l_id, sp.getInt("UID", 0)) > 0) {
-                Intent i = new Intent(DetailedLoanDebt.this, LoanDebtActivity.class);
+
+                if (l_type_old.equals("Loan"))
+                {
+                    Cursor cursor = dbHelper.getAccountData(l_to_old);
+                    cursor.moveToFirst();
+
+                    float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                    String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                    String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                    int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                    int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                    bal = bal - l_amt_old;
+
+                    dbHelper.updateAccountData(l_to_old, name, bal, note, cur, show, uid);
+                    cursor.close();
+                }
+                else if (l_type_old.equals("Debt"))
+                {
+                    Cursor cursor = dbHelper.getAccountData(l_from_old);
+                    cursor.moveToFirst();
+
+                    float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                    String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                    String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                    int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                    int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                    bal = bal + l_amt_old;
+
+                    dbHelper.updateAccountData(l_from_old, name, bal, note, cur, show, uid);
+                    cursor.close();
+                }
+
+                Intent i = new Intent(DetailedLoanDebt.this, DetailedLoanDebt.class);
+                i.putExtra("LD_ID", l_parent);
                 startActivity(i);
                 Toast.makeText(DetailedLoanDebt.this, "Loan/Debt Deleted", Toast.LENGTH_LONG).show();
             }

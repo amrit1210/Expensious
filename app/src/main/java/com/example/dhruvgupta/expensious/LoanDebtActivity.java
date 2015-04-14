@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class LoanDebtActivity extends ActionBarActivity
 {
@@ -116,6 +118,106 @@ public class LoanDebtActivity extends ActionBarActivity
 
         if (id == R.id.Delete) {
             if (dbHelper.deleteLoanDebt(loanDebtDB.l_id, sp.getInt("UID", 0)) > 0) {
+                String l_type_old = loanDebtDB.l_type;
+                int l_to_old = loanDebtDB.l_to_acc;
+                int l_id = loanDebtDB.l_id;
+                int l_from_old = loanDebtDB.l_from_acc;
+                float l_amt_old = loanDebtDB.l_balance;
+
+                if (l_type_old.equals("Loan"))
+                {
+                    Cursor cursor = dbHelper.getAccountData(l_from_old);
+                    cursor.moveToFirst();
+
+                    float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                    String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                    String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                    int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                    int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                    bal = bal + l_amt_old;
+
+                    dbHelper.updateAccountData(l_from_old, name, bal, note, cur, show, uid);
+                    cursor.close();
+
+                    ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
+                    Iterator <LoanDebtDB> iterator = null;
+                    if (!arrayList.isEmpty())
+                    {
+                        iterator = arrayList.iterator();
+                        while (iterator.hasNext())
+                        {
+                            LoanDebtDB ldDB = iterator.next();
+                            Cursor c = dbHelper.getAccountData(ldDB.l_to_acc);
+                            c.moveToFirst();
+                            if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
+
+                                float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                                String name1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                                String note1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                                String cur1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                                int show1 = c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                                int uid1 = c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                                bal1 = bal1 - ldDB.l_balance;
+
+                                dbHelper.updateAccountData(ldDB.l_to_acc, name1, bal1, note1, cur1, show1, uid1);
+                                c.close();
+                            }
+                        }
+                    }
+
+                }
+                else if (l_type_old.equals("Debt"))
+                {
+                    Cursor cursor = dbHelper.getAccountData(l_to_old);
+                    cursor.moveToFirst();
+
+                    float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                    String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                    String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                    String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                    int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                    int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                    bal = bal - l_amt_old;
+
+                    dbHelper.updateAccountData(l_to_old, name, bal, note, cur, show, uid);
+                    cursor.close();
+
+                    ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
+
+                    Iterator <LoanDebtDB> iterator = null;
+                    if (!arrayList.isEmpty())
+                    {
+                        iterator = arrayList.iterator();
+                        while (iterator.hasNext())
+                        {
+                            LoanDebtDB ldDB = iterator.next();
+                            Cursor c = dbHelper.getAccountData(ldDB.l_from_acc);
+                            c.moveToFirst();
+                            Log.i("While", "inside while debt");
+
+                            if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
+                                Log.i("If While", "inside if while debt");
+                                float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
+                                String name1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                                String note1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
+                                String cur1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
+                                int show1 = c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
+                                int uid1 = c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
+
+                                bal1 = bal1 + ldDB.l_balance;
+
+                                dbHelper.updateAccountData(ldDB.l_from_acc, name1, bal1, note1, cur1, show1, uid1);
+                                c.close();
+                            }
+                        }
+                    }
+
+                }
+
                 Intent i = new Intent(LoanDebtActivity.this, LoanDebtActivity.class);
                 startActivity(i);
                 Toast.makeText(LoanDebtActivity.this, "Loan/Debt Deleted", Toast.LENGTH_LONG).show();

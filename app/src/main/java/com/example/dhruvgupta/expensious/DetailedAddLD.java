@@ -46,11 +46,12 @@ public class DetailedAddLD extends ActionBarActivity {
         mAmt = (Button) findViewById(R.id.detailed_add_ld_amt);
         mDate = (Button) findViewById(R.id.detailed_add_ld_date);
         mTime = (Button) findViewById(R.id.detailed_add_ld_time);
-        mFromAcc = (EditText) findViewById(R.id.add_loan_debt_from_account);
-        mToAcc = (EditText) findViewById(R.id.add_loan_debt_to_account);
-        mNote = (EditText) findViewById(R.id.add_loan_debt_note);
-        mType = "Recover";
+        mFromAcc = (EditText) findViewById(R.id.detailed_add_ld_from_account);
+        mToAcc = (EditText) findViewById(R.id.detailed_add_ld_to_account);
+        mNote = (EditText) findViewById(R.id.detailed_add_ld_note);
+        mType = "Loan";
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
+        dbHelper = new DBHelper(DetailedAddLD.this);
 
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
@@ -60,8 +61,8 @@ public class DetailedAddLD extends ActionBarActivity {
         mMin = calendar.get(Calendar.MINUTE);
         mDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
-                .append(mYear).append(" ").append("-").append(mMonth + 1).append("-")
-                .append(mDay));
+                .append(mDay).append("-").append(mMonth + 1).append("-")
+                .append(mYear));
         mTime.setText(new StringBuilder().append(mHour).append(":").append(mMin));
 
         sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -82,7 +83,7 @@ public class DetailedAddLD extends ActionBarActivity {
             mNote.setText(getIntent().getStringExtra("l_note"));
             mDate.setText(getIntent().getStringExtra("l_date"));
             mTime.setText(getIntent().getStringExtra("l_time"));
-            l_parent = getIntent().getIntExtra("l_show", 0);
+            l_parent = getIntent().getIntExtra("l_parent", 0);
             l_person = getIntent().getIntExtra("l_person", 0);
             l_type = getIntent().getStringExtra("l_type");
 
@@ -91,12 +92,13 @@ public class DetailedAddLD extends ActionBarActivity {
             l_from_old = l_fromAcc;
             l_to_old = l_toAcc;
 
-            if (l_type.equals("Repay")) {
+            if (l_type.equals("Debt")) {
                 flag = 0;
                 l_toAcc=0;
                 to_acc=null;
-                mFromAcc.setVisibility(View.VISIBLE);
-                mToAcc.setVisibility(View.GONE);
+                mType = "Debt";
+                mLlFromAcc.setVisibility(View.VISIBLE);
+                mLlToAcc.setVisibility(View.GONE);
 
                 if(l_fromAcc!=0) {
                     Cursor c1 = dbHelper.getAccountData(l_fromAcc);
@@ -106,12 +108,13 @@ public class DetailedAddLD extends ActionBarActivity {
                     c1.close();
                 }
             }
-            if (l_type.equals("Recover")) {
+            if (l_type.equals("Loan")) {
                 flag = 1;
                 l_fromAcc=0;
                 from_acc=null;
-                mFromAcc.setVisibility(View.GONE);
-                mToAcc.setVisibility(View.VISIBLE);
+                mType = "Loan";
+                mLlFromAcc.setVisibility(View.GONE);
+                mLlToAcc.setVisibility(View.VISIBLE);
 
                 if(l_toAcc!=0) {
                     Cursor c1 = dbHelper.getAccountData(l_toAcc);
@@ -126,14 +129,16 @@ public class DetailedAddLD extends ActionBarActivity {
         {
             l_parent = getIntent().getIntExtra("LD_ID", 0);
             Cursor c = dbHelper.getLoanDebtData(l_parent);
-            String type = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_TYPE));
+            c.moveToFirst();
+            l_type = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_TYPE));
 
-            if (l_type.equals("Repay")) {
+            if (l_type.equals("Debt")) {
                 flag = 0;
                 l_toAcc=0;
                 to_acc=null;
-                mFromAcc.setVisibility(View.VISIBLE);
-                mToAcc.setVisibility(View.GONE);
+                mType = "Debt";
+                mLlFromAcc.setVisibility(View.VISIBLE);
+                mLlToAcc.setVisibility(View.GONE);
 
                 if(l_fromAcc!=0) {
                     Cursor c1 = dbHelper.getAccountData(l_fromAcc);
@@ -143,12 +148,13 @@ public class DetailedAddLD extends ActionBarActivity {
                     c1.close();
                 }
             }
-            if (l_type.equals("Recover")) {
+            if (l_type.equals("Loan")) {
                 flag = 1;
                 l_fromAcc=0;
                 from_acc=null;
-                mFromAcc.setVisibility(View.GONE);
-                mToAcc.setVisibility(View.VISIBLE);
+                mType = "Loan";
+                mLlFromAcc.setVisibility(View.GONE);
+                mLlToAcc.setVisibility(View.VISIBLE);
 
                 if(l_toAcc!=0) {
                     Cursor c1 = dbHelper.getAccountData(l_toAcc);
@@ -290,7 +296,7 @@ public class DetailedAddLD extends ActionBarActivity {
 
                         Log.i("Types", l_type_old + " : " + l_type);
 
-                        if (l_type_old.equals("Repay"))
+                        if (l_type_old.equals("Debt"))
                         {
                             Cursor cursor = dbHelper.getAccountData(l_from_old);
                             cursor.moveToFirst();
@@ -307,7 +313,7 @@ public class DetailedAddLD extends ActionBarActivity {
                             dbHelper.updateAccountData(l_from_old, name, bal, note, cur, show, uid);
                             cursor.close();
                         }
-                        else if (l_type_old.equals("Recover"))
+                        else if (l_type_old.equals("Loan"))
                         {
                             Cursor cursor = dbHelper.getAccountData(l_to_old);
                             cursor.moveToFirst();
@@ -325,7 +331,7 @@ public class DetailedAddLD extends ActionBarActivity {
                             cursor.close();
                         }
 
-                        if (l_type.equals("Repay"))
+                        if (l_type.equals("Debt"))
                         {
                             Cursor cursor = dbHelper.getAccountData(l_fromAcc);
                             cursor.moveToFirst();
@@ -342,7 +348,7 @@ public class DetailedAddLD extends ActionBarActivity {
                             dbHelper.updateAccountData(l_fromAcc, name, bal, note, cur, show, uid);
                             cursor.close();
                         }
-                        else if (l_type.equals("Recover"))
+                        else if (l_type.equals("Loan"))
                         {
                             Cursor cursor = dbHelper.getAccountData(l_toAcc);
                             cursor.moveToFirst();
@@ -393,7 +399,8 @@ public class DetailedAddLD extends ActionBarActivity {
                             dbHelper.updateAccountData(acc_id, name, bal, note, cur, show, uid);
                             cursor.close();
 
-                            Intent intent = new Intent(DetailedAddLD.this, LoanDebtActivity.class);
+                            Intent intent = new Intent(DetailedAddLD.this, DetailedLoanDebt.class);
+                            intent.putExtra("LD_ID", l_parent);
                             startActivity(intent);
                         }
                     }
@@ -405,7 +412,7 @@ public class DetailedAddLD extends ActionBarActivity {
                     if (mToAcc.length()>0) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         boolean b = dbHelper.addLoanDebt(sp.getInt("UID", 0), amt, mDate.getText().toString(), mTime.getText().toString(),
-                                acc_id,0, p_id, mNote.getText().toString(), mType, l_parent);
+                                0, acc_id, p_id, mNote.getText().toString(), mType, l_parent);
                         if (b) {
                             Toast.makeText(DetailedAddLD.this, "Added", Toast.LENGTH_LONG).show();
 
@@ -424,7 +431,8 @@ public class DetailedAddLD extends ActionBarActivity {
                             dbHelper.updateAccountData(acc_id, name, bal, note, cur, show, uid);
                             cursor.close();
 
-                            Intent intent = new Intent(DetailedAddLD.this, LoanDebtActivity.class);
+                            Intent intent = new Intent(DetailedAddLD.this, DetailedLoanDebt.class);
+                            intent.putExtra("LD_ID", l_parent);
                             startActivity(intent);
                         }
                     }
