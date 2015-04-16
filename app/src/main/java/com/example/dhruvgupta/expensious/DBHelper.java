@@ -17,13 +17,13 @@ public class DBHelper extends SQLiteOpenHelper
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME="Expensious";
 
-    public static final String USER_TABLE="users";
-    public static final String USER_COL_ID="u_id";
-    public static final String USER_COL_IMAGE="u_image";
-    public static final String USER_COL_NAME="u_name";
-    public static final String USER_COL_EMAIL="u_email";
-    public static final String USER_COL_PASSWORD="u_pass";
-    public static final String USER_COL_FID="u_fid";
+    public static final String USER_TABLE="User";
+    public static final String USER_COL_ID="uid";
+    public static final String USER_COL_IMAGE="userimage";
+    public static final String USER_COL_NAME="username";
+    public static final String USER_COL_EMAIL="email";
+    public static final String USER_COL_PASSWORD="password";
+    public static final String USER_COL_FID="fid";
 
     public static final String ACCOUNTS_TABLE="accounts";
     public static final String ACCOUNTS_COL_ACC_ID ="acc_id";

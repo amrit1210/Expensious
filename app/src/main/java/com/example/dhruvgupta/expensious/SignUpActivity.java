@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,16 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.parse.CountCallback;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 import com.pkmmte.view.CircularImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -26,6 +37,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Gaurav on 3/11/15.
@@ -35,6 +47,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
     EditText mName,mEmail,mPassword,mConfirm_Password;
     CircularImageView mImage;
     String image = "";
+    byte[] b;
     DBHelper dbHelper;
     ArrayList<SignUpDB> al;
     @Override
@@ -216,8 +229,8 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                     try
                     {
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                        byte[] b = baos.toByteArray();
+                        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                        b = baos.toByteArray();
                         image = Base64.encodeToString(b, Base64.DEFAULT);
 
                         byte[] decodedString = Base64.decode(image.trim(),Base64.DEFAULT);
@@ -250,8 +263,8 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                 try
                 {
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    byte[] b = baos.toByteArray();
+                    bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                    b = baos.toByteArray();
                     image = Base64.encodeToString(b, Base64.DEFAULT);
 
                     byte[] decodedString = Base64.decode(image.trim(),Base64.DEFAULT);
@@ -284,8 +297,8 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                 Bitmap decodedByte= BitmapFactory.decodeStream(image_stream );
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                decodedByte.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] b = baos.toByteArray();
+                decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                b = baos.toByteArray();
                 image = Base64.encodeToString(b, Base64.DEFAULT);
 
                 mImage.setImageURI(fileUri);
@@ -298,21 +311,72 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                     if(mName.getError()==null && mEmail.getError()==null
                             && mPassword.getError()==null && mConfirm_Password.getError()==null)
                     {
-                        if(dbHelper.addUser(mName.getText().toString(), mEmail.getText().toString(),
-                                mPassword.getText().toString(),image))
-                        {
-                            Toast.makeText(SignUpActivity.this,"You are Signed Up!!", Toast.LENGTH_LONG).show();
-                            mName.setText(null);
-                            mEmail.setText(null);
-                            mPassword.setText(null);
-                            mConfirm_Password.setText(null);
-                            Intent i=new Intent(SignUpActivity.this,LoginActivity.class);
-                            startActivity(i);
-                        }
-                        else
-                        {
-                            Toast.makeText(SignUpActivity.this, "Error Signing Up", Toast.LENGTH_LONG).show();
-                        }
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+                        query.whereExists("uid");
+                        query.countInBackground(new CountCallback() {
+                            public void done(int count, ParseException e) {
+                                if (e == null)
+                                {
+                                    // The count request succeeded. Log the count
+                                    Log.d("No. of users : ", count +"");
+
+                                    final ParseUser user = new ParseUser();
+                                    user.setUsername(mEmail.getText().toString());
+                                    user.setPassword(mPassword.getText().toString());
+                                    user.setEmail(mEmail.getText().toString());
+
+                                    final int r = count + 1;
+                                    String img = "image" + r + ".png";
+                                    final ParseFile file = new ParseFile(img, b);
+                                    file.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null)
+                                            {
+                                                user.put("uid", r);
+                                                user.put("uname", mName.getText().toString());
+                                                user.put("userimage", file);
+
+                                                user.signUpInBackground(new SignUpCallback() {
+                                                    public void done(ParseException e) {
+                                                        if (e == null) {
+                                                            // Hooray! Let them use the app now.
+                                                            Log.i("Signed Up", "YES! YES! YES!");
+                                                            if(dbHelper.addUser(mName.getText().toString(), mEmail.getText().toString(),
+                                                                    mPassword.getText().toString(),image))
+                                                            {
+                                                                Toast.makeText(SignUpActivity.this,"You are Signed Up!!", Toast.LENGTH_LONG).show();
+                                                                mName.setText(null);
+                                                                mEmail.setText(null);
+                                                                mPassword.setText(null);
+                                                                mConfirm_Password.setText(null);
+                                                                Intent i=new Intent(SignUpActivity.this,LoginActivity.class);
+                                                                startActivity(i);
+                                                            }
+                                                            else
+                                                            {
+                                                                Toast.makeText(SignUpActivity.this, "Error Signing Up", Toast.LENGTH_LONG).show();
+                                                            }
+                                                        } else {
+                                                            // Sign up didn't succeed. Look at the ParseException
+                                                            // to figure out what went wrong
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            else
+                                            {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+
+                                } else {
+                                    // The request failed
+                                }
+                            }
+                        });
                     }
                 }
                 else

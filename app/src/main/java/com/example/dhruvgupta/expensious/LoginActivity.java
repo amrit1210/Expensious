@@ -12,6 +12,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
 import java.util.ArrayList;
 
 public class LoginActivity extends ActionBarActivity
@@ -47,42 +51,76 @@ public class LoginActivity extends ActionBarActivity
         }
         if (mEmail.length() != 0 || mPassword.length() != 0)
         {
-            if(al1.contains(mEmail.getText().toString()))
-            {
-                id=al1.indexOf(mEmail.getText().toString());
-                id=id+1;
-                Cursor c = dbHelper.getUserData(id);
-                c.moveToFirst();
-                s=c.getString(c.getColumnIndex(DBHelper.USER_COL_PASSWORD));
-                if(mPassword.getText().toString().equals(s))
-                {
-                    SharedPreferences sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-                    SharedPreferences.Editor spEdit = sharedPreferences.edit();
-                    spEdit.putString("EMAIL",mEmail.getText().toString());
-                    spEdit.putString("PASSWORD",mPassword.getText().toString());
-                    spEdit.putInt("UID", dbHelper.getUserColId(mEmail.getText().toString()));
-                    spEdit.commit();
-                    Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
-                            Toast.LENGTH_LONG).show();
-//                    Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
-//                    Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
-//                    Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
-//                    Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
-//                    Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
-                    Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
-                    startActivity(i);
+            ParseUser.logInInBackground(mEmail.getText().toString(), mPassword.getText().toString(), new LogInCallback() {
+                public void done(ParseUser user, ParseException e) {
+                    if (user.getBoolean("emailVerified"))
+                    {
+                        if (user != null) {
+                            // Hooray! The user is logged in.
+                            SharedPreferences sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+                            SharedPreferences.Editor spEdit = sharedPreferences.edit();
+                            spEdit.putString("EMAIL",mEmail.getText().toString());
+                            spEdit.putString("PASSWORD",mPassword.getText().toString());
+                            spEdit.putInt("UID", dbHelper.getUserColId(mEmail.getText().toString()));
+                            spEdit.commit();
+                            Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
+                                    Toast.LENGTH_LONG).show();
+//                            Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
+//                            Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
+//                            Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
+//                            Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
+//                            Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
+                            Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
+                            startActivity(i);
+                        } else {
+                            // Signup failed. Look at the ParseException to see what happened.
+                            e.printStackTrace();
+                            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(LoginActivity.this, "Email not Verified", Toast.LENGTH_LONG).show();
+                    }
                 }
-                else
-                {
-                    Toast.makeText(LoginActivity.this,"Incorrect Password",Toast.LENGTH_LONG).show();
-                    mPassword.setText(null);
-                    mPassword.setError("Enter Correct Password");
-                }
-            }
-            else
-            {
-                Toast.makeText(LoginActivity.this,"Email id not registered",Toast.LENGTH_LONG).show();
-            }
+            });
+
+//            if(al1.contains(mEmail.getText().toString()))
+//            {
+//                id=al1.indexOf(mEmail.getText().toString());
+//                id=id+1;
+//                Cursor c = dbHelper.getUserData(id);
+//                c.moveToFirst();
+//                s=c.getString(c.getColumnIndex(DBHelper.USER_COL_PASSWORD));
+//                if(mPassword.getText().toString().equals(s))
+//                {
+//                    SharedPreferences sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+//                    SharedPreferences.Editor spEdit = sharedPreferences.edit();
+//                    spEdit.putString("EMAIL",mEmail.getText().toString());
+//                    spEdit.putString("PASSWORD",mPassword.getText().toString());
+//                    spEdit.putInt("UID", dbHelper.getUserColId(mEmail.getText().toString()));
+//                    spEdit.commit();
+//                    Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
+//                            Toast.LENGTH_LONG).show();
+////                    Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
+////                    Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
+////                    Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
+////                    Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
+////                    Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
+//                    Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
+//                    startActivity(i);
+//                }
+//                else
+//                {
+//                    Toast.makeText(LoginActivity.this,"Incorrect Password",Toast.LENGTH_LONG).show();
+//                    mPassword.setText(null);
+//                    mPassword.setError("Enter Correct Password");
+//                }
+//            }
+//            else
+//            {
+//                Toast.makeText(LoginActivity.this,"Email id not registered",Toast.LENGTH_LONG).show();
+//            }
         }
     }
 
