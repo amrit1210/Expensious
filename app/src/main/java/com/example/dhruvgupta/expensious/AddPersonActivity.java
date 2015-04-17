@@ -26,6 +26,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ProgressCallback;
+import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 import com.pkmmte.view.CircularImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -47,6 +53,7 @@ public class AddPersonActivity  extends ActionBarActivity
     AlertDialog.Builder builder;
     AlertDialog ad;
     Uri fileUri;
+    byte[] b;
     DBHelper dbHelper;
 
     SharedPreferences sp;
@@ -93,7 +100,7 @@ public class AddPersonActivity  extends ActionBarActivity
             Bitmap decodedByte= BitmapFactory.decodeStream(image_stream );
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] b = baos.toByteArray();
+            b = baos.toByteArray();
             color = Base64.encodeToString(b, Base64.DEFAULT);
         }
     }
@@ -132,7 +139,7 @@ public class AddPersonActivity  extends ActionBarActivity
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] b = baos.toByteArray();
+                b = baos.toByteArray();
                 color = Base64.encodeToString(b, Base64.DEFAULT);
             }
             catch (Exception e){
@@ -200,6 +207,23 @@ public class AddPersonActivity  extends ActionBarActivity
                     if(dbHelper.addPerson(mPerson_Name.getText().toString(),color,colorCode,sp.getInt("UID",0)))
                     {
                         Toast.makeText(AddPersonActivity.this, "Person Added", Toast.LENGTH_LONG).show();
+
+                        final int pid = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson_Name.getText().toString());
+
+                        ParseObject person = new ParseObject("Persons");
+                        person.put("p_id", pid);
+                        person.put("p_uid", sp.getInt("UID",0));
+                        person.put("p_name", mPerson_Name.getText().toString());
+                        person.put("p_color", color);
+                        person.put("p_color_code", colorCode);
+                        person.pinInBackground("pinPersons");
+                        person.saveEventually(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Log.i("Person saveEventually", "YES! YES! YES!");
+                            }
+                        });
+
                         Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
                         startActivity(intent);
                     }

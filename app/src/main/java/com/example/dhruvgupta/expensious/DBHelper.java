@@ -25,7 +25,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String USER_COL_PASSWORD="password";
     public static final String USER_COL_FID="fid";
 
-    public static final String ACCOUNTS_TABLE="accounts";
+    public static final String ACCOUNTS_TABLE="Accounts";
     public static final String ACCOUNTS_COL_ACC_ID ="acc_id";
     public static final String ACCOUNTS_COL_ACC_UID ="acc_u_id";
     public static final String ACCOUNTS_COL_ACC_NAME ="acc_name";
@@ -77,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String RECURSIVE_COL_PERSON="rec_person";
     public static final String RECURSIVE_COL_BALANCE="rec_balance";
 
-    public static final String PERSON_TABLE ="persons";
+    public static final String PERSON_TABLE ="Persons";
     public static final String PERSON_COL_ID ="p_id";
     public static final String PERSON_COL_NAME ="p_name";
     public static final String PERSON_COL_COLOR ="p_color";
