@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +15,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Amrit on 3/19/2015.
@@ -41,6 +49,46 @@ public class PersonsActivity extends ActionBarActivity
         personsAdapter =new PersonsAdapter(PersonsActivity.this,R.layout.list_person,al);
         listView.setAdapter(personsAdapter);
         registerForContextMenu(listView);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Persons");
+        query.fromPin("pinPersons");
+        query.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> todos, ParseException e) {
+                if (e == null) {
+                    for (final ParseObject todo : todos) {
+                        // Set isdraft flag to false before syncing to Parse
+                        // todo.setDraft(false);
+                        todo.saveInBackground(new SaveCallback() {
+
+                            @Override
+                            public void done(ParseException e) {
+                                //if (e == null) {
+                                // Let adapter know to update view
+                                if (!isFinishing()) {
+                                    //refresh list data
+//                                    todo.unpinInBackground("pinPersons");
+                                    System.out.println("Image DATA is saved ..... ");
+
+                                }
+
+                            }
+
+                        });
+
+                    }
+                } else {
+                    Log.i("MainActivity", "syncTodosToParse: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+        });
     }
 
     @Override
