@@ -11,22 +11,30 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <ImageView
+        <ImageButton
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
+            android:src="@drawable/arrow_left"
+            android:onClick="onLeftArrow"
+            android:background="#00000000"
             android:id="@+id/report_prev" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="20sp"
             android:id="@+id/report_period" />
 
-        <ImageView
+        <ImageButton
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
+            android:src="@drawable/arrow_right"
+            android:onClick="onRightArrow"
+            android:background="#00000000"
             android:id="@+id/report_next" />
 
         </LinearLayout>
@@ -41,6 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:background="#FEFEFE"
+        android:layout_margin="8dp"
         android:id="@+id/report_list" />
 
 </LinearLayout>

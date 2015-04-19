@@ -450,8 +450,8 @@ public class DBHelper extends SQLiteOpenHelper
                 a1.acc_note=c.getString(c.getColumnIndex(ACCOUNTS_COL_ACC_NOTE));
                 a1.acc_show=c.getInt(c.getColumnIndex(ACCOUNTS_COL_ACC_SHOW));
                 arrayList.add(a1);
-                Log.i("ACCOUNT :", a1.acc_id +"\t"+ a1.acc_u_id +"\t"+ a1.acc_name +"\t"+ a1.acc_balance
-                        +"\t"+ a1.acc_currency +"\t"+ a1.acc_note +"\t"+ a1.acc_show);
+//                Log.i("ACCOUNT :", a1.acc_id +"\t"+ a1.acc_u_id +"\t"+ a1.acc_name +"\t"+ a1.acc_balance
+//                        +"\t"+ a1.acc_currency +"\t"+ a1.acc_note +"\t"+ a1.acc_show);
                 c.moveToNext();
             }
             c.close();
@@ -505,33 +505,6 @@ public class DBHelper extends SQLiteOpenHelper
         {
             SQLiteDatabase db = this.getReadableDatabase();
             return db.rawQuery("select * from "+ BUDGETS_TABLE +" where "+ BUDGETS_COL_B_ID +"="+ b_id, null);
-        }
-        catch(Exception ae)
-        {
-            ae.printStackTrace();
-            return null;
-        }
-    }
-
-    public ArrayList getBudgetColDate()
-    {
-        try
-        {
-            SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ BUDGETS_TABLE, null);
-            ArrayList al1 = new ArrayList();
-            ArrayList al2 = new ArrayList();
-            String s1,s2;
-            c.moveToFirst();
-            while (!c.isAfterLast())
-            {
-                s1 = c.getString(c.getColumnIndex(BUDGETS_COL_START_DATE));
-                s2 = c.getString(c.getColumnIndex(BUDGETS_COL_END_DATE));
-                al1.add(s1);
-                c.moveToNext();
-            }
-            c.close();
-            return al1;
         }
         catch(Exception ae)
         {
@@ -645,7 +618,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Log.d("DB",""+db.isOpen());
+//            Log.d("DB",""+db.isOpen());
             Cursor c = db.rawQuery("select * from "+ TRANSACTION_TABLE +" where "+ TRANSACTION_COL_UID +"="+ u_id, null);
             c.moveToFirst();
             while(!c.isAfterLast())
@@ -666,9 +639,9 @@ public class DBHelper extends SQLiteOpenHelper
                 t1.t_sub_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_SUBCATEGORY));
                 t1.t_rec_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_RECID));
                 arrayList.add(t1);
-                Log.i("Transaction :", t1.t_id +"\t"+ t1.t_u_id +"\t"+t1.t_from_acc +"\t"+t1.t_to_acc+"\t"+ t1.t_balance+"\t"+ t1.t_type
-                        +"\t"+ t1.t_c_id+"\t"+ t1.t_sub_id+"\t"+ t1.t_p_id+"\t"+ t1.t_date+"\t"+ t1.t_time +"\t"+ t1.t_note +"\t"+
-                        t1.t_show + "\t" + t1.t_rec_id);
+//                Log.i("Transaction :", t1.t_id +"\t"+ t1.t_u_id +"\t"+t1.t_from_acc +"\t"+t1.t_to_acc+"\t"+ t1.t_balance+"\t"+ t1.t_type
+//                        +"\t"+ t1.t_c_id+"\t"+ t1.t_sub_id+"\t"+ t1.t_p_id+"\t"+ t1.t_date+"\t"+ t1.t_time +"\t"+ t1.t_note +"\t"+
+//                        t1.t_show + "\t" + t1.t_rec_id);
                 c.moveToNext();
             }
             c.close();
@@ -687,7 +660,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Log.d("DB",""+db.isOpen());
+//            Log.d("DB",""+db.isOpen());
             Cursor c = db.rawQuery("select * from "+ TRANSACTION_TABLE +" where "+ TRANSACTION_COL_UID +"="+ u_id + " and " +
                     TRANSACTION_COL_RECID + "=" + rec_id, null);
             c.moveToFirst();
@@ -709,9 +682,9 @@ public class DBHelper extends SQLiteOpenHelper
                 t1.t_sub_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_SUBCATEGORY));
                 t1.t_rec_id=c.getInt(c.getColumnIndex(TRANSACTION_COL_RECID));
                 arrayList.add(t1);
-                Log.i("Transaction :", t1.t_id +"\t"+ t1.t_u_id +"\t"+t1.t_from_acc +"\t"+t1.t_to_acc+"\t"+ t1.t_balance+"\t"+ t1.t_type
-                        +"\t"+ t1.t_c_id+"\t"+ t1.t_sub_id+"\t"+ t1.t_p_id+"\t"+ t1.t_date+"\t"+ t1.t_time +"\t"+ t1.t_note +"\t"+
-                        t1.t_show + "\t" + t1.t_rec_id);
+//                Log.i("Transaction :", t1.t_id +"\t"+ t1.t_u_id +"\t"+t1.t_from_acc +"\t"+t1.t_to_acc+"\t"+ t1.t_balance+"\t"+ t1.t_type
+//                        +"\t"+ t1.t_c_id+"\t"+ t1.t_sub_id+"\t"+ t1.t_p_id+"\t"+ t1.t_date+"\t"+ t1.t_time +"\t"+ t1.t_note +"\t"+
+//                        t1.t_show + "\t" + t1.t_rec_id);
                 c.moveToNext();
             }
             c.close();
@@ -804,7 +777,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Log.d("DB",""+db.isOpen());
+//            Log.d("DB",""+db.isOpen());
             Cursor c = db.rawQuery("select * from "+ RECURSIVE_TABLE +" where "+ RECURSIVE_COL_UID +"="+ u_id, null);
             c.moveToFirst();
             while(!c.isAfterLast())
@@ -828,10 +801,10 @@ public class DBHelper extends SQLiteOpenHelper
                 rec1.rec_c_id=c.getInt(c.getColumnIndex(RECURSIVE_COL_CATEGORY));
                 rec1.rec_sub_id=c.getInt(c.getColumnIndex(RECURSIVE_COL_SUBCATEGORY));
                 arrayList.add(rec1);
-                Log.i("Recursive :", rec1.rec_id +"\t"+ rec1.rec_u_id +"\t"+rec1.rec_from_acc +"\t"+rec1.rec_to_acc+"\t"+ rec1.rec_balance
-                        +"\t"+ rec1.rec_type +"\t"+ rec1.rec_c_id+"\t"+ rec1.rec_sub_id+"\t"+ rec1.rec_p_id+"\t"+ rec1.rec_start_date +"\t"+
-                        rec1.rec_end_date +"\t"+ rec1.rec_time +"\t"+ rec1.rec_note +"\t"+ rec1.rec_show +"\t"+ rec1.rec_recurring +"\t"+
-                        rec1.rec_alert + "\t" + rec1.rec_next_date);
+//                Log.i("Recursive :", rec1.rec_id +"\t"+ rec1.rec_u_id +"\t"+rec1.rec_from_acc +"\t"+rec1.rec_to_acc+"\t"+ rec1.rec_balance
+//                        +"\t"+ rec1.rec_type +"\t"+ rec1.rec_c_id+"\t"+ rec1.rec_sub_id+"\t"+ rec1.rec_p_id+"\t"+ rec1.rec_start_date +"\t"+
+//                        rec1.rec_end_date +"\t"+ rec1.rec_time +"\t"+ rec1.rec_note +"\t"+ rec1.rec_show +"\t"+ rec1.rec_recurring +"\t"+
+//                        rec1.rec_alert + "\t" + rec1.rec_next_date);
                 c.moveToNext();
             }
             c.close();
@@ -965,7 +938,7 @@ public class DBHelper extends SQLiteOpenHelper
                 p1.p_color_code = c.getString(c.getColumnIndex(PERSON_COL_COLOR_CODE));
                 p1.p_u_id = c.getInt(c.getColumnIndex(PERSON_COL_UID));
                 arrayList.add(p1);
-                Log.i("PERSON :", p1.p_id +"\t"+ p1.p_name +"\n\t"+ p1.p_color_code +"\t"+ p1.p_u_id);
+//                Log.i("PERSON :", p1.p_id +"\t"+ p1.p_name +"\n\t"+ p1.p_color_code +"\t"+ p1.p_u_id);
                 c.moveToNext();
             }
             c.close();
@@ -1354,8 +1327,8 @@ public class DBHelper extends SQLiteOpenHelper
                 p1.l_type = c.getString(c.getColumnIndex(LOAN_DEBT_COL_TYPE));
                 p1.l_parent = c.getInt(c.getColumnIndex(LOAN_DEBT_COL_PARENT));
                 arrayList.add(p1);
-                Log.i("PERSON :", p1.l_id +"\t"+ p1.l_balance +"\n\t"+ p1.l_date +"\t"+ p1.l_time +"\t"+ p1.l_from_acc +"\t"+
-                        p1.l_to_acc +"\t"+ p1.l_person +"\t"+ p1.l_person +"\t"+ p1.l_note +"\t"+ p1.l_type +"\t"+ p1.l_parent);
+//                Log.i("PERSON :", p1.l_id +"\t"+ p1.l_balance +"\n\t"+ p1.l_date +"\t"+ p1.l_time +"\t"+ p1.l_from_acc +"\t"+
+//                        p1.l_to_acc +"\t"+ p1.l_person +"\t"+ p1.l_person +"\t"+ p1.l_note +"\t"+ p1.l_type +"\t"+ p1.l_parent);
                 c.moveToNext();
             }
             c.close();
