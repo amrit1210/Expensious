@@ -81,6 +81,7 @@ public class AddPersonActivity  extends ActionBarActivity
             mPerson_Name.setText(getIntent().getStringExtra("p_name"));
             name = mPerson_Name.getText().toString();
             color = getIntent().getStringExtra("p_color");
+            colorCode = getIntent().getStringExtra("p_color_code");
             byte[] decodedString = Base64.decode(color.trim(), Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             mPerson_Color.setImageBitmap(decodedByte);
@@ -182,6 +183,21 @@ public class AddPersonActivity  extends ActionBarActivity
                     if(dbHelper.updatePersonData(p_id,mPerson_Name.getText().toString(),color,colorCode))
                     {
                         Toast.makeText(AddPersonActivity.this, "Person Updated", Toast.LENGTH_LONG).show();
+
+                        ParseObject person = new ParseObject("Persons");
+                        person.put("p_id", p_id);
+                        person.put("p_uid", sp.getInt("UID",0));
+                        person.put("p_name", mPerson_Name.getText().toString());
+                        person.put("p_color", color);
+                        person.put("p_color_code", colorCode);
+                        person.pinInBackground("pinPersonsUpdate");
+                        person.saveEventually(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                Log.i("Person UpdateEventually", "YES! YES! YES!");
+                            }
+                        });
+
                         Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
                         startActivity(intent);
                     }

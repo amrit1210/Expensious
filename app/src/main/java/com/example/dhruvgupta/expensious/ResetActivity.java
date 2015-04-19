@@ -38,8 +38,27 @@ public class ResetActivity extends ActionBarActivity
 
     public void onReset(View v)
 	{
-		Async async = new Async();
-        async.execute();
+//		Async async = new Async();
+//        async.execute();
+        final ProgressDialog Dialog = new ProgressDialog(ResetActivity.this);
+        Dialog.setMessage("Please Wait");
+        Dialog.show();
+        ParseUser.requestPasswordResetInBackground(mResetEmail.getText().toString(),
+                new RequestPasswordResetCallback() {
+                    public void done(ParseException e) {
+                        Dialog.dismiss();
+                        if (e == null) {
+                            // An email was successfully sent with reset instructions.
+                            Toast.makeText(getApplicationContext(),"Check email to reset password",Toast.LENGTH_SHORT).show();
+                            Intent i=new Intent(ResetActivity.this,LoginActivity.class);
+                            startActivity(i);
+                        } else {
+                            // Something went wrong. Look at the ParseException to see what's up.
+                            e.printStackTrace();
+                            Toast.makeText(ResetActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
 
     }
 
@@ -69,21 +88,7 @@ public class ResetActivity extends ActionBarActivity
 //				{
 //                    e.printStackTrace();
 //                }
-                ParseUser.requestPasswordResetInBackground(mResetEmail.getText().toString(),
-                    new RequestPasswordResetCallback() {
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                // An email was successfully sent with reset instructions.
-                                Toast.makeText(getApplicationContext(),"Check email to reset password",Toast.LENGTH_SHORT).show();
-                                Intent i=new Intent(ResetActivity.this,LoginActivity.class);
-                                startActivity(i);
-                            } else {
-                                // Something went wrong. Look at the ParseException to see what's up.
-                                e.printStackTrace();
-                                Toast.makeText(ResetActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+
 
             }
 			catch (Exception e)

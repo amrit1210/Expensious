@@ -59,8 +59,45 @@ public class LoginActivity extends ActionBarActivity
         }
         if (mEmail.length() != 0 || mPassword.length() != 0)
         {
-            Async async = new Async();
-            async.execute();
+//            Async async = new Async();
+//            async.execute();
+            final ProgressDialog Dialog = new ProgressDialog(LoginActivity.this);
+            Dialog.setMessage("Please Wait");
+            Dialog.show();
+            ParseUser.logInInBackground(mEmail.getText().toString(), mPassword.getText().toString(), new LogInCallback() {
+                public void done(ParseUser user, ParseException e) {
+                    Dialog.dismiss();
+                    if (user != null)
+                    {
+                        if (user.getBoolean("emailVerified")) {
+                            // Hooray! The user is logged in.
+                            SharedPreferences sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+                            SharedPreferences.Editor spEdit = sharedPreferences.edit();
+                            spEdit.putString("EMAIL",user.getEmail());
+                            spEdit.putString("SESSION",user.getSessionToken());
+                            spEdit.putInt("UID", user.getInt("uid"));
+                            spEdit.commit();
+                            Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
+                                    Toast.LENGTH_LONG).show();
+//                            Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
+//                            Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
+                            Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
+//                            Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
+//                            Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
+//                                Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
+                            startActivity(i);
+                        } else {
+                            // Login failed. Look at the ParseException to see what happened.
+                            Toast.makeText(LoginActivity.this, "Email not Verified", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else
+                    {
+                        e.printStackTrace();
+                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
 //            if(al1.contains(mEmail.getText().toString()))
 //            {
@@ -129,39 +166,7 @@ public class LoginActivity extends ActionBarActivity
         {
             try
             {
-                ParseUser.logInInBackground(mEmail.getText().toString(), mPassword.getText().toString(), new LogInCallback() {
-                    public void done(ParseUser user, ParseException e) {
-                        if (user != null)
-                        {
-                            if (user.getBoolean("emailVerified")) {
-                                // Hooray! The user is logged in.
-                                SharedPreferences sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-                                SharedPreferences.Editor spEdit = sharedPreferences.edit();
-                                spEdit.putString("EMAIL",user.getEmail());
-                                spEdit.putString("SESSION",user.getSessionToken());
-                                spEdit.putInt("UID", user.getInt("uid"));
-                                spEdit.commit();
-                                Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
-                                        Toast.LENGTH_LONG).show();
-//                            Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
-//                            Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
-                            Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
-//                            Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
-//                            Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
-//                                Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
-                                startActivity(i);
-                            } else {
-                                // Login failed. Look at the ParseException to see what happened.
-                                Toast.makeText(LoginActivity.this, "Email not Verified", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                        else
-                        {
-                            e.printStackTrace();
-                            Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+
             }
             catch (Exception e)
             {

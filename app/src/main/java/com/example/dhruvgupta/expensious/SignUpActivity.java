@@ -314,8 +314,73 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                     if(mName.getError()==null && mEmail.getError()==null
                             && mPassword.getError()==null && mConfirm_Password.getError()==null)
                     {
-                        Async async = new Async();
-                        async.execute();
+//                        Async async = new Async();
+//                        async.execute();
+                        final ProgressDialog Dialog = new ProgressDialog(SignUpActivity.this);
+                        Dialog.setMessage("Please Wait");
+                        Dialog.show();
+                        ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+                        query.whereExists("uid");
+                        query.countInBackground(new CountCallback() {
+                            public void done(int count, ParseException e) {
+                                if (e == null)
+                                {
+                                    // The count request succeeded. Log the count
+                                    Log.d("No. of users : ", count +"");
+
+                                    final ParseUser user = new ParseUser();
+                                    user.setUsername(mEmail.getText().toString());
+                                    user.setPassword(mPassword.getText().toString());
+                                    user.setEmail(mEmail.getText().toString());
+
+                                    final int r = count + 1;
+                                    String img = "image" + r + ".png";
+                                    final ParseFile file = new ParseFile(img, b);
+                                    file.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e == null)
+                                            {
+                                                user.put("uid", r);
+                                                user.put("uname", mName.getText().toString());
+                                                user.put("userimage", file);
+
+                                                user.signUpInBackground(new SignUpCallback() {
+                                                    public void done(ParseException e) {
+                                                        Dialog.dismiss();
+                                                        if (e == null) {
+                                                            // Hooray! Let them use the app now.
+                                                            Log.i("Signed Up", "YES! YES! YES!");
+                                                            Toast.makeText(SignUpActivity.this,"You are Signed Up!!", Toast.LENGTH_LONG).show();
+                                                            mName.setText(null);
+                                                            mEmail.setText(null);
+                                                            mPassword.setText(null);
+                                                            mConfirm_Password.setText(null);
+                                                            Intent i=new Intent(SignUpActivity.this,LoginActivity.class);
+                                                            startActivity(i);
+
+                                                        } else {
+                                                            // Sign up didn't succeed. Look at the ParseException
+                                                            // to figure out what went wrong
+                                                            e.printStackTrace();
+                                                            Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            else
+                                            {
+                                                e.printStackTrace();
+                                                Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    });
+
+                                } else {
+                                    // The request failed
+                                }
+                            }
+                        });
                     }
                 }
                 else
@@ -366,67 +431,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
         {
             try
             {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
-                query.whereExists("uid");
-                query.countInBackground(new CountCallback() {
-                    public void done(int count, ParseException e) {
-                        if (e == null)
-                        {
-                            // The count request succeeded. Log the count
-                            Log.d("No. of users : ", count +"");
 
-                            final ParseUser user = new ParseUser();
-                            user.setUsername(mEmail.getText().toString());
-                            user.setPassword(mPassword.getText().toString());
-                            user.setEmail(mEmail.getText().toString());
-
-                            final int r = count + 1;
-                            String img = "image" + r + ".png";
-                            final ParseFile file = new ParseFile(img, b);
-                            file.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null)
-                                    {
-                                        user.put("uid", r);
-                                        user.put("uname", mName.getText().toString());
-                                        user.put("userimage", file);
-
-                                        user.signUpInBackground(new SignUpCallback() {
-                                            public void done(ParseException e) {
-                                                if (e == null) {
-                                                    // Hooray! Let them use the app now.
-                                                    Log.i("Signed Up", "YES! YES! YES!");
-                                                    Toast.makeText(SignUpActivity.this,"You are Signed Up!!", Toast.LENGTH_LONG).show();
-                                                    mName.setText(null);
-                                                    mEmail.setText(null);
-                                                    mPassword.setText(null);
-                                                    mConfirm_Password.setText(null);
-                                                    Intent i=new Intent(SignUpActivity.this,LoginActivity.class);
-                                                    startActivity(i);
-
-                                                } else {
-                                                    // Sign up didn't succeed. Look at the ParseException
-                                                    // to figure out what went wrong
-                                                    e.printStackTrace();
-                                                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                                }
-                                            }
-                                        });
-                                    }
-                                    else
-                                    {
-                                        e.printStackTrace();
-                                        Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-
-                        } else {
-                            // The request failed
-                        }
-                    }
-                });
             }
             catch (Exception e)
             {
