@@ -551,6 +551,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
         Intent i=new Intent(AddRecursiveActivity.this,PersonsViewList.class);
         startActivityForResult(i, 4);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

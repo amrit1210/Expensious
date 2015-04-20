@@ -1013,6 +1013,43 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
+    public ArrayList<String> getCategoryNames(int u_id)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select " + CATEGORY_COL_C_NAME + " from "+ CATEGORY_SPECIFIC + " where "
+                    + CATEGORY_COL_C_UID + "=" + u_id, null);
+            ArrayList al = new ArrayList();
+            String s;
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                s = c.getString(c.getColumnIndex(PERSON_COL_NAME));
+                al.add(s);
+                c.moveToNext();
+            }
+            c.close();
+            Cursor c1 = db.rawQuery("select " + SUBCATEGORY_COL_SUB_NAME + " from "+ SUBCATEGORY_TABLE + " where "
+                    + SUBCATEGORY_COL_SUB_UID + "=" + u_id, null);
+            c1.moveToFirst();
+            while (!c1.isAfterLast())
+            {
+                s = c1.getString(c.getColumnIndex(PERSON_COL_NAME));
+                al.add(s);
+                c1.moveToNext();
+            }
+            c1.close();
+
+            return al;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
     public int getCategoryColId(String c_name)
     {
         try
@@ -1144,11 +1181,12 @@ public class DBHelper extends SQLiteOpenHelper
         return db.insert(SUBCATEGORY_TABLE, null, contentValues) > 0;
     }
 
-    public boolean updateSubCategory(int id,String name,int u_id)
+    public boolean updateSubCategory(int id,int c_id,String name,int u_id)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
+        contentValues.put(SUBCATEGORY_COL_SUB_CID,c_id);
         contentValues.put(SUBCATEGORY_COL_SUB_NAME,name);
 
         return db.update(SUBCATEGORY_TABLE, contentValues, SUBCATEGORY_COL_SUB_ID +"="+ id+" and "+SUBCATEGORY_COL_SUB_UID+" = "+u_id, null) > 0;

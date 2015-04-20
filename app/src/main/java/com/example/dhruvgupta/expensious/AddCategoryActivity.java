@@ -2,8 +2,12 @@ package com.example.dhruvgupta.expensious;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +21,11 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.pkmmte.view.CircularImageView;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -25,21 +34,24 @@ import java.util.ArrayList;
 public class AddCategoryActivity extends ActionBarActivity
 {
     EditText mCat_Name;
-    ImageView mCat_image;
+    CircularImageView mCat_image;
     RadioGroup mCat_rg_ie_type,mCat_rg_type;
     RadioButton mCat_Income,mCat_Expense,mCat_Main,mCat_Sub;
     Spinner mCat_Spinner_Sub;
     SharedPreferences sp;
 
-    String name= "",c_name=null;
+    String name= "",c_name="",c_img_string=null;
     int c_IE_type, colId=0;
+    Uri fileUri;
+    byte[] b;
 
     DBHelper dbHelper;
     CategoriesAdapter ad;
+	ArrayList arrayList;
 
     ArrayList<CategoryDB_Specific> categoryDBSpecificArrayList;
     String col=null,sub_name=null;
-    int flag,c_id,c_u_id,sub_id=0;
+    int flag,c_id,c_u_id,sub_id=0,b_flag=0;
     int i,c_type=0;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,7 +60,7 @@ public class AddCategoryActivity extends ActionBarActivity
         setContentView(R.layout.activity_add_category);
 
         mCat_Name=(EditText)findViewById(R.id.add_category_name);
-        mCat_image=(ImageView)findViewById(R.id.add_category_icon);
+        mCat_image=(CircularImageView)findViewById(R.id.add_category_icon);
         mCat_rg_ie_type =(RadioGroup)findViewById(R.id.add_category_ie_type);
         mCat_rg_type=(RadioGroup)findViewById(R.id.add_category_type);
         mCat_Income=(RadioButton)findViewById(R.id.add_cat_radio_income);
@@ -56,6 +68,7 @@ public class AddCategoryActivity extends ActionBarActivity
         mCat_Main=(RadioButton)findViewById(R.id.add_cat_radio_main);
         mCat_Sub=(RadioButton)findViewById(R.id.add_cat_radio_sub);
         mCat_Spinner_Sub=(Spinner)findViewById(R.id.spinner_category);
+        c_img_string=null;
 
         sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         mCat_Spinner_Sub.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
@@ -79,9 +92,6 @@ public class AddCategoryActivity extends ActionBarActivity
         dbHelper =new DBHelper(AddCategoryActivity.this);
         categoryDBSpecificArrayList =new ArrayList<>();
 
-        int id = getResources().getIdentifier("user_48", "drawable", getPackageName());
-        mCat_image.setImageResource(id);
-
         mCat_rg_ie_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             @Override
@@ -90,7 +100,7 @@ public class AddCategoryActivity extends ActionBarActivity
                 if(group.getCheckedRadioButtonId()==mCat_Expense.getId())
                 {
                     c_IE_type=0;
-                    ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
+                    arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
                     Log.i("ArrayList :",arrayList+"");
                     try
                     {
@@ -105,7 +115,7 @@ public class AddCategoryActivity extends ActionBarActivity
                 else if(group.getCheckedRadioButtonId()==mCat_Income.getId())
                 {
                     c_IE_type=1;
-                    ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
+                    arrayList = dbHelper.getCategoryColName(sp.getInt("UID",0),c_IE_type);
                     Log.i("ArrayList :",arrayList+"");
                     try
                     {
@@ -136,16 +146,16 @@ public class AddCategoryActivity extends ActionBarActivity
                     if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Income.getId())
                     {
                         c_IE_type = 1;
-                        ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID", 0), c_IE_type);
-                        Log.i("ArrayList :", arrayList + "");
+                        arrayList = dbHelper.getCategoryColName(sp.getInt("UID", 0), c_IE_type);
+                        Log.i("ArrayList @ 1:", arrayList + "");
                         ArrayAdapter arrayAdapter = new ArrayAdapter(AddCategoryActivity.this, android.R.layout.simple_spinner_item, arrayList);
                         mCat_Spinner_Sub.setAdapter(arrayAdapter);
                     }
                     else if (mCat_rg_ie_type.getCheckedRadioButtonId() == mCat_Expense.getId())
                     {
                         c_IE_type = 0;
-                        ArrayList arrayList = dbHelper.getCategoryColName(sp.getInt("UID", 0), c_IE_type);
-                        Log.i("ArrayList :", arrayList + "");
+                        arrayList = dbHelper.getCategoryColName(sp.getInt("UID", 0), c_IE_type);
+                        Log.i("ArrayList @ 2:", arrayList + "");
                         try
                         {
                             ArrayAdapter arrayAdapter = new ArrayAdapter(AddCategoryActivity.this, android.R.layout.simple_spinner_item, arrayList);
@@ -165,7 +175,13 @@ public class AddCategoryActivity extends ActionBarActivity
             flag=1;
             c_id=getIntent().getIntExtra("cat_id",0);
             c_u_id=getIntent().getIntExtra("c_u_id",0);
-            c_name=getIntent().getStringExtra("c_name");
+            //c_name=getIntent().getStringExtra("c_name");
+            mCat_Name.setText(getIntent().getStringExtra("c_name"));
+            c_name = mCat_Name.getText().toString();
+            c_img_string= getIntent().getExtras().getString("c_icon","");
+            byte[] decodedString = Base64.decode(c_img_string.trim(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            mCat_image.setImageBitmap(decodedByte);
             if(c_name!=null)
             {
                 mCat_Name.setText(c_name);
@@ -173,8 +189,6 @@ public class AddCategoryActivity extends ActionBarActivity
             //c_IE_type=getIntent().getIntExtra("c_type");
             name=mCat_Name.getText().toString();
 
-            int id1 = getResources().getIdentifier("user_48", "drawable", getPackageName());
-            mCat_image.setImageResource(id1);
             c_type=getIntent().getIntExtra("c_type",0);
             if(c_type==1)
             {
@@ -198,15 +212,83 @@ public class AddCategoryActivity extends ActionBarActivity
                 mCat_Main.setChecked(true);
             }
             sub_id=getIntent().getIntExtra("sub_id",0);
-            if (sub_id != 0) {
-                mCat_Spinner_Sub.setSelection(sub_id);
+            if (c_id != 0 && arrayList != null) {
+                Log.d("AddCat", "c_name = " + c_name);
+                int tmpId = arrayList.indexOf(c_name);
+                Log.d("AddCat", "tmpId = " + tmpId);
+                mCat_Spinner_Sub.setSelection(tmpId);
             }
         }
+        else
+        {
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.misc);
+            mCat_image.setImageURI(fileUri);
+
+            InputStream image_stream = null;
+            try
+            {
+                image_stream = getContentResolver().openInputStream(fileUri);
+            }
+            catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+            Bitmap decodedByte= BitmapFactory.decodeStream(image_stream );
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            b = baos.toByteArray();
+            c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
+        }
+    }
+
+    public void onCategoryIcon (View v)
+    {
+        try
+        {
+            if (b_flag == 0)
+            {
+                Intent dialog = new Intent(AddCategoryActivity.this, CategoryDialog.class);
+                startActivityForResult(dialog, 1);
+                b_flag=1;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.i("Exception:AddPersonImg", e.getMessage());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == 1)
+        {
+            fileUri= Uri.parse(data.getExtras().getString("Uri"));
+
+            try
+            {
+                InputStream image_stream = getContentResolver().openInputStream(fileUri);
+                Bitmap decodedByte= BitmapFactory.decodeStream(image_stream );
+
+                mCat_image.setImageURI(fileUri);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                b = baos.toByteArray();
+                c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
+            }
+            catch (Exception e)
+            {
+                Log.i("Excep:AddPersonSetImg",e.getMessage());
+            }
+        }
+        b_flag = 0;
     }
 
     public  void onSaveCategory(View v)
     {
-        SharedPreferences sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+        sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         if (mCat_Name.length() <= 0)
         {
             mCat_Name.setError("Enter Category name");
@@ -231,7 +313,7 @@ public class AddCategoryActivity extends ActionBarActivity
             {
                 if (arrayList.contains(mCat_Name.getText().toString()))
                 {
-                    if (mCat_Name.getText().toString().equals(name))
+                    if (mCat_Name.getText().toString().equals(c_name))
                     {
                         mCat_Name.setError(null);
                     }
@@ -244,7 +326,7 @@ public class AddCategoryActivity extends ActionBarActivity
                 {
                     if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Main.getId())
                     {
-                        if (dbHelper.updateCategory(c_u_id,c_id, mCat_Name.getText().toString(), c_IE_type, "Image"))
+                        if (dbHelper.updateCategory(c_u_id,c_id, mCat_Name.getText().toString(), c_IE_type,c_img_string))
                         {
                             Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
                             Toast.makeText(AddCategoryActivity.this, "Category Updated " + c_IE_type, Toast.LENGTH_SHORT).show();
@@ -254,6 +336,8 @@ public class AddCategoryActivity extends ActionBarActivity
                         else
                         {
                             Toast.makeText(AddCategoryActivity.this, "Error updating category", Toast.LENGTH_SHORT).show();
+                            Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
+                            startActivity(i);
                         }
                     }
                     else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
@@ -263,7 +347,7 @@ public class AddCategoryActivity extends ActionBarActivity
                         Log.i("COLID SUBCATEGORY:",colId+"");
                         if(colId>0)
                         {
-                            if(dbHelper.updateSubCategory(sub_id,mCat_Name.getText().toString(),sp.getInt("UID",0)))
+                            if(dbHelper.updateSubCategory(sub_id,colId,mCat_Name.getText().toString(),sp.getInt("UID",0)))
                             {
                                 Toast.makeText(AddCategoryActivity.this,"Sub Category Updated",Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
@@ -280,38 +364,48 @@ public class AddCategoryActivity extends ActionBarActivity
             }
             else
             {
-                if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Main.getId())
+                if(arrayList.contains(mCat_Name.getText().toString()))
                 {
-                    if (dbHelper.addCategorySpecific(sp.getInt("UID", 0), mCat_Name.getText().toString(), c_IE_type, "Image"))
-                    {
-                        Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
-                        Toast.makeText(AddCategoryActivity.this, "Main Category Added " + c_IE_type, Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(AddCategoryActivity.this, CategoriesActivity.class);
-                        startActivity(i);
-                    }
-                    else
-                    {
-                        Toast.makeText(AddCategoryActivity.this, "Error creating category", Toast.LENGTH_SHORT).show();
-                    }
+                    mCat_Name.setError("Category already exists");
                 }
-                else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
+                else
                 {
-                    dbHelper =new DBHelper(AddCategoryActivity.this);
-
-                    if(!col.equals(null))
+                    mCat_Name.setError(null);
+                    if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Main.getId())
                     {
-                        colId = dbHelper.getCategoryColId(col);
-                        if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),sp.getInt("UID",0)))
+                        if (dbHelper.addCategorySpecific(sp.getInt("UID", 0), mCat_Name.getText().toString(), c_IE_type,c_img_string))
                         {
-                            dbHelper.getAllSubCategories(sp.getInt("UID",0),colId);
-                            Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
+                            Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
+                            Toast.makeText(AddCategoryActivity.this, "Main Category Added " + c_IE_type, Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(AddCategoryActivity.this, CategoriesActivity.class);
+                            startActivity(i);
+                        }
+                        else
+                        {
+                            Toast.makeText(AddCategoryActivity.this, "Error creating category", Toast.LENGTH_SHORT).show();
                             Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
                             startActivity(i);
                         }
                     }
-                    else
+                    else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
                     {
-                        Toast.makeText(AddCategoryActivity.this,"Error creating subcategory",Toast.LENGTH_SHORT).show();
+                        dbHelper =new DBHelper(AddCategoryActivity.this);
+
+                        if(!col.equals(null))
+                        {
+                            colId = dbHelper.getCategoryColId(col);
+                            if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),sp.getInt("UID",0)))
+                            {
+                                dbHelper.getAllSubCategories(sp.getInt("UID",0),colId);
+                                Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
+                                Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
+                                startActivity(i);
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(AddCategoryActivity.this,"Error creating subcategory",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

@@ -8,99 +8,99 @@
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="3">
+        android:columnCount="4">
 
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/annuity"
             android:src="@drawable/annuity"
             android:onClick="onDialogCategory"/>
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/bill"
             android:src="@drawable/bill"
             android:onClick="onDialogCategory"/>
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/book"
             android:src="@drawable/book"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/capital"
             android:src="@drawable/capital"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/cloth"
             android:src="@drawable/cloth"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/education"
             android:src="@drawable/education"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/electronics"
             android:src="@drawable/electronics"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/entertainment"
             android:src="@drawable/entertainment"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/food"
             android:src="@drawable/food"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/gift"
             android:src="@drawable/gift"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/grocery"
             android:src="@drawable/grocery"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/house"
             android:src="@drawable/house"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/medical"
             android:src="@drawable/medical"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/misc"
             android:src="@drawable/misc"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/personal"
             android:src="@drawable/personal"
             android:onClick="onDialogCategory" />
-        <com.pkmmte.view.CircularImageView
+        <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/travel"

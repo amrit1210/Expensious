@@ -2,19 +2,12 @@ package com.example.dhruvgupta.expensious;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by dhruvgupta on 4/1/2015.

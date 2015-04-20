@@ -16,98 +16,75 @@ public class CategoryDialog extends Activity {
 
     Uri fileUri;
 
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_person);
+        setContentView(R.layout.dialog_category);
     }
 
-    public void onDialogPerson(View v) throws IOException {
+    public void onDialogCategory(View v) throws IOException {
         int id = v.getId();
         fileUri= Uri.parse("");
-        if (id == R.id.amber_yellow)
+        if (id == R.id.annuity)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.amber_yellow);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.annuity);
         }
-        else if (id == R.id.blood_red)
+        else if (id == R.id.bill)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.blood_red);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.bill);
         }
-        else if (id == R.id.blue)
+        else if (id == R.id.book)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.blue);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.book);
         }
-        else if (id == R.id.blue_grey)
+        else if (id == R.id.capital)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.blue_grey);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.capital);
         }
-        else if (id == R.id.brown)
+        else if (id == R.id.cloth)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.brown);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.cloth);
         }
-        else if (id == R.id.brownie)
+        else if (id == R.id.education)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.brownie);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.education);
         }
-        else if (id == R.id.cyan)
+        else if (id == R.id.electronics)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.cyan);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.electronics);
         }
-        else if (id == R.id.dark_green)
+        else if (id == R.id.entertainment)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.dark_green);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.entertainment);
         }
-        else if (id == R.id.deep_purple)
+        else if (id == R.id.food)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.deep_purple);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.food);
         }
-        else if (id == R.id.green)
+        else if (id == R.id.gift)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.green);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.gift);
         }
-        else if (id == R.id.grey)
+        else if (id == R.id.grocery)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.grey);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.grocery);
         }
-        else if (id == R.id.indigo)
+        else if (id == R.id.house)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.indigo);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.house);
         }
-        else if (id == R.id.light_blue)
+        else if (id == R.id.medical)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.light_blue);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.medical);
         }
-        else if (id == R.id.light_green)
+        else if (id == R.id.personal)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.light_green);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.personal);
         }
-        else if (id == R.id.lime)
+        else if (id == R.id.travel)
         {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.lime);
-        }
-        else if (id == R.id.orange)
-        {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.orange);
-        }
-        else if (id == R.id.pink)
-        {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.pink);
-        }
-        else if (id == R.id.purple)
-        {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.purple);
-        }
-        else if (id == R.id.red)
-        {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.red);
-        }
-        else if (id == R.id.teal)
-        {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.teal);
-        }
-        else if (id == R.id.yellow)
-        {
-            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.yellow);
+            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.travel);
         }
 
         Intent i = new Intent();

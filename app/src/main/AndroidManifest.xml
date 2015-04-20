@@ -45,6 +45,9 @@
             android:name=".PersonDialog"
             android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity
+            android:name=".CategoryDialog"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
+        <activity
             android:name=".AddCategoryActivity"/>
         <activity
             android:name=".TransactionsActivity"/>
@@ -68,6 +71,8 @@
             android:name=".Calculator"/>
         <activity
             android:name=".PersonsViewList"/>
+        <activity
+            android:name=".CategoriesViewList"/>
         <activity
             android:name=".AddLoanDebtActivity"/>
         <activity
