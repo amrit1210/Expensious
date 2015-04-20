@@ -56,9 +56,9 @@ public class PersonsActivity extends ActionBarActivity
     @Override
     protected void onResume() {
         super.onResume();
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Persons");
-        query.fromPin("pinPersons");
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseObject> addPer = ParseQuery.getQuery("Persons");
+        addPer.fromPin("pinPersons");
+        addPer.findInBackground(new FindCallback<ParseObject>() {
 
             @Override
             public void done(List<ParseObject> todos, ParseException e) {
@@ -75,7 +75,7 @@ public class PersonsActivity extends ActionBarActivity
                                 if (!isFinishing()) {
                                     //refresh list data
 //                                    todo.unpinInBackground("pinPersons");
-                                    System.out.println("Image DATA is saved ..... ");
+                                    System.out.println("Person DATA is saved ..... ");
 
                                 }
 
@@ -85,7 +85,7 @@ public class PersonsActivity extends ActionBarActivity
 
                     }
                 } else {
-                    Log.i("MainActivity", "syncTodosToParse: Error finding pinned todos: " + e.getMessage());
+                    Log.i("MainActivity", "syncTodosToPerAdd: Error finding pinned todos: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -93,125 +93,109 @@ public class PersonsActivity extends ActionBarActivity
         });
 
         //Update person
-//        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Persons");
-//        query1.findInBackground(new FindCallback<ParseObject>() {
-//            @Override
-//            public void done(List<ParseObject> parseObjects, ParseException e) {
-//                if (e == null)
-//                {
-//                    for (final ParseObject todo : parseObjects) {
-//
-//                        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("Persons");
-//                        query2.fromPin("pinPersonsUpdate");
-//                        query2.findInBackground(new FindCallback<ParseObject>() {
-//                            @Override
-//                            public void done(List<ParseObject> parseObjects1, ParseException e) {
-//                                for (final ParseObject todo1 : parseObjects1) {
-//                                    if ((todo.getInt("p_uid") == todo1.getInt("p_uid")) && (todo.getInt("p_id") == todo1.getInt("p_id")))
-//                                    {
-////                                        todo.deleteInBackground();
-//                                        todo.fetchInBackground(new GetCallback<ParseObject>() {
-//                                            @Override
-//                                            public void done(ParseObject parseObject, ParseException e) {
-//                                                if (e==null)
-//                                                {
-//                                                    parseObject.put("objectId", todo.getObjectId());
-//                                                    parseObject.put("p_id", todo1.getInt("p_id"));
-//                                                    parseObject.put("p_uid", todo1.getInt("p_uid"));
-//                                                    parseObject.put("p_name", todo1.getString("p_name"));
-//                                                    parseObject.put("p_color", todo1.getString("p_color"));
-//                                                    parseObject.put("p_color_code", todo1.getString("p_color_code"));
-//                                                    parseObject.saveInBackground(new SaveCallback() {
-//
-//                                                        @Override
-//                                                        public void done(ParseException e) {
-//                                                            //if (e == null)
-//                                                            // Let adapter know to update view
-//                                                            if (!isFinishing()) {
-//                                                                //refresh list data
-//                                                                todo1.unpinInBackground("pinPersonsUpdate");
-//                                                                System.out.println("Image DATA is updated ..... ");
-//                                                                todo.deleteInBackground();
-//                                                            }
-//                                                        }
-//                                                    });
-//                                                }
-//                                                else
-//                                                {
-//
-//                                                }
-//                                            }
-//                                        });
-////                                        todo1.saveInBackground(new SaveCallback() {
-////
-////                                            @Override
-////                                            public void done(ParseException e) {
-////                                                //if (e == null)
-////                                                // Let adapter know to update view
-////                                                if (!isFinishing()) {
-////                                                    //refresh list data
-//////                                                    todo1.unpinInBackground("pinPersonsUpdate");
-////                                                    System.out.println("Image DATA is updated ..... ");
-////                                                    todo.deleteInBackground(new DeleteCallback() {
-////                                                        @Override
-////                                                        public void done(ParseException e) {
-////
-////                                                        }
-////                                                    });
-////                                                }
-////                                            }
-////                                        });
-//                                    }
-//                                    break;
-//                                }
-//                            }
-//                        });
-//                    }
-//                }
-//                else
-//                {
-//                    Log.i("MainActivity", "syncTodosToParseUpdate: Error finding pinned todos: " + e.getMessage());
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        ParseQuery<ParseObject> updatePer = ParseQuery.getQuery("Persons");
+        updatePer.whereEqualTo("p_uid", sp.getInt("UID", 0));
+        updatePer.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> updatePer2 = ParseQuery.getQuery("Persons");
+                        updatePer2.fromPin("pinPersonsUpdate");
+                        updatePer2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("p_uid") == todo1.getInt("p_uid")) && (todo.getInt("p_id") == todo1.getInt("p_id")))
+                                    {
+                                        todo.fetchInBackground(new GetCallback<ParseObject>() {
+                                            @Override
+                                            public void done(ParseObject parseObject, ParseException e) {
+                                                if (e==null)
+                                                {
+                                                    parseObject.put("objectId", todo.getObjectId());
+                                                    parseObject.put("p_id", todo1.getInt("p_id"));
+                                                    parseObject.put("p_uid", todo1.getInt("p_uid"));
+                                                    parseObject.put("p_name", todo1.getString("p_name"));
+                                                    parseObject.put("p_color", todo1.getString("p_color"));
+                                                    parseObject.put("p_color_code", todo1.getString("p_color_code"));
+                                                    parseObject.saveInBackground(new SaveCallback() {
+
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            //if (e == null)
+                                                            // Let adapter know to update view
+                                                            todo1.unpinInBackground("pinPersonsUpdate");
+                                                            if (!isFinishing()) {
+                                                                //refresh list data
+                                                                System.out.println("Person DATA is updated ..... ");
+                                                            }
+                                                        }
+                                                    });
+                                                }
+                                                else
+                                                {
+
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToPerUpdate: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
 
         //Delete person
-//        ParseQuery<ParseObject> query3 = ParseQuery.getQuery("Persons");
-//        query3.findInBackground(new FindCallback<ParseObject>() {
-//            @Override
-//            public void done(List<ParseObject> parseObjects, ParseException e) {
-//                if (e == null)
-//                {
-//                    for (final ParseObject todo : parseObjects) {
-//
-//                        ParseQuery<ParseObject> query4 = ParseQuery.getQuery("Persons");
-//                        query4.fromPin("pinPersonsDelete");
-//                        query4.findInBackground(new FindCallback<ParseObject>() {
-//                            @Override
-//                            public void done(List<ParseObject> parseObjects1, ParseException e) {
-//                                for (final ParseObject todo1 : parseObjects1) {
-//                                    if ((todo.getInt("p_uid") == todo1.getInt("p_uid")) && (todo.getInt("p_id") == todo1.getInt("p_id")))
-//                                    {
-//                                        try {
-//                                            todo.delete();
-//                                        } catch (ParseException e1) {
-//                                            e1.printStackTrace();
-//                                        }
-//                                    }
-//                                    break;
-//                                }
-//                            }
-//                        });
-//                    }
-//                }
-//                else
-//                {
-//                    Log.i("MainActivity", "syncTodosToParseUpdate: Error finding pinned todos: " + e.getMessage());
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        ParseQuery<ParseObject> deletePer = ParseQuery.getQuery("Persons");
+        deletePer.whereEqualTo("p_uid", sp.getInt("UID", 0));
+        deletePer.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> deletePer2 = ParseQuery.getQuery("Persons");
+                        deletePer2.fromPin("pinPersonsDelete");
+                        deletePer2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("p_uid") == todo1.getInt("p_uid")) && (todo.getInt("p_id") == todo1.getInt("p_id")))
+                                    {
+                                        todo.deleteInBackground(new DeleteCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                todo1.unpinInBackground("pinPersonsDelete");
+                                                if (!isFinishing()) {
+                                                    //refresh list data
+                                                    System.out.println("Person DATA is deleted ..... ");
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToPerDelete: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -293,61 +277,13 @@ public class PersonsActivity extends ActionBarActivity
         {
             dbHelper.deletePerson(per_DB.p_id,sp.getInt("UID",0));
 
-
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Person");
-           query.whereEqualTo("p_uid",per_DB.p_u_id);
-            query.whereEqualTo("p_id",per_DB.p_id);
-           query.findInBackground(new FindCallback<ParseObject>() {
-               @Override
-               public void done(List<ParseObject> parseObjects, ParseException e) {
-                   if(e==null)
-                   {
-                       for(ParseObject object:parseObjects)
-                       {
-                           object.deleteInBackground();
-                       }
-                   }
-                   else
-                   {
-                       e.printStackTrace();
-                   }
-               }
-           });
-
-            query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> parseObjects, ParseException e) {
-                    for (final ParseObject ob1 : parseObjects)
-                    {
-                        if ((ob1.getInt("p_id") == per_DB.p_id) && (ob1.getInt("p_uid") == per_DB.p_u_id))
-
-                            ob1.deleteInBackground(new DeleteCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    try {
-                                        ob1.delete();
-                                    } catch (ParseException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                }
-                            });
-                    }
-                }
-            });
-
-//            ParseObject object = new ParseObject("Persons");
-//            object.put("p_id", per_DB.p_id);
-//            object.put("p_uid", per_DB.p_u_id);
-//            object.put("p_name", per_DB.p_name);
-//            object.put("p_color", per_DB.p_color);
-//            object.put("p_color_code", per_DB.p_color_code);
-//            object.pinInBackground("pinPersonsDelete");
-//            object.saveEventually(new SaveCallback() {
-//                @Override
-//                public void done(ParseException e) {
-//                    Log.i("person deleteEventually", "person deleted");
-//                }
-//            });
+            ParseObject object = new ParseObject("Persons");
+            object.put("p_id", per_DB.p_id);
+            object.put("p_uid", per_DB.p_u_id);
+            object.put("p_name", per_DB.p_name);
+            object.put("p_color", per_DB.p_color);
+            object.put("p_color_code", per_DB.p_color_code);
+            object.pinInBackground("pinPersonsDelete");
 
             Intent i=new Intent(PersonsActivity.this,PersonsActivity.class);
             startActivity(i);
