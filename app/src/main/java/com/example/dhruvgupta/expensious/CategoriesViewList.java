@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Gaurav on 20-Apr-15.
@@ -22,6 +23,10 @@ public class CategoriesViewList extends ActionBarActivity
     CategoriesAdapter categoriesAdapter;
     DBHelper dbHelper;
     ArrayList<String> al;
+    Collection<String> al1;
+    ArrayList<String> keys;
+    int type=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -33,24 +38,44 @@ public class CategoriesViewList extends ActionBarActivity
         SharedPreferences sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper = new DBHelper(CategoriesViewList.this);
 
-        al = dbHelper.getCategoryNames(sp.getInt("UID", 0));
-
-        categoriesAdapter = new CategoriesAdapter(CategoriesViewList.this, R.layout.list_category, al);
+        if(type==0) {
+            al1 = CategoriesActivity.mapExpense.values();
+            keys = (ArrayList) CategoriesActivity.mapExpense.keySet();
+        }
+        else if(type==1)
+        {
+             al1 = CategoriesActivity.mapIncome.values();
+             keys = (ArrayList) CategoriesActivity.mapIncome.keySet();
+        }
+        categoriesAdapter = new CategoriesAdapter(CategoriesViewList.this, R.layout.list_category, (ArrayList)al1);
         categoryList.setAdapter(categoriesAdapter);
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-                String s = categoriesAdapter.getItem(position);
+             //   String s = categoriesAdapter.getItem(position);
+
+              String s=keys.get(position);
                 Intent i = new Intent();
-                i.putExtra("Category_Name",s);
+                i.putExtra("Category_Id",s);
+              //  i.putExtra("Cat_Id",)
                 setResult(1, i);
                 CategoriesViewList.this.finish();
             }
         });
     }
 
+    public void onExpenseBtnClick(View v)
+    {
+        type=0;
+
+    }
+    public void onIncomeBtnClick(View v)
+
+    {
+        type=1;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {

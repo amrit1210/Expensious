@@ -44,7 +44,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
     SimpleDateFormat sdf;
     LinearLayout mLlFrom, mLlTo, mLlCat, mLlPer;
     EditText mFromAcc, mToAcc, mCategory, mPerson, mNote;
-    String mType, rec_date, rec_time, rec_type;
+    String mType, rec_date, rec_time, rec_type,category;
     int rec_id, rec_u_id, rec_category, rec_subcategory, rec_fromAccount, rec_toAccount, rec_person, rec_recurring, rec_alert, intentFlag;
     Button mExp,mInc,mTrans;
     String from_acc=null,to_acc=null,person=null;
@@ -132,11 +132,31 @@ public class AddRecursiveActivity extends ActionBarActivity {
             mNextDate = getIntent().getStringExtra("rec_next_date");
             mTime.setText(getIntent().getStringExtra("rec_time"));
             rec_category = getIntent().getIntExtra("rec_category", 0);
+            rec_subcategory = getIntent().getIntExtra("rec_subcategory",0);
+            if(rec_category!=0)
+            {
+                Cursor c=dbHelper.getCategoryData(rec_category,sp.getInt("UID",0));
+                c.moveToFirst();
+                String cat=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+                c.close();
+                if(rec_subcategory!=0)
+                {
+                    Cursor c1=dbHelper.getSubCategoryData(rec_subcategory,sp.getInt("UID",0));
+                    c1.moveToFirst();
+                    String sub=c1.getString(c1.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
+                    c1.close();
+                    mCategory.setText(cat+" "+sub);
+                }
+                else
+                {
+                    mCategory.setText(cat);
+                }
+            }
             show = getIntent().getIntExtra("rec_show", 0);
             rec_alert = getIntent().getIntExtra("rec_alert", 0);
             rec_type = getIntent().getStringExtra("rec_type");
             rec_recurring = getIntent().getIntExtra("rec_recurring", 0);
-            rec_subcategory = getIntent().getIntExtra("rec_subcategory",0);
+
 
             if (rec_type.equals("Expense")) {
                 flag = 0;
@@ -264,8 +284,15 @@ public class AddRecursiveActivity extends ActionBarActivity {
             dateFlag = 0;
             Toast.makeText(this, "End date should be greater than start date",Toast.LENGTH_SHORT).show();
         }
-
-        if(mAmt.getError()==null && dateFlag == 1)
+        if(mCategory.length()==0)
+        {
+            mCategory.setError("Enter category");
+        }
+        else
+        {
+            mCategory.setError(null);
+        }
+        if(mAmt.getError()==null && dateFlag == 1&& mCategory.getError()==null)
         {
 
             if (intentFlag == 1) {
@@ -551,7 +578,11 @@ public class AddRecursiveActivity extends ActionBarActivity {
         Intent i=new Intent(AddRecursiveActivity.this,PersonsViewList.class);
         startActivityForResult(i, 4);
     }
-
+    public void onCategoryClick(View v)
+    {
+        Intent i=new Intent(AddRecursiveActivity.this,CategoriesViewList.class);
+        startActivityForResult(i,5);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -583,6 +614,35 @@ public class AddRecursiveActivity extends ActionBarActivity {
             else if (requestCode == 4) {
                 mPerson.setText(data.getExtras().getString("Person_Name"));
                 person = mPerson.getText().toString();
+            }
+            else if(requestCode == 5)
+            {
+                category=data.getExtras().getString("Category_Id");
+                if(category.contains("."))
+                {
+                    String cat[]=category.split(".");
+                    rec_category=Integer.parseInt(cat[0]);
+                    rec_subcategory=Integer.parseInt(cat[1]);
+                    Cursor c=dbHelper.getCategoryData(rec_category,sp.getInt("UID",0));
+                    c.moveToFirst();
+                    String category=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+                    c.close();
+                    Cursor c1= dbHelper.getSubCategoryData(rec_subcategory,sp.getInt("UID",0));
+                    c1.moveToFirst();
+                    String sub=c1.getString(c1.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
+                    c1.close();
+                    mCategory.setText(category+" "+sub);
+                }
+                else
+                {
+                    rec_category=Integer.parseInt(category);
+                    rec_subcategory=0;
+                    Cursor c= dbHelper.getCategoryData(rec_category,sp.getInt("UID",0));
+                    c.moveToFirst();
+                    mCategory.setText(c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME)));
+                    c.close();
+
+                }
             }
         }
 

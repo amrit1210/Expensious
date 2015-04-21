@@ -35,7 +35,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
     DBHelper dbHelper;
     LinearLayout mLlFrom, mLlTo, mLlCat, mLlPer;
     EditText mFromAcc, mToAcc, mCategory, mPerson, mNote;
-    String mType, t_date, t_time, t_type, t_type_old;
+    String mType, t_date, t_time, t_type, t_type_old,category;
     float t_amt_old;
     int t_id, t_u_id, t_rec_id, t_category,t_subcategory, t_fromAccount, t_toAccount, t_person, intentFlag, t_from_old, t_to_old;
     Button mExp,mInc,mTrans;
@@ -100,6 +100,25 @@ public class AddTransactionsActivity extends ActionBarActivity {
             mDate.setText(getIntent().getStringExtra("t_date"));
             mTime.setText(getIntent().getStringExtra("t_time"));
             t_category = getIntent().getIntExtra("t_category", 0);
+            t_subcategory = getIntent().getIntExtra("t_subcategory", 0);
+            if(t_category!=0)
+            {
+                Cursor c = dbHelper.getCategoryData(t_category,sp.getInt("UID",0));
+                c.moveToFirst();
+                String cat = c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+                c.close();
+                if (t_subcategory != 0)
+                {
+                    Cursor c1 = dbHelper.getSubCategoryData(t_subcategory, sp.getInt("UID", 0));
+                    c1.moveToFirst();
+                    String sub = c1.getString(c1.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
+                    c1.close();
+                    mCategory.setText(cat + " " + sub);
+                } else
+                {
+                    mCategory.setText(cat);
+                }
+            }
             show = getIntent().getIntExtra("t_show", 0);
             t_type = getIntent().getStringExtra("t_type");
 
@@ -108,7 +127,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
             t_from_old = t_fromAccount;
             t_to_old = t_toAccount;
 
-            t_subcategory= getIntent().getIntExtra("t_subcategory",0);
+
             if (t_type.equals("Expense")) {
                 flag = 0;
                 t_toAccount=0;
@@ -197,6 +216,14 @@ public class AddTransactionsActivity extends ActionBarActivity {
         {
             mAmt.setError(null);
         }
+        if(mCategory.length()==0)
+        {
+            mCategory.setError("Enter Category");
+        }
+        else
+        {
+            mCategory.setError(null);
+        }
 
         if(mAmt.getError()==null)
         {
@@ -272,7 +299,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     }
 
                 }
-                if(mFromAcc.getError()==null && mToAcc.getError()==null && mAmt.getError()==null) {
+                if(mFromAcc.getError()==null && mToAcc.getError()==null && mAmt.getError()==null && mCategory.getError()==null) {
                     amt = Float.parseFloat(mAmt.getText().toString());
                     boolean b = dbHelper.updateTransactionData(t_id, t_fromAccount, t_toAccount, t_person, t_category, t_subcategory,
                             amt, mNote.getText().toString(), show, t_type, mDate.getText().toString(), mTime.getText().toString(),
@@ -437,7 +464,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
             } else {
                 if (flag == 0) {
                     amt = Float.parseFloat(mAmt.getText().toString());
-                    if (mFromAcc.length()>0) {
+                    if (mFromAcc.length()>0 && mCategory.getError()==null) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
@@ -471,7 +498,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     }
                 } else if (flag == 1) {
                     amt = Float.parseFloat(mAmt.getText().toString());
-                    if (mToAcc.length()>0) {
+                    if (mToAcc.length()>0 && mCategory.getError()==null) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
@@ -506,7 +533,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     }
                 } else if (flag == 2) {
                     amt = Float.parseFloat(mAmt.getText().toString());
-                    if (mFromAcc.length()>0 && mToAcc.length()>0) {
+                    if (mFromAcc.length()>0 && mToAcc.length()>0 && mCategory.getError()==null) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         int acc_id1 = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, acc_id1, Float.parseFloat(mAmt.getText().toString()),
@@ -663,6 +690,11 @@ public class AddTransactionsActivity extends ActionBarActivity {
         Intent i=new Intent(AddTransactionsActivity.this,PersonsViewList.class);
         startActivityForResult(i, 4);
     }
+    public void onCategoryClick(View v)
+    {
+        Intent i=new Intent(AddTransactionsActivity.this,CategoriesViewList.class);
+        startActivityForResult(i, 5);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -696,6 +728,35 @@ public class AddTransactionsActivity extends ActionBarActivity {
             else if (requestCode == 4) {
                 mPerson.setText(data.getExtras().getString("Person_Name"));
                 person = mPerson.getText().toString();
+            }
+            else if(requestCode==5)
+            {
+                category=data.getExtras().getString("Category_Id");
+                if(category.contains("."))
+                {
+                    String cat[]=category.split(".");
+                    t_category=Integer.parseInt(cat[0]);
+                    t_subcategory=Integer.parseInt(cat[1]);
+                    Cursor c=dbHelper.getCategoryData(t_category,sp.getInt("UID",0));
+                    c.moveToFirst();
+                    String category=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+                    c.close();
+                    Cursor c1= dbHelper.getSubCategoryData(t_subcategory,sp.getInt("UID",0));
+                    c1.moveToFirst();
+                    String sub=c1.getString(c1.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
+                    c1.close();
+                    mCategory.setText(category+" "+sub);
+                }
+                else
+                {
+                    t_category=Integer.parseInt(category);
+                    t_subcategory=0;
+                    Cursor c= dbHelper.getCategoryData(t_category,sp.getInt("UID",0));
+                    c.moveToFirst();
+                    mCategory.setText(c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME)));
+                    c.close();
+
+                }
             }
         }
 

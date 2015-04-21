@@ -63,10 +63,12 @@ public class CategoriesAdapter extends ArrayAdapter<String>
            // Log.i("cat[]", cat[0]);
             cat_id = Integer.parseInt(cat[0]);
             subcat_id = Integer.parseInt(cat[1]);
+            id.setText(cat_id+"."+subcat_id);
         }
         else
         {
             cat_id = Integer.parseInt(c_id);
+            id.setText(c_id+"");
         }
         Cursor c=dbHelper.getCategoryData(cat_id);
         c.moveToFirst();

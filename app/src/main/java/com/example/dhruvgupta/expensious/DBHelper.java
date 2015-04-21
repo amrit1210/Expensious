@@ -999,12 +999,12 @@ public class DBHelper extends SQLiteOpenHelper
         return db.delete(CATEGORY_SPECIFIC, CATEGORY_COL_C_ID +"="+ id +" and "+ CATEGORY_COL_C_UID +"="+ u_id, null);
     }
 
-    public Cursor getCategoryData(int id)
+    public Cursor getCategoryData(int id,int u_id)
     {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_ID +"="+ id, null);
+            return db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_ID +"="+ id + "and" + CATEGORY_COL_C_UID +" = " +u_id, null);
         }
         catch(Exception ae)
         {

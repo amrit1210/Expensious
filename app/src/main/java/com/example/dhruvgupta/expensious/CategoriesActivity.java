@@ -43,6 +43,7 @@ import java.util.SortedSet;
 public class CategoriesActivity extends ActionBarActivity
 {
 
+   static HashMap<String,String>mapExpense,mapIncome;
 
     //List idList;
 
@@ -59,7 +60,7 @@ public class CategoriesActivity extends ActionBarActivity
 
     }
 
-    public  class CategoriesFragment extends Fragment
+    public static  class CategoriesFragment extends Fragment
     {
         Button mCat_Income,mCat_Expense;
         int c_type;
@@ -67,6 +68,7 @@ public class CategoriesActivity extends ActionBarActivity
         ArrayList<String> al;
         ArrayList<SubCategoryDB>sub_cat_al;
         ArrayList<CategoryDB_Specific>cat_al;
+
         DBHelper dbHelper;
         SharedPreferences sp;
         ListView mList_cat;
@@ -87,6 +89,8 @@ public class CategoriesActivity extends ActionBarActivity
 
             al=new ArrayList();
             ids=new HashSet();
+            mapExpense=new HashMap<>();
+            mapIncome=new HashMap<>();
 
             mList_cat = (ListView)rootView.findViewById(R.id.category_list);
             mCat_Income = (Button) rootView.findViewById(R.id.category_btn_income);
@@ -105,11 +109,13 @@ public class CategoriesActivity extends ActionBarActivity
 
                 sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
                 al.add(categoryDB_specific.c_id+"");
+                mapExpense.put(categoryDB_specific.c_id+"",categoryDB_specific.c_name);
                 // al.add(categoryDB_specific.c_name);
                 for(int j=0;j<sub_cat_al.size();j++)
                 {
                     SubCategoryDB subCategoryDB=sub_cat_al.get(j);
                     al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id+"");
+                    mapExpense.put(categoryDB_specific.c_id+"."+subCategoryDB.sub_id,subCategoryDB.sub_name);
                     //  al.add(subCategoryDB.sub_name);
                     ids.add(categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
 
@@ -140,12 +146,14 @@ public class CategoriesActivity extends ActionBarActivity
                 // al.add(categoryDB_specific.c_name);
                 al.add(categoryDB_specific.c_id+"");
                 ids.add(categoryDB_specific.c_id);
+                mapIncome.put(categoryDB_specific.c_id+"",categoryDB_specific.c_name);
                 for(int j=0;j<sub_cat_al.size();j++)
                 {
                     SubCategoryDB subCategoryDB=sub_cat_al.get(j);
                     // al.add(subCategoryDB.sub_name);
                     al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id+"");
                     ids.add( categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
+                    mapIncome.put(categoryDB_specific.c_id+"."+subCategoryDB.sub_id,subCategoryDB.sub_name);
                 }
 
             }
@@ -160,8 +168,8 @@ public class CategoriesActivity extends ActionBarActivity
 //        }
             //idList=toList(ids);
             Log.i(" INCOME ID:",ids+"");
-            ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,null);
-            ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
+            ad=new CategoriesAdapter(getActivity(),R.layout.list_category,null);
+            ad=new CategoriesAdapter(getActivity(),R.layout.list_category,al);
             mList_cat.setAdapter(ad);
             registerForContextMenu(mList_cat);
             toList();
@@ -180,6 +188,7 @@ public class CategoriesActivity extends ActionBarActivity
                 sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
                 al.add(categoryDB_specific.c_id+"");
                 // al.add(categoryDB_specific.c_name);
+                mapExpense.put(categoryDB_specific.c_id+"",categoryDB_specific.c_name);
                 ids.add(categoryDB_specific.c_id);
                 for(int j=0;j<sub_cat_al.size();j++)
                 {
@@ -187,6 +196,7 @@ public class CategoriesActivity extends ActionBarActivity
                     al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id);
                     al.add(subCategoryDB.sub_name);
                     ids.add(categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
+                    mapExpense.put(categoryDB_specific.c_id+"."+subCategoryDB.sub_id,subCategoryDB.sub_name);
                 }
 
             }
@@ -213,8 +223,8 @@ public class CategoriesActivity extends ActionBarActivity
 //       });
 
             Log.i(" EXPENSE ID:",ids+"");
-            ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,null);
-            ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
+            ad=new CategoriesAdapter(getActivity(),R.layout.list_category,null);
+            ad=new CategoriesAdapter(getActivity(),R.layout.list_category,al);
             mList_cat.setAdapter(ad);
             registerForContextMenu(mList_cat);
             toList();
@@ -335,7 +345,7 @@ public class CategoriesActivity extends ActionBarActivity
         {
             super.onCreateContextMenu(menu, v, menuInfo);
 
-            MenuInflater inflater= getMenuInflater();
+            MenuInflater inflater= getActivity().getMenuInflater();
             inflater.inflate(R.menu.context_menu,menu);
         }
     }
