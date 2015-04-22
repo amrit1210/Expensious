@@ -31,14 +31,12 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String ACCOUNTS_COL_ACC_NAME ="acc_name";
     public static final String ACCOUNTS_COL_ACC_BALANCE ="acc_balance";
     public static final String ACCOUNTS_COL_ACC_SHOW ="acc_show";
-    public static final String ACCOUNTS_COL_ACC_CURRENCY="acc_currency";
     public static final String ACCOUNTS_COL_ACC_NOTE ="acc_note";
 
     public static final String BUDGETS_TABLE="budget";
     public static final String BUDGETS_COL_B_ID ="b_id";
     public static final String BUDGETS_COL_B_UID ="b_u_id";
     public static final String BUDGETS_COL_B_AMOUNT ="b_amount";
-    public static final String BUDGETS_COL_B_CURRENCY="b_currency";
     public static final String BUDGETS_COL_START_DATE="b_startDate";
     public static final String BUDGETS_COL_END_DATE="b_endDate";
 
@@ -112,6 +110,9 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String LOAN_DEBT_COL_TIME="loan_debt_time";
     public static final String LOAN_DEBT_COL_PARENT="loan_debt_parent";
 
+    public static final String SETTINGS_TABLE="Settings";
+    public static final String SETTINGS_COL_UID="settings_uid";
+    public static final String SETTINGS_COL_CUR_CODE="settings_cur_code";
 
     public DBHelper(Context context)
     {
@@ -136,7 +137,6 @@ public class DBHelper extends SQLiteOpenHelper
                 + ACCOUNTS_COL_ACC_NAME +" TEXT,"
                 + ACCOUNTS_COL_ACC_BALANCE +" REAL,"
                 + ACCOUNTS_COL_ACC_NOTE +" TEXT,"
-                + ACCOUNTS_COL_ACC_CURRENCY +" TEXT,"
                 + ACCOUNTS_COL_ACC_SHOW +" INTEGER)";
         db.execSQL(create_table_accounts);
 
@@ -144,7 +144,6 @@ public class DBHelper extends SQLiteOpenHelper
                 +"("+ BUDGETS_COL_B_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + BUDGETS_COL_B_UID +" INTEGER,"
                 + BUDGETS_COL_B_AMOUNT +" REAL,"
-                + BUDGETS_COL_B_CURRENCY +" TEXT,"
                 + BUDGETS_COL_START_DATE +" TEXT,"
                 + BUDGETS_COL_END_DATE +" TEXT)";
         db.execSQL(create_table_budgets);
@@ -223,6 +222,11 @@ public class DBHelper extends SQLiteOpenHelper
                 LOAN_DEBT_COL_FROM_ACC +" INTEGER,"+ LOAN_DEBT_COL_TO_ACC +" INTEGER," + LOAN_DEBT_COL_PERSON +" INTEGER,"
                 + LOAN_DEBT_COL_NOTE +" TEXT," + LOAN_DEBT_COL_TYPE+" TEXT," + LOAN_DEBT_COL_PARENT+" INTEGER )";
         db.execSQL(create_table_loan_debt);
+
+        String create_table_settings="CREATE TABLE IF NOT EXISTS "+ SETTINGS_TABLE
+                +"("+ SETTINGS_COL_UID+" INTEGER PRIMARY KEY,"
+                + SETTINGS_COL_CUR_CODE +" TEXT)";
+        db.execSQL(create_table_settings);
     }
 
     @Override
@@ -350,7 +354,7 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public boolean addAccount(int u_id,String name,float balance,String note,String currency,int show)
+    public boolean addAccount(int u_id,String name,float balance,String note,int show)
     {
 
         SQLiteDatabase db=this.getWritableDatabase();
@@ -359,21 +363,19 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(ACCOUNTS_COL_ACC_UID,u_id);
         contentValues.put(ACCOUNTS_COL_ACC_NAME,name);
         contentValues.put(ACCOUNTS_COL_ACC_BALANCE,balance);
-        contentValues.put(ACCOUNTS_COL_ACC_CURRENCY,currency);
         contentValues.put(ACCOUNTS_COL_ACC_NOTE,note);
         contentValues.put(ACCOUNTS_COL_ACC_SHOW,show);
 
         return db.insert(ACCOUNTS_TABLE, null, contentValues) > 0;
     }
 
-    public boolean updateAccountData(int acc_id, String name, float balance ,String note,String currency,int show,int u_id )
+    public boolean updateAccountData(int acc_id, String name, float balance ,String note,int show,int u_id )
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
         contentValues.put(ACCOUNTS_COL_ACC_NAME,name);
         contentValues.put(ACCOUNTS_COL_ACC_BALANCE,balance);
-        contentValues.put(ACCOUNTS_COL_ACC_CURRENCY,currency);
         contentValues.put(ACCOUNTS_COL_ACC_NOTE,note);
         contentValues.put(ACCOUNTS_COL_ACC_SHOW,show);
 
@@ -446,12 +448,11 @@ public class DBHelper extends SQLiteOpenHelper
                 a1.acc_u_id=c.getInt(c.getColumnIndex(ACCOUNTS_COL_ACC_UID));
                 a1.acc_name=c.getString(c.getColumnIndex(ACCOUNTS_COL_ACC_NAME));
                 a1.acc_balance=c.getFloat(c.getColumnIndex(ACCOUNTS_COL_ACC_BALANCE));
-                a1.acc_currency=c.getString(c.getColumnIndex(ACCOUNTS_COL_ACC_CURRENCY));
                 a1.acc_note=c.getString(c.getColumnIndex(ACCOUNTS_COL_ACC_NOTE));
                 a1.acc_show=c.getInt(c.getColumnIndex(ACCOUNTS_COL_ACC_SHOW));
                 arrayList.add(a1);
 //                Log.i("ACCOUNT :", a1.acc_id +"\t"+ a1.acc_u_id +"\t"+ a1.acc_name +"\t"+ a1.acc_balance
-//                        +"\t"+ a1.acc_currency +"\t"+ a1.acc_note +"\t"+ a1.acc_show);
+//                        +"\t"+ a1.acc_note +"\t"+ a1.acc_show);
                 c.moveToNext();
             }
             c.close();
@@ -464,7 +465,7 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public boolean addBudget(int u_id,float amount,String currency,String s_date,String e_date)
+    public boolean addBudget(int u_id,float amount,String s_date,String e_date)
     {
 
         SQLiteDatabase db=this.getWritableDatabase();
@@ -472,20 +473,18 @@ public class DBHelper extends SQLiteOpenHelper
 
         contentValues.put(BUDGETS_COL_B_UID,u_id);
         contentValues.put(BUDGETS_COL_B_AMOUNT,amount);
-        contentValues.put(BUDGETS_COL_B_CURRENCY,currency);
         contentValues.put(BUDGETS_COL_START_DATE,s_date);
         contentValues.put(BUDGETS_COL_END_DATE,e_date);
 
         return db.insert(BUDGETS_TABLE, null, contentValues) > 0;
     }
 
-    public boolean updateBudgetData(int u_id,int b_id,float amount,String currency,String s_date,String e_date)
+    public boolean updateBudgetData(int u_id,int b_id,float amount,String s_date,String e_date)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
         contentValues.put(BUDGETS_COL_B_AMOUNT,amount);
-        contentValues.put(BUDGETS_COL_B_CURRENCY,currency);
         contentValues.put(BUDGETS_COL_START_DATE,s_date);
         contentValues.put(BUDGETS_COL_END_DATE,e_date);
 
@@ -527,12 +526,10 @@ public class DBHelper extends SQLiteOpenHelper
                 b1.b_id=c.getInt(c.getColumnIndex(BUDGETS_COL_B_ID));
                 b1.b_u_id=c.getInt(c.getColumnIndex(BUDGETS_COL_B_UID));
                 b1.b_amount=c.getFloat(c.getColumnIndex(BUDGETS_COL_B_AMOUNT));
-                b1.b_currency=c.getString(c.getColumnIndex(BUDGETS_COL_B_CURRENCY));
                 b1.b_startDate=c.getString(c.getColumnIndex(BUDGETS_COL_START_DATE));
                 b1.b_endDate=c.getString(c.getColumnIndex(BUDGETS_COL_END_DATE));
                 arrayList.add(b1);
-                Log.i("BUDGET :", b1.b_id +"\t"+ b1.b_u_id +"\t"+ b1.b_amount +"\t"+ b1.b_currency
-                        +"\t"+ b1.b_startDate +"\t"+ b1.b_endDate);
+                Log.i("BUDGET :", b1.b_id +"\t"+ b1.b_u_id +"\t"+ b1.b_amount +"\t"+ b1.b_startDate +"\t"+ b1.b_endDate);
                 c.moveToNext();
             }
             c.close();
@@ -1004,7 +1001,8 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_ID +"="+ id + "and" + CATEGORY_COL_C_UID +" = " +u_id, null);
+            return db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_ID +"="+ id + "and" +
+                    CATEGORY_COL_C_UID +" = " +u_id, null);
         }
         catch(Exception ae)
         {
@@ -1048,6 +1046,35 @@ public class DBHelper extends SQLiteOpenHelper
             ae.printStackTrace();
             return null;
         }
+    }
+
+    public ArrayList<String> getCategoryIds(int u_id,int type)
+    {
+        ArrayList<String> arrayList = new ArrayList<>();
+        String c_id=null;
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_TYPE + "=" + type
+                    + " and " + CATEGORY_COL_C_UID + "=" + u_id, null);
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                c_id = c.getString(c.getColumnIndex(CATEGORY_COL_C_ID));
+
+                arrayList.add(c_id);
+                Log.i("CATEGORY NAME :", c_id );
+                c.moveToNext();
+            }
+            c.close();
+            return arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+
     }
 
     public int getCategoryColId(String c_name)
@@ -1397,5 +1424,71 @@ public class DBHelper extends SQLiteOpenHelper
     {
         SQLiteDatabase db=this.getWritableDatabase();
         return db.delete(LOAN_DEBT_TABLE, LOAN_DEBT_COL_ID +"="+ id +" and "+ LOAN_DEBT_COL_UID +"="+ u_id, null);
+    }
+
+    public boolean addSettings(int u_id,String cur_code)
+    {
+
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(SETTINGS_COL_UID,u_id);
+        contentValues.put(SETTINGS_COL_CUR_CODE,cur_code);
+
+        return db.insert(SETTINGS_TABLE, null, contentValues) > 0;
+    }
+
+    public boolean updateSettings(int u_id, String cur_code)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+
+        contentValues.put(SETTINGS_COL_CUR_CODE,cur_code);
+
+        return db.update(SETTINGS_TABLE, contentValues, SETTINGS_COL_UID +"="+ u_id, null) > 0;
+    }
+
+    public int deleteSettings(int u_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(SETTINGS_TABLE, SETTINGS_COL_UID + "=" + u_id, null);
+    }
+
+    public Cursor getSettingsData(int u_id)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            return db.rawQuery("select * from "+ SETTINGS_TABLE +" where "+ SETTINGS_COL_UID +"="+ u_id, null);
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
+    public ArrayList getSettingsUid()
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ SETTINGS_TABLE, null);
+            ArrayList al = new ArrayList();
+            int s;
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                s = c.getInt(c.getColumnIndex(SETTINGS_COL_UID));
+                al.add(s);
+                c.moveToNext();
+            }
+            c.close();
+            return al;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
     }
 }

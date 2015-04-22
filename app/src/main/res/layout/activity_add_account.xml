@@ -23,7 +23,7 @@
             style="@style/ButtonStyle.Transparent"
             android:layout_weight="7"
             android:text="@string/btn_currency"
-            android:onClick="selectCurrency"
+            android:clickable="false"
             android:stateListAnimator="@android:animator/fade_in"
             android:id="@+id/add_acc_btn_cur"/>
 

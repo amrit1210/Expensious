@@ -18,7 +18,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="onBudgetCurClick"
+                android:clickable="false"
                 android:text="CUR"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"

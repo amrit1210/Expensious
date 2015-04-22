@@ -94,9 +94,11 @@ public class AccountsActivity extends ActionBarActivity
 
     public static class AccountsFragment extends Fragment {
         ListView listView;
-        TextView mAcc_amt;
+        TextView mAcc_amt, mAcc_cur;
         float amt=0;
+        String curCode;
         ArrayList<AccountsDB> allAccounts;
+        ArrayList<CurrencyDB> al;
         AccountsAdapter accountsAdapter;
         AccountsDB accountsDB;
         Iterator<AccountsDB> accountsDBIterator;
@@ -118,12 +120,28 @@ public class AccountsActivity extends ActionBarActivity
 
             // views are now found from rootView defined above
             mAcc_amt = (TextView) rootView.findViewById(R.id.accounts_bal);
+            mAcc_cur = (TextView) rootView.findViewById(R.id.accounts_cur);
             listView = (ListView) rootView.findViewById(R.id.accounts_list);
 
             // use getActivity where "this" or nothing was used
             // means Activity's functions should be called using getActivity()
             sp= getActivity().getSharedPreferences("USER_PREFS",MODE_PRIVATE);
             dbHelper =new DBHelper(getActivity());
+
+            al = new ListOfCurrencies().getAllCurrencies();
+
+            Cursor c = dbHelper.getSettingsData(sp.getInt("UID", 0));
+            c.moveToFirst();
+            curCode = c.getString(c.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
+            c.close();
+
+            Iterator<CurrencyDB> iterator = al.iterator();
+            while (iterator.hasNext())
+            {
+                CurrencyDB curDB = iterator.next();
+                if (curDB.c_code.equals(curCode))
+                    mAcc_cur.setText(curDB.c_symbol);
+            }
 
             allAccounts=dbHelper.getAllAccounts(sp.getInt("UID", 0));
             accountsDBIterator =allAccounts.iterator();
@@ -159,7 +177,6 @@ public class AccountsActivity extends ActionBarActivity
                 int acc_uid=c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
                 String acc_name=c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                 float acc_bal=c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
-                String acc_cur=c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                 String acc_note=c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
                 int acc_show=c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                 c.close();
@@ -170,7 +187,6 @@ public class AccountsActivity extends ActionBarActivity
                 i.putExtra("acc_uid",acc_uid);
                 i.putExtra("acc_name",acc_name);
                 i.putExtra("acc_bal",acc_bal);
-                i.putExtra("acc_cur",acc_cur);
                 i.putExtra("acc_note",acc_note);
                 i.putExtra("acc_show",acc_show);
                 startActivity(i);

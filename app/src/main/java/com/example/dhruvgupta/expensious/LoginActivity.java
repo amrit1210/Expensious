@@ -77,6 +77,11 @@ public class LoginActivity extends ActionBarActivity
                             spEdit.putString("SESSION",user.getSessionToken());
                             spEdit.putInt("UID", user.getInt("uid"));
                             spEdit.commit();
+
+                            ArrayList al = dbHelper.getSettingsUid();
+                            if (! al.contains(sharedPreferences.getInt("UID", 0)))
+                                dbHelper.addSettings(sharedPreferences.getInt("UID", 0), "INR");
+
                             Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
                                     Toast.LENGTH_LONG).show();
 //                            Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);

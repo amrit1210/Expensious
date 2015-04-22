@@ -141,7 +141,6 @@ public class RecursiveActivity extends ActionBarActivity
                 String rec_end_date=c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_END_DATE));
                 String rec_next_date=c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_NEXT_DATE));
                 float rec_bal=c.getFloat(c.getColumnIndex(DBHelper.RECURSIVE_COL_BALANCE));
-                String rec_cur="Rs.";
                 String rec_note=c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_NOTE));
                 String rec_type=c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_TYPE));
                 int rec_category=c.getInt(c.getColumnIndex(DBHelper.RECURSIVE_COL_CATEGORY));
@@ -161,7 +160,6 @@ public class RecursiveActivity extends ActionBarActivity
                 i.putExtra("rec_end_date",rec_end_date);
                 i.putExtra("rec_next_date",rec_next_date);
                 i.putExtra("rec_bal",rec_bal);
-                i.putExtra("rec_cur",rec_cur);
                 i.putExtra("rec_note",rec_note);
                 i.putExtra("rec_type",rec_type);
                 i.putExtra("rec_fromAccount",rec_fromAccount);

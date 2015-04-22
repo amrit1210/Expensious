@@ -1,6 +1,7 @@
 package com.example.dhruvgupta.expensious;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Amrit on 3/27/2015.
@@ -17,8 +19,11 @@ import java.util.ArrayList;
 public class TransactionAdapter extends ArrayAdapter {
     Context context1;
     int layout;
+    DBHelper dbHelper;
+    SharedPreferences sp;
     ArrayList<TransactionsDB>al;
-//    String etype=null;
+    ArrayList<CurrencyDB> al1;
+    String curCode;
 
     public TransactionAdapter(Context context, int resource,  ArrayList<TransactionsDB> al1) {
         super(context, resource, al1);
@@ -29,7 +34,6 @@ public class TransactionAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String acc_currency=null;
         if(convertView==null)
         {
             LayoutInflater in=(LayoutInflater)context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -42,7 +46,24 @@ public class TransactionAdapter extends ArrayAdapter {
         final TextView currency=(TextView)convertView.findViewById(R.id.list_transaction_cur);
         final TextView account=(TextView)convertView.findViewById(R.id.list_transaction_acc);
         final TextView amount=(TextView)convertView.findViewById(R.id.list_transaction_amt);
-       DBHelper dbHelper=new DBHelper(getContext().getApplicationContext());
+
+        dbHelper = new DBHelper(getContext());
+        sp = getContext().getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE);
+
+        al1 = new ListOfCurrencies().getAllCurrencies();
+
+        Cursor c1 = dbHelper.getSettingsData(sp.getInt("UID", 0));
+        c1.moveToFirst();
+        curCode = c1.getString(c1.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
+        c1.close();
+
+        Iterator<CurrencyDB> iterator = al1.iterator();
+        while (iterator.hasNext())
+        {
+            CurrencyDB curDB = iterator.next();
+            if (curDB.c_code.equals(curCode))
+                currency.setText(curDB.c_symbol);
+        }
 
         TransactionsDB trans_db=al.get(position);
         date.setText(trans_db.t_date);
@@ -59,7 +80,6 @@ public class TransactionAdapter extends ArrayAdapter {
                 Cursor c = dbHelper.getAccountData(trans_db.t_from_acc);
                 c.moveToFirst();
                 from_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
-                acc_currency = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                 c.close();
             }
             account.setText(from_acc);
@@ -71,7 +91,6 @@ public class TransactionAdapter extends ArrayAdapter {
                 Cursor c = dbHelper.getAccountData(trans_db.t_to_acc);
                 c.moveToFirst();
                 to_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
-                acc_currency = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                 c.close();
             }
             account.setText(to_acc);
@@ -83,16 +102,14 @@ public class TransactionAdapter extends ArrayAdapter {
                 Cursor c = dbHelper.getAccountData(trans_db.t_from_acc);
                 c.moveToFirst();
                 from_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
-                acc_currency = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
-                Cursor c1 = dbHelper.getAccountData(trans_db.t_to_acc);
-                c1.moveToFirst();
-                to_acc = c1.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
+                Cursor c2 = dbHelper.getAccountData(trans_db.t_to_acc);
+                c2.moveToFirst();
+                to_acc = c2.getString(c2.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                 c.close();
-                c1.close();
+                c2.close();
             }
             account.setText(from_acc + "-> " + to_acc);
         }
-        currency.setText(acc_currency);
 
         return convertView;
     }

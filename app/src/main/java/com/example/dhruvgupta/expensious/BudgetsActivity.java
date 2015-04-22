@@ -53,10 +53,12 @@ public class BudgetsActivity extends ActionBarActivity
         ListView mBudget_list;
 
         float amt=0,spent=0,rem=0;
+        String curCode;
         SharedPreferences sp;
         DBHelper dbHelper;
         ArrayList<BudgetDB> allBudgets;
         BudgetsAdapter budgetsAdapter;
+        ArrayList<CurrencyDB> al1;
         ArrayList<TransactionsDB> allTransactions;
         TransactionsDB dbTrans;
         BudgetDB dbBudget;
@@ -87,6 +89,25 @@ public class BudgetsActivity extends ActionBarActivity
             dbHelper = new DBHelper(getActivity());
 
             sdf= new SimpleDateFormat("dd-MM-yyyy");
+
+            al1 = new ListOfCurrencies().getAllCurrencies();
+
+            Cursor c1 = dbHelper.getSettingsData(sp.getInt("UID", 0));
+            c1.moveToFirst();
+            curCode = c1.getString(c1.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
+            c1.close();
+
+            Iterator<CurrencyDB> iterator = al1.iterator();
+            while (iterator.hasNext())
+            {
+                CurrencyDB curDB = iterator.next();
+                if (curDB.c_code.equals(curCode))
+                {
+                    mB_Cur.setText(curDB.c_symbol);
+                    mB_Rem_Cur.setText(curDB.c_symbol);
+                    mB_Spent_cur.setText(curDB.c_symbol);
+                }
+            }
 
             allTransactions=dbHelper.getAllTransactions(sp.getInt("UID",0));
             transactionsDBIterator =allTransactions.iterator();
@@ -155,7 +176,6 @@ public class BudgetsActivity extends ActionBarActivity
                 int b_id=c.getInt(c.getColumnIndex(DBHelper.BUDGETS_COL_B_ID));
                 int b_uid=c.getInt(c.getColumnIndex(DBHelper.BUDGETS_COL_B_UID));
                 float b_amt=c.getFloat(c.getColumnIndex(DBHelper.BUDGETS_COL_B_AMOUNT));
-                String b_cur=c.getString(c.getColumnIndex(DBHelper.BUDGETS_COL_B_CURRENCY));
                 String b_sDate=c.getString(c.getColumnIndex(DBHelper.BUDGETS_COL_START_DATE));
                 String b_eDate=c.getString(c.getColumnIndex(DBHelper.BUDGETS_COL_END_DATE));
                 c.close();
@@ -163,7 +183,6 @@ public class BudgetsActivity extends ActionBarActivity
                 i.putExtra("b_id",b_id);
                 i.putExtra("b_uid",b_uid);
                 i.putExtra("b_amt",b_amt);
-                i.putExtra("b_cur",b_cur);
                 i.putExtra("b_sDate",b_sDate);
                 i.putExtra("b_eDate",b_eDate);
                 startActivity(i);

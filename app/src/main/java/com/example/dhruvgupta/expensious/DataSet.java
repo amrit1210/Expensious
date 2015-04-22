@@ -13,7 +13,7 @@ class AccountsDB
 {
     int acc_id,acc_u_id,acc_show;
     float acc_balance;
-    String acc_name,acc_note,acc_currency;
+    String acc_name,acc_note;
 }
 
 class PersonDB
@@ -62,7 +62,7 @@ class BudgetDB
 {
     int b_id,b_u_id;
     float b_amount;
-    String b_currency,b_endDate, b_startDate;
+    String b_endDate, b_startDate;
 }
 
 class LoanDebtDB

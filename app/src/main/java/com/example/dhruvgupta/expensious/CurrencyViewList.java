@@ -18,6 +18,7 @@ public class CurrencyViewList extends ActionBarActivity
     ListView cur_list;
     ArrayList<CurrencyDB> al;
     CurrencyAdapter currencyAdapter;
+    DBHelper dbHelper;
     SharedPreferences sp;
 
     @Override
@@ -26,6 +27,7 @@ public class CurrencyViewList extends ActionBarActivity
         setContentView(R.layout.currency_view);
 
         cur_list = (ListView)findViewById(R.id.currencies_list_view);
+        dbHelper = new DBHelper(CurrencyViewList.this);
         sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
 
         ListOfCurrencies lc = new ListOfCurrencies();
@@ -37,9 +39,10 @@ public class CurrencyViewList extends ActionBarActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CurrencyDB cur_DB = currencyAdapter.getItem(position);
+                dbHelper.updateSettings(sp.getInt("UID", 0), cur_DB.c_code);
+
                 Intent i=new Intent();
-                i.putExtra("CUR_SYM",cur_DB.c_symbol);
-                setResult(1,i);
+                setResult(1, i);
                 CurrencyViewList.this.finish();
             }
         });

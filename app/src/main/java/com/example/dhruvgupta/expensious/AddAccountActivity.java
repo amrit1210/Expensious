@@ -2,6 +2,7 @@ package com.example.dhruvgupta.expensious;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Gaurav on 13-Mar-15.
@@ -23,16 +25,20 @@ public class AddAccountActivity extends ActionBarActivity
     EditText mAcc_Name,mAcc_Note;
     CheckBox mInclude;
     Button mAcc_Cur,mAcc_Amt,mAcc_Save;
-
+    SharedPreferences sp;
     DBHelper dbHelper;
 
-    int flag,acc_id,u_id;
-    int i;
+    int flag,acc_id,u_id,i;
+    ArrayList<CurrencyDB> al;
+    String curCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_account);
+
+        sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         mAcc_Name=(EditText)findViewById(R.id.add_acc_name);
         mAcc_Note=(EditText)findViewById(R.id.add_acc_note);
         mAcc_Cur =(Button)findViewById(R.id.add_acc_btn_cur);
@@ -44,13 +50,27 @@ public class AddAccountActivity extends ActionBarActivity
 
         dbHelper =new DBHelper(AddAccountActivity.this);
 
+        al = new ListOfCurrencies().getAllCurrencies();
+
+        Cursor c = dbHelper.getSettingsData(sp.getInt("UID", 0));
+        c.moveToFirst();
+        curCode = c.getString(c.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
+        c.close();
+
+        Iterator<CurrencyDB> iterator = al.iterator();
+        while (iterator.hasNext())
+        {
+            CurrencyDB curDB = iterator.next();
+            if (curDB.c_code.equals(curCode))
+                mAcc_Cur.setText(curDB.c_symbol);
+        }
+
         if(getIntent().getStringExtra("acc_name")!=null)
         {
             flag=1;
             acc_id=getIntent().getIntExtra("acc_id",0);
             u_id=getIntent().getIntExtra("acc_uid",0);
             mAcc_Name.setText(getIntent().getStringExtra("acc_name"));
-            mAcc_Cur.setText(getIntent().getStringExtra("acc_cur"));
             mAcc_Amt.setText(getIntent().getFloatExtra("acc_bal",0)+"");
             mAcc_Note.setText(getIntent().getStringExtra("acc_note"));
             i=(getIntent().getIntExtra("acc_show",0));
@@ -65,12 +85,6 @@ public class AddAccountActivity extends ActionBarActivity
         }
     }
 
-    public void selectCurrency(View v)
-    {
-        Intent i = new Intent(AddAccountActivity.this, CurrencyViewList.class);
-        startActivityForResult(i,2);
-    }
-
     public  void enterAmount(View v)
     {
         Intent intent=new Intent(AddAccountActivity.this,Calculator.class);
@@ -83,10 +97,6 @@ public class AddAccountActivity extends ActionBarActivity
             if(requestCode == 1 && resultCode == 1)
             {
                 mAcc_Amt.setText(data.getExtras().getFloat("RESULT",0.0f)+"");
-            }
-            else if (requestCode == 2 && resultCode == 1)
-            {
-                mAcc_Cur.setText(data.getExtras().getString("CUR_SYM",""));
             }
     }
 
@@ -115,7 +125,7 @@ public class AddAccountActivity extends ActionBarActivity
             if(flag==1)
             {
                 if(dbHelper.updateAccountData(acc_id,mAcc_Name.getText().toString(),Float.parseFloat(mAcc_Amt.getText()
-                        .toString()),mAcc_Note.getText().toString(),mAcc_Cur.getText().toString(),i,sp.getInt("UID",0)))
+                        .toString()),mAcc_Note.getText().toString(),i,sp.getInt("UID",0)))
                 {
                     Toast.makeText(AddAccountActivity.this, "Account Updated", Toast.LENGTH_LONG).show();
                     Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
@@ -132,7 +142,7 @@ public class AddAccountActivity extends ActionBarActivity
             else
             {
                 if(dbHelper.addAccount(sp.getInt("UID",0),mAcc_Name.getText().toString(),Float.parseFloat
-                        (mAcc_Amt.getText().toString()),mAcc_Note.getText().toString(), mAcc_Cur.getText().toString(), i))
+                        (mAcc_Amt.getText().toString()),mAcc_Note.getText().toString(), i))
                 {
                     Toast.makeText(AddAccountActivity.this, "Account Created", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(AddAccountActivity.this, AccountsActivity.class);

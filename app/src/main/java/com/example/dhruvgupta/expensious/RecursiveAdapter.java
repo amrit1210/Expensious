@@ -1,6 +1,7 @@
 package com.example.dhruvgupta.expensious;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by dhruvgupta on 4/7/2015.
@@ -16,6 +18,10 @@ import java.util.ArrayList;
 public class RecursiveAdapter extends ArrayAdapter {
     Context context1;
     int layout;
+    String curCode;
+    DBHelper dbHelper;
+    SharedPreferences sp;
+    ArrayList<CurrencyDB> al1;
     ArrayList<RecursiveDB> al;
 //    String etype=null;
 
@@ -28,7 +34,6 @@ public class RecursiveAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String acc_currency=null;
         if(convertView==null)
         {
             LayoutInflater in=(LayoutInflater)context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,7 +46,9 @@ public class RecursiveAdapter extends ArrayAdapter {
         final TextView currency=(TextView)convertView.findViewById(R.id.list_recursive_cur);
         final TextView account=(TextView)convertView.findViewById(R.id.list_recurive_acc);
         final TextView amount=(TextView)convertView.findViewById(R.id.list_recursive_amt);
-        DBHelper dbHelper=new DBHelper(getContext().getApplicationContext());
+
+        dbHelper = new DBHelper(getContext());
+        sp = getContext().getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE);
 
         RecursiveDB trans_db=al.get(position);
         s_date.setText(trans_db.rec_start_date);
@@ -50,6 +57,20 @@ public class RecursiveAdapter extends ArrayAdapter {
         e_date.setText(trans_db.rec_end_date);
         amount.setText(trans_db.rec_balance+"");
 
+        al1 = new ListOfCurrencies().getAllCurrencies();
+
+        Cursor c2 = dbHelper.getSettingsData(sp.getInt("UID", 0));
+        c2.moveToFirst();
+        curCode = c2.getString(c2.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
+        c2.close();
+
+        Iterator<CurrencyDB> iterator = al1.iterator();
+        while (iterator.hasNext())
+        {
+            CurrencyDB curDB = iterator.next();
+            if (curDB.c_code.equals(curCode))
+                currency.setText(curDB.c_symbol);
+        }
 
         if(trans_db.rec_type.equals("Expense"))
         {
@@ -58,7 +79,6 @@ public class RecursiveAdapter extends ArrayAdapter {
                 Cursor c = dbHelper.getAccountData(trans_db.rec_from_acc);
                 c.moveToFirst();
                 from_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
-                acc_currency = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                 c.close();
             }
             account.setText(from_acc);
@@ -70,7 +90,6 @@ public class RecursiveAdapter extends ArrayAdapter {
                 Cursor c = dbHelper.getAccountData(trans_db.rec_to_acc);
                 c.moveToFirst();
                 to_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
-                acc_currency = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                 c.close();
             }
             account.setText(to_acc);
@@ -82,7 +101,6 @@ public class RecursiveAdapter extends ArrayAdapter {
                 Cursor c = dbHelper.getAccountData(trans_db.rec_from_acc);
                 c.moveToFirst();
                 from_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
-                acc_currency = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                 Cursor c1 = dbHelper.getAccountData(trans_db.rec_to_acc);
                 c1.moveToFirst();
                 to_acc = c1.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
@@ -91,7 +109,6 @@ public class RecursiveAdapter extends ArrayAdapter {
             }
             account.setText(from_acc + "-> " + to_acc);
         }
-        currency.setText(acc_currency);
 
         return convertView;
     }

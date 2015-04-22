@@ -3,6 +3,7 @@ package com.example.dhruvgupta.expensious;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -26,9 +27,10 @@ public class AddBudgetActivity extends ActionBarActivity
     int mYear, mMonth, mDay,dateFlag=0;
     Button mB_StartDate, mB_EndDate, mB_Amt, mB_Cur;
     DBHelper dbHelper;
-    String startDate,endDate;
+    String startDate,endDate, curCode;
     Date start,end, startEditDb, endEditDb, startDb, endDb;
     SimpleDateFormat sdf;
+    ArrayList<CurrencyDB> al1;
     SharedPreferences sp;
     int flag,b_id,b_uid;
 
@@ -68,6 +70,21 @@ public class AddBudgetActivity extends ActionBarActivity
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper = new DBHelper(AddBudgetActivity.this);
 
+        al1 = new ListOfCurrencies().getAllCurrencies();
+
+        Cursor c1 = dbHelper.getSettingsData(sp.getInt("UID", 0));
+        c1.moveToFirst();
+        curCode = c1.getString(c1.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
+        c1.close();
+
+        Iterator<CurrencyDB> iterator = al1.iterator();
+        while (iterator.hasNext())
+        {
+            CurrencyDB curDB = iterator.next();
+            if (curDB.c_code.equals(curCode))
+                mB_Cur.setText(curDB.c_symbol);
+        }
+
         flag=0;
 
         if(getIntent().getIntExtra("b_id", 0)>0)
@@ -76,7 +93,6 @@ public class AddBudgetActivity extends ActionBarActivity
             b_id=getIntent().getIntExtra("b_id",0);
             b_uid=getIntent().getIntExtra("b_uid",0);
             mB_Amt.setText(getIntent().getFloatExtra("b_amt", 0) + "");
-            mB_Cur.setText(getIntent().getStringExtra("b_cur"));
             mB_StartDate.setText(getIntent().getStringExtra("b_sDate"));
             mB_EndDate.setText(getIntent().getStringExtra("b_eDate"));
             try
@@ -161,12 +177,6 @@ public class AddBudgetActivity extends ActionBarActivity
         startActivityForResult(i,1);
     }
 
-    public void onBudgetCurClick(View v)
-    {
-        Intent i = new Intent(AddBudgetActivity.this, CurrencyViewList.class);
-        startActivityForResult(i,2);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -176,10 +186,6 @@ public class AddBudgetActivity extends ActionBarActivity
             if(requestCode == 1)
             {
                 mB_Amt.setText(data.getExtras().getFloat("RESULT") + "");
-            }
-            else if (requestCode == 2)
-            {
-                mB_Cur.setText(data.getExtras().getString("CUR_SYM",""));
             }
         }
     }
@@ -262,7 +268,7 @@ public class AddBudgetActivity extends ActionBarActivity
                 if (flag == 1)
                 {
                     if (dbHelper.updateBudgetData(sp.getInt("UID", 0), b_id, Float.parseFloat(mB_Amt.getText().toString()),
-                            mB_Cur.getText().toString(), mB_StartDate.getText().toString(), mB_EndDate.getText().toString()))
+                            mB_StartDate.getText().toString(), mB_EndDate.getText().toString()))
                     {
                         Toast.makeText(AddBudgetActivity.this, "Budget Updated", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(AddBudgetActivity.this, BudgetsActivity.class);
@@ -278,7 +284,7 @@ public class AddBudgetActivity extends ActionBarActivity
                 else
                 {
                     if (dbHelper.addBudget(sp.getInt("UID", 0), Float.parseFloat(mB_Amt.getText().toString()),
-                            mB_Cur.getText().toString(), mB_StartDate.getText().toString(), mB_EndDate.getText().toString()))
+                            mB_StartDate.getText().toString(), mB_EndDate.getText().toString()))
                     {
                         Toast.makeText(AddBudgetActivity.this, "Budget Created", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(AddBudgetActivity.this, BudgetsActivity.class);

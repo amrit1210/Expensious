@@ -95,7 +95,6 @@ public class LoanDebtActivity extends ActionBarActivity
                 int l_u_id = c.getInt(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_UID));
                 String l_date = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_DATE));
                 float l_balance = c.getFloat(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_BALANCE));
-                String l_cur = "Rs.";
                 String l_note = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_NOTE));
                 String l_type = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_TYPE));
                 int l_person = c.getInt(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_PERSON));
@@ -109,7 +108,6 @@ public class LoanDebtActivity extends ActionBarActivity
                 i.putExtra("l_u_id", l_u_id);
                 i.putExtra("l_date", l_date);
                 i.putExtra("l_bal", l_balance);
-                i.putExtra("l_cur", l_cur);
                 i.putExtra("l_note", l_note);
                 i.putExtra("l_type", l_type);
                 i.putExtra("l_fromAcc", l_fromAccount);
@@ -136,13 +134,12 @@ public class LoanDebtActivity extends ActionBarActivity
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                         String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                         String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                        String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                         int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                         int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                         bal = bal + l_amt_old;
 
-                        dbHelper.updateAccountData(l_from_old, name, bal, note, cur, show, uid);
+                        dbHelper.updateAccountData(l_from_old, name, bal, note, show, uid);
                         cursor.close();
 
                         ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
@@ -160,13 +157,12 @@ public class LoanDebtActivity extends ActionBarActivity
                                     float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                                     String name1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                                     String note1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                                    String cur1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                                     int show1 = c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                                     int uid1 = c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                                     bal1 = bal1 - ldDB.l_balance;
 
-                                    dbHelper.updateAccountData(ldDB.l_to_acc, name1, bal1, note1, cur1, show1, uid1);
+                                    dbHelper.updateAccountData(ldDB.l_to_acc, name1, bal1, note1, show1, uid1);
                                     c.close();
                                 }
                             }
@@ -181,13 +177,12 @@ public class LoanDebtActivity extends ActionBarActivity
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                         String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                         String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                        String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                         int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                         int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                         bal = bal - l_amt_old;
 
-                        dbHelper.updateAccountData(l_to_old, name, bal, note, cur, show, uid);
+                        dbHelper.updateAccountData(l_to_old, name, bal, note, show, uid);
                         cursor.close();
 
                         ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
@@ -208,13 +203,12 @@ public class LoanDebtActivity extends ActionBarActivity
                                     float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                                     String name1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                                     String note1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                                    String cur1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                                     int show1 = c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                                     int uid1 = c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                                     bal1 = bal1 + ldDB.l_balance;
 
-                                    dbHelper.updateAccountData(ldDB.l_from_acc, name1, bal1, note1, cur1, show1, uid1);
+                                    dbHelper.updateAccountData(ldDB.l_from_acc, name1, bal1, note1, show1, uid1);
                                     c.close();
                                 }
                             }

@@ -318,13 +318,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal = bal + t_amt_old;
 
-                            dbHelper.updateAccountData(t_from_old, name, bal, note, cur, show, uid);
+                            dbHelper.updateAccountData(t_from_old, name, bal, note, show, uid);
                             cursor.close();
                         }
                         else if (t_type_old.equals("Income"))
@@ -335,13 +334,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal = bal - t_amt_old;
 
-                            dbHelper.updateAccountData(t_to_old, name, bal, note, cur, show, uid);
+                            dbHelper.updateAccountData(t_to_old, name, bal, note, show, uid);
                             cursor.close();
                         }
                         else if (t_type_old.equals("Transfer"))
@@ -352,13 +350,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal = bal - t_amt_old;
 
-                            dbHelper.updateAccountData(t_to_old, name, bal, note, cur, show, uid);
+                            dbHelper.updateAccountData(t_to_old, name, bal, note, show, uid);
                             cursor.close();
 
                             Cursor cursor1 = dbHelper.getAccountData(t_from_old);
@@ -367,13 +364,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal1 = bal1 + t_amt_old;
 
-                            dbHelper.updateAccountData(t_from_old, name1, bal1, note1, cur1, show1, uid1);
+                            dbHelper.updateAccountData(t_from_old, name1, bal1, note1, show1, uid1);
                             cursor1.close();
                         }
 
@@ -385,13 +381,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal = bal - amt;
 
-                            dbHelper.updateAccountData(t_fromAccount, name, bal, note, cur, show, uid);
+                            dbHelper.updateAccountData(t_fromAccount, name, bal, note, show, uid);
                             cursor.close();
                         }
                         else if (t_type.equals("Income"))
@@ -402,13 +397,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal = bal + amt;
 
-                            dbHelper.updateAccountData(t_toAccount, name, bal, note, cur, show, uid);
+                            dbHelper.updateAccountData(t_toAccount, name, bal, note, show, uid);
                             cursor.close();
                         }
                         else if (t_type.equals("Transfer"))
@@ -419,13 +413,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal = bal + amt;
 
-                            dbHelper.updateAccountData(t_toAccount, name, bal, note, cur, show, uid);
+                            dbHelper.updateAccountData(t_toAccount, name, bal, note, show, uid);
                             cursor.close();
 
                             Cursor cursor1 = dbHelper.getAccountData(t_fromAccount);
@@ -434,13 +427,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal1 = bal1 - amt;
 
-                            dbHelper.updateAccountData(t_fromAccount, name1, bal1, note1, cur1, show1, uid1);
+                            dbHelper.updateAccountData(t_fromAccount, name1, bal1, note1, show1, uid1);
                             cursor1.close();
                         }
 
@@ -479,13 +471,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal = bal - amt;
 
-                            dbHelper.updateAccountData(acc_id, name, bal, note, cur, show, uid);
+                            dbHelper.updateAccountData(acc_id, name, bal, note, show, uid);
                             cursor.close();
 
                             Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
@@ -514,13 +505,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal = bal + amt;
 
-                            dbHelper.updateAccountData(acc_id, name, bal, note, cur, show, uid);
+                            dbHelper.updateAccountData(acc_id, name, bal, note, show, uid);
                             cursor.close();
 
                             Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
@@ -548,13 +538,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur = cursor.getString(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid = cursor.getInt(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal = bal - amt;
 
-                            dbHelper.updateAccountData(acc_id, name, bal, note, cur, show, uid);
+                            dbHelper.updateAccountData(acc_id, name, bal, note, show, uid);
                             cursor.close();
 
                             Cursor cursor1 = dbHelper.getAccountData(acc_id1);
@@ -563,13 +552,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                             String name1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                             String note1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
-                            String cur1 = cursor1.getString(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_CURRENCY));
                             int show1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_SHOW));
                             int uid1 = cursor1.getInt(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));
 
                             bal1 = bal1 + amt;
 
-                            dbHelper.updateAccountData(acc_id1, name1, bal1, note1, cur1, show1, uid1);
+                            dbHelper.updateAccountData(acc_id1, name1, bal1, note1, show1, uid1);
                             cursor1.close();
 
                             Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);

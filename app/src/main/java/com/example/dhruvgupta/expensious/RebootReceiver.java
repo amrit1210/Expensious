@@ -14,6 +14,8 @@ public class RebootReceiver extends BroadcastReceiver {
 
         Intent myIntent = new Intent(context, RecursiveService.class);
         context.startService(myIntent);
+        Intent myIntent2 = new Intent(context, WebSyncService.class);
+        context.startService(myIntent2);
 
     }
 }
