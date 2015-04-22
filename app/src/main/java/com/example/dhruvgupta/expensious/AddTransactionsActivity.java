@@ -460,8 +460,8 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
-                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, 0, amt, mNote.getText().toString(), p_id, 0,
-                                0, show, mType, mDate.getText().toString(), mTime.getText().toString(), 0);
+                        boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, 0, amt, mNote.getText().toString(), p_id,
+                                t_category, t_subcategory, show, mType, mDate.getText().toString(), mTime.getText().toString(), 0);
                         if(b) {
                             Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
 
@@ -494,7 +494,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
                         boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), 0, acc_id, Float.parseFloat(mAmt.getText().toString()),
-                                mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(),
+                                mNote.getText().toString(), p_id, t_category, t_subcategory, show, mType, mDate.getText().toString(),
                                 mTime.getText().toString(), 0);
                         if (b) {
                             Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
@@ -527,7 +527,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         int acc_id1 = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, acc_id1, Float.parseFloat(mAmt.getText().toString()),
-                                mNote.getText().toString(), p_id, 0, 0, show, mType, mDate.getText().toString(),
+                                mNote.getText().toString(), p_id, t_category, t_subcategory, show, mType, mDate.getText().toString(),
                                 mTime.getText().toString(), 0);
                         if (b) {
                             Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
@@ -720,6 +720,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
             else if(requestCode==5)
             {
                 category=data.getExtras().getString("Category_Id");
+                Log.i("Category_Id: in trans", category);
                 if(category.contains("."))
                 {
                     String cat[]=category.split(".");
@@ -727,13 +728,13 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     t_subcategory=Integer.parseInt(cat[1]);
                     Cursor c=dbHelper.getCategoryData(t_category,sp.getInt("UID",0));
                     c.moveToFirst();
-                    String category=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+                    String category1 = c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
                     c.close();
                     Cursor c1= dbHelper.getSubCategoryData(t_subcategory,sp.getInt("UID",0));
                     c1.moveToFirst();
                     String sub=c1.getString(c1.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
                     c1.close();
-                    mCategory.setText(category+" "+sub);
+                    mCategory.setText(category1+" "+sub);
                 }
                 else
                 {
