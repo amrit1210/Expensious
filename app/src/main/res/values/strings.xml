@@ -33,7 +33,14 @@
 
     <string name="forgot_pass">Forgot Password?</string>
     <string name="new_user">New User? Sign Up</string>
+    <string name="tutorial">Tutorial</string>
+    <string name="about">About Us</string>
     <string name="alert">Alert</string>
+    <string name="person">Person</string>
+    <string name="period">Change Period</string>
+    <string name="clear">Clear Data</string>
+    <string name="category">Customize Category</string>
+    <string name="currency">Change Currency</string>
     <string name="recurring">Recurring</string>
     <string name="income">Income</string>
     <string name="expense">Expense</string>
@@ -140,5 +147,7 @@
     <string name="font_icon_category">{fa-list}</string>
     <string name="font_icon_person">{fa-male}</string>
     <string name="font_icon_note">{fa-file-text}</string>
+    <string name="font_icon_clear">{fa-trash}</string>
+    <string name="font_icon_currency">{fa-money}</string>
 
 </resources>

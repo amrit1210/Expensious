@@ -121,4 +121,8 @@
     <style name="IconTextViewStyle.Black" parent="@style/IconTextViewStyle">
         <item name="android:textColor">@android:color/black</item>
     </style>
+
+    <style name="IconTextViewStyle.Black.Setting" parent="@style/IconTextViewStyle.Black">
+        <item name="android:textSize">25sp</item>
+    </style>
 </resources>
