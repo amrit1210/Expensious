@@ -225,7 +225,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
             mCategory.setError(null);
         }
 
-        if(mAmt.getError()==null)
+        if(mAmt.getError()==null && mCategory.getError()==null)
         {
 
             if (intentFlag == 1) {
@@ -299,7 +299,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     }
 
                 }
-                if(mFromAcc.getError()==null && mToAcc.getError()==null && mAmt.getError()==null && mCategory.getError()==null) {
+                if(mFromAcc.getError()==null && mToAcc.getError()==null && mAmt.getError()==null ) {
                     amt = Float.parseFloat(mAmt.getText().toString());
                     boolean b = dbHelper.updateTransactionData(t_id, t_fromAccount, t_toAccount, t_person, t_category, t_subcategory,
                             amt, mNote.getText().toString(), show, t_type, mDate.getText().toString(), mTime.getText().toString(),
@@ -456,7 +456,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
             } else {
                 if (flag == 0) {
                     amt = Float.parseFloat(mAmt.getText().toString());
-                    if (mFromAcc.length()>0 && mCategory.getError()==null) {
+                    if (mFromAcc.length()>0 ) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
@@ -489,7 +489,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     }
                 } else if (flag == 1) {
                     amt = Float.parseFloat(mAmt.getText().toString());
-                    if (mToAcc.length()>0 && mCategory.getError()==null) {
+                    if (mToAcc.length()>0 ) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
@@ -523,7 +523,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     }
                 } else if (flag == 2) {
                     amt = Float.parseFloat(mAmt.getText().toString());
-                    if (mFromAcc.length()>0 && mToAcc.length()>0 && mCategory.getError()==null) {
+                    if (mFromAcc.length()>0 && mToAcc.length()>0 ) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         int acc_id1 = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, acc_id1, Float.parseFloat(mAmt.getText().toString()),

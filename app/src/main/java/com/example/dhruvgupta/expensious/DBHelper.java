@@ -1001,7 +1001,7 @@ public class DBHelper extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_ID +"="+ id + "and" +
+            return db.rawQuery("select * from "+ CATEGORY_SPECIFIC +" where "+ CATEGORY_COL_C_ID +"="+ id + " and " +
                     CATEGORY_COL_C_UID +" = " +u_id, null);
         }
         catch(Exception ae)

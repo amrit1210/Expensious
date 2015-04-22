@@ -67,7 +67,30 @@ public class TransactionAdapter extends ArrayAdapter {
 
         TransactionsDB trans_db=al.get(position);
         date.setText(trans_db.t_date);
-        category.setText(trans_db.t_c_id+"");
+        int c_id= trans_db.t_c_id;
+         int sub_id= trans_db.t_sub_id;
+        if(c_id!=0)
+        {
+            Cursor c4=dbHelper.getCategoryData(c_id,sp.getInt("UID",0));
+            c4.moveToFirst();
+            String cat=c4.getString(c4.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+            c4.close();
+            if(sub_id!=0)
+            {
+                Cursor c5=dbHelper.getSubCategoryData(sub_id,sp.getInt("UID",0));
+                c5.moveToFirst();
+                String subcat=c5.getString(c5.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
+                c5.close();
+                category.setText(cat+" :"+subcat);
+
+            }
+            else
+            {
+                category.setText(cat);
+            }
+
+        }
+
         note.setText(trans_db.t_note);
         time.setText(trans_db.t_time);
         amount.setText(trans_db.t_balance+"");

@@ -167,6 +167,7 @@ public class RecursiveService extends Service {
                                 break;
                         }
 
+
                         boolean b = dbHelper.updateRecursiveData(recDB.rec_id, recDB.rec_from_acc, recDB.rec_to_acc, recDB.rec_p_id,
                                 recDB.rec_c_id, recDB.rec_sub_id, recDB.rec_balance, recDB.rec_note, recDB.rec_show, recDB.rec_type,
                                 recDB.rec_start_date, recDB.rec_end_date, mNextDate, recDB.rec_time, recDB.rec_recurring,

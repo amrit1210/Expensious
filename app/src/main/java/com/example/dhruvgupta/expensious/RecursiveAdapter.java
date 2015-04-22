@@ -3,6 +3,7 @@ package com.example.dhruvgupta.expensious;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,31 @@ public class RecursiveAdapter extends ArrayAdapter {
 
         RecursiveDB trans_db=al.get(position);
         s_date.setText(trans_db.rec_start_date);
-        category.setText(trans_db.rec_c_id+"");
+        int c_id= trans_db.rec_c_id;
+        int sub_id= trans_db.rec_sub_id;
+        if(c_id!=0)
+        {
+            Cursor c4=dbHelper.getCategoryData(c_id,sp.getInt("UID",0));
+            c4.moveToFirst();
+            String cat=c4.getString(c4.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+            Log.i("cat:recursive", cat);
+            c4.close();
+            if(sub_id!=0)
+            {
+                Cursor c5=dbHelper.getSubCategoryData(sub_id,sp.getInt("UID",0));
+                c5.moveToFirst();
+                String subcat=c5.getString(c5.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
+                c5.close();
+                category.setText(cat+" :"+subcat);
+
+            }
+            else
+            {
+                category.setText(cat);
+            }
+
+        }
+
         note.setText(trans_db.rec_note);
         e_date.setText(trans_db.rec_end_date);
         amount.setText(trans_db.rec_balance+"");

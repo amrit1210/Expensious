@@ -1,6 +1,7 @@
 package com.example.dhruvgupta.expensious;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,10 +29,11 @@ public class CategoriesAdapter extends ArrayAdapter<String>
     Context context1;
     int layout;
     ArrayList<String> al;
-
+    SharedPreferences sp;
     public CategoriesAdapter(Context context, int resource, ArrayList<String> objects)
     {
         super(context, resource, objects);
+        sp=getContext().getSharedPreferences("USER_PREFS",Context.MODE_PRIVATE);
         context1=context;
         layout=resource;
         al=objects;
@@ -41,7 +43,7 @@ public class CategoriesAdapter extends ArrayAdapter<String>
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
-        int cat_id,subcat_id=0;
+        int cat_id,subcat_id=0,u_id;
         String cat[];
         DBHelper dbHelper=new DBHelper(getContext().getApplicationContext());
         if(convertView==null)
@@ -70,9 +72,10 @@ public class CategoriesAdapter extends ArrayAdapter<String>
             cat_id = Integer.parseInt(c_id);
             id.setText(c_id+"");
         }
-        Cursor c=dbHelper.getCategoryData(cat_id);
+        Cursor c=dbHelper.getCategoryData(cat_id,sp.getInt("UID",0));
+        Log.i("Cursor Category :",cat_id+"");
         c.moveToFirst();
-        int u_id=c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_UID));
+        u_id=c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_UID));
         if(subcat_id<=0)
         {
             String c_name=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));

@@ -42,8 +42,18 @@ import java.util.SortedSet;
 */
 public class CategoriesActivity extends ActionBarActivity
 {
+    Button mCat_Income,mCat_Expense;
+    int c_type;
+    CategoriesAdapter ad;
+    ArrayList<String> al;
+    ArrayList<SubCategoryDB>sub_cat_al;
+    ArrayList<CategoryDB_Specific>cat_al;
+    static List<String> s;
+    DBHelper dbHelper;
+    SharedPreferences sp;
+    ListView mList_cat;
 
-   static HashMap<String,String>mapExpense,mapIncome;
+    Set ids;
 
     //List idList;
 
@@ -51,87 +61,56 @@ public class CategoriesActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        FragmentManager fragmentManager=getFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        CategoriesFragment categoriesFragment=new CategoriesFragment();
-        fragmentTransaction.replace(R.id.container,categoriesFragment);
-        fragmentTransaction.commit();
+        setContentView(R.layout.activity_categories);
+
+        al=new ArrayList();
+        ids=new HashSet();
+//            mapExpense=new HashMap<>();
+//            mapIncome=new HashMap<>();
+        s=new ArrayList();
+        mList_cat = (ListView)findViewById(R.id.category_list);
+        mCat_Income = (Button) findViewById(R.id.category_btn_income);
+        mCat_Expense = (Button)findViewById(R.id.category_btn_expense);
+        sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
+        dbHelper =new DBHelper(CategoriesActivity.this);
+
+
+        c_type=0;
+        cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+
+        for(int i=0;i<cat_al.size();i++)
+        {
+            CategoryDB_Specific categoryDB_specific=cat_al.get(i);
+            ids.add(categoryDB_specific.c_id);
+
+            sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
+            al.add(categoryDB_specific.c_id+"");
+
+            // al.add(categoryDB_specific.c_name);
+            for(int j=0;j<sub_cat_al.size();j++)
+            {
+                SubCategoryDB subCategoryDB=sub_cat_al.get(j);
+                al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id+"");
+
+                //  al.add(subCategoryDB.sub_name);
+                ids.add(categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
+
+            }
+
+        }
+        //  idList=toList(ids);
+        Log.i(" ON CREATE ID:", ids + "");
+        Log.i("ArrayList:",al+"");
+        ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
+        mList_cat.setAdapter(ad);
+
+
+        registerForContextMenu(mList_cat);
+        toList();
 
     }
 
-    public static  class CategoriesFragment extends Fragment
-    {
-        Button mCat_Income,mCat_Expense;
-        int c_type;
-        CategoriesAdapter ad;
-        ArrayList<String> al;
-        ArrayList<SubCategoryDB>sub_cat_al;
-        ArrayList<CategoryDB_Specific>cat_al;
 
-        DBHelper dbHelper;
-        SharedPreferences sp;
-        ListView mList_cat;
-
-        Set ids;
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-             super.onCreateView(inflater, container, savedInstanceState);
-            return  inflater.inflate(R.layout.activity_categories,container,false);
-        }
-
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-            View rootView =getView();
-
-            al=new ArrayList();
-            ids=new HashSet();
-            mapExpense=new HashMap<>();
-            mapIncome=new HashMap<>();
-
-            mList_cat = (ListView)rootView.findViewById(R.id.category_list);
-            mCat_Income = (Button) rootView.findViewById(R.id.category_btn_income);
-            mCat_Expense = (Button)rootView.findViewById(R.id.category_btn_expense);
-            sp = getActivity().getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-            dbHelper =new DBHelper(getActivity());
-
-
-            c_type=0;
-            cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
-
-            for(int i=0;i<cat_al.size();i++)
-            {
-                CategoryDB_Specific categoryDB_specific=cat_al.get(i);
-                ids.add(categoryDB_specific.c_id);
-
-                sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
-                al.add(categoryDB_specific.c_id+"");
-                mapExpense.put(categoryDB_specific.c_id+"",categoryDB_specific.c_name);
-                // al.add(categoryDB_specific.c_name);
-                for(int j=0;j<sub_cat_al.size();j++)
-                {
-                    SubCategoryDB subCategoryDB=sub_cat_al.get(j);
-                    al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id+"");
-                    mapExpense.put(categoryDB_specific.c_id+"."+subCategoryDB.sub_id,subCategoryDB.sub_name);
-                    //  al.add(subCategoryDB.sub_name);
-                    ids.add(categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
-
-                }
-
-            }
-            //  idList=toList(ids);
-            Log.i(" ON CREATE ID:", ids + "");
-            Log.i("ArrayList:",al+"");
-            ad=new CategoriesAdapter(getActivity(),R.layout.list_category,al);
-            mList_cat.setAdapter(ad);
-
-
-            registerForContextMenu(mList_cat);
-            toList();
-        }
         public void onIncomeBtnClick(View v)
         {
             c_type=1;
@@ -146,14 +125,14 @@ public class CategoriesActivity extends ActionBarActivity
                 // al.add(categoryDB_specific.c_name);
                 al.add(categoryDB_specific.c_id+"");
                 ids.add(categoryDB_specific.c_id);
-                mapIncome.put(categoryDB_specific.c_id+"",categoryDB_specific.c_name);
+
                 for(int j=0;j<sub_cat_al.size();j++)
                 {
                     SubCategoryDB subCategoryDB=sub_cat_al.get(j);
                     // al.add(subCategoryDB.sub_name);
                     al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id+"");
                     ids.add( categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
-                    mapIncome.put(categoryDB_specific.c_id+"."+subCategoryDB.sub_id,subCategoryDB.sub_name);
+
                 }
 
             }
@@ -168,8 +147,8 @@ public class CategoriesActivity extends ActionBarActivity
 //        }
             //idList=toList(ids);
             Log.i(" INCOME ID:",ids+"");
-            ad=new CategoriesAdapter(getActivity(),R.layout.list_category,null);
-            ad=new CategoriesAdapter(getActivity(),R.layout.list_category,al);
+            ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,null);
+            ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
             mList_cat.setAdapter(ad);
             registerForContextMenu(mList_cat);
             toList();
@@ -188,7 +167,7 @@ public class CategoriesActivity extends ActionBarActivity
                 sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
                 al.add(categoryDB_specific.c_id+"");
                 // al.add(categoryDB_specific.c_name);
-                mapExpense.put(categoryDB_specific.c_id+"",categoryDB_specific.c_name);
+
                 ids.add(categoryDB_specific.c_id);
                 for(int j=0;j<sub_cat_al.size();j++)
                 {
@@ -196,7 +175,7 @@ public class CategoriesActivity extends ActionBarActivity
                     al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id);
                     al.add(subCategoryDB.sub_name);
                     ids.add(categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
-                    mapExpense.put(categoryDB_specific.c_id+"."+subCategoryDB.sub_id,subCategoryDB.sub_name);
+
                 }
 
             }
@@ -223,14 +202,14 @@ public class CategoriesActivity extends ActionBarActivity
 //       });
 
             Log.i(" EXPENSE ID:",ids+"");
-            ad=new CategoriesAdapter(getActivity(),R.layout.list_category,null);
-            ad=new CategoriesAdapter(getActivity(),R.layout.list_category,al);
+            ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,null);
+            ad=new CategoriesAdapter(CategoriesActivity.this,R.layout.list_category,al);
             mList_cat.setAdapter(ad);
             registerForContextMenu(mList_cat);
             toList();
         }
         public void toList()
-        { List s=new ArrayList();
+        {
             Map map=new HashMap();
             cat_al= dbHelper.getCategories(sp.getInt("UID",0));
             //  int k=0;
@@ -277,13 +256,13 @@ public class CategoriesActivity extends ActionBarActivity
             {
                 Log.i("SUBID:",subcat_id+"");
                 if(subcat_id==0) {
-                    Cursor c = dbHelper.getCategoryData(cat_id);
+                    Cursor c = dbHelper.getCategoryData(cat_id,sp.getInt("UID",0));
                     c.moveToFirst();
                     int c_uid = c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_UID));
                     String c_name = c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
                     int c_type = c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_TYPE));
                     String c_icon = c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_ICON));
-                    Intent i = new Intent(getActivity(), AddCategoryActivity.class);
+                    Intent i = new Intent(CategoriesActivity.this, AddCategoryActivity.class);
                     i.putExtra("cat_id", cat_id);
                     i.putExtra("c_u_id", c_uid);
                     i.putExtra("c_name", c_name);
@@ -300,11 +279,11 @@ public class CategoriesActivity extends ActionBarActivity
                     String sub_name = c.getString(c.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
                     String sub_icon = c.getString(c.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_ICON));
                     c.close();
-                    Cursor c1=dbHelper.getCategoryData(cat_id);
+                    Cursor c1=dbHelper.getCategoryData(cat_id,sp.getInt("UID",0));
                     c1.moveToFirst();
                     String c_name=c1.getString(c1.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
                     c1.close();
-                    Intent i = new Intent(getActivity(), AddCategoryActivity.class);
+                    Intent i = new Intent(CategoriesActivity.this, AddCategoryActivity.class);
                     i.putExtra("cat_id", cat_id);
                     i.putExtra("c_u_id", sub_uid);
                     i.putExtra("sub_name", sub_name);
@@ -323,17 +302,17 @@ public class CategoriesActivity extends ActionBarActivity
                 if(subcat_id==0) {
                     if( dbHelper.deleteCategory(cat_id, sp.getInt("UID", 0))>0) {
 
-                        Intent i = new Intent(getActivity(), CategoriesActivity.class);
+                        Intent i = new Intent(CategoriesActivity.this, CategoriesActivity.class);
                         startActivity(i);
-                        Toast.makeText(getActivity(), "Category Deleted", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CategoriesActivity.this, "Category Deleted", Toast.LENGTH_LONG).show();
                     }
                 }
                 else if(subcat_id>0)
                 {
                     if(dbHelper.deleteSubCategory(subcat_id,sp.getInt("UID",0))>0) {
-                        Intent i = new Intent(getActivity(), CategoriesActivity.class);
+                        Intent i = new Intent(CategoriesActivity.this, CategoriesActivity.class);
                         startActivity(i);
-                        Toast.makeText(getActivity(), "SubCategory Deleted", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CategoriesActivity.this, "SubCategory Deleted", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -345,10 +324,10 @@ public class CategoriesActivity extends ActionBarActivity
         {
             super.onCreateContextMenu(menu, v, menuInfo);
 
-            MenuInflater inflater= getActivity().getMenuInflater();
+            MenuInflater inflater=getMenuInflater();
             inflater.inflate(R.menu.context_menu,menu);
         }
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
