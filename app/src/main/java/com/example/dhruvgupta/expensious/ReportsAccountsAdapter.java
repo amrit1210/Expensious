@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -22,13 +26,15 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
     String curCode;
     ArrayList<CurrencyDB> al1;
     ArrayList<AccountsDB> al;
+    String month_name;
 
-    public ReportsAccountsAdapter(Context context, int resource,ArrayList<AccountsDB> objects)
+    public ReportsAccountsAdapter(Context context, int resource,ArrayList<AccountsDB> objects,String str)
     {
         super(context, resource,objects);
         context1=context;
         layout=resource;
         al=objects;
+        month_name=str;
     }
 
     @Override
@@ -38,6 +44,9 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
         TransactionsDB transactionsDB;
         ArrayList<TransactionsDB> allTransactions;
         float amount=0;
+        String sysDate;
+        Calendar mCal;
+        SimpleDateFormat sdf,month_date;
         SharedPreferences sp = getContext().getSharedPreferences("USER_PREFS",Context.MODE_PRIVATE);
         Iterator<TransactionsDB> transactionsDBIterator;
 
@@ -71,13 +80,30 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
 
         AccountsDB db=al.get(position);
         name.setText(db.acc_name);
+        month_date = new SimpleDateFormat("MMMM");
+        sdf = new SimpleDateFormat("dd-MM-yyyy");
         while(transactionsDBIterator.hasNext())
         {
             transactionsDB=transactionsDBIterator.next();
-            if(transactionsDB.t_type.equals("Expense"))
-            if(transactionsDB.t_from_acc == db.acc_id)
+            Date d= null;
+            try
             {
-                amount +=transactionsDB.t_balance;
+                d = sdf.parse(transactionsDB.t_date);
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+            sysDate=month_date.format(d);
+            if(sysDate.equals(month_name))
+            {
+                if(transactionsDB.t_type.equals("Expense"))
+                {
+                    if(transactionsDB.t_from_acc == db.acc_id)
+                    {
+                        amount +=transactionsDB.t_balance;
+                    }
+                }
             }
             amt.setText(amount+"");
         }

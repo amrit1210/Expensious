@@ -62,8 +62,7 @@ public class PieChartActivity extends ActionBarActivity {
         DBHelper dbHelper;
         SharedPreferences sp;
         Calendar mCal;
-        String month_name;
-        String sysDate;
+        String month_name,sysDate;
         SimpleDateFormat month_date,sdf;
         TextView mPeriod_show;
         ImageButton mPrev,mNext;
@@ -115,7 +114,7 @@ public class PieChartActivity extends ActionBarActivity {
 
             if(getActivity().getIntent().getIntExtra("actionId",0)>0)
             {
-              actionId=getActivity().getIntent().getIntExtra("actionId",0);
+                actionId=getActivity().getIntent().getIntExtra("actionId",0);
             }
             else
             {
@@ -133,6 +132,8 @@ public class PieChartActivity extends ActionBarActivity {
             sdf = new SimpleDateFormat("dd-MM-yyyy");
             month_name = month_date.format(mCal.getTime());
             mPeriod_show.setText(month_name);
+            Intent i=new Intent();
+            i.putExtra("Month",month_name);
             sysDate=sdf.format(mCal.getTime());
 
             if(actionId == 1)
@@ -149,8 +150,6 @@ public class PieChartActivity extends ActionBarActivity {
                             transactionsDB=transactionsDBIterator.next();
                             Date d=sdf.parse(transactionsDB.t_date);
                             sysDate=month_date.format(d);
-                            Log.i("Trans Month",sysDate);
-                            Log.i("IF",sysDate.equals(month_name)+"");
                             if(sysDate.equals(month_name))
                             {
                                 if(transactionsDB.t_type.equals("Expense"))
@@ -172,7 +171,7 @@ public class PieChartActivity extends ActionBarActivity {
                 }
                 mPie.setCenterText("Accounts");
                 setData(mAmt.size() - 1, actionId);
-                reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts);
+                reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts,month_name);
                 mLv_Pie.setAdapter(reportsAccountsAdapter);
             }
             else if(actionId == 2)
@@ -190,8 +189,6 @@ public class PieChartActivity extends ActionBarActivity {
                             transactionsDB=transactionsDBIterator.next();
                             Date d=sdf.parse(transactionsDB.t_date);
                             sysDate=month_date.format(d);
-                            Log.i("Trans Month",sysDate);
-                            Log.i("IF",sysDate.equals(month_name)+"");
                             if(transactionsDB.t_type.equals("Expense"))
                             {
                                 if(transactionsDB.t_p_id == personDB.p_id)
@@ -210,7 +207,7 @@ public class PieChartActivity extends ActionBarActivity {
                 }
                 mPie.setCenterText("Persons");
                 setData(mAmt_Person.size() - 1, actionId);
-                reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons);
+                reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons,month_name);
                 mLv_Pie.setAdapter(reportsPersonsAdapter);
             }
 
@@ -220,136 +217,157 @@ public class PieChartActivity extends ActionBarActivity {
             legend.setXEntrySpace(7f);
             legend.setYEntrySpace(5f);
 
-
-        }
-        public void onLeftArrow(View v) throws ParseException
-        {
-            mCal.add(Calendar.MONTH,-1);
-            sysDate=sdf.format(mCal.getTime());
-            month_name = month_date.format(mCal.getTime());
-            mPeriod_show.setText(month_name);
-//        month_name=month_date.format(mPeriod_show.getText().toString());
-            Log.i("Month from TextView",month_name);
-            int id=actionId;
-            transactionsDBIterator=allTransactions.iterator();
-            while(transactionsDBIterator.hasNext())
-            {
-                transactionsDB=transactionsDBIterator.next();
-                Date d=sdf.parse(transactionsDB.t_date);
-                sysDate=month_date.format(d);
-                Log.i("Trans Month",sysDate);
-                Log.i("IF",sysDate.equals(month_name)+"");
-                if(sysDate.equals(month_name))
+            mPrev.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
                 {
-                    if(id == 1)
+                    mCal.add(Calendar.MONTH,-1);
+                    sysDate=sdf.format(mCal.getTime());
+                    month_name = month_date.format(mCal.getTime());
+                    mPeriod_show.setText(month_name);
+//                    month_name=month_date.format(mPeriod_show.getText().toString());
+                    Log.i("Month from TextView",month_name);
+//                    int id=actionId;
+                    transactionsDBIterator=allTransactions.iterator();
+                    while(transactionsDBIterator.hasNext())
                     {
-                        while (accountsDBIterator.hasNext())
+                        transactionsDB=transactionsDBIterator.next();
+                        Date d= null;
+                        try
                         {
-                            accountsDB=accountsDBIterator.next();
-                            mAmount=0;
-                            if(transactionsDB.t_type.equals("Expense"))
-                            {
-                                if(transactionsDB.t_from_acc == accountsDB.acc_id)
-                                {
-                                    mAmount += transactionsDB.t_balance;
-                                }
-                            }
-                            mAcc.add(accountsDB.acc_name);
-                            mAmt.add(mAmount);
+                            d = sdf.parse(transactionsDB.t_date);
                         }
-                        mPie.setCenterText("Accounts");
-                        setData(mAmt.size() - 1, actionId);
-                        reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts);
-                        mLv_Pie.setAdapter(reportsAccountsAdapter);
-                    }
-                    else if(id == 2)
-                    {
-                        while (personDBIterator.hasNext())
+                        catch (ParseException e)
                         {
-                            personDB=personDBIterator.next();
-                            mAmount=0;
-                            if(transactionsDB.t_type.equals("Expense"))
-                            {
-                                if(transactionsDB.t_p_id == personDB.p_id)
-                                {
-                                    mAmount += transactionsDB.t_balance;
-                                }
-                            }
-                            mPer.add(personDB.p_name);
-                            mAmt_Person.add(mAmount);
+                            e.printStackTrace();
                         }
-                        mPie.setCenterText("Persons");
-                        setData(mAmt_Person.size() - 1, actionId);
-                        reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons);
-                        mLv_Pie.setAdapter(reportsPersonsAdapter);
+                        mAmount=0;
+                        sysDate=month_date.format(d);
+                        if(sysDate.equals(month_name))
+                        {
+                            if(actionId == 1)
+                            {
+                                while (accountsDBIterator.hasNext())
+                                {
+                                    accountsDB=accountsDBIterator.next();
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_from_acc == accountsDB.acc_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                    mAcc.add(accountsDB.acc_name);
+                                    mAmt.add(mAmount);
+                                }
+                                mPie.setCenterText("Accounts");
+                                mPie.invalidate();
+                                setData(mAmt.size() - 1, actionId);
+                                reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts,month_name);
+                                mLv_Pie.setAdapter(reportsAccountsAdapter);
+                            }
+                            else if(actionId == 2)
+                            {
+                                while (personDBIterator.hasNext())
+                                {
+                                    personDB=personDBIterator.next();
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_p_id == personDB.p_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                    mPer.add(personDB.p_name);
+                                    mAmt_Person.add(mAmount);
+                                }
+                                mPie.setCenterText("Persons");
+                                mPie.invalidate();
+                                setData(mAmt_Person.size() - 1, actionId);
+                                reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons,month_name);
+                                mLv_Pie.setAdapter(reportsPersonsAdapter);
+                            }
+                        }
                     }
                 }
-            }
-        }
+            });
 
-        public void onRightArrow(View v) throws ParseException
-        {
-            mCal.add(Calendar.MONTH,+1);
-            sysDate=sdf.format(mCal.getTime());
-            month_name = month_date.format(mCal.getTime());
-            mPeriod_show.setText(month_name);
-//        month_name=month_date.format(mPeriod_show.getText().toString());
-            Log.i("Month from TextView",month_name);
-            int id=actionId;
-            transactionsDBIterator=allTransactions.iterator();
-            while(transactionsDBIterator.hasNext())
+            mNext.setOnClickListener(new View.OnClickListener()
             {
-                transactionsDB=transactionsDBIterator.next();
-                Date d=sdf.parse(transactionsDB.t_date);
-                sysDate=month_date.format(d);
-                Log.i("Trans Month",sysDate);
-                Log.i("IF",sysDate.equals(month_name)+"");
-                if(sysDate.equals(month_name))
+                @Override
+                public void onClick(View v)
                 {
-                    if(id == 1)
+                    mCal.add(Calendar.MONTH,+1);
+                    sysDate=sdf.format(mCal.getTime());
+                    month_name = month_date.format(mCal.getTime());
+                    mPeriod_show.setText(month_name);
+//                  month_name=month_date.format(mPeriod_show.getText().toString());
+                    Log.i("Month from TextView",month_name);
+//                    int id=actionId;
+                    transactionsDBIterator=allTransactions.iterator();
+                    while(transactionsDBIterator.hasNext())
                     {
-                        while (accountsDBIterator.hasNext())
+                        transactionsDB=transactionsDBIterator.next();
+                        Date d= null;
+                        try
                         {
-                            accountsDB=accountsDBIterator.next();
-                            mAmount=0;
-                            if(transactionsDB.t_type.equals("Expense"))
-                            {
-                                if(transactionsDB.t_from_acc == accountsDB.acc_id)
-                                {
-                                    mAmount += transactionsDB.t_balance;
-                                }
-                            }
-                            mAcc.add(accountsDB.acc_name);
-                            mAmt.add(mAmount);
+                            d = sdf.parse(transactionsDB.t_date);
                         }
-                        mPie.setCenterText("Accounts");
-                        setData(mAmt.size() - 1, actionId);
-                        reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts);
-                        mLv_Pie.setAdapter(reportsAccountsAdapter);
-                    }
-                    else if(id == 2)
-                    {
-                        while (personDBIterator.hasNext())
+                        catch (ParseException e)
                         {
-                            personDB=personDBIterator.next();
-                            mAmount=0;
-                            if(transactionsDB.t_type.equals("Expense"))
-                            {
-                                if(transactionsDB.t_p_id == personDB.p_id)
-                                {
-                                    mAmount += transactionsDB.t_balance;
-                                }
-                            }
-                            mPer.add(personDB.p_name);
-                            mAmt_Person.add(mAmount);
+                            e.printStackTrace();
                         }
-                        mPie.setCenterText("Persons");
-                        setData(mAmt_Person.size() - 1, actionId);
-                        reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons);
-                        mLv_Pie.setAdapter(reportsPersonsAdapter);
+                        sysDate=month_date.format(d);
+                        mAmount=0;
+                        if(sysDate.equals(month_name))
+                        {
+                            if(actionId == 1)
+                            {
+                                while (accountsDBIterator.hasNext())
+                                {
+                                    accountsDB=accountsDBIterator.next();
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_from_acc == accountsDB.acc_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                    mAcc.add(accountsDB.acc_name);
+                                    mAmt.add(mAmount);
+                                }
+                                mPie.setCenterText("Accounts");
+                                mPie.invalidate();
+                                setData(mAmt.size() - 1, actionId);
+                                reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts,month_name);
+                                mLv_Pie.setAdapter(reportsAccountsAdapter);
+                            }
+                            else if(actionId == 2)
+                            {
+                                while (personDBIterator.hasNext())
+                                {
+                                    personDB=personDBIterator.next();
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_p_id == personDB.p_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                    mPer.add(personDB.p_name);
+                                    mAmt_Person.add(mAmount);
+                                }
+                                mPie.setCenterText("Persons");
+                                mPie.invalidate();
+                                setData(mAmt_Person.size() - 1, actionId);
+                                reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons,month_name);
+                                mLv_Pie.setAdapter(reportsPersonsAdapter);
+                            }
+                        }
                     }
+
                 }
-            }
+            });
         }
 
         private void setData(int count,int id)
@@ -387,7 +405,6 @@ public class PieChartActivity extends ActionBarActivity {
                 dataSet = new PieDataSet(yValues, "Persons");
             }
 
-
             dataSet.setSliceSpace(3f);
 
             ArrayList<Integer> colors = new ArrayList<>();
@@ -417,7 +434,6 @@ public class PieChartActivity extends ActionBarActivity {
             data.setValueTextColor(Color.BLACK);
             mPie.setData(data);
             mPie.highlightValues(null);
-
             mPie.invalidate();
         }
 
