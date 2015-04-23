@@ -44,7 +44,7 @@ public class DetailedRecursive extends ActionBarActivity {
         cur = (TextView) findViewById(R.id.detailed_rec_cur);
         listView = (ListView) findViewById(R.id.detailed_rec_list);
 
-        sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+        sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper =new DBHelper(DetailedRecursive.this);
 
         rec_id = getIntent().getIntExtra("REC_ID", 0);

@@ -86,9 +86,10 @@ public class LoginActivity extends ActionBarActivity
                                     Toast.LENGTH_LONG).show();
 //                            Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
-//                            Intent i =new Intent(LoginActivity.this,AddCategoryActivity.class);
+//                              Intent i =new Intent(LoginActivity.this,AddCategoryActivity.class);
                             //Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
-                            Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
+                             // Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
+                            Intent i=new Intent(LoginActivity.this,SettingsActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
 //                                Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
                             startActivity(i);

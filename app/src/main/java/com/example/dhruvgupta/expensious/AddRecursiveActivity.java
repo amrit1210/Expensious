@@ -138,6 +138,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                 Cursor c=dbHelper.getCategoryData(rec_category,sp.getInt("UID",0));
                 c.moveToFirst();
                 String cat=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+                Log.i("cat recur:",cat);
                 c.close();
                 if(rec_subcategory!=0)
                 {
@@ -390,7 +391,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
                         boolean b = dbHelper.addRecursive(sp.getInt("UID", 0), acc_id, 0, Float.parseFloat(mAmt.getText().toString()),
-                                mNote.getText().toString(), p_id, 0, 0, show, mType, mStartDate.getText().toString(),
+                                mNote.getText().toString(), p_id,rec_category,rec_subcategory, show, mType, mStartDate.getText().toString(),
                                 mEndDate.getText().toString(),mNextDate, mTime.getText().toString(), rec_recurring, rec_alert);
                         if(b) {
                             Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Added", Toast.LENGTH_LONG).show();
@@ -409,7 +410,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
                         boolean b = dbHelper.addRecursive(sp.getInt("UID", 0), 0, acc_id, Float.parseFloat(mAmt.getText().toString()),
-                                mNote.getText().toString(), p_id, 0, 0, show, mType, mStartDate.getText().toString(),
+                                mNote.getText().toString(), p_id,rec_category,rec_subcategory, show, mType, mStartDate.getText().toString(),
                                 mEndDate.getText().toString(),mNextDate, mTime.getText().toString(), rec_recurring, rec_alert);
                         if (b) {
                             Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Added", Toast.LENGTH_LONG).show();
@@ -427,7 +428,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         int acc_id1 = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
                         boolean b = dbHelper.addRecursive(sp.getInt("UID", 0), acc_id, acc_id1, Float.parseFloat(mAmt.getText().toString()),
-                                mNote.getText().toString(), p_id, 0, 0, show, mType, mStartDate.getText().toString(),
+                                mNote.getText().toString(), p_id, rec_category,rec_subcategory, show, mType, mStartDate.getText().toString(),
                                 mEndDate.getText().toString(),mNextDate, mTime.getText().toString(), rec_recurring, rec_alert);
                         if (b) {
                             Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Added", Toast.LENGTH_LONG).show();
@@ -640,6 +641,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                     Cursor c= dbHelper.getCategoryData(rec_category,sp.getInt("UID",0));
                     c.moveToFirst();
                     mCategory.setText(c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME)));
+                    Log.i("rec_cat:",mCategory.getText().toString());
                     c.close();
 
                 }
