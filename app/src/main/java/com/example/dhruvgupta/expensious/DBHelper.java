@@ -44,8 +44,8 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String TRANSACTION_COL_ID ="trans_id";
     public static final String TRANSACTION_COL_UID ="trans_uid";
     public static final String TRANSACTION_COL_RECID ="trans_rec_id";
-    public static final String TRANSACTION_COL_FROM_ACC ="trans_from_acc_name";
-    public static final String TRANSACTION_COL_TO_ACC ="trans_to_acc_balance";
+    public static final String TRANSACTION_COL_FROM_ACC ="trans_from_acc";
+    public static final String TRANSACTION_COL_TO_ACC ="trans_to_acc";
     public static final String TRANSACTION_COL_SHOW ="trans_show";
     public static final String TRANSACTION_COL_DATE="trans_date";
     public static final String TRANSACTION_COL_TIME="trans_time";
@@ -59,8 +59,8 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String RECURSIVE_TABLE="Recursive";
     public static final String RECURSIVE_COL_ID ="rec_id";
     public static final String RECURSIVE_COL_UID ="rec_uid";
-    public static final String RECURSIVE_COL_FROM_ACC ="rec_from_acc_name";
-    public static final String RECURSIVE_COL_TO_ACC ="rec_to_acc_balance";
+    public static final String RECURSIVE_COL_FROM_ACC ="rec_from_acc";
+    public static final String RECURSIVE_COL_TO_ACC ="rec_to_acc";
     public static final String RECURSIVE_COL_SHOW ="rec_show";
     public static final String RECURSIVE_COL_START_DATE="rec_start_date";
     public static final String RECURSIVE_COL_END_DATE="rec_end_date";
@@ -217,10 +217,17 @@ public class DBHelper extends SQLiteOpenHelper
         db.execSQL(create_table_persons);
 
         String create_table_loan_debt="CREATE TABLE IF NOT EXISTS "+ LOAN_DEBT_TABLE
-                +"(" + LOAN_DEBT_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT," + LOAN_DEBT_COL_UID +" INTEGER,"
-                + LOAN_DEBT_COL_BALANCE +" REAL," + LOAN_DEBT_COL_DATE +" TEXT,"+ LOAN_DEBT_COL_TIME +" TEXT,"+
-                LOAN_DEBT_COL_FROM_ACC +" INTEGER,"+ LOAN_DEBT_COL_TO_ACC +" INTEGER," + LOAN_DEBT_COL_PERSON +" INTEGER,"
-                + LOAN_DEBT_COL_NOTE +" TEXT," + LOAN_DEBT_COL_TYPE+" TEXT," + LOAN_DEBT_COL_PARENT+" INTEGER )";
+                +"(" + LOAN_DEBT_COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + LOAN_DEBT_COL_UID +" INTEGER,"
+                + LOAN_DEBT_COL_BALANCE +" REAL,"
+                + LOAN_DEBT_COL_DATE +" TEXT,"
+                + LOAN_DEBT_COL_TIME +" TEXT,"
+                + LOAN_DEBT_COL_FROM_ACC +" INTEGER,"
+                + LOAN_DEBT_COL_TO_ACC +" INTEGER,"
+                + LOAN_DEBT_COL_PERSON +" INTEGER,"
+                + LOAN_DEBT_COL_NOTE +" TEXT,"
+                + LOAN_DEBT_COL_TYPE+" TEXT,"
+                + LOAN_DEBT_COL_PARENT+" INTEGER )";
         db.execSQL(create_table_loan_debt);
 
         String create_table_settings="CREATE TABLE IF NOT EXISTS "+ SETTINGS_TABLE
@@ -644,6 +651,31 @@ public class DBHelper extends SQLiteOpenHelper
             return null;
         }
     }
+
+    public int getTransactionsColId(int u_id)
+    {
+        int tid = 0;
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor c = db.rawQuery("select * from "+ TRANSACTION_TABLE +" where "+ TRANSACTION_COL_UID +"="+ u_id, null);
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                tid=c.getInt(c.getColumnIndex(TRANSACTION_COL_ID));
+                c.moveToNext();
+            }
+            c.close();
+            return  tid;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return 0;
+        }
+    }
+
 
     public ArrayList<TransactionsDB> getAllTransactions(int u_id)
     {

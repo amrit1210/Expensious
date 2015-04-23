@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -308,6 +310,23 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     if (b) {
                         Toast.makeText(AddTransactionsActivity.this, "Transaction Updated :" + t_rec_id, Toast.LENGTH_LONG).show();
 
+                        ParseObject transactions = new ParseObject("Transactions");
+                        transactions.put("trans_id", t_id);
+                        transactions.put("trans_uid", sp.getInt("UID", 0));
+                        transactions.put("trans_rec_id", t_rec_id);
+                        transactions.put("trans_from_acc", t_fromAccount);
+                        transactions.put("trans_to_acc", t_toAccount);
+                        transactions.put("trans_show", show);
+                        transactions.put("trans_date", mDate.getText().toString());
+                        transactions.put("trans_time", mTime.getText().toString());
+                        transactions.put("trans_note", mNote.getText().toString());
+                        transactions.put("trans_category", t_category);
+                        transactions.put("trans_subcategory", t_subcategory);
+                        transactions.put("trans_balance", amt);
+                        transactions.put("trans_type", t_type);
+                        transactions.put("trans_person", t_person);
+                        transactions.pinInBackground("pinTransactionsUpdate");
+
                         Log.i("Types", t_type_old + " : " + t_type);
 
                         if (t_type_old.equals("Expense"))
@@ -324,6 +343,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal = bal + t_amt_old;
 
                             dbHelper.updateAccountData(t_from_old, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", t_from_old);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
                         }
                         else if (t_type_old.equals("Income"))
@@ -340,6 +369,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal = bal - t_amt_old;
 
                             dbHelper.updateAccountData(t_to_old, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", t_to_old);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
                         }
                         else if (t_type_old.equals("Transfer"))
@@ -356,6 +395,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal = bal - t_amt_old;
 
                             dbHelper.updateAccountData(t_to_old, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", t_to_old);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
 
                             Cursor cursor1 = dbHelper.getAccountData(t_from_old);
@@ -370,6 +419,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal1 = bal1 + t_amt_old;
 
                             dbHelper.updateAccountData(t_from_old, name1, bal1, note1, show1, uid1);
+
+                            ParseObject account1 = new ParseObject("Accounts");
+                            account1.put("acc_id", t_from_old);
+                            account1.put("acc_uid", uid1);
+                            account1.put("acc_name", name1);
+                            account1.put("acc_balance", bal1);
+                            account1.put("acc_note", note1);
+                            account1.put("acc_show", show1);
+                            account1.pinInBackground("pinAccountsUpdate");
+
                             cursor1.close();
                         }
 
@@ -387,6 +446,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal = bal - amt;
 
                             dbHelper.updateAccountData(t_fromAccount, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", t_fromAccount);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
                         }
                         else if (t_type.equals("Income"))
@@ -403,6 +472,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal = bal + amt;
 
                             dbHelper.updateAccountData(t_toAccount, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", t_toAccount);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
                         }
                         else if (t_type.equals("Transfer"))
@@ -419,6 +498,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal = bal + amt;
 
                             dbHelper.updateAccountData(t_toAccount, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", t_toAccount);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
 
                             Cursor cursor1 = dbHelper.getAccountData(t_fromAccount);
@@ -433,6 +522,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal1 = bal1 - amt;
 
                             dbHelper.updateAccountData(t_fromAccount, name1, bal1, note1, show1, uid1);
+
+                            ParseObject account1 = new ParseObject("Accounts");
+                            account1.put("acc_id", t_fromAccount);
+                            account1.put("acc_uid", uid1);
+                            account1.put("acc_name", name1);
+                            account1.put("acc_balance", bal1);
+                            account1.put("acc_note", note1);
+                            account1.put("acc_show", show1);
+                            account1.pinInBackground("pinAccountsUpdate");
+
                             cursor1.close();
                         }
 
@@ -465,6 +564,25 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         if(b) {
                             Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
 
+                            int tid = dbHelper.getTransactionsColId(sp.getInt("UID", 0));
+
+                            ParseObject transactions = new ParseObject("Transactions");
+                            transactions.put("trans_id", tid);
+                            transactions.put("trans_uid", sp.getInt("UID", 0));
+                            transactions.put("trans_rec_id", 0);
+                            transactions.put("trans_from_acc", acc_id);
+                            transactions.put("trans_to_acc", 0);
+                            transactions.put("trans_show", show);
+                            transactions.put("trans_date", mDate.getText().toString());
+                            transactions.put("trans_time", mTime.getText().toString());
+                            transactions.put("trans_note", mNote.getText().toString());
+                            transactions.put("trans_category", t_category);
+                            transactions.put("trans_subcategory", t_subcategory);
+                            transactions.put("trans_balance", amt);
+                            transactions.put("trans_type", mType);
+                            transactions.put("trans_person", p_id);
+                            transactions.pinInBackground("pinTransactions");
+
                             Cursor cursor = dbHelper.getAccountData(acc_id);
                             cursor.moveToFirst();
 
@@ -477,6 +595,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal = bal - amt;
 
                             dbHelper.updateAccountData(acc_id, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", acc_id);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
 
                             Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
@@ -499,6 +627,25 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         if (b) {
                             Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
 
+                            int tid = dbHelper.getTransactionsColId(sp.getInt("UID", 0));
+
+                            ParseObject transactions = new ParseObject("Transactions");
+                            transactions.put("trans_id", tid);
+                            transactions.put("trans_uid", sp.getInt("UID", 0));
+                            transactions.put("trans_rec_id", 0);
+                            transactions.put("trans_from_acc", 0);
+                            transactions.put("trans_to_acc", acc_id);
+                            transactions.put("trans_show", show);
+                            transactions.put("trans_date", mDate.getText().toString());
+                            transactions.put("trans_time", mTime.getText().toString());
+                            transactions.put("trans_note", mNote.getText().toString());
+                            transactions.put("trans_category", t_category);
+                            transactions.put("trans_subcategory", t_subcategory);
+                            transactions.put("trans_balance", Float.parseFloat(mAmt.getText().toString()));
+                            transactions.put("trans_type", mType);
+                            transactions.put("trans_person", p_id);
+                            transactions.pinInBackground("pinTransactions");
+
                             Cursor cursor = dbHelper.getAccountData(acc_id);
                             cursor.moveToFirst();
 
@@ -511,6 +658,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal = bal + amt;
 
                             dbHelper.updateAccountData(acc_id, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", acc_id);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
 
                             Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
@@ -532,6 +689,25 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         if (b) {
                             Toast.makeText(AddTransactionsActivity.this, "Transaction Added", Toast.LENGTH_LONG).show();
 
+                            int tid = dbHelper.getTransactionsColId(sp.getInt("UID", 0));
+
+                            ParseObject transactions = new ParseObject("Transactions");
+                            transactions.put("trans_id", tid);
+                            transactions.put("trans_uid", sp.getInt("UID", 0));
+                            transactions.put("trans_rec_id", 0);
+                            transactions.put("trans_from_acc", acc_id);
+                            transactions.put("trans_to_acc", acc_id1);
+                            transactions.put("trans_show", show);
+                            transactions.put("trans_date", mDate.getText().toString());
+                            transactions.put("trans_time", mTime.getText().toString());
+                            transactions.put("trans_note", mNote.getText().toString());
+                            transactions.put("trans_category", t_category);
+                            transactions.put("trans_subcategory", t_subcategory);
+                            transactions.put("trans_balance", Float.parseFloat(mAmt.getText().toString()));
+                            transactions.put("trans_type", mType);
+                            transactions.put("trans_person", p_id);
+                            transactions.pinInBackground("pinTransactions");
+
                             Cursor cursor = dbHelper.getAccountData(acc_id);
                             cursor.moveToFirst();
 
@@ -544,6 +720,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal = bal - amt;
 
                             dbHelper.updateAccountData(acc_id, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", acc_id);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
 
                             Cursor cursor1 = dbHelper.getAccountData(acc_id1);
@@ -558,6 +744,16 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             bal1 = bal1 + amt;
 
                             dbHelper.updateAccountData(acc_id1, name1, bal1, note1, show1, uid1);
+
+                            ParseObject account1 = new ParseObject("Accounts");
+                            account1.put("acc_id", acc_id1);
+                            account1.put("acc_uid", uid1);
+                            account1.put("acc_name", name1);
+                            account1.put("acc_balance", bal1);
+                            account1.put("acc_note", note1);
+                            account1.put("acc_show", show1);
+                            account1.pinInBackground("pinAccountsUpdate");
+
                             cursor1.close();
 
                             Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
@@ -570,8 +766,6 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
                     startActivity(intent);
                 }
-
-
             }
         }
 

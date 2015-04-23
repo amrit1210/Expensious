@@ -14,6 +14,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,6 +73,25 @@ public class RecursiveService extends Service {
                     if(a) {
                         Toast.makeText(RecursiveService.this, "Transaction Added", Toast.LENGTH_LONG).show();
 
+                        int tid = dbHelper.getTransactionsColId(sp.getInt("UID", 0));
+
+                        ParseObject transactions = new ParseObject("Transactions");
+                        transactions.put("trans_id", tid);
+                        transactions.put("trans_uid", sp.getInt("UID", 0));
+                        transactions.put("trans_rec_id", recDB.rec_id);
+                        transactions.put("trans_from_acc", recDB.rec_from_acc);
+                        transactions.put("trans_to_acc", recDB.rec_to_acc);
+                        transactions.put("trans_show", recDB.rec_show);
+                        transactions.put("trans_date", recDB.rec_next_date);
+                        transactions.put("trans_time", recDB.rec_time);
+                        transactions.put("trans_note", recDB.rec_note);
+                        transactions.put("trans_category", recDB.rec_c_id);
+                        transactions.put("trans_subcategory", recDB.rec_sub_id);
+                        transactions.put("trans_balance", recDB.rec_balance);
+                        transactions.put("trans_type", recDB.rec_type);
+                        transactions.put("trans_person", recDB.rec_p_id);
+                        transactions.pinInBackground("pinTransactions");
+
                         if (recDB.rec_type.equals("Expense"))
                         {
                             Cursor cursor = dbHelper.getAccountData(recDB.rec_from_acc);
@@ -85,6 +106,16 @@ public class RecursiveService extends Service {
                             bal = bal - recDB.rec_balance;
 
                             dbHelper.updateAccountData(recDB.rec_from_acc, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", recDB.rec_from_acc);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
 
                         }
@@ -102,6 +133,16 @@ public class RecursiveService extends Service {
                             bal = bal + recDB.rec_balance;
 
                             dbHelper.updateAccountData(recDB.rec_to_acc, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", recDB.rec_to_acc);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
 
                         }
@@ -119,6 +160,16 @@ public class RecursiveService extends Service {
                             bal = bal - recDB.rec_balance;
 
                             dbHelper.updateAccountData(recDB.rec_from_acc, name, bal, note, show, uid);
+
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", recDB.rec_from_acc);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
 
                             Cursor cursor1 = dbHelper.getAccountData(recDB.rec_to_acc);
@@ -133,6 +184,16 @@ public class RecursiveService extends Service {
                             bal1 = bal1 + recDB.rec_balance;
 
                             dbHelper.updateAccountData(recDB.rec_to_acc, name1, bal1, note1, show1, uid1);
+
+                            ParseObject account1 = new ParseObject("Accounts");
+                            account1.put("acc_id", recDB.rec_to_acc);
+                            account1.put("acc_uid", uid1);
+                            account1.put("acc_name", name1);
+                            account1.put("acc_balance", bal1);
+                            account1.put("acc_note", note1);
+                            account1.put("acc_show", show1);
+                            account1.pinInBackground("pinAccountsUpdate");
+
                             cursor1.close();
 
                         }
