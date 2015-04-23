@@ -2,6 +2,7 @@ package com.example.dhruvgupta.expensious;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
 {
     Context context1;
     int layout;
+    String curCode;
+    ArrayList<CurrencyDB> al1;
     ArrayList<AccountsDB> al;
 
     public ReportsAccountsAdapter(Context context, int resource,ArrayList<AccountsDB> objects)
@@ -51,6 +54,21 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
         allTransactions=dbHelper.getAllTransactions(sp.getInt("UID",0));
         transactionsDBIterator=allTransactions.iterator();
 
+        al1 = new ListOfCurrencies().getAllCurrencies();
+
+        Cursor c1 = dbHelper.getSettingsData(sp.getInt("UID", 0));
+        c1.moveToFirst();
+        curCode = c1.getString(c1.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
+        c1.close();
+
+        Iterator<CurrencyDB> iterator = al1.iterator();
+        while (iterator.hasNext())
+        {
+            CurrencyDB curDB = iterator.next();
+            if (curDB.c_code.equals(curCode))
+                cur.setText(curDB.c_symbol);
+        }
+
         AccountsDB db=al.get(position);
         name.setText(db.acc_name);
         while(transactionsDBIterator.hasNext())
@@ -62,7 +80,6 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
                 amount +=transactionsDB.t_balance;
             }
             amt.setText(amount+"");
-            cur.setText("CUR");
         }
 
         return convertView;

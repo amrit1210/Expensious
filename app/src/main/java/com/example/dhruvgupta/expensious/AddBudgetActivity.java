@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -271,6 +274,15 @@ public class AddBudgetActivity extends ActionBarActivity
                             mB_StartDate.getText().toString(), mB_EndDate.getText().toString()))
                     {
                         Toast.makeText(AddBudgetActivity.this, "Budget Updated", Toast.LENGTH_LONG).show();
+
+                        ParseObject object = new ParseObject("Budget");
+                        object.put("b_id", b_id);
+                        object.put("b_uid", sp.getInt("UID", 0));
+                        object.put("b_amount", Float.parseFloat(mB_Amt.getText().toString()));
+                        object.put("b_startDate", mB_StartDate.getText().toString());
+                        object.put("b_endDate", mB_EndDate.getText().toString());
+                        object.pinInBackground("pinBudgetUpdate");
+
                         Intent intent = new Intent(AddBudgetActivity.this, BudgetsActivity.class);
                         startActivity(intent);
                     }
@@ -287,6 +299,23 @@ public class AddBudgetActivity extends ActionBarActivity
                             mB_StartDate.getText().toString(), mB_EndDate.getText().toString()))
                     {
                         Toast.makeText(AddBudgetActivity.this, "Budget Created", Toast.LENGTH_LONG).show();
+
+                        final int bid = dbHelper.getBudgetColId(sp.getInt("UID", 0), mB_StartDate.getText().toString(), mB_EndDate.getText().toString());
+
+                        ParseObject object = new ParseObject("Budget");
+                        object.put("b_id", bid);
+                        object.put("b_uid", sp.getInt("UID", 0));
+                        object.put("b_amount", Float.parseFloat(mB_Amt.getText().toString()));
+                        object.put("b_startDate", mB_StartDate.getText().toString());
+                        object.put("b_endDate", mB_EndDate.getText().toString());
+                        object.pinInBackground("pinBudget");
+                        object.saveEventually(new SaveCallback() {
+                            @Override
+                            public void done(com.parse.ParseException e) {
+                                Log.i("Budget saveEventually", "YES! YES! YES!");
+                            }
+                        });
+
                         Intent intent = new Intent(AddBudgetActivity.this, BudgetsActivity.class);
                         startActivity(intent);
                     }

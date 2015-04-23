@@ -84,15 +84,19 @@ public class LoginActivity extends ActionBarActivity
 
                             Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
                                     Toast.LENGTH_LONG).show();
-//                            Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
+//                            Intent i=new Intent(LoginActivity.this,PieChartActivity.class);
+//                          Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
 //                              Intent i =new Intent(LoginActivity.this,AddCategoryActivity.class);
                             //Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
                              // Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
-                            Intent i=new Intent(LoginActivity.this,SettingsActivity.class);
-//                            Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
+//                            Intent i=new Intent(LoginActivity.this,SettingsActivity.class);
+                            Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
 //                                Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
                             startActivity(i);
+
+                            Intent intent = new Intent(LoginActivity.this, WebSyncService.class);
+                            startService(intent);
                         } else {
                             // Login failed. Look at the ParseException to see what happened.
                             Toast.makeText(LoginActivity.this, "Email not Verified", Toast.LENGTH_LONG).show();

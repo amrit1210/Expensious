@@ -14,6 +14,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -128,6 +132,16 @@ public class AddAccountActivity extends ActionBarActivity
                         .toString()),mAcc_Note.getText().toString(),i,sp.getInt("UID",0)))
                 {
                     Toast.makeText(AddAccountActivity.this, "Account Updated", Toast.LENGTH_LONG).show();
+
+                    ParseObject account = new ParseObject("Accounts");
+                    account.put("acc_id", acc_id);
+                    account.put("acc_uid", sp.getInt("UID",0));
+                    account.put("acc_name", mAcc_Name.getText().toString());
+                    account.put("acc_balance", Float.parseFloat(mAcc_Amt.getText().toString()));
+                    account.put("acc_note", mAcc_Note.getText().toString());
+                    account.put("acc_show", i);
+                    account.pinInBackground("pinAccountsUpdate");
+
                     Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
                     startActivity(intent);
                 }
@@ -145,6 +159,24 @@ public class AddAccountActivity extends ActionBarActivity
                         (mAcc_Amt.getText().toString()),mAcc_Note.getText().toString(), i))
                 {
                     Toast.makeText(AddAccountActivity.this, "Account Created", Toast.LENGTH_LONG).show();
+
+                    final int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mAcc_Name.getText().toString());
+
+                    ParseObject account = new ParseObject("Accounts");
+                    account.put("acc_id", acc_id);
+                    account.put("acc_uid", sp.getInt("UID",0));
+                    account.put("acc_name", mAcc_Name.getText().toString());
+                    account.put("acc_balance", Float.parseFloat(mAcc_Amt.getText().toString()));
+                    account.put("acc_note", mAcc_Note.getText().toString());
+                    account.put("acc_show", i);
+                    account.pinInBackground("pinAccounts");
+                    account.saveEventually(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Log.i("Account saveEventually", "YES! YES! YES!");
+                        }
+                    });
+
                     Intent intent = new Intent(AddAccountActivity.this, AccountsActivity.class);
                     startActivity(intent);
                 }

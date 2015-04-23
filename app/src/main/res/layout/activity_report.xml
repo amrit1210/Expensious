@@ -16,7 +16,6 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:src="@drawable/arrow_left"
-            android:onClick="onLeftArrow"
             android:background="#00000000"
             android:id="@+id/report_prev" />
 
@@ -33,7 +32,6 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:src="@drawable/arrow_right"
-            android:onClick="onRightArrow"
             android:background="#00000000"
             android:id="@+id/report_next" />
 

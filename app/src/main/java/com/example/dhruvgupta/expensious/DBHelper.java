@@ -27,22 +27,22 @@ public class DBHelper extends SQLiteOpenHelper
 
     public static final String ACCOUNTS_TABLE="Accounts";
     public static final String ACCOUNTS_COL_ACC_ID ="acc_id";
-    public static final String ACCOUNTS_COL_ACC_UID ="acc_u_id";
+    public static final String ACCOUNTS_COL_ACC_UID ="acc_uid";
     public static final String ACCOUNTS_COL_ACC_NAME ="acc_name";
     public static final String ACCOUNTS_COL_ACC_BALANCE ="acc_balance";
     public static final String ACCOUNTS_COL_ACC_SHOW ="acc_show";
     public static final String ACCOUNTS_COL_ACC_NOTE ="acc_note";
 
-    public static final String BUDGETS_TABLE="budget";
+    public static final String BUDGETS_TABLE="Budget";
     public static final String BUDGETS_COL_B_ID ="b_id";
-    public static final String BUDGETS_COL_B_UID ="b_u_id";
+    public static final String BUDGETS_COL_B_UID ="b_uid";
     public static final String BUDGETS_COL_B_AMOUNT ="b_amount";
     public static final String BUDGETS_COL_START_DATE="b_startDate";
     public static final String BUDGETS_COL_END_DATE="b_endDate";
 
-    public static final String TRANSACTION_TABLE="transactions";
+    public static final String TRANSACTION_TABLE="Transactions";
     public static final String TRANSACTION_COL_ID ="trans_id";
-    public static final String TRANSACTION_COL_UID ="trans_u_id";
+    public static final String TRANSACTION_COL_UID ="trans_uid";
     public static final String TRANSACTION_COL_RECID ="trans_rec_id";
     public static final String TRANSACTION_COL_FROM_ACC ="trans_from_acc_name";
     public static final String TRANSACTION_COL_TO_ACC ="trans_to_acc_balance";
@@ -56,9 +56,9 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String TRANSACTION_COL_PERSON="trans_person";
     public static final String TRANSACTION_COL_BALANCE="trans_balance";
 
-    public static final String RECURSIVE_TABLE="recursive";
+    public static final String RECURSIVE_TABLE="Recursive";
     public static final String RECURSIVE_COL_ID ="rec_id";
-    public static final String RECURSIVE_COL_UID ="rec_u_id";
+    public static final String RECURSIVE_COL_UID ="rec_uid";
     public static final String RECURSIVE_COL_FROM_ACC ="rec_from_acc_name";
     public static final String RECURSIVE_COL_TO_ACC ="rec_to_acc_balance";
     public static final String RECURSIVE_COL_SHOW ="rec_show";
@@ -82,22 +82,22 @@ public class DBHelper extends SQLiteOpenHelper
     public static final String PERSON_COL_COLOR_CODE ="p_color_code";
     public static final String PERSON_COL_UID ="p_uid";
 
-    public static final String CATEGORY_MASTER="category_master";
-    public static final String CATEGORY_SPECIFIC ="category_specific";
-    public static final String CATEGORY_COL_C_UID ="c_u_id";
+    public static final String CATEGORY_MASTER="Category_master";
+    public static final String CATEGORY_SPECIFIC ="Category_specific";
+    public static final String CATEGORY_COL_C_UID ="c_uid";
     public static final String CATEGORY_COL_C_ID ="c_id";
     public static final String CATEGORY_COL_C_NAME ="c_name";
     public static final String CATEGORY_COL_C_TYPE ="c_type";
     public static final String CATEGORY_COL_C_ICON ="c_icon";
 
-    public static final String SUBCATEGORY_TABLE="sub_category";
+    public static final String SUBCATEGORY_TABLE="Sub_category";
     public static final String SUBCATEGORY_COL_SUB_ID ="sub_id";
     public static final String SUBCATEGORY_COL_SUB_CID ="sub_c_id";
     public static final String SUBCATEGORY_COL_SUB_NAME ="sub_name";
     public static final String SUBCATEGORY_COL_SUB_ICON ="sub_icon";
     public static final String SUBCATEGORY_COL_SUB_UID="sub_uid";
 
-    public static final String LOAN_DEBT_TABLE="loan_debt";
+    public static final String LOAN_DEBT_TABLE="Loan_debt";
     public static final String LOAN_DEBT_COL_UID="loan_debt_uid";
     public static final String LOAN_DEBT_COL_ID="loan_debt_id";
     public static final String LOAN_DEBT_COL_FROM_ACC="loan_debt_from_acc";
@@ -402,6 +402,7 @@ public class DBHelper extends SQLiteOpenHelper
             return null;
         }
     }
+
     public int getAccountColId(int u_id,String acc_name)
     {
         try
@@ -433,6 +434,7 @@ public class DBHelper extends SQLiteOpenHelper
             return 0;
         }
     }
+
     public ArrayList<AccountsDB> getAllAccounts(int u_id)
     {
         ArrayList<AccountsDB> arrayList = new ArrayList<>();
@@ -509,6 +511,40 @@ public class DBHelper extends SQLiteOpenHelper
         {
             ae.printStackTrace();
             return null;
+        }
+    }
+
+    public int getBudgetColId(int u_id,String start, String end)
+    {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ BUDGETS_TABLE, null);
+            String s, e;
+            int b_id = 0,user_id;
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                user_id=c.getInt(c.getColumnIndex(BUDGETS_COL_B_UID));
+                if(user_id==u_id)
+                {
+                    s = c.getString(c.getColumnIndex(BUDGETS_COL_START_DATE));
+                    e = c.getString(c.getColumnIndex(BUDGETS_COL_END_DATE));
+
+                    if (s.equals(start) && e.equals(end)) {
+                        b_id = c.getInt(c.getColumnIndex(BUDGETS_COL_B_ID));
+                        break;
+                    }
+                }
+                c.moveToNext();
+            }
+            c.close();
+            return b_id;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return 0;
         }
     }
 
@@ -1182,7 +1218,7 @@ public class DBHelper extends SQLiteOpenHelper
                 c1.c_type = c.getString(c.getColumnIndex(CATEGORY_COL_C_TYPE));
                 c1.c_icon = c.getString(c.getColumnIndex(CATEGORY_COL_C_ICON));
                 arrayList.add(c1);
-                Log.i("CATEGORY :", c1.c_u_id +"\t"+ c1.c_id +"\t"+ c1.c_type +"\t"+ c1.c_name +"\t"+ c1.c_icon);
+                Log.i("CATEGORY :", c1.c_u_id +"\t"+ c1.c_id +"\t"+ c1.c_type +"\t"+ c1.c_name);
                 c.moveToNext();
             }
             c.close();

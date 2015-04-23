@@ -191,12 +191,6 @@ public class AddPersonActivity  extends ActionBarActivity
                         person.put("p_color", color);
                         person.put("p_color_code", colorCode);
                         person.pinInBackground("pinPersonsUpdate");
-//                        person.saveEventually(new SaveCallback() {
-//                            @Override
-//                            public void done(ParseException e) {
-//                                Log.i("Person UpdateEventually", "YES! YES! YES!");
-//                            }
-//                        });
 
                         Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
                         startActivity(intent);

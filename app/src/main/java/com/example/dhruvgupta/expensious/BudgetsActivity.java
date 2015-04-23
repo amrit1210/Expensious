@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -124,7 +126,7 @@ public class BudgetsActivity extends ActionBarActivity
                 {
                     startDb = sdf.parse(dbBudget.b_startDate);
                     endDb = sdf.parse(dbBudget.b_endDate);
-                    if (!(sysDate.before(startDb) && sysDate.after(endDb)))
+                    if (!sysDate.before(startDb) && !sysDate.after(endDb))
                     {
                         amt = dbBudget.b_amount;
 
@@ -191,6 +193,15 @@ public class BudgetsActivity extends ActionBarActivity
             if(id==R.id.Delete)
             {
                 dbHelper.deleteBudget(bud_db.b_id, sp.getInt("UID", 0));
+
+                ParseObject object = new ParseObject("Budget");
+                object.put("b_id", bud_db.b_id);
+                object.put("b_uid", bud_db.b_u_id);
+                object.put("b_amount", bud_db.b_amount);
+                object.put("b_startDate", bud_db.b_startDate);
+                object.put("b_endDate", bud_db.b_endDate);
+                object.pinInBackground("pinBudgetDelete");
+
                 Intent i=new Intent(getActivity(),BudgetsActivity.class);
                 startActivity(i);
                 Toast.makeText(getActivity(), "Budget Deleted", Toast.LENGTH_LONG).show();

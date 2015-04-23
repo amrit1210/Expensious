@@ -20,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -195,6 +197,15 @@ public class AccountsActivity extends ActionBarActivity
             if(id==R.id.Delete)
             {
                 dbHelper.deleteAccount(acc_DB.acc_id,sp.getInt("UID",0));
+
+                ParseObject account = new ParseObject("Accounts");
+                account.put("acc_id", acc_DB.acc_id);
+                account.put("acc_uid", acc_DB.acc_u_id);
+                account.put("acc_name",acc_DB.acc_name);
+                account.put("acc_balance", acc_DB.acc_balance);
+                account.put("acc_note", acc_DB.acc_note);
+                account.put("acc_show", acc_DB.acc_show);
+                account.pinInBackground("pinAccountsDelete");
                 // use getActivity where "this" or nothing was used
                 // means Activity's functions should be called using getActivity()
                 Intent i=new Intent(getActivity(),AccountsActivity.class);
