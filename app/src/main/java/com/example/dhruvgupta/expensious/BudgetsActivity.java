@@ -1,8 +1,8 @@
 package com.example.dhruvgupta.expensious;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -32,23 +32,35 @@ import java.util.Iterator;
 /**
  * Created by Gaurav on 04-Apr-15.
  */
-public class BudgetsActivity extends ActionBarActivity
+public class BudgetsActivity extends AbstractNavigationDrawerActivity
 {
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState)
+//    {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//
+////        FragmentManager fragmentManager=getFragmentManager();
+////        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+////        BudgetFragment budgetFragment=new BudgetFragment();
+////        fragmentTransaction.replace(R.id.container,budgetFragment);
+////        fragmentTransaction.commit();
+//
+//    }
+public void onInt(Bundle bundle) {
+    super.onInt(bundle);
 
-        FragmentManager fragmentManager=getFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        BudgetFragment budgetFragment=new BudgetFragment();
-        fragmentTransaction.replace(R.id.container,budgetFragment);
-        fragmentTransaction.commit();
+    this.setDefaultStartPositionNavigation(4);
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        AccountsFragment fragment = new AccountsFragment();
+//        fragmentTransaction.replace(R.id.container, fragment);
+//        fragmentTransaction.commit();
+}
 
-    }
     public static class BudgetFragment extends Fragment
     {
         TextView mB_Amt,mB_Cur,mB_Spent,mB_Spent_cur,mB_Rem,mB_Rem_Cur;

@@ -74,7 +74,7 @@ public class LoginActivity extends ActionBarActivity
                             SharedPreferences sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
                             SharedPreferences.Editor spEdit = sharedPreferences.edit();
                             spEdit.putString("EMAIL",user.getEmail());
-                            spEdit.putString("SESSION",user.getSessionToken());
+                            spEdit.putString("USERNAME",user.getString("uname"));
                             spEdit.putInt("UID", user.getInt("uid"));
                             spEdit.commit();
 
@@ -85,13 +85,13 @@ public class LoginActivity extends ActionBarActivity
                             Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
                                     Toast.LENGTH_LONG).show();
 //                            Intent i=new Intent(LoginActivity.this,PieChartActivity.class);
-//                          Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
+                              Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
 //                              Intent i =new Intent(LoginActivity.this,AddCategoryActivity.class);
                             //Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
                              // Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,SettingsActivity.class);
-                            Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
+                            //Intent i=new Intent(LoginActivity.this,AddBudgetActivity.class);
 //                                Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
                             startActivity(i);
 

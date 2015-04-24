@@ -1,8 +1,8 @@
 package com.example.dhruvgupta.expensious;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -28,21 +28,32 @@ import java.util.Iterator;
 /**
  * Created by Gaurav on 13-Mar-15.
  */
-public class AccountsActivity extends ActionBarActivity
+public class AccountsActivity extends AbstractNavigationDrawerActivity
 {
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        // set the acitvity's layout containing the FrameLayout for fragment
-        setContentView(R.layout.activity_main);
+//    protected void onCreate(Bundle savedInstanceState)
+//    {
+//        super.onCreate(savedInstanceState);
+//        // set the acitvity's layout containing the FrameLayout for fragment
+//        setContentView(R.layout.activity_main);
+//
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        AccountsFragment fragment = new AccountsFragment();
+//        fragmentTransaction.replace(R.id.container, fragment);
+//        fragmentTransaction.commit();
+//    }
+    public void onInt(Bundle bundle) {
+        super.onInt(bundle);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        AccountsFragment fragment = new AccountsFragment();
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.commit();
+        this.setDefaultStartPositionNavigation(1);
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        AccountsFragment fragment = new AccountsFragment();
+//        fragmentTransaction.replace(R.id.container, fragment);
+//        fragmentTransaction.commit();
     }
 
     @Override
@@ -106,6 +117,11 @@ public class AccountsActivity extends ActionBarActivity
         Iterator<AccountsDB> accountsDBIterator;
         DBHelper dbHelper;
         SharedPreferences sp;
+
+        public AccountsFragment()
+        {
+
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,

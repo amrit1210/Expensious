@@ -1,8 +1,8 @@
 package com.example.dhruvgupta.expensious;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,28 +22,37 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.parse.ParseObject;
-
 import java.util.ArrayList;
 
 /**
  * Created by Amrit on 3/27/2015.
  */
-public class TransactionsActivity extends ActionBarActivity
+public class TransactionsActivity extends AbstractNavigationDrawerActivity
 {
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState)
+//    {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//
+//        FragmentManager fragmentManager=getFragmentManager();
+//        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+//        TransactionFragment fragment=new TransactionFragment();
+//        fragmentTransaction.replace(R.id.container,fragment);
+//        fragmentTransaction.commit();
+//    }
 
-        FragmentManager fragmentManager=getFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        TransactionFragment fragment=new TransactionFragment();
-        fragmentTransaction.replace(R.id.container,fragment);
-        fragmentTransaction.commit();
+    public void onInt(Bundle bundle) {
+        super.onInt(bundle);
+
+        this.setDefaultStartPositionNavigation(2);
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        AccountsFragment fragment = new AccountsFragment();
+//        fragmentTransaction.replace(R.id.container, fragment);
+//        fragmentTransaction.commit();
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -165,23 +174,6 @@ public class TransactionsActivity extends ActionBarActivity
             {
                 if(dbHelper.deleteTransaction(transactionsDB.t_id,sp.getInt("UID",0))>0)
                 {
-                    ParseObject transactions = new ParseObject("Transactions");
-                    transactions.put("trans_id", transactionsDB.t_id);
-                    transactions.put("trans_uid", transactionsDB.t_u_id);
-                    transactions.put("trans_rec_id", transactionsDB.t_rec_id);
-                    transactions.put("trans_from_acc", transactionsDB.t_from_acc);
-                    transactions.put("trans_to_acc", transactionsDB.t_to_acc);
-                    transactions.put("trans_show", transactionsDB.t_show);
-                    transactions.put("trans_date", transactionsDB.t_date);
-                    transactions.put("trans_time", transactionsDB.t_time);
-                    transactions.put("trans_note", transactionsDB.t_note);
-                    transactions.put("trans_category", transactionsDB.t_c_id);
-                    transactions.put("trans_subcategory", transactionsDB.t_sub_id);
-                    transactions.put("trans_balance", transactionsDB.t_balance);
-                    transactions.put("trans_type", transactionsDB.t_type);
-                    transactions.put("trans_person", transactionsDB.t_p_id);
-                    transactions.pinInBackground("pinTransactionsDelete");
-
                     String t_type_old = transactionsDB.t_type;
                     int t_from_old = transactionsDB.t_from_acc;
                     int t_to_old = transactionsDB.t_to_acc;
@@ -201,16 +193,6 @@ public class TransactionsActivity extends ActionBarActivity
                         bal = bal + t_amt_old;
 
                         dbHelper.updateAccountData(t_from_old, name, bal, note, show, uid);
-
-                        ParseObject account = new ParseObject("Accounts");
-                        account.put("acc_id", t_from_old);
-                        account.put("acc_uid", uid);
-                        account.put("acc_name", name);
-                        account.put("acc_balance", bal);
-                        account.put("acc_note", note);
-                        account.put("acc_show", show);
-                        account.pinInBackground("pinAccountsUpdate");
-
                         cursor.close();
                     }
                     else if (t_type_old.equals("Income"))
@@ -227,16 +209,6 @@ public class TransactionsActivity extends ActionBarActivity
                         bal = bal - t_amt_old;
 
                         dbHelper.updateAccountData(t_to_old, name, bal, note, show, uid);
-
-                        ParseObject account = new ParseObject("Accounts");
-                        account.put("acc_id", t_to_old);
-                        account.put("acc_uid", uid);
-                        account.put("acc_name", name);
-                        account.put("acc_balance", bal);
-                        account.put("acc_note", note);
-                        account.put("acc_show", show);
-                        account.pinInBackground("pinAccountsUpdate");
-
                         cursor.close();
                     }
                     else if (t_type_old.equals("Transfer"))
@@ -253,16 +225,6 @@ public class TransactionsActivity extends ActionBarActivity
                         bal = bal - t_amt_old;
 
                         dbHelper.updateAccountData(t_to_old, name, bal, note, show, uid);
-
-                        ParseObject account = new ParseObject("Accounts");
-                        account.put("acc_id", t_to_old);
-                        account.put("acc_uid", uid);
-                        account.put("acc_name", name);
-                        account.put("acc_balance", bal);
-                        account.put("acc_note", note);
-                        account.put("acc_show", show);
-                        account.pinInBackground("pinAccountsUpdate");
-
                         cursor.close();
 
                         Cursor cursor1 = dbHelper.getAccountData(t_from_old);
@@ -277,16 +239,6 @@ public class TransactionsActivity extends ActionBarActivity
                         bal1 = bal1 + t_amt_old;
 
                         dbHelper.updateAccountData(t_from_old, name1, bal1, note1, show1, uid1);
-
-                        ParseObject account1 = new ParseObject("Accounts");
-                        account1.put("acc_id", t_from_old);
-                        account1.put("acc_uid", uid1);
-                        account1.put("acc_name", name1);
-                        account1.put("acc_balance", bal1);
-                        account1.put("acc_note", note1);
-                        account1.put("acc_show", show1);
-                        account1.pinInBackground("pinAccountsUpdate");
-
                         cursor1.close();
                     }
 

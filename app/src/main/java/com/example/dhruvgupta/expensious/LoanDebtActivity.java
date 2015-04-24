@@ -1,7 +1,7 @@
 package com.example.dhruvgupta.expensious;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -24,22 +24,35 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class LoanDebtActivity extends ActionBarActivity
+public class LoanDebtActivity extends AbstractNavigationDrawerActivity
 {
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState)
+//    {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//
+////        FragmentManager fragmentManager=getFragmentManager();
+////        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+////        LoanDebtFragment loanDebtFragment=new LoanDebtFragment();
+////        fragmentTransaction.replace(R.id.container,loanDebtFragment);
+////        fragmentTransaction.commit();
+//
+//    }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void onInt(Bundle bundle) {
+        super.onInt(bundle);
 
-        FragmentManager fragmentManager=getFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        LoanDebtFragment loanDebtFragment=new LoanDebtFragment();
-        fragmentTransaction.replace(R.id.container,loanDebtFragment);
-        fragmentTransaction.commit();
-
+        this.setDefaultStartPositionNavigation(5);
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        AccountsFragment fragment = new AccountsFragment();
+//        fragmentTransaction.replace(R.id.container, fragment);
+//        fragmentTransaction.commit();
     }
+
 
     public static class LoanDebtFragment extends Fragment
     {

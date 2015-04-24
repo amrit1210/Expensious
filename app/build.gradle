@@ -35,5 +35,6 @@ dependencies {
     compile files ('libs/javax.mail.jar')
     compile files ('libs/mpandroidchartlibrary-2-0-9.jar')
     compile 'com.pkmmte.view:circularimageview:1.1'
+    compile 'br.com.liveo:navigationdrawer-material:1.0.5'
     compile 'com.joanzapata.android:android-iconify:1.0.9'
 }

@@ -1,8 +1,8 @@
 package com.example.dhruvgupta.expensious;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -39,21 +39,32 @@ import java.util.Iterator;
 /**
  * Created by Gaurav on 4/14/2015.
  */
-public class PieChartActivity extends ActionBarActivity {
+public class PieChartActivity extends AbstractNavigationDrawerActivity {
 
     static int actionId=0;
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    //@Override
+//    protected void onCreate(Bundle savedInstanceState)
+//    {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//
+//        FragmentManager fragmentManager=getFragmentManager();
+//        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+//        PieChartFragment pieChartFragment=new PieChartFragment();
+//        fragmentTransaction.replace(R.id.container,pieChartFragment);
+//        fragmentTransaction.commit();
+//
+//    }
+    public void onInt(Bundle bundle) {
+        super.onInt(bundle);
 
-        FragmentManager fragmentManager=getFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        PieChartFragment pieChartFragment=new PieChartFragment();
-        fragmentTransaction.replace(R.id.container,pieChartFragment);
-        fragmentTransaction.commit();
-
+        this.setDefaultStartPositionNavigation(7);
+//        FragmentManager fragmentManager = getFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//        AccountsFragment fragment = new AccountsFragment();
+//        fragmentTransaction.replace(R.id.container, fragment);
+//        fragmentTransaction.commit();
     }
     public static class PieChartFragment extends Fragment implements OnChartValueSelectedListener
     {
