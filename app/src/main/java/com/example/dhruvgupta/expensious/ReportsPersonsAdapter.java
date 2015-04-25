@@ -45,7 +45,6 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
         ArrayList<TransactionsDB> allTransactions;
         float amount=0;
         String sysDate;
-        Calendar mCal;
         SimpleDateFormat sdf,month_date;
         SharedPreferences sp = getContext().getSharedPreferences("USER_PREFS",Context.MODE_PRIVATE);
         Iterator<TransactionsDB> transactionsDBIterator;

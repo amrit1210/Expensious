@@ -29,5 +29,10 @@
         android:title="Budget"
         android:orderInCategory="100"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_cat"
+        android:title="Category"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 
 </menu>
