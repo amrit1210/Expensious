@@ -30,20 +30,7 @@ import java.util.Iterator;
  */
 public class AccountsActivity extends AbstractNavigationDrawerActivity
 {
-    @Override
-//    protected void onCreate(Bundle savedInstanceState)
-//    {
-//        super.onCreate(savedInstanceState);
-//        // set the acitvity's layout containing the FrameLayout for fragment
-//        setContentView(R.layout.activity_main);
-//
-//        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//        AccountsFragment fragment = new AccountsFragment();
-//        fragmentTransaction.replace(R.id.container, fragment);
-//        fragmentTransaction.commit();
-//    }
+
     public void onInt(Bundle bundle) {
         super.onInt(bundle);
 

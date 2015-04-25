@@ -1,10 +1,14 @@
 package com.example.dhruvgupta.expensious;
 
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -27,30 +31,69 @@ import java.util.ArrayList;
 /**
  * Created by Amrit on 3/19/2015.
  */
-public class PersonsActivity extends ActionBarActivity
+public class PersonsActivity extends AbstractNavigationDrawerActivity
 {
-    ListView listView;
-    PersonsAdapter personsAdapter;
-    DBHelper dbHelper;
-    SharedPreferences sp;
-    ArrayList<PersonDB> al;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState)
+//    {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_persons);
+//        listView=(ListView)findViewById(R.id.persons_list);
+//
+//        sp=getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+//        dbHelper=new DBHelper(PersonsActivity.this);
+//
+//        al= dbHelper.getAllPersons(sp.getInt("UID",0));
+//        personsAdapter =new PersonsAdapter(PersonsActivity.this,R.layout.list_person,al);
+//        listView.setAdapter(personsAdapter);
+//        registerForContextMenu(listView);
+//
+//    }
+
+    public void onInt(Bundle bundle) {
+        super.onInt(bundle);
+
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+       PersonsFragment fragment = new PersonsFragment();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
+      //  this.setDefaultStartPositionNavigation(8);
+    }
+    public static class PersonsFragment extends Fragment
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_persons);
-        listView=(ListView)findViewById(R.id.persons_list);
+        ListView listView;
+        PersonsAdapter personsAdapter;
+        DBHelper dbHelper;
+        SharedPreferences sp;
+        ArrayList<PersonDB> al;
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+           super.onCreateView(inflater, container, savedInstanceState);
+            return inflater.inflate(R.layout.activity_persons,container,false);
+        }
 
-        sp=getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-        dbHelper=new DBHelper(PersonsActivity.this);
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            View rootView=getView();
+
+            listView=(ListView)rootView.findViewById(R.id.persons_list);
+
+        sp=getActivity().getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+        dbHelper=new DBHelper(getActivity());
 
         al= dbHelper.getAllPersons(sp.getInt("UID",0));
-        personsAdapter =new PersonsAdapter(PersonsActivity.this,R.layout.list_person,al);
+        personsAdapter =new PersonsAdapter(getActivity(),R.layout.list_person,al);
         listView.setAdapter(personsAdapter);
         registerForContextMenu(listView);
+        }
 
-    }
         @Override
         public boolean onContextItemSelected(MenuItem item)
         {
@@ -68,7 +111,7 @@ public class PersonsActivity extends ActionBarActivity
                 String p_name=c.getString(c.getColumnIndex(DBHelper.PERSON_COL_NAME));
                 String p_color=c.getString(c.getColumnIndex(DBHelper.PERSON_COL_COLOR));
                 String p_color_code = c.getString(c.getColumnIndex(DBHelper.PERSON_COL_COLOR_CODE));
-                Intent i=new Intent(PersonsActivity.this,AddPersonActivity.class);
+                Intent i=new Intent(getActivity(),AddPersonActivity.class);
                 i.putExtra("p_id",p_id);
                 i.putExtra("p_uid",p_uid);
                 i.putExtra("p_name",p_name);
@@ -89,9 +132,9 @@ public class PersonsActivity extends ActionBarActivity
                 object.put("p_color_code", per_DB.p_color_code);
                 object.pinInBackground("pinPersonsDelete");
 
-                Intent i=new Intent(PersonsActivity.this,PersonsActivity.class);
+                Intent i=new Intent(getActivity(),PersonsActivity.class);
                 startActivity(i);
-                Toast.makeText(PersonsActivity.this, "Person Deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Person Deleted", Toast.LENGTH_LONG).show();
             }
 
             return super.onContextItemSelected(item);
@@ -102,9 +145,12 @@ public class PersonsActivity extends ActionBarActivity
         {
             super.onCreateContextMenu(menu, v, menuInfo);
 
-            MenuInflater inflater= getMenuInflater();
+            MenuInflater inflater= getActivity().getMenuInflater();
             inflater.inflate(R.menu.context_menu,menu);
         }
+
+
+    }
 
 
 
