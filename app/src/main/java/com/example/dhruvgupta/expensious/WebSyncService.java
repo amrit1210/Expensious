@@ -360,7 +360,7 @@ public class WebSyncService extends Service {
             }
         });
 
-        //Delete Account
+        //Delete Budget
         ParseQuery<ParseObject> deleteBud = ParseQuery.getQuery("Budget");
         deleteBud.whereEqualTo("b_uid", sp.getInt("UID", 0));
         deleteBud.findInBackground(new FindCallback<ParseObject>() {
@@ -399,6 +399,137 @@ public class WebSyncService extends Service {
             }
         });
 
+        //Add Transaction
+        ParseQuery<ParseObject> addTrans = ParseQuery.getQuery("Transactions");
+        addTrans.fromPin("pinTransactions");
+        addTrans.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> todos, ParseException e) {
+                if (e == null) {
+                    for (final ParseObject todo : todos) {
+                        todo.saveInBackground(new SaveCallback() {
+
+                            @Override
+                            public void done(ParseException e) {
+//                                    todo.unpinInBackground("pinTransactions");
+                                System.out.println("Transactions DATA is saved ..... ");
+                            }
+                        });
+                    }
+                } else {
+                    Log.i("MainActivity", "syncTodosToTransAdd: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+        //Update Transactions
+        ParseQuery<ParseObject> updateTrans = ParseQuery.getQuery("Transactions");
+        updateTrans.whereEqualTo("trans_uid", sp.getInt("UID", 0));
+        updateTrans.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> updateTrans2 = ParseQuery.getQuery("Transactions");
+                        updateTrans2.fromPin("pinTransactionsUpdate");
+                        updateTrans2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("trans_uid") == todo1.getInt("trans_uid")) && (todo.getInt("trans_id") == todo1.getInt("trans_id")))
+                                    {
+                                        todo.fetchInBackground(new GetCallback<ParseObject>() {
+                                            @Override
+                                            public void done(ParseObject parseObject, ParseException e) {
+                                                if (e==null)
+                                                {
+                                                    parseObject.put("objectId", todo.getObjectId());
+                                                    parseObject.put("trans_id", todo1.getInt("trans_id"));
+                                                    parseObject.put("trans_uid", todo1.getInt("trans_uid"));
+                                                    parseObject.put("trans_rec_id", todo1.getInt("trans_rec_id"));
+                                                    parseObject.put("trans_from_acc", todo1.getInt("trans_from_acc"));
+                                                    parseObject.put("trans_to_acc", todo1.getInt("trans_to_acc"));
+                                                    parseObject.put("trans_show", todo1.getInt("trans_show"));
+                                                    parseObject.put("trans_date", todo1.getString("trans_date"));
+                                                    parseObject.put("trans_time", todo1.getString("trans_time"));
+                                                    parseObject.put("trans_note", todo1.getString("trans_note"));
+                                                    parseObject.put("trans_category", todo1.getInt("trans_category"));
+                                                    parseObject.put("trans_subcategory", todo1.getInt("trans_subcategory"));
+                                                    parseObject.put("trans_balance", todo1.getDouble("trans_balance"));
+                                                    parseObject.put("trans_type", todo1.getString("trans_type"));
+                                                    parseObject.put("trans_person", todo1.getInt("trans_person"));
+                                                    parseObject.saveInBackground(new SaveCallback() {
+
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            todo1.unpinInBackground("pinTransactionsUpdate");
+                                                            System.out.println("Transactions DATA is updated ..... ");
+                                                        }
+                                                    });
+                                                }
+                                                else
+                                                {
+
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToTransUpdate: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //Delete Transactions
+        ParseQuery<ParseObject> deleteTrans = ParseQuery.getQuery("Transactions");
+        deleteTrans.whereEqualTo("trans_uid", sp.getInt("UID", 0));
+        deleteTrans.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> deleteTrans2 = ParseQuery.getQuery("Transactions");
+                        deleteTrans2.fromPin("pinTransactionsDelete");
+                        deleteTrans2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("trans_uid") == todo1.getInt("trans_uid")) && (todo.getInt("trans_id") == todo1.getInt("trans_id")))
+                                    {
+                                        todo.deleteInBackground(new DeleteCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                todo1.unpinInBackground("pinTransactionsDelete");
+                                                System.out.println("Transactions DATA is deleted ..... ");
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToTransDelete: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
 
         return Service.START_STICKY;
     }

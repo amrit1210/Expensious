@@ -112,7 +112,6 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="onFromAccountClick"
                     android:hint="@string/hint_from_account"
                     android:clickable="true"
                     android:id="@+id/add_recursive_from_account"/>
@@ -132,7 +131,6 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="onToAccountClick"
                     android:clickable="true"
                     android:hint="@string/hint_to_account"
                     android:id="@+id/add_recursive_to_account"/>
@@ -151,7 +149,6 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="onCategoryClick"
                     android:hint="@string/hint_category"
                     android:clickable="true"
                     android:id="@+id/add_recursive_category"/>
@@ -171,7 +168,6 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="onPersonClick"
                     android:hint="@string/hint_person"
                     android:clickable="true"
                     android:id="@+id/add_recursive_person"/>

@@ -53,6 +53,20 @@ public class DetailedAddLD extends ActionBarActivity {
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper = new DBHelper(DetailedAddLD.this);
 
+        mFromAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFromAccountClick(v);
+            }
+        });
+
+        mToAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onToAccountClick(v);
+            }
+        });
+
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
         mMonth = calendar.get(Calendar.MONTH);

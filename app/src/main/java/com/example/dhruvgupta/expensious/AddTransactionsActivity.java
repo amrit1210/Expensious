@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,7 +40,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
     EditText mFromAcc, mToAcc, mCategory, mPerson, mNote;
     String mType, t_date, t_time, t_type, t_type_old,category;
     float t_amt_old;
-    int t_id, t_u_id, t_rec_id, t_category,t_subcategory, t_fromAccount, t_toAccount, t_person, intentFlag, t_from_old, t_to_old;
+    int t_id, t_u_id, t_rec_id, t_category = 0,t_subcategory = 0, t_fromAccount, t_toAccount, t_person, intentFlag, t_from_old, t_to_old;
     Button mExp,mInc,mTrans;
     String from_acc=null,to_acc=null,person=null;
 
@@ -71,6 +72,34 @@ public class AddTransactionsActivity extends ActionBarActivity {
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
         mHour = calendar.get(Calendar.HOUR_OF_DAY);
         mMin = calendar.get(Calendar.MINUTE);
+
+        mFromAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFromAccountClick(v);
+            }
+        });
+
+        mToAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onToAccountClick(v);
+            }
+        });
+
+        mPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPersonClick(v);
+            }
+        });
+
+        mCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCategoryClick(v);
+            }
+        });
 
         mDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
@@ -175,8 +204,11 @@ public class AddTransactionsActivity extends ActionBarActivity {
                 onIncomeClick(mInc);
             }
              if (t_type.equals("Transfer")) {
-                flag = 2;
-                t_person=0;
+                 flag = 2;
+                 t_person=0;
+                 t_category = 0;
+                 t_subcategory = 0;
+
                  person=null;
                  if(t_fromAccount!=0) {
                      Cursor c1 = dbHelper.getAccountData(t_fromAccount);
@@ -218,11 +250,15 @@ public class AddTransactionsActivity extends ActionBarActivity {
         {
             mAmt.setError(null);
         }
-        if(mCategory.length()==0)
+        if(flag==0 || flag ==1)
         {
-            mCategory.setError("Enter Category");
+            if (mCategory.length() == 0) {
+                mCategory.setError("Enter Category");
+            } else {
+                mCategory.setError(null);
+            }
         }
-        else
+        if(flag==2)
         {
             mCategory.setError(null);
         }
@@ -236,7 +272,6 @@ public class AddTransactionsActivity extends ActionBarActivity {
                 {
                     t_fromAccount=dbHelper.getAccountColId(sp.getInt("UID",0),from_acc);
                     acc_id_from=t_fromAccount;
-
                 }
                 if(to_acc!=null)
                 {
@@ -247,6 +282,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     t_person=dbHelper.getPersonColId(sp.getInt("UID",0),person);
                 }
                 amt = Float.parseFloat(mAmt.getText().toString());
+
                 if(amt<=0)
                 {
                     mAmt.setError("Enter amount");
@@ -283,6 +319,10 @@ public class AddTransactionsActivity extends ActionBarActivity {
                 }
                else if(flag==2)
                 {
+                    t_category = 0;
+                    t_subcategory = 0;
+                    p_id = 0;
+                    mCategory.setError(null);
                     if(t_fromAccount<=0)
                     {
                         mFromAcc.setError("Enter from Account");
@@ -301,7 +341,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     }
 
                 }
-                if(mFromAcc.getError()==null && mToAcc.getError()==null && mAmt.getError()==null ) {
+                if(mFromAcc.getError()==null && mToAcc.getError()==null && mAmt.getError()==null && mCategory.getError()==null ) {
                     amt = Float.parseFloat(mAmt.getText().toString());
                     boolean b = dbHelper.updateTransactionData(t_id, t_fromAccount, t_toAccount, t_person, t_category, t_subcategory,
                             amt, mNote.getText().toString(), show, t_type, mDate.getText().toString(), mTime.getText().toString(),
@@ -559,6 +599,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         if (mPerson.getText().toString() != null)
                             p_id = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson.getText().toString());
+
                         boolean b = dbHelper.addTransaction(sp.getInt("UID", 0), acc_id, 0, amt, mNote.getText().toString(), p_id,
                                 t_category, t_subcategory, show, mType, mDate.getText().toString(), mTime.getText().toString(), 0);
                         if(b) {
@@ -582,6 +623,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             transactions.put("trans_type", mType);
                             transactions.put("trans_person", p_id);
                             transactions.pinInBackground("pinTransactions");
+                            transactions.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    Log.i("Trans saveEventually", "YES! YES! YES!");
+                                }
+                            });
 
                             Cursor cursor = dbHelper.getAccountData(acc_id);
                             cursor.moveToFirst();
@@ -645,6 +692,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             transactions.put("trans_type", mType);
                             transactions.put("trans_person", p_id);
                             transactions.pinInBackground("pinTransactions");
+                            transactions.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    Log.i("Trans saveEventually", "YES! YES! YES!");
+                                }
+                            });
 
                             Cursor cursor = dbHelper.getAccountData(acc_id);
                             cursor.moveToFirst();
@@ -680,6 +733,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     }
                 } else if (flag == 2) {
                     amt = Float.parseFloat(mAmt.getText().toString());
+                    mCategory.setText(null);
                     if (mFromAcc.length()>0 && mToAcc.length()>0 ) {
                         int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mFromAcc.getText().toString());
                         int acc_id1 = dbHelper.getAccountColId(sp.getInt("UID", 0), mToAcc.getText().toString());
@@ -707,6 +761,12 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             transactions.put("trans_type", mType);
                             transactions.put("trans_person", p_id);
                             transactions.pinInBackground("pinTransactions");
+                            transactions.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    Log.i("Trans saveEventually", "YES! YES! YES!");
+                                }
+                            });
 
                             Cursor cursor = dbHelper.getAccountData(acc_id);
                             cursor.moveToFirst();

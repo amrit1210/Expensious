@@ -74,6 +74,34 @@ public class AddRecursiveActivity extends ActionBarActivity {
         mLlCat = (LinearLayout)findViewById(R.id.add_recursive_ll_category);
         mLlPer = (LinearLayout)findViewById(R.id.add_recursive_ll_person);
 
+        mFromAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFromAccountClick(v);
+            }
+        });
+
+        mToAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onToAccountClick(v);
+            }
+        });
+
+        mPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPersonClick(v);
+            }
+        });
+
+        mCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCategoryClick(v);
+            }
+        });
+
         mType = "Expense";
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);

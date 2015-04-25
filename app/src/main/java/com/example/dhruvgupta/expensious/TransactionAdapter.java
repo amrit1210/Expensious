@@ -132,6 +132,7 @@ public class TransactionAdapter extends ArrayAdapter {
                 c2.close();
             }
             account.setText(from_acc + "-> " + to_acc);
+            category.setText(null);
         }
 
         return convertView;

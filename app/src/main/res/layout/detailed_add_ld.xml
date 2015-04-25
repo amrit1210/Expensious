@@ -89,7 +89,6 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="onFromAccountClick"
                     android:hint="@string/hint_from_account"
                     android:clickable="true"
                     android:id="@+id/detailed_add_ld_from_account"/>
@@ -109,7 +108,6 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="onToAccountClick"
                     android:hint="@string/hint_to_account"
                     android:clickable="true"
                     android:id="@+id/detailed_add_ld_to_account"/>

@@ -89,7 +89,6 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="onFromAccountClick"
                     android:clickable="true"
                     android:hint="@string/hint_from_account"
                     android:id="@+id/add_loan_debt_from_account"/>
@@ -109,7 +108,6 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="onToAccountClick"
                     android:clickable="true"
                     android:hint="@string/hint_to_account"
                     android:id="@+id/add_loan_debt_to_account"/>
@@ -128,7 +126,6 @@
                 <EditText
                     style="@style/EditTextAppearance.Editable.Unedit"
                     android:layout_weight="1"
-                    android:onClick="onPersonClick"
                     android:hint="@string/hint_person"
                     android:clickable="true"
                     android:id="@+id/add_loan_debt_person"/>

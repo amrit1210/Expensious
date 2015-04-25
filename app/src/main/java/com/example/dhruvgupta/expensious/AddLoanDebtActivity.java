@@ -63,6 +63,28 @@ public class AddLoanDebtActivity extends ActionBarActivity {
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
         mHour = calendar.get(Calendar.HOUR_OF_DAY);
         mMin = calendar.get(Calendar.MINUTE);
+
+        mFromAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFromAccountClick(v);
+            }
+        });
+
+        mToAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onToAccountClick(v);
+            }
+        });
+
+        mPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onPersonClick(v);
+            }
+        });
+
         mDate.setText(new StringBuilder()
                 // Month is 0 based, just add 1
                 .append(mDay).append("-").append(mMonth + 1).append("-")

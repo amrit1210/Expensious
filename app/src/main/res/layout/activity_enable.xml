@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="8"
+        android:gravity="center|top"
+        android:paddingTop="30dp"
+        android:textSize="20sp"
+        android:text="Tap to enable family sharing"
+        android:id="@+id/enable_btn"
+        android:stateListAnimator="@android:animator/fade_in"
+        android:background="@drawable/family5"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        android:id="@+id/enable_ll">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/hint_family"
+            android:id="@+id/enable_name"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:background="#EEEEEE"
+            android:stateListAnimator="@android:animator/fade_in"
+            android:text="Save"
+            android:id="@+id/enable_save"/>
+    </LinearLayout>
+
+</LinearLayout>
