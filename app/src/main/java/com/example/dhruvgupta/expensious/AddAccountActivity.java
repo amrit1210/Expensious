@@ -118,7 +118,11 @@ public class AddAccountActivity extends ActionBarActivity
 
         if (mAcc_Name.length() <= 0)
         {
-            mAcc_Name.setError("Enter Account name");
+            mAcc_Name.setError("Enter Account Name");
+        }
+        else if (!mAcc_Name.getText().toString().matches("[a-zA-Z0-9][a-zA-Z0-9 ]+"))
+        {
+            mAcc_Name.setError("Enter valid Account Name");
         }
         else
         {

@@ -156,7 +156,11 @@ public class AddPersonActivity  extends ActionBarActivity
 
         if (mPerson_Name.length() <= 0)
         {
-            mPerson_Name.setError("Enter Person name");
+            mPerson_Name.setError("Enter Person Name");
+        }
+        else if (!mPerson_Name.getText().toString().matches("[a-zA-Z][a-zA-Z ]+"))
+        {
+            mPerson_Name.setError("Enter valid Person Name");
         }
         else
         {

@@ -78,6 +78,10 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                     {
                         mName.setError("Enter UserName");
                     }
+                    else if (!mName.getText().toString().matches("[a-zA-Z][a-zA-Z0-9 ]+"))
+                    {
+                        mName.setError("Enter valid UserName");
+                    }
                     else
                     {
                         mName.setError(null);
@@ -99,7 +103,9 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                     }
                     else if (mEmail.length() > 0)
                     {
-                        if (Patterns.EMAIL_ADDRESS.matcher(mEmail.getText().toString()).matches())
+//                        Patterns.EMAIL_ADDRESS.matcher(mEmail.getText().toString()).matches()
+                        if (mEmail.getText().toString().matches("[a-zA-Z0-9\\.\\_]{1,256}" + "\\@" + "[a-zA-Z0-9][a-zA-Z0-9]{0,64}" +
+                                "(" + "\\." + "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" + ")+"))
                         {
                             mEmail.setError(null);
                         }
@@ -343,6 +349,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                             {
                                                 user.put("uid", r);
                                                 user.put("uname", mName.getText().toString());
+                                                user.put("fid", 0);
                                                 user.put("userimage", file);
 
                                                 user.signUpInBackground(new SignUpCallback() {

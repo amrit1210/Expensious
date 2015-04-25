@@ -8,6 +8,7 @@
     <EditText
         style="@style/EditTextAppearance.Heading"
         android:hint="@string/hint_account_name"
+        android:maxLength="16"
         android:id="@+id/add_acc_name"/>
 
     <LinearLayout

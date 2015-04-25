@@ -3,9 +3,7 @@ package com.example.dhruvgupta.expensious;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,19 +12,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
-import java.util.ArrayList;
 
 /**
  * Created by dhruvgupta on 4/25/2015.
  */
-public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
+public class InviteFamilyActivity extends AbstractNavigationDrawerActivity {
 
     public void onInt(Bundle bundle) {
         super.onInt(bundle);
@@ -74,12 +71,12 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class EnableFamilyFragment extends Fragment {
+    public static class InviteFamilyFragment extends Fragment {
 
         SharedPreferences sp;
-        EditText mFamilyName;
-        LinearLayout mEnableLl;
-        Button mEnableBtn, mSaveBtn;
+        EditText mEmail;
+        LinearLayout mInviteLl;
+        Button mInviteBtn, mAddBtn, mNext;
 
 
         @Override
@@ -87,50 +84,38 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
                                  Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
             // layout is inflated here
-            return inflater.inflate(R.layout.activity_enable, container, false);
+            return inflater.inflate(R.layout.activity_invite, container, false);
         }
 
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
             View rootView = getView();
-            mFamilyName = (EditText) rootView.findViewById(R.id.enable_name);
-            mEnableBtn = (Button) rootView.findViewById(R.id.enable_btn);
-            mEnableLl = (LinearLayout) rootView.findViewById(R.id.enable_ll);
-            mSaveBtn = (Button) rootView.findViewById(R.id.enable_save);
+            mEmail = (EditText) rootView.findViewById(R.id.invite_name);
+            mInviteBtn = (Button) rootView.findViewById(R.id.invite_btn);
+            mInviteLl = (LinearLayout) rootView.findViewById(R.id.invite_ll);
+            mAddBtn = (Button) rootView.findViewById(R.id.invite_add);
+            mNext = (Button) rootView.findViewById(R.id.invite_next);
 
-            mEnableBtn.setOnClickListener(new View.OnClickListener() {
+            mInviteBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mEnableLl.setVisibility(View.VISIBLE);
+                    mInviteLl.setVisibility(View.VISIBLE);
                 }
             });
 
-            mSaveBtn.setOnClickListener(new View.OnClickListener() {
+            mAddBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onEnableSave(v);
+                    onInviteAdd(v);
                 }
             });
         }
 
-        public void onEnableSave (View view)
+        public void onInviteAdd (View view)
         {
-            ParseObject family = new ParseObject("Family");
-            family.put("f_id", sp.getInt("UID", 0));
-            family.put("h_id", sp.getInt("UID", 0));
-            family.put("f_name", mFamilyName.getText().toString());
-            family.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null)
-                    {
-                        Toast.makeText(getActivity(), "Family Added", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(getActivity(), InviteFamilyActivity.class);
-                        startActivity(i);
-                        getActivity().finish();
-                    }
-                }
-            });
+            ParseQuery<ParseUser> invite = ParseQuery.getQuery("_User");
+
         }
     }
 }
+
