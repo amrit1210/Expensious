@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,14 +17,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 import com.parse.SaveCallback;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +36,8 @@ public class LoginActivity extends ActionBarActivity
     EditText mEmail,mPassword;
     CheckBox mRemember;
     DBHelper dbHelper;
+    SharedPreferences sharedPreferences;
+    byte [] b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,21 +67,43 @@ public class LoginActivity extends ActionBarActivity
         {
 //            Async async = new Async();
 //            async.execute();
+
             final ProgressDialog Dialog = new ProgressDialog(LoginActivity.this);
             Dialog.setMessage("Please Wait");
             Dialog.show();
             ParseUser.logInInBackground(mEmail.getText().toString(), mPassword.getText().toString(), new LogInCallback() {
-                public void done(ParseUser user, ParseException e) {
+                public void done(final ParseUser user, ParseException e) {
                     Dialog.dismiss();
                     if (user != null)
                     {
                         if (user.getBoolean("emailVerified")) {
                             // Hooray! The user is logged in.
-                            SharedPreferences sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+
+                            ParseFile file = user.getParseFile("userimage");
+//                            file.getDataInBackground(new GetDataCallback() {
+//                                @Override
+//                                public void done(byte[] bytes, ParseException e) {
+//                                    b = bytes;
+//                                    Log.i("byte", b+ " ; " + bytes);
+//
+//                                    SharedPreferences sp = getSharedPreferences("USER_IMAGE", MODE_PRIVATE);
+//                                    SharedPreferences.Editor spEdit = sp.edit();
+//                                    spEdit.putString("UIMAGE", b + "");
+//                                    spEdit.commit();
+//
+//                                }
+//                            });
+
+//                            String s = file.getUrl();
+                            Uri fileUri = Uri.parse(file.getUrl());
+//                            URL fileUrl = fileUri.to
+
+                            sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
                             SharedPreferences.Editor spEdit = sharedPreferences.edit();
                             spEdit.putString("EMAIL",user.getEmail());
                             spEdit.putString("USERNAME",user.getString("uname"));
                             spEdit.putInt("UID", user.getInt("uid"));
+                            spEdit.putString("UIMAGE", fileUri + "");
                             spEdit.commit();
 
                             ArrayList al = dbHelper.getSettingsUid();
