@@ -1,6 +1,8 @@
 package com.example.dhruvgupta.expensious;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,18 +40,29 @@ import java.util.SortedSet;
 /**
 * Created by Gaurav on 19-Mar-15.
 */
-public class CategoriesActivity extends AbstractNavigationDrawerActivity
+public class CategoriesActivity extends ActionBarActivity
 {
 
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
 
-    //List idList;
+        setContentView(R.layout.activity_main);
 
-    public void onInt(Bundle bundle) {
-        super.onInt(bundle);
-
-        this.setDefaultStartPositionNavigation(8);
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        this.setDefaultStartPositionNavigation(8);
+//
+//        android.support.v4.app.FragmentManager mFragmentManager = getSupportFragmentManager();
+//        android.support.v4.app.Fragment mFragment=null;
+//        mFragmentManager.beginTransaction().replace(layoutId, new PersonsFragment()).commit();
+//
+        CategoriesFragment fragment = new CategoriesFragment();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
 
     }
+
 public static class CategoriesFragment extends Fragment
 {
     Button mCat_Income,mCat_Expense;

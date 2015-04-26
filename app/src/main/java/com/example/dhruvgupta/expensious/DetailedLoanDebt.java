@@ -1,6 +1,8 @@
 package com.example.dhruvgupta.expensious;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -27,23 +29,28 @@ import java.util.Iterator;
 /**
  * Created by dhruvgupta on 4/12/2015.
  */
-public class DetailedLoanDebt extends AbstractNavigationDrawerActivity
+public class DetailedLoanDebt extends ActionBarActivity
 {
 
-    public void onInt(Bundle bundle) {
-        super.onInt(bundle);
-
-        this.setDefaultStartPositionNavigation(5);
-    }
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.detailed_loan_debt);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
 
+        setContentView(R.layout.activity_main);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        this.setDefaultStartPositionNavigation(8);
+//
+//        android.support.v4.app.FragmentManager mFragmentManager = getSupportFragmentManager();
+//        android.support.v4.app.Fragment mFragment=null;
+//        mFragmentManager.beginTransaction().replace(layoutId, new PersonsFragment()).commit();
+//
+        DetailedLoanDebtFragment fragment = new DetailedLoanDebtFragment();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
 
     }
-
     public static class DetailedLoanDebtFragment extends Fragment
     {
         ListView listView;

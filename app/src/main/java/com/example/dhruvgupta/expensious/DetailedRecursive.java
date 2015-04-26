@@ -1,6 +1,8 @@
 package com.example.dhruvgupta.expensious;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -25,17 +27,27 @@ import java.util.Iterator;
 /**
  * Created by dhruvgupta on 4/9/2015.
  */
-public class DetailedRecursive extends AbstractNavigationDrawerActivity {
+public class DetailedRecursive extends ActionBarActivity
+{
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
 
+        setContentView(R.layout.activity_main);
 
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        this.setDefaultStartPositionNavigation(8);
+//
+//        android.support.v4.app.FragmentManager mFragmentManager = getSupportFragmentManager();
+//        android.support.v4.app.Fragment mFragment=null;
+//        mFragmentManager.beginTransaction().replace(layoutId, new PersonsFragment()).commit();
+//
+        DetailedRecursiveFragment fragment = new DetailedRecursiveFragment();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
 
-
-    public void onInt(Bundle bundle) {
-        super.onInt(bundle);
-
-        this.setDefaultStartPositionNavigation(3);
     }
-
     public static class DetailedRecursiveFragment extends Fragment
     {
         ListView listView;

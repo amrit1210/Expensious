@@ -31,7 +31,7 @@ import java.util.ArrayList;
 /**
  * Created by Amrit on 3/19/2015.
  */
-public class PersonsActivity extends AbstractNavigationDrawerActivity
+public class PersonsActivity extends ActionBarActivity
 {
 
 
@@ -52,18 +52,25 @@ public class PersonsActivity extends AbstractNavigationDrawerActivity
 //
 //    }
 
-    public void onInt(Bundle bundle) {
-        super.onInt(bundle);
+    @Override
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
 
+        setContentView(R.layout.activity_main);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
+//        this.setDefaultStartPositionNavigation(8);
+//
+//        android.support.v4.app.FragmentManager mFragmentManager = getSupportFragmentManager();
+//        android.support.v4.app.Fragment mFragment=null;
+//        mFragmentManager.beginTransaction().replace(layoutId, new PersonsFragment()).commit();
+//
        PersonsFragment fragment = new PersonsFragment();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.commit();
-      //  this.setDefaultStartPositionNavigation(8);
     }
+
     public static class PersonsFragment extends Fragment
     {
         ListView listView;

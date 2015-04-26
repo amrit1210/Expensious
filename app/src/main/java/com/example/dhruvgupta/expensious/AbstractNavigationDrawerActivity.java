@@ -37,6 +37,7 @@ import br.liveo.navigationliveo.NavigationLiveo;
 public class AbstractNavigationDrawerActivity extends NavigationLiveo implements NavigationLiveoListener {
 
     Bitmap decodedByte = null;
+
     @Override
     public void onUserInformation() {
         SharedPreferences sp =getSharedPreferences("USER_PREFS",MODE_PRIVATE);
@@ -133,6 +134,8 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
 
         //If not please use the FooterDrawer use the setFooterVisible(boolean visible) method with value false
        // this.setFooterInformationDrawer(R.string.settings, R.drawable.ic_settings_black_24dp);
+
+        this.setFooterNavigationVisible(false);
 
         this.setNavigationAdapter(mListNameItem, mListIconItem);
     }

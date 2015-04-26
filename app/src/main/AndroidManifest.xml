@@ -43,7 +43,7 @@
             android:name=".AddPersonActivity"/>
         <activity
             android:name=".PersonsActivity"
-            android:theme="@style/nLiveoDrawer"/>
+            android:parentActivityName=".SettingsActivity"/>
         <activity
             android:name=".PersonDialog"
             android:theme="@style/Theme.AppCompat.Dialog"/>
@@ -64,10 +64,10 @@
             android:name=".AddTransactionsActivity"/>
         <activity
             android:name=".DetailedRecursive"
-            android:theme="@style/nLiveoDrawer"/>
+            android:parentActivityName=".SettingsActivity"/>
         <activity
             android:name=".CategoriesActivity"
-            android:theme="@style/nLiveoDrawer"/>
+            android:parentActivityName=".SettingsActivity"/>
         <activity
             android:name=".ResetActivity"/>
         <activity
@@ -87,7 +87,7 @@
             android:theme="@style/nLiveoDrawer"/>
         <activity
             android:name=".DetailedLoanDebt"
-            android:theme="@style/nLiveoDrawer"/>
+            android:parentActivityName=".SettingsActivity"/>
         <activity
             android:name=".DetailedAddLD"/>
         <activity
