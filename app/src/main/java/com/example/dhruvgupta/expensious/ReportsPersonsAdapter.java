@@ -96,9 +96,12 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
             sysDate=month_date.format(d);
             if(sysDate.equals(month_name))
             {
-                if(transactionsDB.t_p_id == db.p_id)
+                if(transactionsDB.t_type.equals("Expense"))
                 {
-                    amount +=transactionsDB.t_balance;
+                    if(transactionsDB.t_p_id == db.p_id)
+                    {
+                        amount += transactionsDB.t_balance;
+                    }
                 }
             }
             amt.setText(amount+"");
