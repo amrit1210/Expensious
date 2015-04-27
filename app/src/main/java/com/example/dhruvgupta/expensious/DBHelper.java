@@ -1219,7 +1219,7 @@ public class DBHelper extends SQLiteOpenHelper
                 c1.c_type = c.getString(c.getColumnIndex(CATEGORY_COL_C_TYPE));
                 c1.c_icon = c.getString(c.getColumnIndex(CATEGORY_COL_C_ICON));
                 arrayList.add(c1);
-                Log.i("CATEGORY :", c1.c_u_id +"\t"+ c1.c_id +"\t"+ c1.c_type +"\t"+ c1.c_name +"\t"+ c1.c_icon);
+                Log.i("CATEGORY :", c1.c_u_id +"\t"+ c1.c_id +"\t"+ c1.c_type +"\t"+ c1.c_name);
                 c.moveToNext();
             }
             c.close();

@@ -46,6 +46,7 @@ public class PersonsAdapter extends ArrayAdapter<PersonDB>
         final TextView  mPersonName=(TextView)convertView.findViewById(R.id.list_person_name);
 
         PersonDB db=al.get(position);
+        Log.i("Position",position+"");
 
         try {
             byte[] decodedString = Base64.decode(db.p_color.trim(), Base64.DEFAULT);
@@ -54,7 +55,8 @@ public class PersonsAdapter extends ArrayAdapter<PersonDB>
             mImageView.setImageBitmap(decodedByte);
             mPersonName.setText(db.p_name);
         }
-        catch (Exception e){
+        catch (Exception e)
+        {
             Log.i("Excep:PersonAdapter",e.getMessage());
         }
         return convertView;

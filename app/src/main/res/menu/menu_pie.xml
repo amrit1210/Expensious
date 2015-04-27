@@ -10,13 +10,23 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_period"
+        android:title="@string/period"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_cat_pie"
+        android:title="@string/action_categories"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_acc_pie"
-        android:title="Account Chart"
+        android:title="@string/action_accounts"
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_person_pie"
-        android:title="Person Chart"
+        android:title="@string/action_persons"
         android:orderInCategory="100"
         app:showAsAction="never" />
 

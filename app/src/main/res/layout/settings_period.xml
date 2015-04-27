@@ -6,9 +6,8 @@
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/radio_group_period"
+        android:id="@+id/radio_group_period" >
 
-        >
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radio_button_month"
+            android:checked="true"
             android:text="Month"/>
         <RadioButton
             android:layout_width="wrap_content"

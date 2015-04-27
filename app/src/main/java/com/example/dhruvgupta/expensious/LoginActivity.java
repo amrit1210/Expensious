@@ -112,10 +112,10 @@ public class LoginActivity extends ActionBarActivity
 
                             Toast.makeText(LoginActivity.this,"You are Logged In "+sharedPreferences.getInt("UID",1110),
                                     Toast.LENGTH_LONG).show();
-//                            Intent i=new Intent(LoginActivity.this,PieChartActivity.class);
+                            Intent i=new Intent(LoginActivity.this,PieChartActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,AddAccountActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,AddTransactionsActivity.class);
-                            Intent i =new Intent(LoginActivity.this,AddCategoryActivity.class);
+//                            Intent i =new Intent(LoginActivity.this,AddCategoryActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,AddPersonActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,AddRecursiveActivity.class);
 //                            Intent i=new Intent(LoginActivity.this,SettingsActivity.class);
@@ -258,6 +258,18 @@ public class LoginActivity extends ActionBarActivity
         else if (id == R.id.action_trans)
         {
             Intent i =new Intent(this, AddTransactionsActivity.class);
+            startActivity(i);
+            return true;
+        }
+        else if (id == R.id.action_budget)
+        {
+            Intent i =new Intent(this, AddBudgetActivity.class);
+            startActivity(i);
+            return true;
+        }
+        else if (id == R.id.action_cat)
+        {
+            Intent i =new Intent(this, AddCategoryActivity.class);
             startActivity(i);
             return true;
         }
