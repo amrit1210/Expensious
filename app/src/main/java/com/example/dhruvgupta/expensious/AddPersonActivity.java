@@ -198,6 +198,7 @@ public class AddPersonActivity  extends ActionBarActivity
 
                         Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
                         startActivity(intent);
+                        this.finish();
                     }
                     else
                     {
@@ -240,6 +241,7 @@ public class AddPersonActivity  extends ActionBarActivity
 
                         Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
                         startActivity(intent);
+                        this.finish();
                     }
                     else
                     {

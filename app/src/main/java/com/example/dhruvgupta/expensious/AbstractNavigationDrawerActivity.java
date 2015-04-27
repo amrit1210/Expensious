@@ -44,10 +44,10 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
 //        SharedPreferences sp1 =getSharedPreferences("USER_IMAGE",MODE_PRIVATE);
 //
 //        byte [] b = sp1.getString("UIMAGE", "").getBytes();
-//        Log.i("b:",b+"");
+//        Log.i("b",b + "");
 //        BitmapFactory.Options bmo= new BitmapFactory.Options();
 //        bmo.inPreferredConfig= Bitmap.Config.ARGB_8888;
-//         decodedByte = BitmapFactory.decodeByteArray(b, 0, b.length,bmo);
+//         decodedByte = BitmapFactory.decodeByteArray(b, 0, b.length);
 //        Log.i("decoded byte:",decodedByte+"");
 
 //        LoadImageFromURL load = new LoadImageFromURL();
@@ -55,10 +55,10 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
 
         this.mUserName.setText(sp.getString("USERNAME","abc"));
         this.mUserEmail.setText(sp.getString("EMAIL","abc@xyz.com"));
-        this.mUserPhoto.setImageURI(Uri.parse(sp.getString("UIMAGE", "")));
+//        this.mUserPhoto.setImageURI(Uri.parse(sp.getString("UIMAGE", "")));
 //        this.mUserPhoto.setImageBitmap(decodedByte);
 //        Log.i("absImage", b+"");
-//        this.mUserPhotodd.setImageResource(R.drawable.user_48);
+//        this.mUserPhoto.setImageResource(R.drawable.user_48);
         this.mUserBackground.setImageResource(R.drawable.background_small);
 
     }

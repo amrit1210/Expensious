@@ -37,6 +37,7 @@ public class DetailedLoanDebt extends ActionBarActivity
         super.onCreate(bundle);
 
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -273,7 +274,12 @@ public class DetailedLoanDebt extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
+        if (id == android.R.id.home) {
+            Intent parentIntent1 = new Intent(this,LoanDebtActivity.class);
+            startActivity(parentIntent1);
+            return true;
+        }
+        else if (id == R.id.action_settings)
         {
             return true;
         }

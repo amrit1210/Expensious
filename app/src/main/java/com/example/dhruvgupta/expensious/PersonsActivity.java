@@ -34,7 +34,6 @@ import java.util.ArrayList;
 public class PersonsActivity extends ActionBarActivity
 {
 
-
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState)
 //    {
@@ -57,6 +56,7 @@ public class PersonsActivity extends ActionBarActivity
         super.onCreate(bundle);
 
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -69,6 +69,14 @@ public class PersonsActivity extends ActionBarActivity
        PersonsFragment fragment = new PersonsFragment();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(PersonsActivity.this, SettingsActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
     public static class PersonsFragment extends Fragment
@@ -178,7 +186,12 @@ public class PersonsActivity extends ActionBarActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
+        if (id == android.R.id.home) {
+            Intent parentIntent1 = new Intent(this,SettingsActivity.class);
+            startActivity(parentIntent1);
+            return true;
+        }
+        else if (id == R.id.action_settings)
         {
             return true;
         }

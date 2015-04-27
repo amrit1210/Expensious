@@ -333,12 +333,14 @@ public class AddCategoryActivity extends ActionBarActivity
                             Toast.makeText(AddCategoryActivity.this, "Category Updated " + c_IE_type, Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(AddCategoryActivity.this, CategoriesActivity.class);
                             startActivity(i);
+                            this.finish();
                         }
                         else
                         {
                             Toast.makeText(AddCategoryActivity.this, "Error updating category", Toast.LENGTH_SHORT).show();
                             Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
                             startActivity(i);
+                            this.finish();
                         }
                     }
                     else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
@@ -353,6 +355,7 @@ public class AddCategoryActivity extends ActionBarActivity
                                 Toast.makeText(AddCategoryActivity.this,"Sub Category Updated",Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
                                 startActivity(i);
+                                this.finish();
                             }
                         }
                         else
@@ -380,12 +383,14 @@ public class AddCategoryActivity extends ActionBarActivity
                             Toast.makeText(AddCategoryActivity.this, "Main Category Added " + c_IE_type, Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(AddCategoryActivity.this, CategoriesActivity.class);
                             startActivity(i);
+                            this.finish();
                         }
                         else
                         {
                             Toast.makeText(AddCategoryActivity.this, "Error creating category", Toast.LENGTH_SHORT).show();
                             Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
                             startActivity(i);
+                            this.finish();
                         }
                     }
                     else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
@@ -401,6 +406,7 @@ public class AddCategoryActivity extends ActionBarActivity
                                 Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
                                 startActivity(i);
+                                this.finish();
                             }
                         }
                         else

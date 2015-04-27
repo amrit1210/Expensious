@@ -379,6 +379,7 @@ public class DetailedAddLD extends ActionBarActivity {
                         Intent i = new Intent(DetailedAddLD.this, DetailedLoanDebt.class);
                         i.putExtra("LD_ID", l_parent);
                         startActivity(i);
+                        this.finish();
                     } else {
                         Toast.makeText(DetailedAddLD.this, "Error updating Transaction", Toast.LENGTH_LONG).show();
                     }
@@ -411,6 +412,7 @@ public class DetailedAddLD extends ActionBarActivity {
                             Intent intent = new Intent(DetailedAddLD.this, DetailedLoanDebt.class);
                             intent.putExtra("LD_ID", l_parent);
                             startActivity(intent);
+                            this.finish();
                         }
                     }
                     else
@@ -442,6 +444,7 @@ public class DetailedAddLD extends ActionBarActivity {
                             Intent intent = new Intent(DetailedAddLD.this, DetailedLoanDebt.class);
                             intent.putExtra("LD_ID", l_parent);
                             startActivity(intent);
+                            this.finish();
                         }
                     }
                     else

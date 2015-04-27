@@ -656,6 +656,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                             Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
                             startActivity(intent);
+                            this.finish();
                         }
                     }
                     else
@@ -725,6 +726,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                             Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
                             startActivity(intent);
+                            this.finish();
                         }
                     }
                     else
@@ -818,6 +820,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                             Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
                             startActivity(intent);
+                            this.finish();
                         }
                     }
 
@@ -825,6 +828,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     Toast.makeText(AddTransactionsActivity.this, "Error Adding Transaction", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(AddTransactionsActivity.this, TransactionsActivity.class);
                     startActivity(intent);
+                    this.finish();
                 }
             }
         }
