@@ -1399,6 +1399,35 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
+    public ArrayList<SubCategoryDB> getSubCategories(int u_id)
+    {
+        ArrayList<SubCategoryDB> arrayList = new ArrayList<>();
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE +" where "+ SUBCATEGORY_COL_SUB_UID + " = "+u_id, null);
+            c.moveToFirst();
+            while (!c.isAfterLast())
+            {
+                SubCategoryDB sub1 = new SubCategoryDB();
+                sub1.sub_id = c.getInt(c.getColumnIndex(SUBCATEGORY_COL_SUB_ID));
+                sub1.sub_c_id = c.getInt(c.getColumnIndex(SUBCATEGORY_COL_SUB_CID));
+                sub1.sub_name = c.getString(c.getColumnIndex(SUBCATEGORY_COL_SUB_NAME));
+                sub1.sub_u_id=c.getInt(c.getColumnIndex(SUBCATEGORY_COL_SUB_UID));
+                arrayList.add(sub1);
+                Log.i("SUBCATEGORY :", sub1.sub_id +"\t"+ sub1.sub_c_id +"\t"+ sub1.sub_name+"\t"+sub1.sub_u_id);
+                c.moveToNext();
+            }
+            c.close();
+            return arrayList;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return null;
+        }
+    }
+
     public boolean addLoanDebt(int u_id,float amt,String date,String time,int fromAcc,int toAcc,int person,String note, String type,
                                int parent){
         SQLiteDatabase db = this.getWritableDatabase();

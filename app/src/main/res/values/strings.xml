@@ -3,6 +3,7 @@
     <string name="app_name">Expensious</string>
     <string name="action_settings">Settings</string>
     <string name="action_categories">Categories Chart</string>
+    <string name="action_subcategories">SubCategories Chart</string>
     <string name="action_accounts">Accounts Chart</string>
     <string name="action_persons">Persons Chart</string>
 

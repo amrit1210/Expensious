@@ -10,11 +10,6 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_period"
-        android:title="@string/period"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_cat_pie"
         android:title="@string/action_categories"
         android:orderInCategory="100"
@@ -27,6 +22,11 @@
     <item
         android:id="@+id/action_person_pie"
         android:title="@string/action_persons"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sub_cat_pie"
+        android:title="@string/action_subcategories"
         android:orderInCategory="100"
         app:showAsAction="never" />
 
