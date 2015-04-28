@@ -12,7 +12,6 @@ import android.widget.TextView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -26,15 +25,15 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
     String curCode;
     ArrayList<CurrencyDB> al1;
     ArrayList<PersonDB> al;
-    String month_name;
+    int period;
 
-    public ReportsPersonsAdapter(Context context, int resource,ArrayList<PersonDB> objects,String str)
+    public ReportsPersonsAdapter(Context context, int resource,ArrayList<PersonDB> objects,int i)
     {
         super(context, resource,objects);
         context1=context;
         layout=resource;
         al=objects;
-        month_name=str;
+        period=i;
     }
 
     @Override
@@ -45,9 +44,10 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
         ArrayList<TransactionsDB> allTransactions;
         float amount=0;
         String sysDate;
-        SimpleDateFormat sdf,month_date;
+        SimpleDateFormat sdf,month_date,year_date;
         SharedPreferences sp = getContext().getSharedPreferences("USER_PREFS",Context.MODE_PRIVATE);
         Iterator<TransactionsDB> transactionsDBIterator;
+
         if(convertView==null)
         {
             LayoutInflater in =(LayoutInflater)context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -69,7 +69,6 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
         c1.close();
 
         Iterator<CurrencyDB> iterator = al1.iterator();
-
         while (iterator.hasNext())
         {
             CurrencyDB curDB = iterator.next();
@@ -81,6 +80,7 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
         name.setText(db.p_name);
         month_date = new SimpleDateFormat("MMMM");
         sdf = new SimpleDateFormat("dd-MM-yyyy");
+        year_date = new SimpleDateFormat("yyyy");
         while(transactionsDBIterator.hasNext())
         {
             transactionsDB=transactionsDBIterator.next();
@@ -93,14 +93,45 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
             {
                 e.printStackTrace();
             }
-            sysDate=month_date.format(d);
-            if(sysDate.equals(month_name))
+            if(period == 0)
             {
-                if(transactionsDB.t_type.equals("Expense"))
+                sysDate=year_date.format(d);
+                if(sysDate.equals(PieChartActivity.year))
                 {
-                    if(transactionsDB.t_p_id == db.p_id)
+                    if(transactionsDB.t_type.equals("Expense"))
                     {
-                        amount += transactionsDB.t_balance;
+                        if(transactionsDB.t_p_id == db.p_id)
+                        {
+                            amount += transactionsDB.t_balance;
+                        }
+                    }
+                }
+            }
+            else if(period == 1)
+            {
+                sysDate=month_date.format(d);
+                if(sysDate.equals(PieChartActivity.month_name))
+                {
+                    if(transactionsDB.t_type.equals("Expense"))
+                    {
+                        if(transactionsDB.t_p_id == db.p_id)
+                        {
+                            amount += transactionsDB.t_balance;
+                        }
+                    }
+                }
+            }
+            else if(period == 3)
+            {
+                sysDate=sdf.format(d);
+                if(sysDate.equals(PieChartActivity.day))
+                {
+                    if(transactionsDB.t_type.equals("Expense"))
+                    {
+                        if(transactionsDB.t_p_id == db.p_id)
+                        {
+                            amount += transactionsDB.t_balance;
+                        }
                     }
                 }
             }

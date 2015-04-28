@@ -1,7 +1,5 @@
 package com.example.dhruvgupta.expensious;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,11 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -47,6 +45,9 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
 {
     static int actionId=0;
     static int p=0;
+    static String month_name=null;
+    static String day=null;
+    static String year=null;
     //@Override
 //    protected void onCreate(Bundle savedInstanceState)
 //    {
@@ -79,10 +80,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
         DBHelper dbHelper;
         SharedPreferences sp;
         Calendar mCal;
-        String month_name,sysDate,day,mPeriod_adapter;
-        SimpleDateFormat month_date,sdf;
+        String sysDate;
+        SimpleDateFormat month_date,sdf,year_date;
         TextView mPeriod_show;
         ImageButton mPrev,mNext;
+        Spinner mSpinner;
         ArrayList<AccountsDB> allAccounts;
         ArrayList<TransactionsDB> allTransactions;
         ArrayList<PersonDB> allPersons;
@@ -102,12 +104,13 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
         ReportsPersonsAdapter reportsPersonsAdapter;
         ReportsCategoriesAdapter reportsCategoriesAdapter;
         float mAmount=0;
+        int mPeriod_adapter;
 
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-             super.onCreateView(inflater, container, savedInstanceState);
+            super.onCreateView(inflater, container, savedInstanceState);
             return  inflater.inflate(R.layout.activity_report,container,false);
         }
 
@@ -121,6 +124,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
             mPeriod_show=(TextView)rootView.findViewById(R.id.report_period);
             mPrev=(ImageButton)rootView.findViewById(R.id.report_prev);
             mNext=(ImageButton)rootView.findViewById(R.id.report_next);
+            mSpinner=(Spinner)rootView.findViewById(R.id.report_spinner_period);
             mAcc=new ArrayList<>();
             mPer=new ArrayList<>();
             mCat=new ArrayList<>();
@@ -139,13 +143,45 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
             if(getActivity().getIntent().getIntExtra("actionId",0)>0)
             {
                 actionId=getActivity().getIntent().getIntExtra("actionId",0);
-                p=getActivity().getIntent().getIntExtra("periodId",0);
             }
             else
             {
                 actionId=1;
-                p=3;
+                p=1;
             }
+
+            mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+            {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+                {
+                    mPeriod_adapter = (int) mSpinner.getSelectedItemId();
+                    p=mPeriod_adapter;
+                    if(p==0)
+                    {
+                        year=year_date.format(mCal.getTime());
+                        mPeriod_show.setText(year);
+                        mPeriod_adapter=p;
+                    }
+                    else if(p==1)
+                    {
+                        month_name = month_date.format(mCal.getTime());
+                        mPeriod_show.setText(month_name);
+                        mPeriod_adapter=p;
+                    }
+                    else if(p==3)
+                    {
+                        day = sdf.format(mCal.getTime());
+                        mPeriod_show.setText(day);
+                        mPeriod_adapter=p;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent)
+                {
+                }
+            });
 
             legend = mPie.getLegend();
             mPie.setUsePercentValues(true);
@@ -156,20 +192,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
             mCal = Calendar.getInstance();
             month_date = new SimpleDateFormat("MMMM");
             sdf = new SimpleDateFormat("dd-MM-yyyy");
-
-//            if (p==1)
-//            {
-//                day = sdf.format(mCal.getTime());
-//                mPeriod_show.setText(day);
-////                mPeriod_adapter=day;
-//            }
-//            else if(p==3)
-//            {
-                month_name = month_date.format(mCal.getTime());
-                mPeriod_show.setText(month_name);
-                Log.i("Month name",month_name);
-//                mPeriod_adapter=month_name;
-//            }
+            year_date = new SimpleDateFormat("yyyy");
 
             if(actionId == 1)
             {
@@ -185,23 +208,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         {
                             transactionsDB=transactionsDBIterator.next();
                             Date d=sdf.parse(transactionsDB.t_date);
-//                            if(p == 1)
-//                            {
-//                                sysDate=sdf.format(d);
-//                                if(sysDate.equals(day))
-//                                {
-//                                    Log.i("Sysdate",sysDate+"  "+day);
-//                                    if(transactionsDB.t_type.equals("Expense"))
-//                                    {
-//                                        if(transactionsDB.t_c_id == categoryDB.c_id)
-//                                        {
-//                                            mAmount += transactionsDB.t_balance;
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                            else if(p == 3)
-//                            {
+                            if(p == 0)
+                            {
+                                sysDate=year_date.format(d);
+                                if(sysDate.equals(year))
+                                {
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_c_id == categoryDB.c_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                }
+                            }
+                            else if(p == 1)
+                            {
                                 sysDate=month_date.format(d);
                                 if(sysDate.equals(month_name))
                                 {
@@ -213,7 +235,21 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                         }
                                     }
                                 }
-//                            }
+                            }
+                            else if(p == 3)
+                            {
+                                sysDate=sdf.format(d);
+                                if(sysDate.equals(day))
+                                {
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_c_id == categoryDB.c_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                }
+                            }
                         }
                         catch(ParseException e)
                         {
@@ -225,7 +261,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                 }
                 mPie.setCenterText("Categories");
                 setData(mAmt_Category.size() - 1, actionId);
-                reportsCategoriesAdapter =new ReportsCategoriesAdapter(getActivity(),R.layout.list_report,allCategories,month_name);
+                reportsCategoriesAdapter =new ReportsCategoriesAdapter(getActivity(),R.layout.list_report,allCategories,mPeriod_adapter);
                 mLv_Pie.setAdapter(reportsCategoriesAdapter);
             }
             else if(actionId == 2)
@@ -242,22 +278,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         {
                             transactionsDB=transactionsDBIterator.next();
                             Date d=sdf.parse(transactionsDB.t_date);
-//                            if(p == 1)
-//                            {
-//                                sysDate=sdf.format(d);
-//                                if(sysDate.equals(day))
-//                                {
-//                                    if(transactionsDB.t_type.equals("Expense"))
-//                                    {
-//                                        if(transactionsDB.t_from_acc == accountsDB.acc_id)
-//                                        {
-//                                            mAmount += transactionsDB.t_balance;
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                            else if(p == 3)
-//                            {
+                            if(p == 0)
+                            {
+                                sysDate=year_date.format(d);
+                                if(sysDate.equals(year))
+                                {
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_from_acc == accountsDB.acc_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                }
+                            }
+                            else if(p == 1)
+                            {
                                 sysDate=month_date.format(d);
                                 if(sysDate.equals(month_name))
                                 {
@@ -269,7 +305,21 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                         }
                                     }
                                 }
-//                            }
+                            }
+                            else if(p == 3)
+                            {
+                                sysDate=sdf.format(d);
+                                if(sysDate.equals(day))
+                                {
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_from_acc == accountsDB.acc_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                }
+                            }
                         }
                         catch(ParseException e)
                         {
@@ -281,7 +331,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                 }
                 mPie.setCenterText("Accounts");
                 setData(mAmt.size() - 1, actionId);
-                reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts,month_name);
+                reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts,mPeriod_adapter);
                 mLv_Pie.setAdapter(reportsAccountsAdapter);
             }
             else if(actionId == 3)
@@ -298,22 +348,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         {
                             transactionsDB=transactionsDBIterator.next();
                             Date d=sdf.parse(transactionsDB.t_date);
-//                            if(p == 1)
-//                            {
-//                                sysDate=sdf.format(d);
-//                                if(sysDate.equals(day))
-//                                {
-//                                    if(transactionsDB.t_type.equals("Expense"))
-//                                    {
-//                                        if(transactionsDB.t_p_id == personDB.p_id)
-//                                        {
-//                                            mAmount += transactionsDB.t_balance;
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                            else if(p == 3)
-//                            {
+                            if(p == 0)
+                            {
+                                sysDate=year_date.format(d);
+                                if(sysDate.equals(year))
+                                {
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_p_id == personDB.p_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                }
+                            }
+                            else if(p == 1)
+                            {
                                 sysDate=month_date.format(d);
                                 if(sysDate.equals(month_name))
                                 {
@@ -325,7 +375,21 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                         }
                                     }
                                 }
-//                            }
+                            }
+                            else if(p == 3)
+                            {
+                                sysDate=sdf.format(d);
+                                if(sysDate.equals(day))
+                                {
+                                    if(transactionsDB.t_type.equals("Expense"))
+                                    {
+                                        if(transactionsDB.t_p_id == personDB.p_id)
+                                        {
+                                            mAmount += transactionsDB.t_balance;
+                                        }
+                                    }
+                                }
+                            }
                         }
                         catch (ParseException e)
                         {
@@ -337,7 +401,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                 }
                 mPie.setCenterText("Persons");
                 setData(mAmt_Person.size() - 1, actionId);
-                reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons,month_name);
+                reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons,mPeriod_adapter);
                 mLv_Pie.setAdapter(reportsPersonsAdapter);
             }
 
@@ -352,20 +416,24 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                 @Override
                 public void onClick(View v)
                 {
-//                    if(p == 1)
-//                    {
-//                        mCal.add(Calendar.DAY_OF_MONTH,-1);
-//                        day = sdf.format(mCal.getTime());
-//                        mPeriod_show.setText(day);
-//                    }
-//                    else if(p == 3)
-//                    {
-                        mCal.add(Calendar.MONTH, -1);
+                    if(p == 0)
+                    {
+                        mCal.add(Calendar.YEAR,-1);
+                        year = year_date.format(mCal.getTime());
+                        mPeriod_show.setText(year);
+                    }
+                    else if(p == 1)
+                    {
+                        mCal.add(Calendar.MONTH,-1);
                         month_name = month_date.format(mCal.getTime());
-                        day = sdf.format(mCal.getTime());
-                        Log.i("Month",month_name+" Date : "+day+" "+sysDate);
                         mPeriod_show.setText(month_name);
-//                    }
+                    }
+                    else if(p == 3)
+                    {
+                        mCal.add(Calendar.DAY_OF_MONTH,-1);
+                        day = sdf.format(mCal.getTime());
+                        mPeriod_show.setText(day);
+                    }
 
                     if(actionId == 1)
                     {
@@ -383,22 +451,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                 {
                                     transactionsDB=transactionsDBIterator.next();
                                     Date d=sdf.parse(transactionsDB.t_date);
-//                                    if(p == 1)
-//                                    {
-//                                        sysDate=sdf.format(d);
-//                                        if(sysDate.equals(day))
-//                                        {
-//                                            if(transactionsDB.t_type.equals("Expense"))
-//                                            {
-//                                                if(transactionsDB.t_c_id == categoryDB.c_id)
-//                                                {
-//                                                    mAmount += transactionsDB.t_balance;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                    else if(p == 3)
-//                                    {
+                                    if(p == 0)
+                                    {
+                                        sysDate=year_date.format(d);
+                                        if(sysDate.equals(year))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_c_id == categoryDB.c_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(p == 1)
+                                    {
                                         sysDate=month_date.format(d);
                                         if(sysDate.equals(month_name))
                                         {
@@ -410,7 +478,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                                 }
                                             }
                                         }
-//                                    }
+                                    }
+                                    else if(p == 3)
+                                    {
+                                        sysDate=sdf.format(d);
+                                        if(sysDate.equals(day))
+                                        {
+                                            Log.i("Sysdate",sysDate+"  "+day);
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_c_id == categoryDB.c_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 catch(ParseException e)
                                 {
@@ -422,7 +505,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         }
                         mPie.setCenterText("Categories");
                         setData(mAmt_Category.size() - 1, actionId);
-                        reportsCategoriesAdapter =new ReportsCategoriesAdapter(getActivity(),R.layout.list_report,allCategories,month_name);
+                        reportsCategoriesAdapter =new ReportsCategoriesAdapter(getActivity(),R.layout.list_report,allCategories,mPeriod_adapter);
                         mLv_Pie.setAdapter(reportsCategoriesAdapter);
                     }
                     else if(actionId == 2)
@@ -441,22 +524,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                 {
                                     transactionsDB=transactionsDBIterator.next();
                                     Date d=sdf.parse(transactionsDB.t_date);
-//                                    if(p == 1)
-//                                    {
-//                                        sysDate=sdf.format(d);
-//                                        if(sysDate.equals(day))
-//                                        {
-//                                            if(transactionsDB.t_type.equals("Expense"))
-//                                            {
-//                                                if(transactionsDB.t_from_acc == accountsDB.acc_id)
-//                                                {
-//                                                    mAmount += transactionsDB.t_balance;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                    else if(p == 3)
-//                                    {
+                                    if(p == 0)
+                                    {
+                                        sysDate=year_date.format(d);
+                                        if(sysDate.equals(year))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_from_acc == accountsDB.acc_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(p == 1)
+                                    {
                                         sysDate=month_date.format(d);
                                         if(sysDate.equals(month_name))
                                         {
@@ -468,7 +551,21 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                                 }
                                             }
                                         }
-//                                    }
+                                    }
+                                    else if(p == 3)
+                                    {
+                                        sysDate=sdf.format(d);
+                                        if(sysDate.equals(day))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_from_acc == accountsDB.acc_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 catch(ParseException e)
                                 {
@@ -480,7 +577,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         }
                         mPie.setCenterText("Accounts");
                         setData(mAmt.size() - 1, actionId);
-                        reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts,month_name);
+                        reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts,mPeriod_adapter);
                         mLv_Pie.setAdapter(reportsAccountsAdapter);
                     }
                     else if(actionId == 3)
@@ -499,22 +596,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                 {
                                     transactionsDB=transactionsDBIterator.next();
                                     Date d=sdf.parse(transactionsDB.t_date);
-//                                    if(p == 1)
-//                                    {
-//                                        sysDate=sdf.format(d);
-//                                        if(sysDate.equals(day))
-//                                        {
-//                                            if(transactionsDB.t_type.equals("Expense"))
-//                                            {
-//                                                if(transactionsDB.t_p_id == personDB.p_id)
-//                                                {
-//                                                    mAmount += transactionsDB.t_balance;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                    else if(p == 3)
-//                                    {
+                                    if(p == 0)
+                                    {
+                                        sysDate=year_date.format(d);
+                                        if(sysDate.equals(year))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_p_id == personDB.p_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(p == 1)
+                                    {
                                         sysDate=month_date.format(d);
                                         if(sysDate.equals(month_name))
                                         {
@@ -526,7 +623,21 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                                 }
                                             }
                                         }
-//                                    }
+                                    }
+                                    else if(p == 3)
+                                    {
+                                        sysDate=sdf.format(d);
+                                        if(sysDate.equals(day))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_p_id == personDB.p_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 catch (ParseException e)
                                 {
@@ -538,7 +649,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         }
                         mPie.setCenterText("Persons");
                         setData(mAmt_Person.size() - 1, actionId);
-                        reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons,month_name);
+                        reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons,mPeriod_adapter);
                         mLv_Pie.setAdapter(reportsPersonsAdapter);
                     }
                 }
@@ -549,18 +660,24 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                 @Override
                 public void onClick(View v)
                 {
-//                    if(p == 1)
-//                    {
-//                        mCal.add(Calendar.DAY_OF_MONTH,+1);
-//                        day = sdf.format(mCal.getTime());
-//                        mPeriod_show.setText(day);
-//                    }
-//                    else if(p == 3)
-//                    {
+                    if(p == 0)
+                    {
+                        mCal.add(Calendar.YEAR,+1);
+                        year = year_date.format(mCal.getTime());
+                        mPeriod_show.setText(year);
+                    }
+                    else if(p == 1)
+                    {
                         mCal.add(Calendar.MONTH,+1);
                         month_name = month_date.format(mCal.getTime());
                         mPeriod_show.setText(month_name);
-//                    }
+                    }
+                    else if(p == 3)
+                    {
+                        mCal.add(Calendar.DAY_OF_MONTH,+1);
+                        day = sdf.format(mCal.getTime());
+                        mPeriod_show.setText(day);
+                    }
 
                     if(actionId == 1)
                     {
@@ -578,22 +695,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                 {
                                     transactionsDB=transactionsDBIterator.next();
                                     Date d=sdf.parse(transactionsDB.t_date);
-//                                    if(p == 1)
-//                                    {
-//                                        sysDate=sdf.format(d);
-//                                        if(sysDate.equals(day))
-//                                        {
-//                                            if(transactionsDB.t_type.equals("Expense"))
-//                                            {
-//                                                if(transactionsDB.t_c_id == categoryDB.c_id)
-//                                                {
-//                                                    mAmount += transactionsDB.t_balance;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                    else if(p == 3)
-//                                    {
+                                    if(p == 0)
+                                    {
+                                        sysDate=year_date.format(d);
+                                        if(sysDate.equals(year))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_c_id == categoryDB.c_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(p == 1)
+                                    {
                                         sysDate=month_date.format(d);
                                         if(sysDate.equals(month_name))
                                         {
@@ -605,7 +722,21 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                                 }
                                             }
                                         }
-//                                    }
+                                    }
+                                    else if(p == 3)
+                                    {
+                                        sysDate=sdf.format(d);
+                                        if(sysDate.equals(day))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_c_id == categoryDB.c_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 catch(ParseException e)
                                 {
@@ -617,7 +748,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         }
                         mPie.setCenterText("Categories");
                         setData(mAmt_Category.size() - 1, actionId);
-                        reportsCategoriesAdapter =new ReportsCategoriesAdapter(getActivity(),R.layout.list_report,allCategories,month_name);
+                        reportsCategoriesAdapter =new ReportsCategoriesAdapter(getActivity(),R.layout.list_report,allCategories,mPeriod_adapter);
                         mLv_Pie.setAdapter(reportsCategoriesAdapter);
                     }
                     else if(actionId == 2)
@@ -636,22 +767,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                 {
                                     transactionsDB=transactionsDBIterator.next();
                                     Date d=sdf.parse(transactionsDB.t_date);
-//                                    if(p == 1)
-//                                    {
-//                                        sysDate=sdf.format(d);
-//                                        if(sysDate.equals(day))
-//                                        {
-//                                            if(transactionsDB.t_type.equals("Expense"))
-//                                            {
-//                                                if(transactionsDB.t_from_acc == accountsDB.acc_id)
-//                                                {
-//                                                    mAmount += transactionsDB.t_balance;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                    else if(p == 3)
-//                                    {
+                                    if(p == 0)
+                                    {
+                                        sysDate=year_date.format(d);
+                                        if(sysDate.equals(year))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_from_acc == accountsDB.acc_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(p == 1)
+                                    {
                                         sysDate=month_date.format(d);
                                         if(sysDate.equals(month_name))
                                         {
@@ -663,7 +794,21 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                                 }
                                             }
                                         }
-//                                    }
+                                    }
+                                    else if(p == 3)
+                                    {
+                                        sysDate=sdf.format(d);
+                                        if(sysDate.equals(day))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_from_acc == accountsDB.acc_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 catch(ParseException e)
                                 {
@@ -675,7 +820,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         }
                         mPie.setCenterText("Accounts");
                         setData(mAmt.size() - 1, actionId);
-                        reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts,month_name);
+                        reportsAccountsAdapter =new ReportsAccountsAdapter(getActivity(),R.layout.list_report,allAccounts,mPeriod_adapter);
                         mLv_Pie.setAdapter(reportsAccountsAdapter);
                     }
                     else if(actionId == 3)
@@ -694,22 +839,22 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                 {
                                     transactionsDB=transactionsDBIterator.next();
                                     Date d=sdf.parse(transactionsDB.t_date);
-//                                    if(p == 1)
-//                                    {
-//                                        sysDate=sdf.format(d);
-//                                        if(sysDate.equals(day))
-//                                        {
-//                                            if(transactionsDB.t_type.equals("Expense"))
-//                                            {
-//                                                if(transactionsDB.t_p_id == personDB.p_id)
-//                                                {
-//                                                    mAmount += transactionsDB.t_balance;
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//                                    else if(p == 3)
-//                                    {
+                                    if(p == 0)
+                                    {
+                                        sysDate=year_date.format(d);
+                                        if(sysDate.equals(year))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_p_id == personDB.p_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(p == 1)
+                                    {
                                         sysDate=month_date.format(d);
                                         if(sysDate.equals(month_name))
                                         {
@@ -721,7 +866,21 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                                 }
                                             }
                                         }
-//                                    }
+                                    }
+                                    else if(p == 3)
+                                    {
+                                        sysDate=sdf.format(d);
+                                        if(sysDate.equals(day))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense"))
+                                            {
+                                                if(transactionsDB.t_p_id == personDB.p_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 catch (ParseException e)
                                 {
@@ -733,7 +892,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         }
                         mPie.setCenterText("Persons");
                         setData(mAmt_Person.size() - 1, actionId);
-                        reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons,month_name);
+                        reportsPersonsAdapter =new ReportsPersonsAdapter(getActivity(),R.layout.list_report,allPersons,mPeriod_adapter);
                         mLv_Pie.setAdapter(reportsPersonsAdapter);
                     }
                 }
@@ -839,7 +998,6 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -861,62 +1019,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
         {
             return true;
         }
-        else if(id == R.id.action_period)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(PieChartActivity.this);
-
-            LayoutInflater inflater = getLayoutInflater();
-            final View layout=inflater.inflate(R.layout.settings_period, null);
-            builder.setTitle("PERIOD");
-            builder.setView(layout);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener()
-            {
-                @Override
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    final RadioGroup period=(RadioGroup)layout.findViewById(R.id.radio_group_period);
-                    period.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-                    {
-                        @Override
-                        public void onCheckedChanged(RadioGroup group, int checkedId)
-                        {
-                            if(checkedId== R.id.radio_button_day)
-                            {
-                                p=1;
-                            }
-                            else if(checkedId == R.id.radio_button_week)
-                            {
-                                p=2;
-                            }
-                            else if(checkedId == R.id.radio_button_month)
-                            {
-                                p=3;
-                            }
-                            else if(checkedId == R.id.radio_button_year)
-                            {
-                                p=4;
-                            }
-                        }
-                    });
-                    Toast.makeText(PieChartActivity.this, "Period is set", Toast.LENGTH_LONG).show();
-                }
-            });
-            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener()
-            {
-                public void onClick(DialogInterface dialog, int id)
-                {
-                    dialog.dismiss();
-                }
-            });
-            builder.create();
-            builder.show();
-        }
         else if(id == R.id.action_cat_pie)
         {
             actionId=1;
             Intent i=new Intent(PieChartActivity.this,PieChartActivity.class);
             i.putExtra("actionId",actionId);
-//            i.putExtra("period_id",p);
             startActivity(i);
             return true;
         }
@@ -925,7 +1032,6 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
             actionId=2;
             Intent i=new Intent(PieChartActivity.this,PieChartActivity.class);
             i.putExtra("actionId",actionId);
-//            i.putExtra("period_id",p);
             startActivity(i);
             return true;
         }
@@ -934,7 +1040,6 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
             actionId=3;
             Intent i=new Intent(PieChartActivity.this,PieChartActivity.class);
             i.putExtra("actionId",actionId);
-//            i.putExtra("periodId",p);
             startActivity(i);
             return true;
         }

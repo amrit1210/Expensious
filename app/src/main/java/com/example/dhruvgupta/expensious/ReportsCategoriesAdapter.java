@@ -25,15 +25,15 @@ public class ReportsCategoriesAdapter extends ArrayAdapter<CategoryDB_Specific>
     String curCode;
     ArrayList<CurrencyDB> al1;
     ArrayList<CategoryDB_Specific> al;
-    String month_name;
+    int period;
 
-    public ReportsCategoriesAdapter(Context context, int resource,ArrayList<CategoryDB_Specific> objects,String str)
+    public ReportsCategoriesAdapter(Context context, int resource,ArrayList<CategoryDB_Specific> objects,int i)
     {
         super(context, resource,objects);
         context1=context;
         layout=resource;
         al=objects;
-        month_name=str;
+        period=i;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ReportsCategoriesAdapter extends ArrayAdapter<CategoryDB_Specific>
         ArrayList<TransactionsDB> allTransactions;
         float amount=0;
         String sysDate;
-        SimpleDateFormat sdf,month_date;
+        SimpleDateFormat sdf,month_date,year_date;
         SharedPreferences sp = getContext().getSharedPreferences("USER_PREFS",Context.MODE_PRIVATE);
         Iterator<TransactionsDB> transactionsDBIterator;
 
@@ -80,6 +80,7 @@ public class ReportsCategoriesAdapter extends ArrayAdapter<CategoryDB_Specific>
         name.setText(db.c_name);
         month_date = new SimpleDateFormat("MMMM");
         sdf = new SimpleDateFormat("dd-MM-yyyy");
+        year_date = new SimpleDateFormat("yyyy");
         while(transactionsDBIterator.hasNext())
         {
             transactionsDB=transactionsDBIterator.next();
@@ -92,14 +93,45 @@ public class ReportsCategoriesAdapter extends ArrayAdapter<CategoryDB_Specific>
             {
                 e.printStackTrace();
             }
-            sysDate=month_date.format(d);
-            if(sysDate.equals(month_name))
+            if(period == 0)
             {
-                if(transactionsDB.t_type.equals("Expense"))
+                sysDate=year_date.format(d);
+                if(sysDate.equals(PieChartActivity.year))
                 {
-                    if(transactionsDB.t_c_id == db.c_id)
+                    if(transactionsDB.t_type.equals("Expense"))
                     {
-                        amount +=transactionsDB.t_balance;
+                        if(transactionsDB.t_c_id == db.c_id)
+                        {
+                            amount += transactionsDB.t_balance;
+                        }
+                    }
+                }
+            }
+            else if(period == 1)
+            {
+                sysDate=month_date.format(d);
+                if(sysDate.equals(PieChartActivity.month_name))
+                {
+                    if(transactionsDB.t_type.equals("Expense"))
+                    {
+                        if(transactionsDB.t_c_id == db.c_id)
+                        {
+                            amount +=transactionsDB.t_balance;
+                        }
+                    }
+                }
+            }
+            else if(period == 3)
+            {
+                sysDate = sdf.format(d);
+                if (sysDate.equals(PieChartActivity.day))
+                {
+                    if (transactionsDB.t_type.equals("Expense"))
+                    {
+                        if (transactionsDB.t_c_id == db.c_id)
+                        {
+                            amount += transactionsDB.t_balance;
+                        }
                     }
                 }
             }
