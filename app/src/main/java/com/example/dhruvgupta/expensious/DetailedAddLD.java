@@ -239,7 +239,7 @@ public class DetailedAddLD extends ActionBarActivity {
         startActivityForResult(i, 3);
     }
 
-    public void onSaveDetailedLD(View v){
+    public void onSaveDetailedLD(){
         float amt = Float.parseFloat(mAmt.getText().toString());
 
         if (amt <= 0) {
@@ -501,6 +501,11 @@ public class DetailedAddLD extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings)
         {
+            return true;
+        }
+        if (id == R.id.action_done)
+        {
+            onSaveDetailedLD();
             return true;
         }
 

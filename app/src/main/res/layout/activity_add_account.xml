@@ -49,11 +49,6 @@
         android:text="@string/cb_include_total"
         android:id="@+id/add_acc_cb" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="done"
-        android:id="@+id/add_acc_btn_save"
-        android:onClick="onSaveAccount"/>
+
 
 </LinearLayout>

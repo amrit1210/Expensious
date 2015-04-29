@@ -10,6 +10,12 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
+    android:id="@+id/action_done"
+    android:title="save_btn"
+    android:orderInCategory="100"
+    app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_acc"
         android:title="Account"
         android:orderInCategory="100"

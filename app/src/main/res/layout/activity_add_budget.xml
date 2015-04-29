@@ -98,12 +98,7 @@
                     android:stateListAnimator="@android:animator/fade_in"/>
             </LinearLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="done"
-                android:id="@+id/add_budget_btn_save"
-                android:onClick="onSaveBudget"/>
+
 
         </LinearLayout>
 

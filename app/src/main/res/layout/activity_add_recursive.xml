@@ -252,11 +252,7 @@
                 style="@style/CheckBoxStyle"
                 android:text="@string/cb_include_report"
                 android:id="@+id/add_recursive_cb" />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/save_recursive"
-                android:onClick="onSaveRecursive"/>
+
         </LinearLayout>
 
     </ScrollView>

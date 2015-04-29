@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -21,6 +22,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 import com.pkmmte.view.CircularImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -287,7 +290,7 @@ public class AddCategoryActivity extends ActionBarActivity
         b_flag = 0;
     }
 
-    public  void onSaveCategory(View v)
+    public  void onSaveCategory()
     {
         sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         if (mCat_Name.length() <= 0)
@@ -424,6 +427,11 @@ public class AddCategoryActivity extends ActionBarActivity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
+        Drawable saveBtn = new IconDrawable(this, Iconify.IconValue.fa_check_circle_o)
+                .colorRes(R.color.accent_color_200)
+                .actionBarSize();
+        menu.findItem(R.id.action_done).setIcon(saveBtn);
+
         return true;
     }
 
@@ -440,7 +448,10 @@ public class AddCategoryActivity extends ActionBarActivity
         {
             return true;
         }
-
+        if (id == R.id.action_done)
+        {   onSaveCategory();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -21,6 +22,9 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -273,7 +277,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
         }
     }
 
-    public void onSaveRecursive (View v) {
+    public void onSaveRecursive () {
         float amt = Float.parseFloat(mAmt.getText().toString());
         int dateFlag=0;
 
@@ -681,9 +685,14 @@ public class AddRecursiveActivity extends ActionBarActivity {
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
+        Drawable saveBtn = new IconDrawable(this, Iconify.IconValue.fa_check_circle_o)
+                .colorRes(R.color.accent_color_200)
+                .actionBarSize();
+        menu.findItem(R.id.action_done).setIcon(saveBtn);
+
         return true;
     }
-
+;
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -695,6 +704,11 @@ public class AddRecursiveActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings)
         {
+            return true;
+        }
+        if (id == R.id.action_done)
+        {
+            onSaveRecursive();
             return true;
         }
 

@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -18,6 +19,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -246,7 +250,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
         flag=1;
     }
 
-    public void onSaveLoanDebt(View v){
+    public void onSaveLoanDebt(){
         float amt = Float.parseFloat(mAmt.getText().toString());
 
         if (amt <= 0) {
@@ -503,6 +507,11 @@ public class AddLoanDebtActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_login, menu);
+        Drawable saveBtn = new IconDrawable(this, Iconify.IconValue.fa_check_circle_o)
+                .colorRes(R.color.accent_color_200)
+                .actionBarSize();
+        menu.findItem(R.id.action_done).setIcon(saveBtn);
+
         return true;
     }
 
@@ -515,7 +524,11 @@ public class AddLoanDebtActivity extends ActionBarActivity {
         {
             return true;
         }
-
+        if (id == R.id.action_done)
+        {
+            onSaveLoanDebt();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

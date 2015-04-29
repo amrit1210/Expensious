@@ -83,14 +83,7 @@
 
             </LinearLayout>
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/add_cat_btn_save"
-                android:text="Save"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:onClick="onSaveCategory"/>
+
 
         </LinearLayout>
 

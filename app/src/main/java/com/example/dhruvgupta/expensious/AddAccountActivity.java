@@ -3,6 +3,7 @@ package com.example.dhruvgupta.expensious;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -14,6 +15,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
@@ -47,7 +50,6 @@ public class AddAccountActivity extends ActionBarActivity
         mAcc_Note=(EditText)findViewById(R.id.add_acc_note);
         mAcc_Cur =(Button)findViewById(R.id.add_acc_btn_cur);
         mAcc_Amt =(Button)findViewById(R.id.add_acc_btn_amt);
-        mAcc_Save =(Button)findViewById(R.id.add_acc_btn_save);
         mInclude=(CheckBox)findViewById(R.id.add_acc_cb);
         flag=0;
         i=0;
@@ -104,7 +106,7 @@ public class AddAccountActivity extends ActionBarActivity
             }
     }
 
-    public void onSaveAccount(View v)
+    public void onSaveAccount()
     {
         SharedPreferences sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         if (mInclude.isChecked())
@@ -210,6 +212,11 @@ public class AddAccountActivity extends ActionBarActivity
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
+        Drawable saveBtn = new IconDrawable(this, Iconify.IconValue.fa_check_circle_o)
+                .colorRes(R.color.accent_color_200)
+                .actionBarSize();
+        menu.findItem(R.id.action_done).setIcon(saveBtn);
+
         return true;
     }
 
@@ -226,7 +233,11 @@ public class AddAccountActivity extends ActionBarActivity
         {
             return true;
         }
-
+       if (id == R.id.action_done)
+        {
+            onSaveAccount();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

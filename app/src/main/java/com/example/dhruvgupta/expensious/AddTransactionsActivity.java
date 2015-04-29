@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -19,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
@@ -234,7 +237,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
         }
     }
 
-    public void onSaveTransaction(View v) {
+    public void onSaveTransaction() {
         float amt = Float.parseFloat(mAmt.getText().toString());
          int acc_id_from,acc_id_to,acc_person;
         if (mShow.isChecked()) {
@@ -835,6 +838,39 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
         dbHelper.getAllTransactions(sp.getInt("UID", 0));
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        Drawable saveBtn = new IconDrawable(this, Iconify.IconValue.fa_check_circle_o)
+                .colorRes(R.color.accent_color_200)
+                .actionBarSize();
+        menu.findItem(R.id.action_done).setIcon(saveBtn);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings)
+        {
+            return true;
+        }
+        if (id == R.id.action_done)
+        {
+            onSaveTransaction();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
     public void onExpenseClick(View v)
@@ -1007,29 +1043,6 @@ public class AddTransactionsActivity extends ActionBarActivity {
             }
         }
 
-    }    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
 

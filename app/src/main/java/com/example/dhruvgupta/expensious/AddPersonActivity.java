@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -150,7 +153,7 @@ public class AddPersonActivity  extends ActionBarActivity
         b_flag = 0;
     }
 
-    public void onSavePerson(View v)
+    public void onSavePerson()
     {
         ArrayList arrayList = dbHelper.getPersonColName(sp.getInt("UID",0));
 
@@ -253,12 +256,16 @@ public class AddPersonActivity  extends ActionBarActivity
             }
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
+        Drawable saveBtn = new IconDrawable(this, Iconify.IconValue.fa_check_circle_o)
+                .colorRes(R.color.accent_color_200)
+                .actionBarSize();
+        menu.findItem(R.id.action_done).setIcon(saveBtn);
+
         return true;
     }
 
@@ -275,7 +282,13 @@ public class AddPersonActivity  extends ActionBarActivity
         {
             return true;
         }
-
+        if (id == R.id.action_done)
+        {
+            onSavePerson();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
+
+
 }
