@@ -20,6 +20,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 
 /**
@@ -73,7 +75,7 @@ public void onInt(Bundle bundle) {
             super.onActivityCreated(savedInstanceState);
             View rootView =getView();
             listView = (ListView) rootView.findViewById(R.id.recursive_list);
-
+            FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
             sp= getActivity().getSharedPreferences("USER_PREFS",MODE_PRIVATE);
             dbHelper =new DBHelper(getActivity());
 
@@ -90,6 +92,16 @@ public void onInt(Bundle bundle) {
                 }
             });
             registerForContextMenu(listView);
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i=new Intent(getActivity(),AddRecursiveActivity.class);
+                    startActivity(i);
+
+                }
+            });
         }
         @Override
         public boolean onContextItemSelected(MenuItem item)

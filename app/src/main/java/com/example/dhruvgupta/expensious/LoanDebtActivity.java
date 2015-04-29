@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -75,6 +77,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
             View rootView=getView();
 
             listView = (ListView)rootView.findViewById(R.id.trans_list);
+            FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
 
             sp= getActivity().getSharedPreferences("USER_PREFS",MODE_PRIVATE);
             dbHelper =new DBHelper(getActivity());
@@ -87,12 +90,21 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     LoanDebtDB recDb = (LoanDebtDB) loanDebtAdapter.getItem(position);
-                    Intent i = new Intent(getActivity(), DetailedLoanDebt.class);
+                    Intent i = new Intent(getActivity(), AddLoanDebtActivity.class);
                     i.putExtra("LD_ID", recDb.l_id);
                     startActivity(i);
                 }
             });
             registerForContextMenu(listView);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i=new Intent(getActivity(),AddLoanDebtActivity.class);
+                    startActivity(i);
+
+                }
+            });
         }
         @Override
         public boolean onContextItemSelected(MenuItem item) {

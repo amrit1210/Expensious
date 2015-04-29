@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -81,6 +82,9 @@ public class AccountsActivity extends AbstractNavigationDrawerActivity
             mAcc_amt = (TextView) rootView.findViewById(R.id.accounts_bal);
             mAcc_cur = (TextView) rootView.findViewById(R.id.accounts_cur);
             listView = (ListView) rootView.findViewById(R.id.accounts_list);
+            FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
+//            fab.attachToListView(listView);
+
 
             // use getActivity where "this" or nothing was used
             // means Activity's functions should be called using getActivity()
@@ -118,6 +122,15 @@ public class AccountsActivity extends AbstractNavigationDrawerActivity
             accountsAdapter =new AccountsAdapter(getActivity(),R.layout.list_account,allAccounts);
             listView.setAdapter(accountsAdapter);
             registerForContextMenu(listView);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i=new Intent(getActivity(),AddAccountActivity.class);
+                    startActivity(i);
+
+                }
+            });
 
         }
 

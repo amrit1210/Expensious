@@ -26,6 +26,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -106,6 +108,8 @@ public static class CategoriesFragment extends Fragment
         mList_cat = (ListView)rootView.findViewById(R.id.category_list);
         mCat_Income = (Button)rootView. findViewById(R.id.category_btn_income);
         mCat_Expense = (Button)rootView.findViewById(R.id.category_btn_expense);
+        FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
+
         sp =getActivity(). getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper =new DBHelper(getActivity());
 
@@ -155,6 +159,15 @@ public static class CategoriesFragment extends Fragment
 
         registerForContextMenu(mList_cat);
         toList();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i=new Intent(getActivity(),AddCategoryActivity.class);
+                startActivity(i);
+
+            }
+        });
     }
     public void onIncomeBtnClick(View v)
     {

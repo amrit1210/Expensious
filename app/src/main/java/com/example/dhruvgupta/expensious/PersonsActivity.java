@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.parse.ParseObject;
 
 
@@ -99,6 +100,7 @@ public class PersonsActivity extends ActionBarActivity
             View rootView=getView();
 
             listView=(ListView)rootView.findViewById(R.id.persons_list);
+            FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
 
         sp=getActivity().getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper=new DBHelper(getActivity());
@@ -107,6 +109,16 @@ public class PersonsActivity extends ActionBarActivity
         personsAdapter =new PersonsAdapter(getActivity(),R.layout.list_person,al);
         listView.setAdapter(personsAdapter);
         registerForContextMenu(listView);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i=new Intent(getActivity(),AddPersonActivity.class);
+                    startActivity(i);
+
+                }
+            });
+
         }
 
         @Override

@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.parse.ParseObject;
 
 import java.text.ParseException;
@@ -105,7 +106,8 @@ public void onInt(Bundle bundle) {
             sdf= new SimpleDateFormat("dd-MM-yyyy");
 
             al1 = new ListOfCurrencies().getAllCurrencies();
-
+            FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
+//            fab.attachToListView(listView);
             Cursor c1 = dbHelper.getSettingsData(sp.getInt("UID", 0));
             c1.moveToFirst();
             curCode = c1.getString(c1.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
@@ -174,6 +176,15 @@ public void onInt(Bundle bundle) {
             budgetsAdapter =new BudgetsAdapter(getActivity(),R.layout.list_budget,allBudgets);
             mBudget_list.setAdapter(budgetsAdapter);
             registerForContextMenu(mBudget_list);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i=new Intent(getActivity(),AddBudgetActivity.class);
+                    startActivity(i);
+
+                }
+            });
         }
         @Override
         public boolean onContextItemSelected(MenuItem item)

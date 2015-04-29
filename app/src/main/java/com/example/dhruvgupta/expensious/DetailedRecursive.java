@@ -21,6 +21,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -78,6 +80,7 @@ public class DetailedRecursive extends ActionBarActivity
             amt = (TextView) rootView.findViewById(R.id.detailed_rec_amt);
             cur = (TextView)rootView. findViewById(R.id.detailed_rec_cur);
             listView = (ListView)rootView. findViewById(R.id.detailed_rec_list);
+            FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
 
             sp = getActivity().getSharedPreferences("USER_PREFS", MODE_PRIVATE);
             dbHelper =new DBHelper(getActivity());
@@ -110,7 +113,15 @@ public class DetailedRecursive extends ActionBarActivity
             transactionAdapter =new TransactionAdapter(getActivity(),R.layout.list_transaction,al);
             listView.setAdapter(transactionAdapter);
             registerForContextMenu(listView);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    Intent i=new Intent(getActivity(),AddRecursiveActivity.class);
+                    startActivity(i);
+
+                }
+            });
         }
 
         @Override

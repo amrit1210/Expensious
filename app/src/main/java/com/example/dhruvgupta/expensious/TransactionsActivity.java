@@ -22,6 +22,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 
 /**
@@ -75,6 +77,7 @@ public class TransactionsActivity extends AbstractNavigationDrawerActivity
             super.onActivityCreated(savedInstanceState);
             View rootView = getView();
             listView = (ListView)rootView.findViewById(R.id.trans_list);
+            FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
 
             sp= getActivity().getSharedPreferences("USER_PREFS",MODE_PRIVATE);
             dbHelper =new DBHelper(getActivity());
@@ -83,6 +86,15 @@ public class TransactionsActivity extends AbstractNavigationDrawerActivity
             transactionadapter =new TransactionAdapter(getActivity(),R.layout.list_transaction,al);
             listView.setAdapter(transactionadapter);
             registerForContextMenu(listView);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i=new Intent(getActivity(),AddTransactionsActivity.class);
+                    startActivity(i);
+
+                }
+            });
         }
         @Override
         public boolean onContextItemSelected(MenuItem item)
