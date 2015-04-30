@@ -128,6 +128,50 @@ public static class CategoriesFragment extends Fragment
             }
         });
         c_type=0;
+//        cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+//
+//        for(int i=0;i<cat_al.size();i++)
+//        {
+//            CategoryDB_Specific categoryDB_specific=cat_al.get(i);
+//            ids.add(categoryDB_specific.c_id);
+//
+//            sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
+//            al.add(categoryDB_specific.c_id+"");
+//
+//            // al.add(categoryDB_specific.c_name);
+//            for(int j=0;j<sub_cat_al.size();j++)
+//            {
+//                SubCategoryDB subCategoryDB=sub_cat_al.get(j);
+//                al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id+"");
+//
+//                //  al.add(subCategoryDB.sub_name);
+//                ids.add(categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
+//
+//            }
+//
+//        }
+//        //  idList=toList(ids);
+//        Log.i(" ON CREATE ID:", ids + "");
+//        Log.i("ArrayList:",al+"");
+//        ad=new CategoriesAdapter(getActivity(),R.layout.list_category,al);
+//        mList_cat.setAdapter(ad);
+
+
+        registerForContextMenu(mList_cat);
+        toList();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i=new Intent(getActivity(),AddCategoryActivity.class);
+                startActivity(i);
+
+            }
+        });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
         cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
 
         for(int i=0;i<cat_al.size();i++)
@@ -156,18 +200,6 @@ public static class CategoriesFragment extends Fragment
         ad=new CategoriesAdapter(getActivity(),R.layout.list_category,al);
         mList_cat.setAdapter(ad);
 
-
-        registerForContextMenu(mList_cat);
-        toList();
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i=new Intent(getActivity(),AddCategoryActivity.class);
-                startActivity(i);
-
-            }
-        });
     }
     public void onIncomeBtnClick(View v)
     {

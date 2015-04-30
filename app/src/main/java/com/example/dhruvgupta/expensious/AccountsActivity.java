@@ -73,6 +73,8 @@ public class AccountsActivity extends AbstractNavigationDrawerActivity
             return inflater.inflate(R.layout.activity_accounts, container, false);
         }
 
+
+
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
@@ -116,11 +118,11 @@ public class AccountsActivity extends AbstractNavigationDrawerActivity
             }
             mAcc_amt.setText(amt+"");
 
-            allAccounts= dbHelper.getAllAccounts(sp.getInt("UID",0));
+//            allAccounts= dbHelper.getAllAccounts(sp.getInt("UID",0));
             // use getActivity where "this" or nothing was used
             // means Activity's functions should be called using getActivity()
-            accountsAdapter =new AccountsAdapter(getActivity(),R.layout.list_account,allAccounts);
-            listView.setAdapter(accountsAdapter);
+//            accountsAdapter =new AccountsAdapter(getActivity(),R.layout.list_account,allAccounts);
+//            listView.setAdapter(accountsAdapter);
             registerForContextMenu(listView);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -132,7 +134,16 @@ public class AccountsActivity extends AbstractNavigationDrawerActivity
                 }
             });
 
+
         }
+        @Override
+        public void onResume() {
+            super.onResume();
+            allAccounts= dbHelper.getAllAccounts(sp.getInt("UID",0));
+            accountsAdapter =new AccountsAdapter(getActivity(),R.layout.list_account,allAccounts);
+            listView.setAdapter(accountsAdapter);
+        }
+
 
         @Override
         public boolean onContextItemSelected(MenuItem item)

@@ -88,7 +88,7 @@ public class DetailedLoanDebt extends ActionBarActivity
             mReCur = (TextView)rootView. findViewById(R.id.detailed_ld_re_cur);
             mRemainCur = (TextView)rootView. findViewById(R.id.detailed_ld_remain_cur);
             listView = (ListView)rootView. findViewById(R.id.detailed_ld_list);
-            addLDbtn=(Button)rootView.findViewById(R.id.add_ldbtn);
+
             FloatingActionButton fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
 //            fab.attachToListView(listView);
 
@@ -146,18 +146,12 @@ public class DetailedLoanDebt extends ActionBarActivity
             loanDebtAdapter =new DetailedLDAdapter(getActivity(),R.layout.list_add_ld,al);
             listView.setAdapter(loanDebtAdapter);
             registerForContextMenu(listView);
-            addLDbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onAdd(v);
-                }
-            });
+
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Intent i=new Intent(getActivity(),DetailedAddLD.class);
-                    startActivity(i);
+                    onAdd(v);
 
                 }
             });

@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 
 /**
@@ -28,12 +30,14 @@ public class AccountsViewList  extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accounts_view);
         acc_list =(ListView)findViewById(R.id.accounts_list_view);
+        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
+
         sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper =new DBHelper(AccountsViewList.this);
 
-        al= dbHelper.getAllAccounts(sp.getInt("UID",0));
-        accountsAdapter =new AccountsAdapter(AccountsViewList.this,R.layout.list_account,al);
-        acc_list.setAdapter(accountsAdapter);
+//        al= dbHelper.getAllAccounts(sp.getInt("UID",0));
+//        accountsAdapter =new AccountsAdapter(AccountsViewList.this,R.layout.list_account,al);
+//        acc_list.setAdapter(accountsAdapter);
         acc_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -44,6 +48,20 @@ public class AccountsViewList  extends ActionBarActivity
                 AccountsViewList.this.finish();
             }
         });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(AccountsViewList.this,AddAccountActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        al= dbHelper.getAllAccounts(sp.getInt("UID",0));
+        accountsAdapter =new AccountsAdapter(AccountsViewList.this,R.layout.list_account,al);
+        acc_list.setAdapter(accountsAdapter);
     }
 
 }

@@ -90,7 +90,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     LoanDebtDB recDb = (LoanDebtDB) loanDebtAdapter.getItem(position);
-                    Intent i = new Intent(getActivity(), AddLoanDebtActivity.class);
+                    Intent i = new Intent(getActivity(), DetailedLoanDebt.class);
                     i.putExtra("LD_ID", recDb.l_id);
                     startActivity(i);
                 }

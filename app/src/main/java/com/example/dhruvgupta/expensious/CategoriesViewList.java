@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -53,6 +55,8 @@ public class CategoriesViewList extends ActionBarActivity
         setContentView(R.layout.activity_categories);
 
         categoryList = (ListView) findViewById(R.id.category_list);
+        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
+
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper = new DBHelper(CategoriesViewList.this);
 
@@ -62,6 +66,66 @@ public class CategoriesViewList extends ActionBarActivity
 //            mapIncome=new HashMap<>();
 
         c_type=0;
+//        cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
+//
+//        for(int i=0;i<cat_al.size();i++)
+//        {
+//            CategoryDB_Specific categoryDB_specific=cat_al.get(i);
+//            ids.add(categoryDB_specific.c_id);
+//
+//            sub_cat_al=dbHelper.getAllSubCategories(sp.getInt("UID",0),categoryDB_specific.c_id);
+//            al.add(categoryDB_specific.c_id+"");
+//            mapExpense.put(categoryDB_specific.c_id+"",categoryDB_specific.c_name);
+//            // al.add(categoryDB_specific.c_name);
+//            for(int j=0;j<sub_cat_al.size();j++)
+//            {
+//                SubCategoryDB subCategoryDB=sub_cat_al.get(j);
+//                al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id+"");
+//                mapExpense.put(categoryDB_specific.c_id+"."+subCategoryDB.sub_id,subCategoryDB.sub_name);
+//                //  al.add(subCategoryDB.sub_name);
+//                ids.add(categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
+//
+//            }
+//
+//        }
+//        //  idList=toList(ids);
+//        Log.i(" ON CREATE ID:", ids + "");
+//        Log.i("ArrayList:",al+"");
+//        toList();
+//
+//
+//        Log.i("Arraylist al:",al+"");
+//        al2=(ArrayList)s;
+//        categoriesAdapter = new CategoriesAdapter(CategoriesViewList.this, R.layout.list_category,al2);
+//        categoryList.setAdapter(categoriesAdapter);
+        categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+             //   String s = categoriesAdapter.getItem(position);
+
+              String str=s.get(position);
+                Intent i = new Intent();
+                i.putExtra("Category_Id",str);
+              //  i.putExtra("Cat_Id",)
+                setResult(1, i);
+                CategoriesViewList.this.finish();
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(CategoriesViewList.this,AddCategoryActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
 
         for(int i=0;i<cat_al.size();i++)
@@ -94,23 +158,7 @@ public class CategoriesViewList extends ActionBarActivity
         al2=(ArrayList)s;
         categoriesAdapter = new CategoriesAdapter(CategoriesViewList.this, R.layout.list_category,al2);
         categoryList.setAdapter(categoriesAdapter);
-        categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-             //   String s = categoriesAdapter.getItem(position);
-
-              String str=s.get(position);
-                Intent i = new Intent();
-                i.putExtra("Category_Id",str);
-              //  i.putExtra("Cat_Id",)
-                setResult(1, i);
-                CategoriesViewList.this.finish();
-            }
-        });
     }
-
     public void onExpenseBtnClick(View v)
     {
 

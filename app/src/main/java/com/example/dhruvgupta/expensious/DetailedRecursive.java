@@ -117,7 +117,7 @@ public class DetailedRecursive extends ActionBarActivity
                 @Override
                 public void onClick(View v) {
 
-                    Intent i=new Intent(getActivity(),AddRecursiveActivity.class);
+                    Intent i=new Intent(getActivity(),AddTransactionsActivity.class);
                     startActivity(i);
 
                 }

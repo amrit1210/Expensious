@@ -334,15 +334,13 @@ public class AddCategoryActivity extends ActionBarActivity
                         {
                             Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
                             Toast.makeText(AddCategoryActivity.this, "Category Updated " + c_IE_type, Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(AddCategoryActivity.this, CategoriesActivity.class);
-                            startActivity(i);
+                            Intent i = new Intent();
                             this.finish();
                         }
                         else
                         {
                             Toast.makeText(AddCategoryActivity.this, "Error updating category", Toast.LENGTH_SHORT).show();
-                            Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
-                            startActivity(i);
+                            Intent i=new Intent();
                             this.finish();
                         }
                     }
@@ -356,8 +354,7 @@ public class AddCategoryActivity extends ActionBarActivity
                             if(dbHelper.updateSubCategory(sub_id,colId,mCat_Name.getText().toString(),sp.getInt("UID",0)))
                             {
                                 Toast.makeText(AddCategoryActivity.this,"Sub Category Updated",Toast.LENGTH_SHORT).show();
-                                Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
-                                startActivity(i);
+                                Intent i=new Intent();
                                 this.finish();
                             }
                         }
@@ -384,15 +381,13 @@ public class AddCategoryActivity extends ActionBarActivity
                         {
                             Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
                             Toast.makeText(AddCategoryActivity.this, "Main Category Added " + c_IE_type, Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(AddCategoryActivity.this, CategoriesActivity.class);
-                            startActivity(i);
+                            Intent i = new Intent();
                             this.finish();
                         }
                         else
                         {
                             Toast.makeText(AddCategoryActivity.this, "Error creating category", Toast.LENGTH_SHORT).show();
-                            Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
-                            startActivity(i);
+                            Intent i=new Intent();
                             this.finish();
                         }
                     }
@@ -407,8 +402,7 @@ public class AddCategoryActivity extends ActionBarActivity
                             {
                                 dbHelper.getAllSubCategories(sp.getInt("UID",0),colId);
                                 Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
-                                Intent i=new Intent(AddCategoryActivity.this,CategoriesActivity.class);
-                                startActivity(i);
+                                Intent i=new Intent();
                                 this.finish();
                             }
                         }

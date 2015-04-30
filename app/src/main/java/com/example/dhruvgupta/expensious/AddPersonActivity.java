@@ -199,15 +199,14 @@ public class AddPersonActivity  extends ActionBarActivity
                         person.put("p_color_code", colorCode);
                         person.pinInBackground("pinPersonsUpdate");
 
-                        Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
-                        startActivity(intent);
+                        Intent intent = new Intent();
                         this.finish();
                     }
                     else
                     {
                         Toast.makeText(AddPersonActivity.this, "Error Updating Person", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
-                        startActivity(intent);
+                        Intent intent = new Intent();
+                        this.finish();
                     }
                 }
 
@@ -242,15 +241,14 @@ public class AddPersonActivity  extends ActionBarActivity
                             }
                         });
 
-                        Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
-                        startActivity(intent);
+                        Intent intent = new Intent();
                         this.finish();
                     }
                     else
                     {
                         Toast.makeText(AddPersonActivity.this, "Error Adding Person", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(AddPersonActivity.this, PersonsActivity.class);
-                        startActivity(intent);
+                        Intent intent = new Intent();
+                        this.finish();
                     }
                 }
             }

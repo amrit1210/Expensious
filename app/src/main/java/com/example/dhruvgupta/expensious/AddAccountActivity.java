@@ -120,7 +120,7 @@ public class AddAccountActivity extends ActionBarActivity
 
         if (mAcc_Name.length() <= 0)
         {
-            mAcc_Name.setError("Enter Account Name");
+            mAcc_Name.setError("En1ter Account Name");
         }
         else if (!mAcc_Name.getText().toString().matches("[a-zA-Z0-9][a-zA-Z0-9 ]+"))
         {
@@ -159,14 +159,20 @@ public class AddAccountActivity extends ActionBarActivity
                     account.put("acc_show", i);
                     account.pinInBackground("pinAccountsUpdate");
 
-                    Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
-                    startActivity(intent);
+//                    Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
+//                    startActivity(intent);
+
+                    Intent i = new Intent();
+                    this.finish();
                 }
                 else
                 {
                     Toast.makeText(AddAccountActivity.this, "Error updating Account", Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
-                    startActivity(intent);
+//                    Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
+//                    startActivity(intent);
+
+                    Intent i = new Intent();
+                    this.finish();
                 }
 
             }
@@ -194,14 +200,19 @@ public class AddAccountActivity extends ActionBarActivity
                         }
                     });
 
-                    Intent intent = new Intent(AddAccountActivity.this, AccountsActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(AddAccountActivity.this, AccountsActivity.class);
+//                    startActivity(intent);
+
+                    Intent i = new Intent();
+                    this.finish();
                 }
                 else
                 {
                     Toast.makeText(AddAccountActivity.this, "Error creating Account", Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
-                    startActivity(intent);
+//                    Intent intent=new Intent(AddAccountActivity.this,AccountsActivity.class);
+//                    startActivity(intent);
+                    Intent i = new Intent();
+                    this.finish();
                 }
             }
         }

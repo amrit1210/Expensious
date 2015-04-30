@@ -105,9 +105,9 @@ public class PersonsActivity extends ActionBarActivity
         sp=getActivity().getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper=new DBHelper(getActivity());
 
-        al= dbHelper.getAllPersons(sp.getInt("UID",0));
-        personsAdapter =new PersonsAdapter(getActivity(),R.layout.list_person,al);
-        listView.setAdapter(personsAdapter);
+//        al= dbHelper.getAllPersons(sp.getInt("UID",0));
+//        personsAdapter =new PersonsAdapter(getActivity(),R.layout.list_person,al);
+//        listView.setAdapter(personsAdapter);
         registerForContextMenu(listView);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,6 +120,14 @@ public class PersonsActivity extends ActionBarActivity
             });
 
         }
+        @Override
+        public void onResume() {
+            super.onResume();
+            al= dbHelper.getAllPersons(sp.getInt("UID",0));
+            personsAdapter =new PersonsAdapter(getActivity(),R.layout.list_person,al);
+            listView.setAdapter(personsAdapter);
+        }
+
 
         @Override
         public boolean onContextItemSelected(MenuItem item)
@@ -131,7 +139,7 @@ public class PersonsActivity extends ActionBarActivity
 
             if(id==R.id.Edit)
             {
-                Cursor c= dbHelper.getPersonData(per_DB.p_id);
+                Cursor c= dbHelper.getPersonData(per_DB.p_id, sp.getInt("UID", 0));
                 c.moveToFirst();
                 int p_id=c.getInt(c.getColumnIndex(DBHelper.PERSON_COL_ID));
                 int p_uid=c.getInt(c.getColumnIndex(DBHelper.PERSON_COL_UID));

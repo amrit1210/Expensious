@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.ArrayList;
 
 /**
@@ -23,6 +25,7 @@ public class PersonsViewList extends ActionBarActivity
 {
     ListView personList;
     PersonsAdapter personsAdapter;
+    SharedPreferences sp;
     DBHelper dbHelper;
     ArrayList<PersonDB> al;
     @Override
@@ -31,13 +34,14 @@ public class PersonsViewList extends ActionBarActivity
         setContentView(R.layout.activity_persons);
 
         personList = (ListView) findViewById(R.id.persons_list);
+        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
 
-        SharedPreferences sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
+        sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         dbHelper = new DBHelper(PersonsViewList.this);
 
-        al = dbHelper.getAllPersons(sp.getInt("UID", 0));
-        personsAdapter = new PersonsAdapter(PersonsViewList.this, R.layout.list_person, al);
-        personList.setAdapter(personsAdapter);
+//        al = dbHelper.getAllPersons(sp.getInt("UID", 0));
+//        personsAdapter = new PersonsAdapter(PersonsViewList.this, R.layout.list_person, al);
+//        personList.setAdapter(personsAdapter);
         personList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -49,8 +53,22 @@ public class PersonsViewList extends ActionBarActivity
             }
 
         });
-    }
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(PersonsViewList.this,AddPersonActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        al = dbHelper.getAllPersons(sp.getInt("UID", 0));
+        personsAdapter = new PersonsAdapter(PersonsViewList.this, R.layout.list_person, al);
+        personList.setAdapter(personsAdapter);
+    }
 
 
     @Override
