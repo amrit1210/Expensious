@@ -469,8 +469,8 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             ParseObject recursive = new ParseObject("Recursive");
                             recursive.put("rec_id", recid);
                             recursive.put("rec_uid", sp.getInt("UID", 0));
-                            recursive.put("rec_from_acc", rec_fromAccount);
-                            recursive.put("rec_to_acc", rec_toAccount);
+                            recursive.put("rec_from_acc", acc_id);
+                            recursive.put("rec_to_acc", 0);
                             recursive.put("rec_start_date", mStartDate.getText().toString());
                             recursive.put("rec_end_date", mEndDate.getText().toString());
                             recursive.put("rec_next_date", mNextDate);
@@ -482,7 +482,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             recursive.put("rec_type", mType);
                             recursive.put("rec_note", mNote.getText().toString());
                             recursive.put("rec_person", rec_person);
-                            recursive.put("rec_balance", amt);
+                            recursive.put("rec_balance", Float.parseFloat(mAmt.getText().toString()));
                             recursive.put("rec_show", show);
                             recursive.pinInBackground("pinRecursive");
                             recursive.saveEventually(new SaveCallback() {
@@ -518,8 +518,8 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             ParseObject recursive = new ParseObject("Recursive");
                             recursive.put("rec_id", recid);
                             recursive.put("rec_uid", sp.getInt("UID", 0));
-                            recursive.put("rec_from_acc", rec_fromAccount);
-                            recursive.put("rec_to_acc", rec_toAccount);
+                            recursive.put("rec_from_acc", 0);
+                            recursive.put("rec_to_acc", acc_id);
                             recursive.put("rec_start_date", mStartDate.getText().toString());
                             recursive.put("rec_end_date", mEndDate.getText().toString());
                             recursive.put("rec_next_date", mNextDate);
@@ -531,7 +531,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             recursive.put("rec_type", mType);
                             recursive.put("rec_note", mNote.getText().toString());
                             recursive.put("rec_person", rec_person);
-                            recursive.put("rec_balance", amt);
+                            recursive.put("rec_balance", Float.parseFloat(mAmt.getText().toString()));
                             recursive.put("rec_show", show);
                             recursive.pinInBackground("pinRecursive");
                             recursive.saveEventually(new SaveCallback() {
@@ -566,8 +566,8 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             ParseObject recursive = new ParseObject("Recursive");
                             recursive.put("rec_id", recid);
                             recursive.put("rec_uid", sp.getInt("UID", 0));
-                            recursive.put("rec_from_acc", rec_fromAccount);
-                            recursive.put("rec_to_acc", rec_toAccount);
+                            recursive.put("rec_from_acc", acc_id);
+                            recursive.put("rec_to_acc", acc_id1);
                             recursive.put("rec_start_date", mStartDate.getText().toString());
                             recursive.put("rec_end_date", mEndDate.getText().toString());
                             recursive.put("rec_next_date", mNextDate);
@@ -579,7 +579,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             recursive.put("rec_type", mType);
                             recursive.put("rec_note", mNote.getText().toString());
                             recursive.put("rec_person", rec_person);
-                            recursive.put("rec_balance", amt);
+                            recursive.put("rec_balance", Float.parseFloat(mAmt.getText().toString()));
                             recursive.put("rec_show", show);
                             recursive.pinInBackground("pinRecursive");
                             recursive.saveEventually(new SaveCallback() {

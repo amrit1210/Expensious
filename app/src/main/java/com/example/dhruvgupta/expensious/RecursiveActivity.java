@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 
@@ -161,6 +162,26 @@ public void onInt(Bundle bundle) {
                     Intent i = new Intent(getActivity(), RecursiveActivity.class);
                     startActivity(i);
                     Toast.makeText(getActivity(), "Recursive Transaction Deleted", Toast.LENGTH_LONG).show();
+
+                    ParseObject recursive = new ParseObject("Recursive");
+                    recursive.put("rec_id", recursiveDB.rec_id);
+                    recursive.put("rec_uid", recursiveDB.rec_u_id);
+                    recursive.put("rec_from_acc", recursiveDB.rec_from_acc);
+                    recursive.put("rec_to_acc", recursiveDB.rec_to_acc);
+                    recursive.put("rec_start_date", recursiveDB.rec_start_date);
+                    recursive.put("rec_end_date", recursiveDB.rec_end_date);
+                    recursive.put("rec_next_date", recursiveDB.rec_next_date);
+                    recursive.put("rec_time", recursiveDB.rec_time);
+                    recursive.put("rec_recurring", recursiveDB.rec_recurring);
+                    recursive.put("rec_alert", recursiveDB.rec_alert);
+                    recursive.put("rec_category", recursiveDB.rec_c_id);
+                    recursive.put("rec_subcategory", recursiveDB.rec_sub_id);
+                    recursive.put("rec_type", recursiveDB.rec_type);
+                    recursive.put("rec_note", recursiveDB.rec_note);
+                    recursive.put("rec_person", recursiveDB.rec_p_id);
+                    recursive.put("rec_balance", recursiveDB.rec_balance);
+                    recursive.put("rec_show", recursiveDB.rec_show);
+                    recursive.pinInBackground("pinRecursiveDelete");
                 }
             }
 

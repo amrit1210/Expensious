@@ -531,6 +531,141 @@ public class WebSyncService extends Service {
             }
         });
 
+        //Add Recursive
+        ParseQuery<ParseObject> addRec = ParseQuery.getQuery("Recursive");
+        addRec.fromPin("pinRecursive");
+        addRec.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> todos, ParseException e) {
+                if (e == null) {
+                    for (final ParseObject todo : todos) {
+                        todo.saveInBackground(new SaveCallback() {
+
+                            @Override
+                            public void done(ParseException e) {
+//                                    todo.unpinInBackground("pinRecursive");
+                                System.out.println("Recursive DATA is saved ..... ");
+                            }
+                        });
+                    }
+                } else {
+                    Log.i("MainActivity", "syncTodosToRecAdd: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+        //Update Recursive
+        ParseQuery<ParseObject> updateRec = ParseQuery.getQuery("Recursive");
+        updateRec.whereEqualTo("rec_uid", sp.getInt("UID", 0));
+        updateRec.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> updateRec2 = ParseQuery.getQuery("Recursive");
+                        updateRec2.fromPin("pinRecursiveUpdate");
+                        updateRec2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("rec_uid") == todo1.getInt("rec_uid")) && (todo.getInt("rec_id") == todo1.getInt("rec_id")))
+                                    {
+                                        todo.fetchInBackground(new GetCallback<ParseObject>() {
+                                            @Override
+                                            public void done(ParseObject parseObject, ParseException e) {
+                                                if (e==null)
+                                                {
+                                                    parseObject.put("objectId", todo.getObjectId());
+                                                    parseObject.put("rec_id", todo1.getInt("rec_id"));
+                                                    parseObject.put("rec_uid", todo1.getInt("rec_uid"));
+                                                    parseObject.put("rec_from_acc", todo1.getInt("rec_from_acc"));
+                                                    parseObject.put("rec_to_acc", todo1.getInt("rec_to_acc"));
+                                                    parseObject.put("rec_show", todo1.getInt("rec_show"));
+                                                    parseObject.put("rec_start_date", todo1.getString("rec_start_date"));
+                                                    parseObject.put("rec_end_date", todo1.getString("rec_end_date"));
+                                                    parseObject.put("rec_next_date", todo1.getString("rec_next_date"));
+                                                    parseObject.put("rec_time", todo1.getString("rec_time"));
+                                                    parseObject.put("rec_recurring", todo1.getInt("rec_recurring"));
+                                                    parseObject.put("rec_alert", todo1.getInt("rec_alert"));
+                                                    parseObject.put("rec_category", todo1.getInt("rec_category"));
+                                                    parseObject.put("rec_subcategory", todo1.getInt("rec_subcategory"));
+                                                    parseObject.put("rec_note", todo1.getString("rec_note"));
+                                                    parseObject.put("rec_balance", todo1.getDouble("rec_balance"));
+                                                    parseObject.put("rec_type", todo1.getString("rec_type"));
+                                                    parseObject.put("rec_person", todo1.getInt("rec_person"));
+                                                    parseObject.saveInBackground(new SaveCallback() {
+
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            todo1.unpinInBackground("pinRecursiveUpdate");
+                                                            System.out.println("Recursive DATA is updated ..... ");
+                                                        }
+                                                    });
+                                                }
+                                                else
+                                                {
+
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToRecUpdate: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //Delete Recursive
+        ParseQuery<ParseObject> deleteRec = ParseQuery.getQuery("Recursive");
+        deleteRec.whereEqualTo("rec_uid", sp.getInt("UID", 0));
+        deleteRec.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> deleteRec2 = ParseQuery.getQuery("Recursive");
+                        deleteRec2.fromPin("pinRecursiveDelete");
+                        deleteRec2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("rec_uid") == todo1.getInt("rec_uid")) && (todo.getInt("rec_id") == todo1.getInt("rec_id")))
+                                    {
+                                        todo.deleteInBackground(new DeleteCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                todo1.unpinInBackground("pinRecursiveDelete");
+                                                System.out.println("Recursive DATA is deleted ..... ");
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToRecDelete: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
         return Service.START_STICKY;
     }
 

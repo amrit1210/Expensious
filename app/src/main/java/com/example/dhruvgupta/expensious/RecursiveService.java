@@ -236,6 +236,27 @@ public class RecursiveService extends Service {
 
                         if (b) {
                             Toast.makeText(RecursiveService.this, "Recursive Transaction Updated", Toast.LENGTH_LONG).show();
+
+                            ParseObject recursive = new ParseObject("Recursive");
+                            recursive.put("rec_id", recDB.rec_id);
+                            recursive.put("rec_uid", recDB.rec_u_id);
+                            recursive.put("rec_from_acc", recDB.rec_from_acc);
+                            recursive.put("rec_to_acc", recDB.rec_to_acc);
+                            recursive.put("rec_start_date", recDB.rec_start_date);
+                            recursive.put("rec_end_date", recDB.rec_end_date);
+                            recursive.put("rec_next_date", mNextDate);
+                            recursive.put("rec_time", recDB.rec_time);
+                            recursive.put("rec_recurring", recDB.rec_recurring);
+                            recursive.put("rec_alert", recDB.rec_alert);
+                            recursive.put("rec_category", recDB.rec_c_id);
+                            recursive.put("rec_subcategory", recDB.rec_sub_id);
+                            recursive.put("rec_type", recDB.rec_type);
+                            recursive.put("rec_note", recDB.rec_note);
+                            recursive.put("rec_person", recDB.rec_p_id);
+                            recursive.put("rec_balance", recDB.rec_balance);
+                            recursive.put("rec_show", recDB.rec_show);
+                            recursive.pinInBackground("pinRecursiveUpdate");
+
                         }
                     }
                 }
