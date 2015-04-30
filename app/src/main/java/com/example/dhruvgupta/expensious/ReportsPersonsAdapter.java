@@ -84,58 +84,70 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
         while(transactionsDBIterator.hasNext())
         {
             transactionsDB=transactionsDBIterator.next();
-            Date d= null;
             try
             {
-                d = sdf.parse(transactionsDB.t_date);
+                Date d = sdf.parse(transactionsDB.t_date);
+                if(period == 0)
+                {
+                    sysDate=year_date.format(d);
+                    if(sysDate.equals(PieChartActivity.year))
+                    {
+                        if(transactionsDB.t_type.equals("Expense"))
+                        {
+                            if(transactionsDB.t_p_id == db.p_id)
+                            {
+                                amount += transactionsDB.t_balance;
+                            }
+                        }
+                    }
+                }
+                else if(period == 1)
+                {
+                    sysDate=month_date.format(d);
+                    if(sysDate.equals(PieChartActivity.month_name))
+                    {
+                        if(transactionsDB.t_type.equals("Expense"))
+                        {
+                            if(transactionsDB.t_p_id == db.p_id)
+                            {
+                                amount += transactionsDB.t_balance;
+                            }
+                        }
+                    }
+                }
+                else if(period == 3)
+                {
+                    sysDate=sdf.format(d);
+                    if(sysDate.equals(PieChartActivity.day))
+                    {
+                        if(transactionsDB.t_type.equals("Expense"))
+                        {
+                            if(transactionsDB.t_p_id == db.p_id)
+                            {
+                                amount += transactionsDB.t_balance;
+                            }
+                        }
+                    }
+                }
+                else if(period == 4)
+                {
+                    if(!d.before(PieChartActivity.start) && !d.after(PieChartActivity.end))
+                    {
+                        if(transactionsDB.t_type.equals("Expense"))
+                        {
+                            if(transactionsDB.t_c_id == db.p_id)
+                            {
+                                amount += transactionsDB.t_balance;
+                            }
+                        }
+                    }
+                }
+                amt.setText(amount+"");
             }
             catch (ParseException e)
             {
                 e.printStackTrace();
             }
-            if(period == 0)
-            {
-                sysDate=year_date.format(d);
-                if(sysDate.equals(PieChartActivity.year))
-                {
-                    if(transactionsDB.t_type.equals("Expense"))
-                    {
-                        if(transactionsDB.t_p_id == db.p_id)
-                        {
-                            amount += transactionsDB.t_balance;
-                        }
-                    }
-                }
-            }
-            else if(period == 1)
-            {
-                sysDate=month_date.format(d);
-                if(sysDate.equals(PieChartActivity.month_name))
-                {
-                    if(transactionsDB.t_type.equals("Expense"))
-                    {
-                        if(transactionsDB.t_p_id == db.p_id)
-                        {
-                            amount += transactionsDB.t_balance;
-                        }
-                    }
-                }
-            }
-            else if(period == 3)
-            {
-                sysDate=sdf.format(d);
-                if(sysDate.equals(PieChartActivity.day))
-                {
-                    if(transactionsDB.t_type.equals("Expense"))
-                    {
-                        if(transactionsDB.t_p_id == db.p_id)
-                        {
-                            amount += transactionsDB.t_balance;
-                        }
-                    }
-                }
-            }
-            amt.setText(amount+"");
         }
 
         return convertView;
