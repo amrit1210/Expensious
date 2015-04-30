@@ -14,15 +14,68 @@
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/recursive"
+            android:entries="@array/period"
+            android:layout_weight="1"
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:clickable="true"
             android:id="@+id/report_spinner_period" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/report_type"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:id="@+id/report_spinner_type" />
 			
 	</LinearLayout>
-    
-	<LinearLayout
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                style="@style/ButtonStyle.Transparent"
+                android:text="@string/btn_start_date"
+                android:onClick="onStartDateClick"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                android:id="@+id/report_btn_start_date"
+                android:stateListAnimator="@android:animator/fade_in"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                style="@style/ButtonStyle.Transparent"
+                android:text="@string/btn_end_date"
+                android:onClick="onEndDateClick"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                android:id="@+id/report_btn_end_date"
+                android:stateListAnimator="@android:animator/fade_in"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
