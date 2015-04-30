@@ -1526,6 +1526,29 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
+    public int getLoanDebtColId(int u_id)
+    {
+        int ldid = 0;
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor c = db.rawQuery("select * from "+ LOAN_DEBT_TABLE +" where "+ LOAN_DEBT_COL_UID +"="+ u_id, null);
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                ldid=c.getInt(c.getColumnIndex(LOAN_DEBT_COL_ID));
+                c.moveToNext();
+            }
+            c.close();
+            return  ldid;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return 0;
+        }
+    }
     public Cursor getLoanDebtData(int id)
     {
         try

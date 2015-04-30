@@ -18,6 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -307,7 +310,18 @@ public class DetailedAddLD extends ActionBarActivity {
 
                     if (b) {
                         Toast.makeText(DetailedAddLD.this, "Updated", Toast.LENGTH_LONG).show();
-
+                        ParseObject loanDebt = new ParseObject("Loan_debt");
+                        loanDebt.put("loan_debt_id", l_id);
+                        loanDebt.put("loan_debt_uid", sp.getInt("UID", 0));
+                        loanDebt.put("loan_debt_from_acc", l_fromAcc);
+                        loanDebt.put("loan_debt_to_acc", l_toAcc);
+                        loanDebt.put("loan_debt_date", mDate.getText().toString());
+                        loanDebt.put("loan_debt_time", mTime.getText().toString());
+                        loanDebt.put("loan_debt_note", mNote.getText().toString());
+                        loanDebt.put("loan_debt_balance", amt);
+                        loanDebt.put("loan_debt_type", l_type);
+                        loanDebt.put("loan_debt_person", l_person);
+                        loanDebt.pinInBackground("pinLoanDebtsUpdate");
                         Log.i("Types", l_type_old + " : " + l_type);
 
                         if (l_type_old.equals("Debt"))
@@ -324,6 +338,14 @@ public class DetailedAddLD extends ActionBarActivity {
                             bal = bal + l_amt_old;
 
                             dbHelper.updateAccountData(l_from_old, name, bal, note, show, uid);
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", l_from_old);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
                             cursor.close();
                         }
                         else if (l_type_old.equals("Loan"))
@@ -340,6 +362,14 @@ public class DetailedAddLD extends ActionBarActivity {
                             bal = bal - l_amt_old;
 
                             dbHelper.updateAccountData(l_to_old, name, bal, note, show, uid);
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", l_to_old);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
                             cursor.close();
                         }
 
@@ -357,6 +387,14 @@ public class DetailedAddLD extends ActionBarActivity {
                             bal = bal - amt;
 
                             dbHelper.updateAccountData(l_fromAcc, name, bal, note, show, uid);
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", l_fromAcc);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
                             cursor.close();
                         }
                         else if (l_type.equals("Loan"))
@@ -373,6 +411,14 @@ public class DetailedAddLD extends ActionBarActivity {
                             bal = bal + amt;
 
                             dbHelper.updateAccountData(l_toAcc, name, bal, note, show, uid);
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", l_toAcc);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
                             cursor.close();
                         }
 
@@ -394,7 +440,27 @@ public class DetailedAddLD extends ActionBarActivity {
                                 acc_id,0,p_id,mNote.getText().toString(), mType, l_parent);
                         if(b) {
                             Toast.makeText(DetailedAddLD.this, "Added", Toast.LENGTH_LONG).show();
+                            int loanDebt_id = dbHelper.getLoanDebtColId(sp.getInt("UID", 0));
 
+                            ParseObject loanDebt = new ParseObject("Loan_debt");
+                            loanDebt.put("loan_debt_id", loanDebt_id);
+                            loanDebt.put("loan_debt_uid", sp.getInt("UID", 0));
+                            loanDebt.put("loan_debt_parent",l_parent);
+                            loanDebt.put("loan_debt_from_acc", acc_id);
+                            loanDebt.put("loan_debt_to_acc", 0);
+                            loanDebt.put("loan_debt_date", mDate.getText().toString());
+                            loanDebt.put("loan_debt_time", mTime.getText().toString());
+                            loanDebt.put("loan_debt_note", mNote.getText().toString());
+                            loanDebt.put("loan_debt_balance", amt);
+                            loanDebt.put("loan_debt_type", l_type);
+                            loanDebt.put("loan_debt_person", l_person);
+                            loanDebt.pinInBackground("pinLoanDebts");
+                            loanDebt.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    Log.i("Trans saveEventually", "YES! YES! YES!");
+                                }
+                            });
                             Cursor cursor = dbHelper.getAccountData(acc_id);
                             cursor.moveToFirst();
 
@@ -407,6 +473,14 @@ public class DetailedAddLD extends ActionBarActivity {
                             bal = bal - amt;
 
                             dbHelper.updateAccountData(acc_id, name, bal, note, show, uid);
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", acc_id);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
                             cursor.close();
 
                             Intent intent = new Intent(DetailedAddLD.this, DetailedLoanDebt.class);
@@ -426,6 +500,27 @@ public class DetailedAddLD extends ActionBarActivity {
                                 0, acc_id, p_id, mNote.getText().toString(), mType, l_parent);
                         if (b) {
                             Toast.makeText(DetailedAddLD.this, "Added", Toast.LENGTH_LONG).show();
+                            int loanDebt_id = dbHelper.getLoanDebtColId(sp.getInt("UID", 0));
+
+                            ParseObject loanDebt = new ParseObject("Loan_debt");
+                            loanDebt.put("loan_debt_id", loanDebt_id);
+                            loanDebt.put("loan_debt_uid", sp.getInt("UID", 0));
+                            loanDebt.put("loan_debt_parent",l_parent);
+                            loanDebt.put("loan_debt_from_acc", 0);
+                            loanDebt.put("loan_debt_to_acc", l_toAcc);
+                            loanDebt.put("loan_debt_date", mDate.getText().toString());
+                            loanDebt.put("loan_debt_time", mTime.getText().toString());
+                            loanDebt.put("loan_debt_note", mNote.getText().toString());
+                            loanDebt.put("loan_debt_balance", amt);
+                            loanDebt.put("loan_debt_type", l_type);
+                            loanDebt.put("loan_debt_person", l_person);
+                            loanDebt.pinInBackground("pinLoanDebts");
+                            loanDebt.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    Log.i("Trans saveEventually", "YES! YES! YES!");
+                                }
+                            });
 
                             Cursor cursor = dbHelper.getAccountData(acc_id);
                             cursor.moveToFirst();
@@ -439,6 +534,15 @@ public class DetailedAddLD extends ActionBarActivity {
                             bal = bal + amt;
 
                             dbHelper.updateAccountData(acc_id, name, bal, note, show, uid);
+                            ParseObject account = new ParseObject("Accounts");
+                            account.put("acc_id", acc_id);
+                            account.put("acc_uid", uid);
+                            account.put("acc_name", name);
+                            account.put("acc_balance", bal);
+                            account.put("acc_note", note);
+                            account.put("acc_show", show);
+                            account.pinInBackground("pinAccountsUpdate");
+
                             cursor.close();
 
                             Intent intent = new Intent(DetailedAddLD.this, DetailedLoanDebt.class);

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -210,7 +211,19 @@ public class DetailedLoanDebt extends ActionBarActivity
                 Log.i("Detailed To From", l_to_old + " ; " + l_from_old);
 
                 if (dbHelper.deleteLoanDebt(loanDebtDB.l_id, sp.getInt("UID", 0)) > 0) {
-
+                    ParseObject loanDebt = new ParseObject("Loan_debt");
+                    loanDebt.put("loan_debt_id", loanDebtDB.l_id);
+                    loanDebt.put("loan_debt_uid", loanDebtDB.l_u_id);
+                    loanDebt.put("loan_debt_parent", loanDebtDB.l_parent);
+                    loanDebt.put("loan_debt_from_acc",loanDebtDB.l_from_acc);
+                    loanDebt.put("loan_debt_to_acc",loanDebtDB.l_to_acc);
+                    loanDebt.put("loan_debt_date", loanDebtDB.l_date);
+                    loanDebt.put("loan_debt_time", loanDebtDB.l_time);
+                    loanDebt.put("loan_debt_note", loanDebtDB.l_note);
+                    loanDebt.put("loan_debt_balance", loanDebtDB.l_balance);
+                    loanDebt.put("loan_debt_type", loanDebtDB.l_type);
+                    loanDebt.put("loan_debt_person", loanDebtDB.l_person);
+                    loanDebt.pinInBackground("pinLoanDebtsDelete");
                     if (l_type_old.equals("Loan"))
                     {
                         Cursor cursor = dbHelper.getAccountData(l_to_old);
@@ -225,6 +238,14 @@ public class DetailedLoanDebt extends ActionBarActivity
                         bal = bal - l_amt_old;
 
                         dbHelper.updateAccountData(l_to_old, name, bal, note, show, uid);
+                        ParseObject account = new ParseObject("Accounts");
+                        account.put("acc_id", l_to_old);
+                        account.put("acc_uid", uid);
+                        account.put("acc_name", name);
+                        account.put("acc_balance", bal);
+                        account.put("acc_note", note);
+                        account.put("acc_show", show);
+                        account.pinInBackground("pinAccountsUpdate");
                         cursor.close();
                     }
                     else if (l_type_old.equals("Debt"))
@@ -241,6 +262,14 @@ public class DetailedLoanDebt extends ActionBarActivity
                         bal = bal + l_amt_old;
 
                         dbHelper.updateAccountData(l_from_old, name, bal, note, show, uid);
+                        ParseObject account = new ParseObject("Accounts");
+                        account.put("acc_id", l_from_old);
+                        account.put("acc_uid", uid);
+                        account.put("acc_name", name);
+                        account.put("acc_balance", bal);
+                        account.put("acc_note", note);
+                        account.put("acc_show", show);
+                        account.pinInBackground("pinAccountsUpdate");
                         cursor.close();
                     }
 

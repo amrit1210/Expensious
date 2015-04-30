@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 
 import com.melnykov.fab.FloatingActionButton;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -151,6 +152,20 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                     int l_from_old = loanDebtDB.l_from_acc;
                     float l_amt_old = loanDebtDB.l_balance;
 
+                    ParseObject loanDebt = new ParseObject("Loan_debt");
+                    loanDebt.put("loan_debt_id", loanDebtDB.l_id);
+                    loanDebt.put("loan_debt_uid", loanDebtDB.l_u_id);
+                    loanDebt.put("loan_debt_parent", loanDebtDB.l_parent);
+                    loanDebt.put("loan_debt_from_acc",loanDebtDB.l_from_acc);
+                    loanDebt.put("loan_debt_to_acc",loanDebtDB.l_to_acc);
+                    loanDebt.put("loan_debt_date", loanDebtDB.l_date);
+                    loanDebt.put("loan_debt_time", loanDebtDB.l_time);
+                    loanDebt.put("loan_debt_note", loanDebtDB.l_note);
+                    loanDebt.put("loan_debt_balance", loanDebtDB.l_balance);
+                    loanDebt.put("loan_debt_type", loanDebtDB.l_type);
+                    loanDebt.put("loan_debt_person", loanDebtDB.l_person);
+                    loanDebt.pinInBackground("pinLoanDebtsDelete");
+
                     if (l_type_old.equals("Loan"))
                     {
                         Cursor cursor = dbHelper.getAccountData(l_from_old);
@@ -165,6 +180,15 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                         bal = bal + l_amt_old;
 
                         dbHelper.updateAccountData(l_from_old, name, bal, note, show, uid);
+                        ParseObject account = new ParseObject("Accounts");
+                        account.put("acc_id", l_from_old);
+                        account.put("acc_uid", uid);
+                        account.put("acc_name", name);
+                        account.put("acc_balance", bal);
+                        account.put("acc_note", note);
+                        account.put("acc_show", show);
+                        account.pinInBackground("pinAccountsUpdate");
+
                         cursor.close();
 
                         ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
@@ -179,6 +203,20 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                 c.moveToFirst();
                                 if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
 
+                                   // ParseObject loanDebt = new ParseObject("Loan_debt");
+                                    loanDebt.put("loan_debt_id", loanDebtDB.l_id);
+                                    loanDebt.put("loan_debt_uid", loanDebtDB.l_u_id);
+                                    loanDebt.put("loan_debt_parent", loanDebtDB.l_parent);
+                                    loanDebt.put("loan_debt_from_acc",loanDebtDB.l_from_acc);
+                                    loanDebt.put("loan_debt_to_acc",loanDebtDB.l_to_acc);
+                                    loanDebt.put("loan_debt_date", loanDebtDB.l_date);
+                                    loanDebt.put("loan_debt_time", loanDebtDB.l_time);
+                                    loanDebt.put("loan_debt_note", loanDebtDB.l_note);
+                                    loanDebt.put("loan_debt_balance", loanDebtDB.l_balance);
+                                    loanDebt.put("loan_debt_type", loanDebtDB.l_type);
+                                    loanDebt.put("loan_debt_person", loanDebtDB.l_person);
+                                    loanDebt.pinInBackground("pinLoanDebtsDelete");
+
                                     float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                                     String name1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                                     String note1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
@@ -188,6 +226,16 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                     bal1 = bal1 - ldDB.l_balance;
 
                                     dbHelper.updateAccountData(ldDB.l_to_acc, name1, bal1, note1, show1, uid1);
+
+                                  //  ParseObject account = new ParseObject("Accounts");
+                                    account.put("acc_id", ldDB.l_to_acc);
+                                    account.put("acc_uid", uid1);
+                                    account.put("acc_name", name1);
+                                    account.put("acc_balance", bal1);
+                                    account.put("acc_note", note1);
+                                    account.put("acc_show", show1);
+                                    account.pinInBackground("pinAccountsUpdate");
+
                                     c.close();
                                 }
                             }
@@ -208,6 +256,14 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                         bal = bal - l_amt_old;
 
                         dbHelper.updateAccountData(l_to_old, name, bal, note, show, uid);
+                        ParseObject account = new ParseObject("Accounts");
+                        account.put("acc_id", l_to_old);
+                        account.put("acc_uid", uid);
+                        account.put("acc_name", name);
+                        account.put("acc_balance", bal);
+                        account.put("acc_note", note);
+                        account.put("acc_show", show);
+                        account.pinInBackground("pinAccountsUpdate");
                         cursor.close();
 
                         ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
@@ -224,6 +280,20 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                 Log.i("While", "inside while debt");
 
                                 if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
+                                   // ParseObject loanDebt = new ParseObject("Loan_debt");
+                                    loanDebt.put("loan_debt_id", loanDebtDB.l_id);
+                                    loanDebt.put("loan_debt_uid", loanDebtDB.l_u_id);
+                                    loanDebt.put("loan_debt_parent", loanDebtDB.l_parent);
+                                    loanDebt.put("loan_debt_from_acc",loanDebtDB.l_from_acc);
+                                    loanDebt.put("loan_debt_to_acc",loanDebtDB.l_to_acc);
+                                    loanDebt.put("loan_debt_date", loanDebtDB.l_date);
+                                    loanDebt.put("loan_debt_time", loanDebtDB.l_time);
+                                    loanDebt.put("loan_debt_note", loanDebtDB.l_note);
+                                    loanDebt.put("loan_debt_balance", loanDebtDB.l_balance);
+                                    loanDebt.put("loan_debt_type", loanDebtDB.l_type);
+                                    loanDebt.put("loan_debt_person", loanDebtDB.l_person);
+                                    loanDebt.pinInBackground("pinLoanDebtsDelete");
+
                                     Log.i("If While", "inside if while debt");
                                     float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                                     String name1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
@@ -234,6 +304,14 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                     bal1 = bal1 + ldDB.l_balance;
 
                                     dbHelper.updateAccountData(ldDB.l_from_acc, name1, bal1, note1, show1, uid1);
+//                                    ParseObject account = new ParseObject("Accounts");
+                                    account.put("acc_id", ldDB.l_from_acc);
+                                    account.put("acc_uid", uid1);
+                                    account.put("acc_name", name1);
+                                    account.put("acc_balance", bal1);
+                                    account.put("acc_note", note1);
+                                    account.put("acc_show", show1);
+                                    account.pinInBackground("pinAccountsUpdate");
                                     c.close();
                                 }
                             }

@@ -666,6 +666,136 @@ public class WebSyncService extends Service {
             }
         });
 
+        //addLoanDebts
+        ParseQuery<ParseObject> addLoanDebts = ParseQuery.getQuery("Loan_debt");
+        addLoanDebts.fromPin("pinLoanDebts");
+        addLoanDebts.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> todos, ParseException e) {
+                if (e == null) {
+                    for (final ParseObject todo : todos) {
+                        todo.saveInBackground(new SaveCallback() {
+
+                            @Override
+                            public void done(ParseException e) {
+//                                    todo.unpinInBackground("pinLoanDebts");
+                                System.out.println("LoanDebts DATA is saved ..... ");
+                            }
+                        });
+                    }
+                } else {
+                    Log.i("MainActivity", "syncTodosToLoanDebtsAdd: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+        //Update LoanDebts
+        final ParseQuery<ParseObject> updateLoanDebts = ParseQuery.getQuery("Loan_debt");
+        updateLoanDebts.whereEqualTo("loan_debt_uid", sp.getInt("UID", 0));
+        updateLoanDebts.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> updateLoanDebts2 = ParseQuery.getQuery("Loan_debt");
+                        updateLoanDebts2.fromPin("pinLoanDebtsUpdate");
+                        updateLoanDebts2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("loan_debt_uid") == todo1.getInt("loan_debt_uid")) && (todo.getInt("loan_debt_id") == todo1.getInt("loan_debt_id")))
+                                    {
+                                        todo.fetchInBackground(new GetCallback<ParseObject>() {
+                                            @Override
+                                            public void done(ParseObject parseObject, ParseException e) {
+                                                if (e==null)
+                                                {
+                                                    parseObject.put("objectId", todo.getObjectId());
+                                                    parseObject.put("loan_debt_id", todo1.getInt("loan_debt_id"));
+                                                    parseObject.put("loan_debt_uid", todo1.getInt("loan_debt_uid"));
+                                                    parseObject.put("loan_debt_parent", todo1.getInt("loan_debt_parent"));
+                                                    parseObject.put("loan_debt_from_acc", todo1.getInt("loan_debt_from_acc"));
+                                                    parseObject.put("loan_debt_to_acc", todo1.getInt("loan_debt_to_acc"));
+                                                    parseObject.put("loan_debt_date", todo1.getString("loan_debt_date"));
+                                                    parseObject.put("loan_debt_time", todo1.getString("loan_debt_time"));
+                                                    parseObject.put("loan_debt_note", todo1.getString("loan_debt_note"));
+                                                    parseObject.put("loan_debt_balance", todo1.getDouble("loan_debt_balance"));
+                                                    parseObject.put("loan_debt_type", todo1.getString("loan_debt_type"));
+                                                    parseObject.put("loan_debt_person", todo1.getInt("loan_debt_person"));
+                                                    parseObject.saveInBackground(new SaveCallback() {
+
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            todo1.unpinInBackground("pinLoanDebtsUpdate");
+                                                            System.out.println("LoanDebts DATA is updated ..... ");
+                                                        }
+                                                    });
+                                                }
+                                                else
+                                                {
+
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToLoanDebtsUpdate: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //Delete LoanDebts
+        final ParseQuery<ParseObject> deleteLoanDebts = ParseQuery.getQuery("Loan_debt");
+        deleteLoanDebts.whereEqualTo("loan_debt_uid", sp.getInt("UID", 0));
+        deleteLoanDebts.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> deleteLoanDebts2 = ParseQuery.getQuery("Loan_debt");
+                        deleteLoanDebts2.fromPin("pinLoanDebtsDelete");
+                        deleteLoanDebts2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("loan_debt_uid") == todo1.getInt("loan_debt_uid")) && (todo.getInt("loan_debt_id") == todo1.getInt("loan_debt_id")))
+                                    {
+                                        todo.deleteInBackground(new DeleteCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                todo1.unpinInBackground("pinLoanDebtsDelete");
+                                                System.out.println("LoanDebts DATA is deleted ..... ");
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToLoanDebtsDelete: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         return Service.START_STICKY;
     }
 
