@@ -70,14 +70,14 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
         // icons list items
         List<Integer> mListIconItem = new ArrayList<>();
         mListIconItem.add(0, 0);
-        mListIconItem.add(1, 0); //Item no icon set 0
-        mListIconItem.add(2, 0); //Item no icon set 0
-        mListIconItem.add(3, 0);
-        mListIconItem.add(4, 0); //When the item is a subHeader the value of the icon 0
+        mListIconItem.add(1, R.drawable.accounts); //Item no icon set 0
+        mListIconItem.add(2, R.drawable.trans); //Item no icon set 0
+        mListIconItem.add(3, R.drawable.recursive);
+        mListIconItem.add(4, R.drawable.budget); //When the item is a subHeader the value of the icon 0
         mListIconItem.add(5, 0);
-        mListIconItem.add(6, 0);
-        mListIconItem.add(7, 0);
-        mListIconItem.add(8, 0);
+        mListIconItem.add(6, R.drawable.family);
+        mListIconItem.add(7, R.drawable.piechart);
+        mListIconItem.add(8, R.drawable.settings);
 
 
         //If not please use the FooterDrawer use the setFooterVisible(boolean visible) method with value false

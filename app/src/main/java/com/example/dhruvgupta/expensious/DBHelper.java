@@ -676,7 +676,6 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-
     public ArrayList<TransactionsDB> getAllTransactions(int u_id)
     {
         ArrayList<TransactionsDB> arrayList = new ArrayList<>();
@@ -833,6 +832,30 @@ public class DBHelper extends SQLiteOpenHelper
         {
             ae.printStackTrace();
             return null;
+        }
+    }
+
+    public int getRecursiveColId(int u_id)
+    {
+        int recid = 0;
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor c = db.rawQuery("select * from "+ RECURSIVE_TABLE +" where "+ RECURSIVE_COL_UID +"="+ u_id, null);
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                recid=c.getInt(c.getColumnIndex(RECURSIVE_COL_ID));
+                c.moveToNext();
+            }
+            c.close();
+            return  recid;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return 0;
         }
     }
 

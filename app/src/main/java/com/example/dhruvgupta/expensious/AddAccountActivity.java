@@ -52,7 +52,7 @@ public class AddAccountActivity extends ActionBarActivity
         mAcc_Amt =(Button)findViewById(R.id.add_acc_btn_amt);
         mInclude=(CheckBox)findViewById(R.id.add_acc_cb);
         flag=0;
-        i=0;
+        i=1;
 
         dbHelper =new DBHelper(AddAccountActivity.this);
 

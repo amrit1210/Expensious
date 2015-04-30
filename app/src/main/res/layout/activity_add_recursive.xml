@@ -251,7 +251,8 @@
             <CheckBox
                 style="@style/CheckBoxStyle"
                 android:text="@string/cb_include_report"
-                android:id="@+id/add_recursive_cb" />
+                android:id="@+id/add_recursive_cb"
+                android:checked="true"/>
 
         </LinearLayout>
 

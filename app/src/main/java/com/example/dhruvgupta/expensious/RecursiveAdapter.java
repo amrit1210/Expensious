@@ -159,6 +159,7 @@ public class RecursiveAdapter extends ArrayAdapter {
                 c1.close();
             }
             account.setText(from_acc + "-> " + to_acc);
+            category.setText(null);
         }
 
         return convertView;

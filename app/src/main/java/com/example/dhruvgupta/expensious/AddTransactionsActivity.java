@@ -33,7 +33,7 @@ import java.util.Calendar;
  * Created by Amrit on 3/24/2015.
  */
 public class AddTransactionsActivity extends ActionBarActivity {
-    int mYear, mMonth, mDay, mHour, mMin, flag = 0, p_id = 0, show = 0;
+    int mYear, mMonth, mDay, mHour, mMin, flag = 0, p_id = 0, show = 1;
     Button mDate, mTime, mAmt;
     CheckBox mShow;
     SharedPreferences sp;

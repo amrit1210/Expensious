@@ -171,7 +171,8 @@
             <CheckBox
                 style="@style/CheckBoxStyle"
                 android:text="@string/cb_include_report"
-                android:id="@+id/add_trans_cb" />
+                android:id="@+id/add_trans_cb"
+                android:checked="true"/>
         </LinearLayout>
 
     </ScrollView>
