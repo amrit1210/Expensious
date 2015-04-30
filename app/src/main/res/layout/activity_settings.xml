@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/changeCurrency"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:text="@string/currency"
             android:onClick="onChangeCurrency"
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/customizeCategory"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:text="@string/category"
             android:clickable="true"
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/person"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:text="@string/person"
             android:clickable="true"
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/changePeriod"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:text="@string/period"
             android:clickable="true"
@@ -114,7 +114,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:text="@string/clear"
             android:clickable="true"/>
@@ -135,7 +135,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:text="@string/tutorial"
             android:clickable="true"/>
@@ -156,7 +156,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:text="@string/about"
             android:clickable="true"/>

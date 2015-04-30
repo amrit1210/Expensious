@@ -4,8 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +30,7 @@ import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 import com.parse.SaveCallback;
 
+import java.io.ByteArrayOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +41,6 @@ public class LoginActivity extends ActionBarActivity
     CheckBox mRemember;
     DBHelper dbHelper;
     SharedPreferences sharedPreferences;
-    byte [] b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -80,22 +83,26 @@ public class LoginActivity extends ActionBarActivity
                             // Hooray! The user is logged in.
 
                             ParseFile file = user.getParseFile("userimage");
-//                            file.getDataInBackground(new GetDataCallback() {
-//                                @Override
-//                                public void done(byte[] bytes, ParseException e) {
-//                                    b = bytes;
-//                                    Log.i("byte", b+ " ; " + bytes);
-//
-//                                    SharedPreferences sp = getSharedPreferences("USER_IMAGE", MODE_PRIVATE);
-//                                    SharedPreferences.Editor spEdit = sp.edit();
-//                                    spEdit.putString("UIMAGE", b + "");
-//                                    spEdit.commit();
-//
-//                                }
-//                            });
+                            file.getDataInBackground(new GetDataCallback() {
+                                @Override
+                                public void done(byte[] bytes, ParseException e) {
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0 , bytes.length);
+                                    ByteArrayOutputStream byteArr = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArr);
+                                    String path = MediaStore.Images.Media.insertImage(LoginActivity.this.getContentResolver(), bitmap, "Title", null);
+                                    Uri image = Uri.parse(path);
+                                    Log.i("byte", image+ " ; " + bytes);
+
+                                    SharedPreferences sp = getSharedPreferences("USER_IMAGE", MODE_PRIVATE);
+                                    SharedPreferences.Editor spEdit = sp.edit();
+                                    spEdit.putString("UIMAGE", image + "");
+                                    spEdit.commit();
+
+                                }
+                            });
 
 //                            String s = file.getUrl();
-                            Uri fileUri = Uri.parse(file.getUrl());
+//                            Uri fileUri = Uri.parse(file.getUrl());
 //                            URL fileUrl = fileUri.to
 
                             sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
@@ -103,7 +110,7 @@ public class LoginActivity extends ActionBarActivity
                             spEdit.putString("EMAIL",user.getEmail());
                             spEdit.putString("USERNAME",user.getString("uname"));
                             spEdit.putInt("UID", user.getInt("uid"));
-                            spEdit.putString("UIMAGE", fileUri + "");
+//                            spEdit.putString("UIMAGE", fileUri + "");
                             spEdit.commit();
 
                             ArrayList al = dbHelper.getSettingsUid();

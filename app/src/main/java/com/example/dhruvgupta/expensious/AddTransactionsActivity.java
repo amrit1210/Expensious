@@ -175,7 +175,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                 }
                 t_person = getIntent().getIntExtra("t_person", 0);
                 if(t_person!=0) {
-                    Cursor c = dbHelper.getPersonData(t_person);
+                    Cursor c = dbHelper.getPersonData(t_person, sp.getInt("UID", 0));
                     c.moveToFirst();
                     person = c.getString(c.getColumnIndex(DBHelper.PERSON_COL_NAME));
                     mPerson.setText(person);
@@ -198,7 +198,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                 t_person = getIntent().getIntExtra("t_person", 0);
                 if(t_person!=0) {
-                    Cursor c2 = dbHelper.getPersonData(t_person);
+                    Cursor c2 = dbHelper.getPersonData(t_person, sp.getInt("UID", 0));
                     c2.moveToFirst();
                     person = c2.getString(c2.getColumnIndex(DBHelper.PERSON_COL_NAME));
                     mPerson.setText(person);
@@ -1017,7 +1017,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                 Log.i("Category_Id: in trans", category);
                 if(category.contains("."))
                 {
-                    String cat[]=category.split(".");
+                    String cat[]=category.split("\\.");
                     t_category=Integer.parseInt(cat[0]);
                     t_subcategory=Integer.parseInt(cat[1]);
                     Cursor c=dbHelper.getCategoryData(t_category,sp.getInt("UID",0));
@@ -1028,7 +1028,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                     c1.moveToFirst();
                     String sub=c1.getString(c1.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
                     c1.close();
-                    mCategory.setText(category1+" "+sub);
+                    mCategory.setText(category1+"\\"+sub);
                 }
                 else
                 {

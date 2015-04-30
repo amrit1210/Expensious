@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -204,7 +206,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                 }
                 rec_person = getIntent().getIntExtra("rec_person", 0);
                 if(rec_person !=0) {
-                    Cursor c = dbHelper.getPersonData(rec_person);
+                    Cursor c = dbHelper.getPersonData(rec_person, sp.getInt("UID", 0));
                     c.moveToFirst();
                     person = c.getString(c.getColumnIndex(DBHelper.PERSON_COL_NAME));
                     mPerson.setText(person);
@@ -227,7 +229,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
 
                 rec_person = getIntent().getIntExtra("rec_person", 0);
                 if(rec_person !=0) {
-                    Cursor c2 = dbHelper.getPersonData(rec_person);
+                    Cursor c2 = dbHelper.getPersonData(rec_person, sp.getInt("UID", 0));
                     c2.moveToFirst();
                     person = c2.getString(c2.getColumnIndex(DBHelper.PERSON_COL_NAME));
                     mPerson.setText(person);
@@ -406,13 +408,36 @@ public class AddRecursiveActivity extends ActionBarActivity {
                     if (b) {
                         Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Updated", Toast.LENGTH_LONG).show();
                         startService(new Intent(this, RecursiveService.class));
+
+                        ParseObject recursive = new ParseObject("Recursive");
+                        recursive.put("rec_id", rec_id);
+                        recursive.put("rec_uid", sp.getInt("UID", 0));
+                        recursive.put("rec_from_acc", rec_fromAccount);
+                        recursive.put("rec_to_acc", rec_toAccount);
+                        recursive.put("rec_start_date", mStartDate.getText().toString());
+                        recursive.put("rec_end_date", mEndDate.getText().toString());
+                        recursive.put("rec_next_date", mNextDate);
+                        recursive.put("rec_time", mTime.getText().toString());
+                        recursive.put("rec_recurring", rec_recurring);
+                        recursive.put("rec_alert", rec_alert);
+                        recursive.put("rec_category", rec_category);
+                        recursive.put("rec_subcategory", rec_subcategory);
+                        recursive.put("rec_type", rec_type);
+                        recursive.put("rec_note", mNote.getText().toString());
+                        recursive.put("rec_person", rec_person);
+                        recursive.put("rec_balance", amt);
+                        recursive.put("rec_show", show);
+                        recursive.pinInBackground("pinRecursiveUpdate");
+
                         Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                         startActivity(intent);
+                        this.finish();
                     } else {
                         Toast.makeText(AddRecursiveActivity.this, "Error updating Recursive Transaction", Toast.LENGTH_LONG).show();
                     }
                     Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                     startActivity(intent);
+                    this.finish();
                 }
 
             } else {
@@ -428,8 +453,36 @@ public class AddRecursiveActivity extends ActionBarActivity {
                         if(b) {
                             Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Added", Toast.LENGTH_LONG).show();
                             startService(new Intent(this, RecursiveService.class));
+
+                            ParseObject recursive = new ParseObject("Recursive");
+                            recursive.put("rec_id", rec_id);
+                            recursive.put("rec_uid", sp.getInt("UID", 0));
+                            recursive.put("rec_from_acc", rec_fromAccount);
+                            recursive.put("rec_to_acc", rec_toAccount);
+                            recursive.put("rec_start_date", mStartDate.getText().toString());
+                            recursive.put("rec_end_date", mEndDate.getText().toString());
+                            recursive.put("rec_next_date", mNextDate);
+                            recursive.put("rec_time", mTime.getText().toString());
+                            recursive.put("rec_recurring", rec_recurring);
+                            recursive.put("rec_alert", rec_alert);
+                            recursive.put("rec_category", rec_category);
+                            recursive.put("rec_subcategory", rec_subcategory);
+                            recursive.put("rec_type", rec_type);
+                            recursive.put("rec_note", mNote.getText().toString());
+                            recursive.put("rec_person", rec_person);
+                            recursive.put("rec_balance", amt);
+                            recursive.put("rec_show", show);
+                            recursive.pinInBackground("pinRecursiveUpdate");
+                            recursive.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    Log.i("Rec saveEventually", "YES! YES! YES!");
+                                }
+                            });
+
                             Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                             startActivity(intent);
+                            this.finish();
                         }
                     }
                     else
@@ -447,8 +500,36 @@ public class AddRecursiveActivity extends ActionBarActivity {
                         if (b) {
                             Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Added", Toast.LENGTH_LONG).show();
                             startService(new Intent(this, RecursiveService.class));
+
+                            ParseObject recursive = new ParseObject("Recursive");
+                            recursive.put("rec_id", rec_id);
+                            recursive.put("rec_uid", sp.getInt("UID", 0));
+                            recursive.put("rec_from_acc", rec_fromAccount);
+                            recursive.put("rec_to_acc", rec_toAccount);
+                            recursive.put("rec_start_date", mStartDate.getText().toString());
+                            recursive.put("rec_end_date", mEndDate.getText().toString());
+                            recursive.put("rec_next_date", mNextDate);
+                            recursive.put("rec_time", mTime.getText().toString());
+                            recursive.put("rec_recurring", rec_recurring);
+                            recursive.put("rec_alert", rec_alert);
+                            recursive.put("rec_category", rec_category);
+                            recursive.put("rec_subcategory", rec_subcategory);
+                            recursive.put("rec_type", rec_type);
+                            recursive.put("rec_note", mNote.getText().toString());
+                            recursive.put("rec_person", rec_person);
+                            recursive.put("rec_balance", amt);
+                            recursive.put("rec_show", show);
+                            recursive.pinInBackground("pinRecursiveUpdate");
+                            recursive.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    Log.i("Rec saveEventually", "YES! YES! YES!");
+                                }
+                            });
+
                             Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                             startActivity(intent);
+                            this.finish();
                         }
                     }
                     else
@@ -465,8 +546,36 @@ public class AddRecursiveActivity extends ActionBarActivity {
                         if (b) {
                             Toast.makeText(AddRecursiveActivity.this, "Recursive Transaction Added", Toast.LENGTH_LONG).show();
                             startService(new Intent(this, RecursiveService.class));
+
+                            ParseObject recursive = new ParseObject("Recursive");
+                            recursive.put("rec_id", rec_id);
+                            recursive.put("rec_uid", sp.getInt("UID", 0));
+                            recursive.put("rec_from_acc", rec_fromAccount);
+                            recursive.put("rec_to_acc", rec_toAccount);
+                            recursive.put("rec_start_date", mStartDate.getText().toString());
+                            recursive.put("rec_end_date", mEndDate.getText().toString());
+                            recursive.put("rec_next_date", mNextDate);
+                            recursive.put("rec_time", mTime.getText().toString());
+                            recursive.put("rec_recurring", rec_recurring);
+                            recursive.put("rec_alert", rec_alert);
+                            recursive.put("rec_category", rec_category);
+                            recursive.put("rec_subcategory", rec_subcategory);
+                            recursive.put("rec_type", rec_type);
+                            recursive.put("rec_note", mNote.getText().toString());
+                            recursive.put("rec_person", rec_person);
+                            recursive.put("rec_balance", amt);
+                            recursive.put("rec_show", show);
+                            recursive.pinInBackground("pinRecursiveUpdate");
+                            recursive.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    Log.i("Rec saveEventually", "YES! YES! YES!");
+                                }
+                            });
+
                             Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                             startActivity(intent);
+                            this.finish();
                         }
                     }
 
@@ -474,6 +583,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                     Toast.makeText(AddRecursiveActivity.this, "Error Adding Recursive Transaction", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(AddRecursiveActivity.this, RecursiveActivity.class);
                     startActivity(intent);
+                    this.finish();
                 }
 
             }
@@ -653,7 +763,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                 category=data.getExtras().getString("Category_Id");
                 if(category.contains("."))
                 {
-                    String cat[]=category.split(".");
+                    String cat[]=category.split("\\.");
                     rec_category=Integer.parseInt(cat[0]);
                     rec_subcategory=Integer.parseInt(cat[1]);
                     Cursor c=dbHelper.getCategoryData(rec_category,sp.getInt("UID",0));
@@ -664,7 +774,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                     c1.moveToFirst();
                     String sub=c1.getString(c1.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
                     c1.close();
-                    mCategory.setText(category+" "+sub);
+                    mCategory.setText(category+"\\"+sub);
                 }
                 else
                 {

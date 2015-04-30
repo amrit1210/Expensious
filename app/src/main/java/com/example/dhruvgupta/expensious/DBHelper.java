@@ -913,12 +913,12 @@ public class DBHelper extends SQLiteOpenHelper
         return db.delete(PERSON_TABLE, PERSON_COL_ID +"="+ id +" and "+ PERSON_COL_UID +"="+ u_id, null);
     }
 
-    public Cursor getPersonData(int id)
+    public Cursor getPersonData(int id, int u_id)
     {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select *from "+ PERSON_TABLE +" where "+ PERSON_COL_ID +"="+ id, null);
+            return db.rawQuery("select *from "+ PERSON_TABLE +" where "+ PERSON_COL_ID +"="+ id + " and " + PERSON_COL_UID + "=" + u_id, null);
         }
         catch(Exception ae)
         {

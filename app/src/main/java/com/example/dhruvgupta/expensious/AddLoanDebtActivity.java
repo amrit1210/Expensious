@@ -135,7 +135,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                 }
 
                 if(l_person!=0) {
-                    Cursor c = dbHelper.getPersonData(l_person);
+                    Cursor c = dbHelper.getPersonData(l_person, sp.getInt("UID", 0));
                     c.moveToFirst();
                     person = c.getString(c.getColumnIndex(DBHelper.PERSON_COL_NAME));
                     mPerson.setText(person);
@@ -157,7 +157,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                 }
 
                 if(l_person!=0) {
-                    Cursor c2 = dbHelper.getPersonData(l_person);
+                    Cursor c2 = dbHelper.getPersonData(l_person, sp.getInt("UID", 0));
                     c2.moveToFirst();
                     person = c2.getString(c2.getColumnIndex(DBHelper.PERSON_COL_NAME));
                     mPerson.setText(person);

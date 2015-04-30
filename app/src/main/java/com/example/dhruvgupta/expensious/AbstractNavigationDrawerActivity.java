@@ -41,65 +41,13 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
     @Override
     public void onUserInformation() {
         SharedPreferences sp =getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-//        SharedPreferences sp1 =getSharedPreferences("USER_IMAGE",MODE_PRIVATE);
-//
-//        byte [] b = sp1.getString("UIMAGE", "").getBytes();
-//        Log.i("b",b + "");
-//        BitmapFactory.Options bmo= new BitmapFactory.Options();
-//        bmo.inPreferredConfig= Bitmap.Config.ARGB_8888;
-//         decodedByte = BitmapFactory.decodeByteArray(b, 0, b.length);
-//        Log.i("decoded byte:",decodedByte+"");
-
-//        LoadImageFromURL load = new LoadImageFromURL();
-//        load.execute();
+        SharedPreferences sp1 =getSharedPreferences("USER_IMAGE",MODE_PRIVATE);
 
         this.mUserName.setText(sp.getString("USERNAME","abc"));
         this.mUserEmail.setText(sp.getString("EMAIL","abc@xyz.com"));
-//        this.mUserPhoto.setImageURI(Uri.parse(sp.getString("UIMAGE", "")));
-//        this.mUserPhoto.setImageBitmap(decodedByte);
-//        Log.i("absImage", b+"");
-//        this.mUserPhoto.setImageResource(R.drawable.user_48);
+        this.mUserPhoto.setImageURI(Uri.parse(sp1.getString("UIMAGE", "")));
         this.mUserBackground.setImageResource(R.drawable.background_small);
 
-    }
-
-    private class LoadImageFromURL extends AsyncTask<String, Void, Bitmap> {
-//        ImageView bitmapImgView;
-//        public LoadImageFromURL(ImageView bmImgView){
-//            bitmapImgView = bmImgView;
-//        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            // TODO Auto-generated method stub
-            SharedPreferences sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
-            String urlStr = sp.getString("UIMAGE", "");
-            Bitmap img = null;
-
-            HttpClient client = new DefaultHttpClient();
-            HttpGet request = new HttpGet(urlStr);
-            HttpResponse response;
-            try {
-                response = (HttpResponse)client.execute(request);
-                HttpEntity entity = response.getEntity();
-                BufferedHttpEntity bufferedEntity = new BufferedHttpEntity(entity);
-                InputStream inputStream = bufferedEntity.getContent();
-                img = BitmapFactory.decodeStream(inputStream);
-            } catch (ClientProtocolException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            decodedByte = img;
-            return img;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap){
-//            bitmapImgView.setImageBitmap(bitmap);
-        }
     }
 
     @Override
@@ -221,8 +169,6 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
             startActivity(intent);
         }
     }
-
-
 
     @Override
     public void onPrepareOptionsMenuNavigation(Menu menu, int i, boolean b) {

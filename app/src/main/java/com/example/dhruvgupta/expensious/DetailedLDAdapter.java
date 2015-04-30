@@ -3,11 +3,17 @@ package com.example.dhruvgupta.expensious;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.pkmmte.view.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,6 +44,8 @@ public class DetailedLDAdapter extends ArrayAdapter {
             LayoutInflater in=(LayoutInflater)context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView= in.inflate(layout,null);
         }
+
+        final CircularImageView image = (CircularImageView) convertView.findViewById(R.id.list_loan_debt_img);
         final TextView date=(TextView)convertView.findViewById(R.id.list_add_ld_date);
         final TextView note=(TextView)convertView.findViewById(R.id.list_add_ld_note);
         final TextView time=(TextView)convertView.findViewById(R.id.list_add_ld_time);
@@ -47,6 +55,7 @@ public class DetailedLDAdapter extends ArrayAdapter {
 
         dbHelper = new DBHelper(getContext());
         sp = getContext().getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE);
+
 
         al1 = new ListOfCurrencies().getAllCurrencies();
 
@@ -63,12 +72,27 @@ public class DetailedLDAdapter extends ArrayAdapter {
                 currency.setText(curDB.c_symbol);
         }
 
-
         LoanDebtDB trans_db=al.get(position);
         date.setText(trans_db.l_date);
         note.setText(trans_db.l_note);
         time.setText(trans_db.l_time);
         amount.setText(trans_db.l_balance+"");
+
+        int p_id = trans_db.l_person;
+
+        Cursor person = dbHelper.getPersonData(p_id, sp.getInt("UID", 0));
+        person.moveToFirst();
+        try {
+            String p_img = person.getString(person.getColumnIndex(DBHelper.PERSON_COL_COLOR_CODE));
+            byte[] decodedString = Base64.decode(p_img.trim(), Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            image.setImageBitmap(decodedByte);
+        }
+        catch (Exception e)
+        {
+            Log.i("Excep:PersonAdapter", e.getMessage());
+        }
 
         if(trans_db.l_type.equals("Debt"))
         {

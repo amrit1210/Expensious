@@ -3,12 +3,19 @@ package com.example.dhruvgupta.expensious;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.pkmmte.view.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,6 +46,8 @@ public class TransactionAdapter extends ArrayAdapter {
             LayoutInflater in=(LayoutInflater)context1.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
            convertView= in.inflate(layout,null);
         }
+
+        final CircularImageView image = (CircularImageView)convertView.findViewById(R.id.list_transaction_img);
         final TextView date=(TextView)convertView.findViewById(R.id.list_transaction_date);
         final TextView category=(TextView)convertView.findViewById(R.id.list_transaction_cat);
         final TextView note=(TextView)convertView.findViewById(R.id.list_transaction_note);
@@ -74,6 +83,24 @@ public class TransactionAdapter extends ArrayAdapter {
             Cursor c4=dbHelper.getCategoryData(c_id,sp.getInt("UID",0));
             c4.moveToFirst();
             String cat=c4.getString(c4.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+            try
+            {
+                String c_img=c4.getString(c4.getColumnIndex(DBHelper.CATEGORY_COL_C_ICON));
+                byte[] decodedString = Base64.decode(c_img.trim(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                image.setImageBitmap(decodedByte);
+
+                Cursor c5 = dbHelper.getPersonData(trans_db.t_p_id, sp.getInt("UID", 0));
+                c5.moveToFirst();
+
+                String colorCode = c5.getString(c5.getColumnIndex(DBHelper.PERSON_COL_COLOR_CODE));
+                image.setBorderColor(Color.parseColor(colorCode));
+            }
+            catch (Exception e)
+            {
+                Log.i("Excep:PersonAdapter", e.getMessage());
+            }
             c4.close();
             if(sub_id!=0)
             {
@@ -81,7 +108,7 @@ public class TransactionAdapter extends ArrayAdapter {
                 c5.moveToFirst();
                 String subcat=c5.getString(c5.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
                 c5.close();
-                category.setText(cat+" :"+subcat);
+                category.setText(cat+" : "+subcat);
 
             }
             else

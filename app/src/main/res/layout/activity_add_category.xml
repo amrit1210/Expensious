@@ -11,8 +11,9 @@
         android:background="@color/main_color_500">
 
         <com.pkmmte.view.CircularImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginLeft="5dp"
             app:border="false"
             android:layout_gravity="center"
             android:id="@+id/add_category_icon"
@@ -21,6 +22,7 @@
         <EditText
             style="@style/EditTextAppearance.Heading"
             android:hint="@string/hint_category_name"
+            android:textSize="35sp"
             android:id="@+id/add_category_name"/>
 
     </LinearLayout>
