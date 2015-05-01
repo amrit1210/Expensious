@@ -1,6 +1,7 @@
 package com.example.dhruvgupta.expensious;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,14 +22,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by Amrit on 4/23/2015.
  */
 public class SettingsActivity extends AbstractNavigationDrawerActivity
-{   static TextView mCurrency;
+{   static TextView mCurrency,mA1,mA2,mA3,mA4,mA5,mA6,mA7,mA8,mA9,mA10;
     static DBHelper dbHelper;
     static SharedPreferences sp;
-
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState)
@@ -80,46 +83,101 @@ public void onInt(Bundle bundle) {
             c.close();
         }
     }
+
     public void onChangeCurrency(View v)
     {
         Intent i=new Intent(SettingsActivity.this,CurrencyViewList.class);
         startActivityForResult(i, 1);
 
     }
+
     public void onCustomizeCategory(View v)
     {
         Intent i=new Intent(SettingsActivity.this,CategoriesActivity.class);
         startActivity(i);
     }
+
     public void onCustomizePerson(View v)
     {
         Intent i=new Intent(SettingsActivity.this,PersonsActivity.class);
         startActivity(i);
     }
-    public void onChangePeriod(View v)
-    {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
 
+    public void onAboutUs(View v){
         LayoutInflater inflater = getLayoutInflater();
-        final View layout=inflater.inflate(R.layout.settings_period, null);
-        builder.setTitle("PERIOD");
-        builder.setView(layout);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        View v1 = inflater.inflate(R.layout.activity_about,null);
+        setContentView(v1);
+    }
 
+    public void onHelp(View v){
+        LayoutInflater inflater = getLayoutInflater();
+        View v1 = inflater.inflate(R.layout.activity_help,null);
+        setContentView(v1);
+        mA1 = (TextView) v1.findViewById(R.id.faq1);
+        mA2 = (TextView) v1.findViewById(R.id.faq2);
+        mA3 = (TextView) v1.findViewById(R.id.faq3);
+        mA4 = (TextView) v1.findViewById(R.id.faq4);
+        mA5 = (TextView) v1.findViewById(R.id.faq5);
+        mA6 = (TextView) v1.findViewById(R.id.faq6);
+        mA7 = (TextView) v1.findViewById(R.id.faq7);
+        mA8 = (TextView) v1.findViewById(R.id.faq8);
+        mA9 = (TextView) v1.findViewById(R.id.faq9);
+        mA10 = (TextView) v1.findViewById(R.id.faq10);
+        mA1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int id) {
-
-                RadioGroup period=(RadioGroup)layout.findViewById(R.id.radio_group_period);
-                Toast.makeText(SettingsActivity.this,"Period is set",Toast.LENGTH_LONG).show();
+            public void onClick(View v) {
+                if(mA2.getVisibility()==View.VISIBLE){
+                    mA2.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    mA2.setVisibility(View.VISIBLE);
+                }
             }
         });
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
+        mA3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mA4.getVisibility()==View.VISIBLE){
+                    mA4.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    mA4.setVisibility(View.VISIBLE);
+                }
             }
         });
-        builder.create();
-        builder.show();
+        mA5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mA6.getVisibility()==View.VISIBLE){
+                    mA6.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    mA6.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        mA7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mA8.getVisibility()==View.VISIBLE){
+                    mA8.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    mA8.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        mA9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mA10.getVisibility()==View.VISIBLE){
+                    mA10.setVisibility(View.INVISIBLE);
+                }
+                else{
+                    mA10.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
@@ -132,7 +190,7 @@ public void onInt(Bundle bundle) {
                 Cursor c=dbHelper.getSettingsData(sp.getInt("UID",0));
                 c.moveToFirst();
                 String cur=c.getString(c.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
-                mCurrency.setText(R.string.currency+" ( "+cur+" )");
+                mCurrency.setText("Change Currency"+" ( "+cur+" )");
                 c.close();
             }
         }

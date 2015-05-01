@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FAQ's"
+        android:textSize="30sp"
+        android:gravity="center"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20sp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/faq1"
+            android:textSize="20sp"
+            android:text=" Q: How to add a Transaction ?"
+            android:clickable="true"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/faq2"
+            android:textSize="18sp"
+            android:visibility="gone"
+            android:layout_below="@+id/faq1"
+            android:layout_marginTop="5sp"
+            android:text=" A: You may add transaction by clicking on Transaction. Fill in the required fields and click on Tick button at top right to save your transaction."/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/faq3"
+                android:layout_below="@+id/faq2"
+                android:layout_marginTop="5sp"
+                android:textSize="20sp"
+                android:text=" Q: How to add an Account ?"
+                android:clickable="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/faq4"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:layout_below="@+id/faq3"
+                android:layout_marginTop="5sp"
+                android:text=" A: You may add your accounts through side pannel at Account option. Enter amount and account. To save tap on Tick button."/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/faq5"
+                android:layout_below="@+id/faq4"
+                android:layout_marginTop="5sp"
+                android:textSize="20sp"
+                android:text=" Q: How to add a Person ?"
+                android:clickable="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/faq6"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:layout_below="@+id/faq5"
+                android:layout_marginTop="5sp"
+                android:text=" A: You may add a person by first going to Settings in the side pannel and then select Person option to add or delete person."/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/faq7"
+                android:layout_below="@+id/faq6"
+                android:layout_marginTop="5sp"
+                android:textSize="20sp"
+                android:text=" Q: How to change period of report ?"
+                android:clickable="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/faq8"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:layout_below="@+id/faq7"
+                android:layout_marginTop="5sp"
+                android:text=" A: You may select the period for report by going into Setting and then tap Change Period to select the period."/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/faq9"
+                android:layout_below="@id/faq8"
+                android:layout_marginTop="5sp"
+                android:textSize="20sp"
+                android:text=" Q: How to change the Currency ?"
+                android:clickable="true"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/faq10"
+                android:textSize="18sp"
+                android:visibility="gone"
+                android:layout_below="@id/faq9"
+                android:layout_marginTop="5sp"
+                android:text=" A: You may change the Currency by going into the Settings and then select Change Currency to select the currency or you may select during adding the Transaction."/>
+
+        </RelativeLayout>
+        </ScrollView>
+
+</LinearLayout>

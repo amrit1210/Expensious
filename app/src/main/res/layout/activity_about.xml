@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+       <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Expensious 1.0"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:id="@+id/exp"></TextView>
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/exp"
+           android:layout_marginTop="20sp"
+           android:textSize="20sp"
+           android:id="@+id/desc"
+           android:text="Expensious provides the best way to manage your daily expenses and helps you manage your multiple accounts and transactions. Our team is always happy to help you and here your suggestions. Our team thanks you to be with us."
+           />
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_below="@+id/desc"
+           android:text="Regards"
+           android:textSize="20sp"
+           android:id="@+id/reg"
+           android:layout_marginTop="20sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:orientation="vertical"
+        android:layout_below="@id/reg"
+        android:layout_marginTop="20sp">
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:textSize="20sp"
+           android:gravity="center"
+           android:text="Amrit Kaur"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="Dhruv Gupta"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/desc"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="Gaurav Sharma"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="Shubham Puri"/>
+    </LinearLayout>
+
+</RelativeLayout>
