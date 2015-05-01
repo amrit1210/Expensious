@@ -1087,6 +1087,30 @@ public class DBHelper extends SQLiteOpenHelper
         return db.delete(CATEGORY_SPECIFIC, CATEGORY_COL_C_ID +"="+ id +" and "+ CATEGORY_COL_C_UID +"="+ u_id, null);
     }
 
+    public int getCategoryColIduid(int u_id)
+    {
+        int cid = 0;
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor c = db.rawQuery("select * from "+ CATEGORY_SPECIFIC+" where "+ CATEGORY_COL_C_UID +"="+ u_id, null);
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                cid=c.getInt(c.getColumnIndex(CATEGORY_COL_C_ID));
+                c.moveToNext();
+            }
+            c.close();
+            return  cid;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return 0;
+        }
+    }
+
     public Cursor getCategoryData(int id,int u_id)
     {
         try
@@ -1340,6 +1364,30 @@ public class DBHelper extends SQLiteOpenHelper
     {
         SQLiteDatabase db=this.getWritableDatabase();
         return db.delete(SUBCATEGORY_TABLE, SUBCATEGORY_COL_SUB_ID +"="+ id +" and "+ SUBCATEGORY_COL_SUB_UID +"="+ u_id, null);
+    }
+
+    public int getSubCategoryColId(int u_id)
+    {
+        int subid = 0;
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+
+            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE+" where "+ SUBCATEGORY_COL_SUB_UID +"="+ u_id, null);
+            c.moveToFirst();
+            while(!c.isAfterLast())
+            {
+                subid=c.getInt(c.getColumnIndex(SUBCATEGORY_COL_SUB_ID));
+                c.moveToNext();
+            }
+            c.close();
+            return  subid;
+        }
+        catch(Exception ae)
+        {
+            ae.printStackTrace();
+            return 0;
+        }
     }
     public Cursor getSubCategoryData(int id, int u_id)
     {

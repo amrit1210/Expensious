@@ -531,6 +531,253 @@ public class WebSyncService extends Service {
             }
         });
 
+        //Add Category
+        ParseQuery<ParseObject> addCategory = ParseQuery.getQuery("Category_specific");
+        addCategory.fromPin("pinCategory");
+        addCategory.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> todos, ParseException e) {
+                if (e == null) {
+                    for (final ParseObject todo : todos) {
+                        todo.saveInBackground(new SaveCallback() {
+
+                            @Override
+                            public void done(ParseException e) {
+//                                    todo.unpinInBackground("pinTransactions");
+                                System.out.println("Category DATA is saved ..... ");
+                            }
+                        });
+                    }
+                } else {
+                    Log.i("MainActivity", "syncTodosToCategoryAdd: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+        //Update Category
+        ParseQuery<ParseObject> updateCategory = ParseQuery.getQuery("Category_specific");
+        updateCategory.whereEqualTo("c_uid", sp.getInt("UID", 0));
+        updateCategory.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> updateCategory2 = ParseQuery.getQuery("Category_specific");
+                        updateCategory2.fromPin("pinCategoryUpdate");
+                        updateCategory2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("c_uid") == todo1.getInt("c_uid")) && (todo.getInt("c_id") == todo1.getInt("c_id")))
+                                    {
+                                        todo.fetchInBackground(new GetCallback<ParseObject>() {
+                                            @Override
+                                            public void done(ParseObject parseObject, ParseException e) {
+                                                if (e==null)
+                                                {
+                                                    parseObject.put("objectId", todo.getObjectId());
+                                                    parseObject.put("c_id", todo1.getInt("c_id"));
+                                                    parseObject.put("c_uid", todo1.getInt("c_uid"));
+                                                    parseObject.put("c_name", todo1.getInt("c_name"));
+                                                    parseObject.put("c_type", todo1.getInt("c_type"));
+                                                    parseObject.put("c_icon", todo1.getInt("c_icon"));
+
+                                                    parseObject.saveInBackground(new SaveCallback() {
+
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            todo1.unpinInBackground("pinCategoryUpdate");
+                                                            System.out.println("Category DATA is updated ..... ");
+                                                        }
+                                                    });
+                                                }
+                                                else
+                                                {
+
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToCategoryUpdate: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //Delete Category
+        final ParseQuery<ParseObject> deleteCategory = ParseQuery.getQuery("Category_specific");
+        deleteCategory.whereEqualTo("c_uid", sp.getInt("UID", 0));
+        deleteCategory.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> deleteCategory2 = ParseQuery.getQuery("Category_specific");
+                        deleteCategory2.fromPin("pinCategoryDelete");
+                        deleteCategory2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("c_uid") == todo1.getInt("c_uid")) && (todo.getInt("c_id") == todo1.getInt("c_id")))
+                                    {
+                                        todo.deleteInBackground(new DeleteCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                todo1.unpinInBackground("pinCategoryDelete");
+                                                System.out.println("Category DATA is deleted ..... ");
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToCategoryDelete: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //Add SubCategory
+        ParseQuery<ParseObject> addSubcategory = ParseQuery.getQuery("Sub_category");
+        addSubcategory.fromPin("pinSubCategory");
+        addSubcategory.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> todos, ParseException e) {
+                if (e == null) {
+                    for (final ParseObject todo : todos) {
+                        todo.saveInBackground(new SaveCallback() {
+
+                            @Override
+                            public void done(ParseException e) {
+//                                    todo.unpinInBackground("pinTransactions");
+                                System.out.println("SubCategory DATA is saved ..... ");
+                            }
+                        });
+                    }
+                } else {
+                    Log.i("MainActivity", "syncTodosToTransAdd: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+        //Update Transactions
+        ParseQuery<ParseObject> updateSubcategory = ParseQuery.getQuery("Sub_category");
+        updateSubcategory.whereEqualTo("sub_uid", sp.getInt("UID", 0));
+        updateSubcategory.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> updateSubcategory2 = ParseQuery.getQuery("Sub_category");
+                        updateSubcategory2.fromPin("pinSubCategoryUpdate");
+                        updateSubcategory2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("sub_uid") == todo1.getInt("sub_uid")) && (todo.getInt("sub_id") == todo1.getInt("sub_id")))
+                                    {
+                                        todo.fetchInBackground(new GetCallback<ParseObject>() {
+                                            @Override
+                                            public void done(ParseObject parseObject, ParseException e) {
+                                                if (e==null)
+                                                {
+                                                    parseObject.put("objectId", todo.getObjectId());
+                                                    parseObject.put("sub_id", todo1.getInt("sub_id"));
+                                                    parseObject.put("sub_uid", todo1.getInt("sub_uid"));
+                                                    parseObject.put("sub_c_id", todo1.getInt("sub_c_id"));
+                                                    parseObject.put("sub_name", todo1.getInt("sub_name"));
+                                                    parseObject.saveInBackground(new SaveCallback() {
+
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            todo1.unpinInBackground("pinSubCategoryUpdate");
+                                                            System.out.println("Subcategory DATA is updated ..... ");
+                                                        }
+                                                    });
+                                                }
+                                                else
+                                                {
+
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToSubcategoryUpdate: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        //Delete SubCategory
+        ParseQuery<ParseObject> deleteSubcategory = ParseQuery.getQuery("Sub_category");
+        deleteSubcategory.whereEqualTo("sub_uid", sp.getInt("UID", 0));
+        deleteSubcategory.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null)
+                {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> deleteSubCategory2 = ParseQuery.getQuery("Sub_category");
+                        deleteSubCategory2.fromPin("pinSubCategoryDelete");
+                        deleteSubCategory2.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("sub_uid") == todo1.getInt("sub_uid")) && (todo.getInt("sub_id") == todo1.getInt("sub_id")))
+                                    {
+                                        todo.deleteInBackground(new DeleteCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                todo1.unpinInBackground("pinSubCategoryDelete");
+                                                System.out.println("SubCategory DATA is deleted ..... ");
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    Log.i("MainActivity", "syncTodosToSubCategoryDelete: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         //Add Recursive
         ParseQuery<ParseObject> addRec = ParseQuery.getQuery("Recursive");
         addRec.fromPin("pinRecursive");
@@ -795,9 +1042,97 @@ public class WebSyncService extends Service {
             }
         });
 
+        //Add Settings
+        ParseQuery<ParseObject> addSettings = ParseQuery.getQuery("Settings");
+        addSettings.fromPin("pinSettings");
+        addSettings.findInBackground(new FindCallback<ParseObject>() {
 
+            @Override
+            public void done(List<ParseObject> todos, ParseException e) {
+                if (e == null) {
+                    for (final ParseObject todo : todos) {
+                        todo.saveInBackground(new SaveCallback() {
+
+                            @Override
+                            public void done(ParseException e) {
+//                                    todo.unpinInBackground("pinSettings");
+                                System.out.println("Settings DATA is saved ..... ");
+                            }
+                        });
+                    }
+                } else {
+                    Log.i("MainActivity", "syncTodosToAccSettings: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+        //UpdateSettings
+        final ParseQuery<ParseObject> updateSettings = ParseQuery.getQuery("Settings");
+        updateSettings.whereEqualTo("settings_uid", sp.getInt("UID", 0));
+        updateSettings.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> parseObjects, ParseException e) {
+                if (e == null) {
+                    for (final ParseObject todo : parseObjects) {
+
+                        ParseQuery<ParseObject> updateSettings2 = ParseQuery.getQuery("Settings");
+                        updateSettings2.fromPin("pinSettingsUpdate");
+                        updateSettings2.getInBackground(todo.getObjectId(), new GetCallback<ParseObject>() {
+                            @Override
+                            public void done(ParseObject parseObject, ParseException e) {
+                                if (e == null) {
+                                    parseObject.put("objectId", todo.getObjectId());
+                                    parseObject.put("settings_uid", todo.getInt("settings_uid"));
+                                    parseObject.put("settings_cur_code", todo.getInt("settings_cur_code"));
+                                    parseObject.saveInBackground(new SaveCallback() {
+
+                                        @Override
+                                        public void done(ParseException e) {
+                                            todo.unpinInBackground("pinSettingsUpdate");
+                                            System.out.println("Settings DATA is updated ..... ");
+                                        }
+                                    });
+                                } else {
+
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    Log.i("MainActivity", "syncTodosToTransUpdate: Error finding pinned todos: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+
+
+//        final ParseQuery<ParseObject> updateSettings = ParseQuery.getQuery("Settings");
+//        updateSettings.whereEqualTo("settings_uid", sp.getInt("UID", 0));
+//        updateSettings.
+//// Retrieve the object by id
+//        updateSettings.getFirstInBackground(new GetCallback<ParseObject>() {
+//            public void done(ParseObject parseObject, ParseException e) {
+//                if (e == null) {
+//                    parseObject.put("objectId", parseObject.getObjectId());
+//                    parseObject.put("settings_uid", parseObject.getInt("settings_uid"));
+//                    parseObject.put("settings_cur_code", parseObject.getInt("settings_cur_code"));
+//                    parseObject.saveInBackground(new SaveCallback() {
+//
+//                        @Override
+//                        public void done(ParseException e) {
+//                            todo1.unpinInBackground("pinSettingsUpdate");
+//                            System.out.println("Settings DATA is updated ..... ");
+//                        }
+//                    });
+//
+//                }
+//            }
+//        });
+        });
         return Service.START_STICKY;
     }
+
 
     @Override
     public IBinder onBind(Intent intent) {

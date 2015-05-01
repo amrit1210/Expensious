@@ -94,6 +94,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                     Intent i = new Intent(getActivity(), DetailedLoanDebt.class);
                     i.putExtra("LD_ID", recDb.l_id);
                     startActivity(i);
+
                 }
             });
             registerForContextMenu(listView);
@@ -203,18 +204,18 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                 c.moveToFirst();
                                 if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
 
-                                   // ParseObject loanDebt = new ParseObject("Loan_debt");
-                                    loanDebt.put("loan_debt_id", loanDebtDB.l_id);
-                                    loanDebt.put("loan_debt_uid", loanDebtDB.l_u_id);
-                                    loanDebt.put("loan_debt_parent", loanDebtDB.l_parent);
-                                    loanDebt.put("loan_debt_from_acc",loanDebtDB.l_from_acc);
-                                    loanDebt.put("loan_debt_to_acc",loanDebtDB.l_to_acc);
-                                    loanDebt.put("loan_debt_date", loanDebtDB.l_date);
-                                    loanDebt.put("loan_debt_time", loanDebtDB.l_time);
-                                    loanDebt.put("loan_debt_note", loanDebtDB.l_note);
-                                    loanDebt.put("loan_debt_balance", loanDebtDB.l_balance);
-                                    loanDebt.put("loan_debt_type", loanDebtDB.l_type);
-                                    loanDebt.put("loan_debt_person", loanDebtDB.l_person);
+                                   // ParseObject loan_debt = new ParseObject("Loan_debt");
+                                    loanDebt.put("loan_debt_id", ldDB.l_id);
+                                    loanDebt.put("loan_debt_uid", ldDB.l_u_id);
+                                    loanDebt.put("loan_debt_parent", ldDB.l_parent);
+                                    loanDebt.put("loan_debt_from_acc",ldDB.l_from_acc);
+                                    loanDebt.put("loan_debt_to_acc",ldDB.l_to_acc);
+                                    loanDebt.put("loan_debt_date", ldDB.l_date);
+                                    loanDebt.put("loan_debt_time", ldDB.l_time);
+                                    loanDebt.put("loan_debt_note", ldDB.l_note);
+                                    loanDebt.put("loan_debt_balance", ldDB.l_balance);
+                                    loanDebt.put("loan_debt_type", ldDB.l_type);
+                                    loanDebt.put("loan_debt_person", ldDB.l_person);
                                     loanDebt.pinInBackground("pinLoanDebtsDelete");
 
                                     float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -280,18 +281,18 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                 Log.i("While", "inside while debt");
 
                                 if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
-                                   // ParseObject loanDebt = new ParseObject("Loan_debt");
-                                    loanDebt.put("loan_debt_id", loanDebtDB.l_id);
-                                    loanDebt.put("loan_debt_uid", loanDebtDB.l_u_id);
-                                    loanDebt.put("loan_debt_parent", loanDebtDB.l_parent);
-                                    loanDebt.put("loan_debt_from_acc",loanDebtDB.l_from_acc);
-                                    loanDebt.put("loan_debt_to_acc",loanDebtDB.l_to_acc);
-                                    loanDebt.put("loan_debt_date", loanDebtDB.l_date);
-                                    loanDebt.put("loan_debt_time", loanDebtDB.l_time);
-                                    loanDebt.put("loan_debt_note", loanDebtDB.l_note);
-                                    loanDebt.put("loan_debt_balance", loanDebtDB.l_balance);
-                                    loanDebt.put("loan_debt_type", loanDebtDB.l_type);
-                                    loanDebt.put("loan_debt_person", loanDebtDB.l_person);
+                                   // ParseObject loan_debt = new ParseObject("Loan_debt");
+                                    loanDebt.put("loan_debt_id", ldDB.l_id);
+                                    loanDebt.put("loan_debt_uid", ldDB.l_u_id);
+                                    loanDebt.put("loan_debt_parent", ldDB.l_parent);
+                                    loanDebt.put("loan_debt_from_acc",ldDB.l_from_acc);
+                                    loanDebt.put("loan_debt_to_acc",ldDB.l_to_acc);
+                                    loanDebt.put("loan_debt_date", ldDB.l_date);
+                                    loanDebt.put("loan_debt_time", ldDB.l_time);
+                                    loanDebt.put("loan_debt_note", ldDB.l_note);
+                                    loanDebt.put("loan_debt_balance", ldDB.l_balance);
+                                    loanDebt.put("loan_debt_type", ldDB.l_type);
+                                    loanDebt.put("loan_debt_person", ldDB.l_person);
                                     loanDebt.pinInBackground("pinLoanDebtsDelete");
 
                                     Log.i("If While", "inside if while debt");

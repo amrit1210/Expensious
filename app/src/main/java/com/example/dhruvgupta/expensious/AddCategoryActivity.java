@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
 import com.pkmmte.view.CircularImageView;
 
 import java.io.ByteArrayOutputStream;
@@ -297,10 +299,6 @@ public class AddCategoryActivity extends ActionBarActivity
         {
             mCat_Name.setError("Enter Category name");
         }
-        else if (!mCat_Name.getText().toString().matches("[a-zA-Z][a-zA-Z0-9 ]+"))
-        {
-            mCat_Name.setError("Enter valid Category Name");
-        }
         else
         {
             mCat_Name.setError(null);
@@ -338,6 +336,13 @@ public class AddCategoryActivity extends ActionBarActivity
                         {
                             Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
                             Toast.makeText(AddCategoryActivity.this, "Category Updated " + c_IE_type, Toast.LENGTH_SHORT).show();
+                            ParseObject category = new ParseObject("Category_specific");
+                            category.put("c_id", c_id);
+                            category.put("c_uid", sp.getInt("UID", 0));
+                            category.put("c_name", mCat_Name.getText().toString());
+                            category.put("c_type",c_IE_type);
+                            category.put("c_icon", c_img_string);
+                            category.pinInBackground("pinCategoryUpdate");
                             Intent i = new Intent();
                             this.finish();
                         }
@@ -358,6 +363,13 @@ public class AddCategoryActivity extends ActionBarActivity
                             if(dbHelper.updateSubCategory(sub_id,colId,mCat_Name.getText().toString(),sp.getInt("UID",0)))
                             {
                                 Toast.makeText(AddCategoryActivity.this,"Sub Category Updated",Toast.LENGTH_SHORT).show();
+                                ParseObject subcategory = new ParseObject("Sub_category");
+                                subcategory.put("sub_id",sub_id);
+                                subcategory.put("sub_uid", sp.getInt("UID", 0));
+                                subcategory.put("sub_name", mCat_Name.getText().toString());
+                                subcategory.put("sub_c_id",colId);
+                                subcategory.put("c_icon", c_img_string);
+                                subcategory.pinInBackground("pinSubCategoryUpdate");
                                 Intent i=new Intent();
                                 this.finish();
                             }
@@ -385,6 +397,21 @@ public class AddCategoryActivity extends ActionBarActivity
                         {
                             Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
                             Toast.makeText(AddCategoryActivity.this, "Main Category Added " + c_IE_type, Toast.LENGTH_SHORT).show();
+                            int cid = dbHelper.getCategoryColIduid(sp.getInt("UID", 0));
+
+                            ParseObject category = new ParseObject("Category_specific");
+                            category.put("c_id", cid);
+                            category.put("c_uid", sp.getInt("UID", 0));
+                            category.put("c_name", mCat_Name.getText().toString());
+                            category.put("c_type", c_IE_type);
+                            category.put("c_icon", c_img_string);
+                            category.pinInBackground("pinCategory");
+                            category.saveEventually(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    Log.i("Category saveEventually", "YES! YES! YES!");
+                                }
+                            });
                             Intent i = new Intent();
                             this.finish();
                         }
@@ -404,7 +431,21 @@ public class AddCategoryActivity extends ActionBarActivity
                             colId = dbHelper.getCategoryColId(col);
                             if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),sp.getInt("UID",0)))
                             {
+                                int sub_id = dbHelper.getSubCategoryColId(sp.getInt("UID", 0));
                                 dbHelper.getAllSubCategories(sp.getInt("UID",0),colId);
+                                ParseObject subcategory = new ParseObject("Sub_category");
+                                subcategory.put("sub_id",sub_id );
+                                subcategory.put("sub_uid", sp.getInt("UID", 0));
+                                subcategory.put("sub_name", mCat_Name.getText().toString());
+                                subcategory.put("sub_c_id",colId);
+
+                                subcategory.pinInBackground("pinSubCategory");
+                                subcategory.saveEventually(new SaveCallback() {
+                                    @Override
+                                    public void done(com.parse.ParseException e) {
+                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                    }
+                                });
                                 Toast.makeText(AddCategoryActivity.this,"Sub Category Added",Toast.LENGTH_SHORT).show();
                                 Intent i=new Intent();
                                 this.finish();

@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -391,7 +392,21 @@ public static class CategoriesFragment extends Fragment
             Log.i("SUBID:",subcat_id+"");
             if(subcat_id==0) {
                 if( dbHelper.deleteCategory(cat_id, sp.getInt("UID", 0))>0) {
+                    Cursor c = dbHelper.getCategoryData(cat_id,sp.getInt("UID",0));
+                    c.moveToFirst();
+                    int c_uid = c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_UID));
+                    String c_name = c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+                    int c_type = c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_TYPE));
+                    String c_icon = c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_ICON));
+                    c.close();
 
+                    ParseObject category = new ParseObject("Category_specific");
+                    category.put("c_id", cat_id);
+                    category.put("c_uid", c_uid);
+                    category.put("c_name", c_name);
+                    category.put("c_type", c_type);
+                    category.put("c_icon", c_icon);
+                    category.pinInBackground("pinCategoryDelete");
                     Intent i = new Intent(getActivity(), CategoriesActivity.class);
                     startActivity(i);
                     Toast.makeText(getActivity(), "Category Deleted", Toast.LENGTH_LONG).show();
@@ -400,6 +415,24 @@ public static class CategoriesFragment extends Fragment
             else if(subcat_id>0)
             {
                 if(dbHelper.deleteSubCategory(subcat_id,sp.getInt("UID",0))>0) {
+                    Cursor c = dbHelper.getSubCategoryData(subcat_id,sp.getInt("UID",0));
+                    c.moveToFirst();
+                    int sub_uid = c.getInt(c.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_UID));
+                    String sub_name = c.getString(c.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
+                    String sub_icon = c.getString(c.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_ICON));
+                    c.close();
+                    Cursor c1=dbHelper.getCategoryData(cat_id,sp.getInt("UID",0));
+                    c1.moveToFirst();
+                    String c_name=c1.getString(c1.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
+                    c1.close();
+                    ParseObject subcategory = new ParseObject("Sub_category");
+                    subcategory.put("sub_id", subcat_id);
+                    subcategory.put("sub_uid", sub_uid);
+                    subcategory.put("sub_name", sub_name);
+                    subcategory.put("sub_c_id", cat_id);
+
+                    subcategory.pinInBackground("pinSubCategoryDelete");
+
                     Intent i = new Intent(getActivity(), CategoriesActivity.class);
                     startActivity(i);
                     Toast.makeText(getActivity(), "SubCategory Deleted", Toast.LENGTH_LONG).show();

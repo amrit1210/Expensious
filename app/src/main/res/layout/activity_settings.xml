@@ -119,10 +119,7 @@
             android:clickable="true"/>
     </LinearLayout>
 
-    <IconTextView
-        style="@style/IconTextViewStyle.Black"
-        android:text="{fa-info}"
-        android:layout_gravity="center" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -132,7 +129,10 @@
         android:layout_marginRight="5dp"
         android:orientation="horizontal">
 
-
+        <IconTextView
+            style="@style/IconTextViewStyle.Black"
+            android:text="{fa-info}"
+            android:layout_gravity="center" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

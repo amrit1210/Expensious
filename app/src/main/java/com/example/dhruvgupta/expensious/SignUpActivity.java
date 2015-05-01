@@ -49,7 +49,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 {
     EditText mName,mEmail,mPassword,mConfirm_Password;
     CircularImageView mImage;
-    String image = "";
+    String image = "",cur="INR";
     byte[] b;
     DBHelper dbHelper;
     ArrayList<SignUpDB> al;
@@ -376,6 +376,16 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                             e.printStackTrace();
                                                             Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                                         }
+                                                    }
+                                                });
+                                                ParseObject settings = new ParseObject("Settings");
+                                                settings.put("settings_uid", r);
+                                                settings.put("settings_cur_code", cur);
+                                                settings.pinInBackground("pinSettings");
+                                                settings.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Settings saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
                                             }
