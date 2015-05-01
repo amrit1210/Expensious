@@ -193,7 +193,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                         cursor.close();
 
                         ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
-                        Iterator <LoanDebtDB> iterator = null;
+                        Iterator <LoanDebtDB> iterator;
                         if (!arrayList.isEmpty())
                         {
                             iterator = arrayList.iterator();
@@ -204,19 +204,19 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                 c.moveToFirst();
                                 if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
 
-                                   // ParseObject loan_debt = new ParseObject("Loan_debt");
-                                    loanDebt.put("loan_debt_id", ldDB.l_id);
-                                    loanDebt.put("loan_debt_uid", ldDB.l_u_id);
-                                    loanDebt.put("loan_debt_parent", ldDB.l_parent);
-                                    loanDebt.put("loan_debt_from_acc",ldDB.l_from_acc);
-                                    loanDebt.put("loan_debt_to_acc",ldDB.l_to_acc);
-                                    loanDebt.put("loan_debt_date", ldDB.l_date);
-                                    loanDebt.put("loan_debt_time", ldDB.l_time);
-                                    loanDebt.put("loan_debt_note", ldDB.l_note);
-                                    loanDebt.put("loan_debt_balance", ldDB.l_balance);
-                                    loanDebt.put("loan_debt_type", ldDB.l_type);
-                                    loanDebt.put("loan_debt_person", ldDB.l_person);
-                                    loanDebt.pinInBackground("pinLoanDebtsDelete");
+                                    ParseObject loan_debt = new ParseObject("Loan_debt");
+                                    loan_debt.put("loan_debt_id", ldDB.l_id);
+                                    loan_debt.put("loan_debt_uid", ldDB.l_u_id);
+                                    loan_debt.put("loan_debt_parent", ldDB.l_parent);
+                                    loan_debt.put("loan_debt_from_acc",ldDB.l_from_acc);
+                                    loan_debt.put("loan_debt_to_acc",ldDB.l_to_acc);
+                                    loan_debt.put("loan_debt_date", ldDB.l_date);
+                                    loan_debt.put("loan_debt_time", ldDB.l_time);
+                                    loan_debt.put("loan_debt_note", ldDB.l_note);
+                                    loan_debt.put("loan_debt_balance", ldDB.l_balance);
+                                    loan_debt.put("loan_debt_type", ldDB.l_type);
+                                    loan_debt.put("loan_debt_person", ldDB.l_person);
+                                    loan_debt.pinInBackground("pinLoanDebtsDelete");
 
                                     float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                                     String name1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
@@ -228,14 +228,14 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
 
                                     dbHelper.updateAccountData(ldDB.l_to_acc, name1, bal1, note1, show1, uid1);
 
-                                  //  ParseObject account = new ParseObject("Accounts");
-                                    account.put("acc_id", ldDB.l_to_acc);
-                                    account.put("acc_uid", uid1);
-                                    account.put("acc_name", name1);
-                                    account.put("acc_balance", bal1);
-                                    account.put("acc_note", note1);
-                                    account.put("acc_show", show1);
-                                    account.pinInBackground("pinAccountsUpdate");
+                                    ParseObject account1 = new ParseObject("account1s");
+                                    account1.put("acc_id", ldDB.l_to_acc);
+                                    account1.put("acc_uid", uid1);
+                                    account1.put("acc_name", name1);
+                                    account1.put("acc_balance", bal1);
+                                    account1.put("acc_note", note1);
+                                    account1.put("acc_show", show1);
+                                    account1.pinInBackground("pinAccountsUpdate");
 
                                     c.close();
                                 }
@@ -269,7 +269,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
 
                         ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
 
-                        Iterator <LoanDebtDB> iterator = null;
+                        Iterator <LoanDebtDB> iterator;
                         if (!arrayList.isEmpty())
                         {
                             iterator = arrayList.iterator();
@@ -281,19 +281,19 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                 Log.i("While", "inside while debt");
 
                                 if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
-                                   // ParseObject loan_debt = new ParseObject("Loan_debt");
-                                    loanDebt.put("loan_debt_id", ldDB.l_id);
-                                    loanDebt.put("loan_debt_uid", ldDB.l_u_id);
-                                    loanDebt.put("loan_debt_parent", ldDB.l_parent);
-                                    loanDebt.put("loan_debt_from_acc",ldDB.l_from_acc);
-                                    loanDebt.put("loan_debt_to_acc",ldDB.l_to_acc);
-                                    loanDebt.put("loan_debt_date", ldDB.l_date);
-                                    loanDebt.put("loan_debt_time", ldDB.l_time);
-                                    loanDebt.put("loan_debt_note", ldDB.l_note);
-                                    loanDebt.put("loan_debt_balance", ldDB.l_balance);
-                                    loanDebt.put("loan_debt_type", ldDB.l_type);
-                                    loanDebt.put("loan_debt_person", ldDB.l_person);
-                                    loanDebt.pinInBackground("pinLoanDebtsDelete");
+                                    ParseObject loan_debt = new ParseObject("Loan_debt");
+                                    loan_debt.put("loan_debt_id", ldDB.l_id);
+                                    loan_debt.put("loan_debt_uid", ldDB.l_u_id);
+                                    loan_debt.put("loan_debt_parent", ldDB.l_parent);
+                                    loan_debt.put("loan_debt_from_acc",ldDB.l_from_acc);
+                                    loan_debt.put("loan_debt_to_acc",ldDB.l_to_acc);
+                                    loan_debt.put("loan_debt_date", ldDB.l_date);
+                                    loan_debt.put("loan_debt_time", ldDB.l_time);
+                                    loan_debt.put("loan_debt_note", ldDB.l_note);
+                                    loan_debt.put("loan_debt_balance", ldDB.l_balance);
+                                    loan_debt.put("loan_debt_type", ldDB.l_type);
+                                    loan_debt.put("loan_debt_person", ldDB.l_person);
+                                    loan_debt.pinInBackground("pinLoanDebtsDelete");
 
                                     Log.i("If While", "inside if while debt");
                                     float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -305,14 +305,14 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                     bal1 = bal1 + ldDB.l_balance;
 
                                     dbHelper.updateAccountData(ldDB.l_from_acc, name1, bal1, note1, show1, uid1);
-//                                    ParseObject account = new ParseObject("Accounts");
-                                    account.put("acc_id", ldDB.l_from_acc);
-                                    account.put("acc_uid", uid1);
-                                    account.put("acc_name", name1);
-                                    account.put("acc_balance", bal1);
-                                    account.put("acc_note", note1);
-                                    account.put("acc_show", show1);
-                                    account.pinInBackground("pinAccountsUpdate");
+                                    ParseObject account1 = new ParseObject("Accounts");
+                                    account1.put("acc_id", ldDB.l_from_acc);
+                                    account1.put("acc_uid", uid1);
+                                    account1.put("acc_name", name1);
+                                    account1.put("acc_balance", bal1);
+                                    account1.put("acc_note", note1);
+                                    account1.put("acc_show", show1);
+                                    account1.pinInBackground("pinAccountsUpdate");
                                     c.close();
                                 }
                             }

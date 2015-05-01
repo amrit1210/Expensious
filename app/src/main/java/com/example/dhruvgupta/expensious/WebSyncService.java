@@ -681,7 +681,7 @@ public class WebSyncService extends Service {
 
         });
 
-        //Update Transactions
+        //Update SubCategory
         ParseQuery<ParseObject> updateSubcategory = ParseQuery.getQuery("Sub_category");
         updateSubcategory.whereEqualTo("sub_uid", sp.getInt("UID", 0));
         updateSubcategory.findInBackground(new FindCallback<ParseObject>() {

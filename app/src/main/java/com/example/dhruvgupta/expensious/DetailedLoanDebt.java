@@ -129,7 +129,7 @@ public class DetailedLoanDebt extends ActionBarActivity
 
             ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), ld_id);
             float balance = 0;
-            Iterator<LoanDebtDB> ld_iterator = null;
+            Iterator<LoanDebtDB> ld_iterator;
             if (!arrayList.isEmpty())
             {
                 ld_iterator = arrayList.iterator();
