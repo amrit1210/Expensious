@@ -135,19 +135,19 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
                     {
                         if(transactionsDB.t_type.equals("Expense"))
                         {
-                            if(transactionsDB.t_c_id == db.p_id)
+                            if(transactionsDB.t_p_id == db.p_id)
                             {
                                 amount += transactionsDB.t_balance;
                             }
                         }
                     }
                 }
-                amt.setText(amount+"");
             }
             catch (ParseException e)
             {
                 e.printStackTrace();
             }
+            amt.setText(amount+"");
         }
 
         return convertView;

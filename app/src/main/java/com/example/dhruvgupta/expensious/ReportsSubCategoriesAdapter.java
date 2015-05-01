@@ -135,19 +135,19 @@ public class ReportsSubCategoriesAdapter extends ArrayAdapter<SubCategoryDB>
                     {
                         if(transactionsDB.t_type.equals("Expense"))
                         {
-                            if(transactionsDB.t_c_id == db.sub_id)
+                            if(transactionsDB.t_sub_id == db.sub_id)
                             {
                                 amount += transactionsDB.t_balance;
                             }
                         }
                     }
                 }
-                amt.setText(amount+"");
             }
             catch (ParseException e)
             {
                 e.printStackTrace();
             }
+            amt.setText(amount+"");
         }
 
         return convertView;

@@ -81,6 +81,10 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                     else if (!mName.getText().toString().matches("[a-zA-Z][a-zA-Z0-9 ]+"))
                     {
                         mName.setError("Enter valid UserName");
+                        if(mName.length() <21)
+                        {
+                            mName.setError("Enter valid UserName");
+                        }
                     }
                     else
                     {

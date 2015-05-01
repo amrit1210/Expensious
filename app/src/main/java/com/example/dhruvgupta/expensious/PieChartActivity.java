@@ -203,8 +203,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                             e.printStackTrace();
                         }
                     }
-                    mCat.add(categoryDB.c_name);
-                    mAmt_Category.add(mAmount);
+                    if(mAmount!=0)
+                    {
+                        mCat.add(categoryDB.c_name);
+                        mAmt_Category.add(mAmount);
+                    }
                 }
                 mPie.setCenterText("Categories");
                 setData(mAmt_Category.size() - 1, actionId);
@@ -288,8 +291,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                             e.printStackTrace();
                         }
                     }
-                    mAcc.add(accountsDB.acc_name);
-                    mAmt.add(mAmount);
+                    if(mAmount!=0)
+                    {
+                        mAcc.add(accountsDB.acc_name);
+                        mAmt.add(mAmount);
+                    }
                 }
                 mPie.setCenterText("Accounts");
                 setData(mAmt.size() - 1, actionId);
@@ -373,8 +379,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                             e.printStackTrace();
                         }
                     }
-                    mPer.add(personDB.p_name);
-                    mAmt_Person.add(mAmount);
+                    if(mAmount!=0)
+                    {
+                        mPer.add(personDB.p_name);
+                        mAmt_Person.add(mAmount);
+                    }
                 }
                 mPie.setCenterText("Persons");
                 setData(mAmt_Person.size() - 1, actionId);
@@ -458,8 +467,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                             e.printStackTrace();
                         }
                     }
-                    mSub.add(subCategoryDB.sub_name);
-                    mAmt_Sub.add(mAmount);
+                    if(mAmount!=0)
+                    {
+                        mSub.add(subCategoryDB.sub_name);
+                        mAmt_Sub.add(mAmount);
+                    }
                 }
                 mPie.setCenterText("Sub Categories");
                 setData(mAmt_Sub.size() - 1, actionId);
@@ -1155,8 +1167,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                     e.printStackTrace();
                                 }
                             }
-                            mCat.add(categoryDB.c_name);
-                            mAmt_Category.add(mAmount);
+                            if(mAmount!=0)
+                            {
+                                mCat.add(categoryDB.c_name);
+                                mAmt_Category.add(mAmount);
+                            }
                         }
                         mPie.setCenterText("Categories");
                         setData(mAmt_Category.size() - 1, actionId);
@@ -1227,8 +1242,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                     e.printStackTrace();
                                 }
                             }
-                            mAcc.add(accountsDB.acc_name);
-                            mAmt.add(mAmount);
+                            if(mAmount!=0)
+                            {
+                                mAcc.add(accountsDB.acc_name);
+                                mAmt.add(mAmount);
+                            }
                         }
                         mPie.setCenterText("Accounts");
                         setData(mAmt.size() - 1, actionId);
@@ -1299,8 +1317,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                     e.printStackTrace();
                                 }
                             }
-                            mPer.add(personDB.p_name);
-                            mAmt_Person.add(mAmount);
+                            if(mAmount!=0)
+                            {
+                                mPer.add(personDB.p_name);
+                                mAmt_Person.add(mAmount);
+                            }
                         }
                         mPie.setCenterText("Persons");
                         setData(mAmt_Person.size() - 1, actionId);
@@ -1371,8 +1392,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                     e.printStackTrace();
                                 }
                             }
-                            mSub.add(subCategoryDB.sub_name);
-                            mAmt_Sub.add(mAmount);
+                            if(mAmount!=0)
+                            {
+                                mSub.add(subCategoryDB.sub_name);
+                                mAmt_Sub.add(mAmount);
+                            }
                         }
                         mPie.setCenterText("Sub Categories");
                         setData(mAmt_Sub.size() - 1, actionId);
@@ -1470,8 +1494,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                     e.printStackTrace();
                                 }
                             }
-                            mCat.add(categoryDB.c_name);
-                            mAmt_Category.add(mAmount);
+                            if(mAmount!=0)
+                            {
+                                mCat.add(categoryDB.c_name);
+                                mAmt_Category.add(mAmount);
+                            }
                         }
                         mPie.setCenterText("Categories");
                         setData(mAmt_Category.size() - 1, actionId);
@@ -1542,8 +1569,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                     e.printStackTrace();
                                 }
                             }
-                            mAcc.add(accountsDB.acc_name);
-                            mAmt.add(mAmount);
+                            if(mAmount!=0)
+                            {
+                                mAcc.add(accountsDB.acc_name);
+                                mAmt.add(mAmount);
+                            }
                         }
                         mPie.setCenterText("Accounts");
                         setData(mAmt.size() - 1, actionId);
@@ -1614,8 +1644,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                     e.printStackTrace();
                                 }
                             }
-                            mPer.add(personDB.p_name);
-                            mAmt_Person.add(mAmount);
+                            if(mAmount!=0)
+                            {
+                                mPer.add(personDB.p_name);
+                                mAmt_Person.add(mAmount);
+                            }
                         }
                         mPie.setCenterText("Persons");
                         setData(mAmt_Person.size() - 1, actionId);
@@ -1686,8 +1719,11 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                                     e.printStackTrace();
                                 }
                             }
-                            mSub.add(subCategoryDB.sub_name);
-                            mAmt_Sub.add(mAmount);
+                            if(mAmount!=0)
+                            {
+                                mSub.add(subCategoryDB.sub_name);
+                                mAmt_Sub.add(mAmount);
+                            }
                         }
                         mPie.setCenterText("Sub Categories");
                         setData(mAmt_Sub.size() - 1, actionId);

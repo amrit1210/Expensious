@@ -297,6 +297,10 @@ public class AddCategoryActivity extends ActionBarActivity
         {
             mCat_Name.setError("Enter Category name");
         }
+        else if (!mCat_Name.getText().toString().matches("[a-zA-Z][a-zA-Z0-9 ]+"))
+        {
+            mCat_Name.setError("Enter valid Category Name");
+        }
         else
         {
             mCat_Name.setError(null);

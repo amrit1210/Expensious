@@ -142,12 +142,12 @@ public class ReportsCategoriesAdapter extends ArrayAdapter<CategoryDB_Specific>
                         }
                     }
                 }
-                amt.setText(amount+"");
             }
             catch (ParseException e)
             {
                 e.printStackTrace();
             }
+            amt.setText(amount+"");
         }
         return convertView;
     }

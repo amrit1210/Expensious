@@ -120,7 +120,7 @@ public class AddAccountActivity extends ActionBarActivity
 
         if (mAcc_Name.length() <= 0)
         {
-            mAcc_Name.setError("En1ter Account Name");
+            mAcc_Name.setError("Enter Account Name");
         }
         else if (!mAcc_Name.getText().toString().matches("[a-zA-Z0-9][a-zA-Z0-9 ]+"))
         {
@@ -133,7 +133,7 @@ public class AddAccountActivity extends ActionBarActivity
 
         if (Float.parseFloat(mAcc_Amt.getText().toString()) == 0)
         {
-            mAcc_Amt.setError("Enter Account name");
+            mAcc_Amt.setError("Enter Amount > 0");
         }
         else
         {
