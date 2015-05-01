@@ -34,16 +34,16 @@ public class AccountsActivity extends AbstractNavigationDrawerActivity
 {
 
     public void onInt(Bundle bundle) {
-        super.onInt(bundle);
+    super.onInt(bundle);
 
-        this.setDefaultStartPositionNavigation(1);
+    this.setDefaultStartPositionNavigation(1);
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //
 //        AccountsFragment fragment = new AccountsFragment();
 //        fragmentTransaction.replace(R.id.container, fragment);
 //        fragmentTransaction.commit();
-    }
+}
 
 
 

@@ -75,6 +75,9 @@ public class AddTransactionsActivity extends ActionBarActivity {
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
         mHour = calendar.get(Calendar.HOUR_OF_DAY);
         mMin = calendar.get(Calendar.MINUTE);
+        mExp.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mInc.setBackgroundResource(android.R.drawable.btn_default);
+        mTrans.setBackgroundResource(android.R.drawable.btn_default);
 
         mFromAcc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -860,10 +863,6 @@ public class AddTransactionsActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
         if (id == R.id.action_done)
         {
             onSaveTransaction();
@@ -876,6 +875,9 @@ public class AddTransactionsActivity extends ActionBarActivity {
     public void onExpenseClick(View v)
     {
         mExp.setPressed(true);
+        mExp.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mInc.setBackgroundResource(android.R.drawable.btn_default);
+        mTrans.setBackgroundResource(android.R.drawable.btn_default);
         mLlFrom.setVisibility(View.VISIBLE);
         mLlTo.setVisibility(View.GONE);
         mLlCat.setVisibility(View.VISIBLE);
@@ -888,6 +890,9 @@ public class AddTransactionsActivity extends ActionBarActivity {
     public void onIncomeClick(View v)
     {
         mInc.setPressed(true);
+        mInc.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mExp.setBackgroundResource(android.R.drawable.btn_default);
+        mTrans.setBackgroundResource(android.R.drawable.btn_default);
         mLlFrom.setVisibility(View.GONE);
         mLlTo.setVisibility(View.VISIBLE);
         mLlCat.setVisibility(View.VISIBLE);
@@ -901,6 +906,9 @@ public class AddTransactionsActivity extends ActionBarActivity {
     public void onTransferClick(View v)
     {
         mTrans.setPressed(true);
+        mTrans.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mExp.setBackgroundResource(android.R.drawable.btn_default);
+        mInc.setBackgroundResource(android.R.drawable.btn_default);
         mLlFrom.setVisibility(View.VISIBLE);
         mLlTo.setVisibility(View.VISIBLE);
         mLlCat.setVisibility(View.GONE);

@@ -62,7 +62,8 @@ public class AddLoanDebtActivity extends ActionBarActivity {
         mType = "Loan";
         dbHelper = new DBHelper(AddLoanDebtActivity.this);
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
-
+        mLoan.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mDebt.setBackgroundResource(android.R.drawable.btn_default);
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
         mMonth = calendar.get(Calendar.MONTH);
@@ -236,6 +237,8 @@ public class AddLoanDebtActivity extends ActionBarActivity {
     }
 
     public void onLoanClick(View v) {
+        mLoan.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mDebt.setBackgroundResource(android.R.drawable.btn_default);
         mLlFromAcc.setVisibility(View.VISIBLE);
         mLlToAcc.setVisibility(View.GONE);
         mType = "Loan";
@@ -245,6 +248,8 @@ public class AddLoanDebtActivity extends ActionBarActivity {
 
 
     public void onDebtClick(View v){
+        mDebt.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mLoan.setBackgroundResource(android.R.drawable.btn_default);
         mLlFromAcc.setVisibility(View.GONE);
         mLlToAcc.setVisibility(View.VISIBLE);
         mType = "Debt";
@@ -626,10 +631,6 @@ public class AddLoanDebtActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings)
-        {
-            return true;
-        }
         if (id == R.id.action_done)
         {
             onSaveLoanDebt();

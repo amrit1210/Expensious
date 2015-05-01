@@ -388,6 +388,680 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Settings saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                ParseObject category = new ParseObject("Category_specific");
+                                                category.put("c_uid", r);
+                                                category.put("c_id", 1);
+                                                category.put("c_name","Food" );
+                                                category.put("c_type", 0);
+//                                                category.put("c_icon",);
+                                                category.pinInBackground("pinCategory");
+                                                category.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory1 = new ParseObject("Sub_category");
+                                                subcategory1.put("sub_uid", r);
+                                                subcategory1.put("sub_c_id", 1);
+                                                subcategory1.put("sub_name","Vegetables" );
+                                                subcategory1.put("sub_id", 1);
+//                                               subcategory1.put("sub_icon",);
+                                                subcategory1.pinInBackground("pinSubCategory");
+                                                subcategory1.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory2 = new ParseObject("Sub_category");
+                                                subcategory2.put("sub_uid", r);
+                                                subcategory2.put("sub_c_id", 1);
+                                                subcategory2.put("sub_name","Fruits" );
+                                                subcategory2.put("sub_id", 2);
+//                                               subcategory2.put("sub_icon",);
+                                                subcategory2.pinInBackground("pinSubCategory");
+                                                subcategory2.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category1 = new ParseObject("Category_specific");
+                                                category1.put("c_uid", r);
+                                                category1.put("c_id", 2);
+                                                category1.put("c_name","Entertainment" );
+                                                category1.put("c_type", 0);
+//                                                category1.put("c_icon",);
+                                                category1.pinInBackground("pinCategory");
+                                                category1.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory3 = new ParseObject("Sub_category");
+                                                subcategory3.put("sub_uid", r);
+                                                subcategory3.put("sub_c_id", 2);
+                                                subcategory3.put("sub_name","Movies" );
+                                                subcategory3.put("sub_id", 3);
+//                                               subcategory3.put("sub_icon",);
+                                                subcategory3.pinInBackground("pinSubCategory");
+                                                subcategory3.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory4 = new ParseObject("Sub_category");
+                                                subcategory4.put("sub_uid", r);
+                                                subcategory4.put("sub_c_id", 2);
+                                                subcategory4.put("sub_name","Television" );
+                                                subcategory4.put("sub_id", 4);
+//                                               subcategory4.put("sub_icon",);
+                                                subcategory4.pinInBackground("pinSubCategory");
+                                                subcategory4.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+                                                ParseObject category2 = new ParseObject("Category_specific");
+                                                category2.put("c_uid", r);
+                                                category2.put("c_id", 3);
+                                                category2.put("c_name","Travel" );
+                                                category2.put("c_type", 0);
+//                                                category2.put("c_icon",);
+                                                category2.pinInBackground("pinCategory");
+                                                category2.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory5 = new ParseObject("Sub_category");
+                                                subcategory5.put("sub_uid", r);
+                                                subcategory5.put("sub_c_id", 3);
+                                                subcategory5.put("sub_name","Auto Fare" );
+                                                subcategory5.put("sub_id", 5);
+//                                               subcategory5.put("sub_icon",);
+                                                subcategory5.pinInBackground("pinSubCategory");
+                                                subcategory5.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory6 = new ParseObject("Sub_category");
+                                                subcategory6.put("sub_uid", r);
+                                                subcategory6.put("sub_c_id", 3);
+                                                subcategory6.put("sub_name","Bus Fare" );
+                                                subcategory6.put("sub_id", 6);
+//                                               subcategory6.put("sub_icon",);
+                                                subcategory6.pinInBackground("pinSubCategory");
+                                                subcategory6.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory7 = new ParseObject("Sub_category");
+                                                subcategory7.put("sub_uid", r);
+                                                subcategory7.put("sub_c_id", 1);
+                                                subcategory7.put("sub_name","Taxi Fare" );
+                                                subcategory7.put("sub_id", 7);
+//                                               subcategory7.put("sub_icon",);
+                                                subcategory7.pinInBackground("pinSubCategory");
+                                                subcategory7.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory8 = new ParseObject("Sub_category");
+                                                subcategory8.put("sub_uid", r);
+                                                subcategory8.put("sub_c_id", 3);
+                                                subcategory8.put("sub_name","Flight Fare" );
+                                                subcategory8.put("sub_id", 8);
+//                                               subcategory8.put("sub_icon",);
+                                                subcategory8.pinInBackground("pinSubCategory");
+                                                subcategory8.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+
+                                                ParseObject category3 = new ParseObject("Category_specific");
+                                                category3.put("c_uid", r);
+                                                category3.put("c_id", 4);
+                                                category3.put("c_name","Tax Payment" );
+                                                category3.put("c_type", 0);
+//                                                category3.put("c_icon",);
+                                                category3.pinInBackground("pinCategory");
+                                                category3.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory9 = new ParseObject("Sub_category");
+                                                subcategory9.put("sub_uid", r);
+                                                subcategory9.put("sub_c_id", 4);
+                                                subcategory9.put("sub_name","Income Tax" );
+                                                subcategory9.put("sub_id", 9);
+//                                               subcategory9.put("sub_icon",);
+                                                subcategory9.pinInBackground("pinSubCategory");
+                                                subcategory9.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory10 = new ParseObject("Sub_category");
+                                                subcategory10.put("sub_uid", r);
+                                                subcategory10.put("sub_c_id", 4);
+                                                subcategory10.put("sub_name","Sales Tax" );
+                                                subcategory10.put("sub_id", 10);
+//                                               subcategory10.put("sub_icon",);
+                                                subcategory10.pinInBackground("pinSubCategory");
+                                                subcategory10.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory11 = new ParseObject("Sub_category");
+                                                subcategory11.put("sub_uid", r);
+                                                subcategory11.put("sub_c_id", 4);
+                                                subcategory11.put("sub_name","Property Tax" );
+                                                subcategory11.put("sub_id", 10);
+//                                               subcategory11.put("sub_icon",);
+                                                subcategory11.pinInBackground("pinSubCategory");
+                                                subcategory11.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+                                                ParseObject category4 = new ParseObject("Category_specific");
+                                                category4.put("c_uid", r);
+                                                category4.put("c_id", 5);
+                                                category4.put("c_name","Health" );
+                                                category4.put("c_type", 0);
+//                                                category4.put("c_icon",);
+                                                category4.pinInBackground("pinCategory");
+                                                category4.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+                                                ParseObject subcategory12 = new ParseObject("Sub_category");
+                                                subcategory12.put("sub_uid", r);
+                                                subcategory12.put("sub_c_id", 5);
+                                                subcategory12.put("sub_name","Surgery" );
+                                                subcategory12.put("sub_id", 12);
+//                                               subcategory12.put("sub_icon",);
+                                                subcategory12.pinInBackground("pinSubCategory");
+                                                subcategory12.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory13 = new ParseObject("Sub_category");
+                                                subcategory13.put("sub_uid", r);
+                                                subcategory13.put("sub_c_id", 5);
+                                                subcategory13.put("sub_name","Medicines" );
+                                                subcategory13.put("sub_id", 13);
+//                                               subcategory13.put("sub_icon",);
+                                                subcategory13.pinInBackground("pinSubCategory");
+                                                subcategory13.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category5 = new ParseObject("Category_specific");
+                                                category5.put("c_uid", r);
+                                                category5.put("c_id", 6);
+                                                category5.put("c_name","Beauty" );
+                                                category5.put("c_type", 0);
+//                                                category5.put("c_icon",);
+                                                category5.pinInBackground("pinCategory");
+                                                category5.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+                                                ParseObject subcategory14 = new ParseObject("Sub_category");
+                                                subcategory14.put("sub_uid", r);
+                                                subcategory14.put("sub_c_id", 6);
+                                                subcategory14.put("sub_name","Manicure" );
+                                                subcategory14.put("sub_id", 14);
+//                                               subcategory14.put("sub_icon",);
+                                                subcategory14.pinInBackground("pinSubCategory");
+                                                subcategory14.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory15 = new ParseObject("Sub_category");
+                                                subcategory15.put("sub_uid", r);
+                                                subcategory15.put("sub_c_id", 6);
+                                                subcategory15.put("sub_name","Padicure" );
+                                                subcategory15.put("sub_id", 15);
+//                                               subcategory15.put("sub_icon",);
+                                                subcategory15.pinInBackground("pinSubCategory");
+                                                subcategory15.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory16 = new ParseObject("Sub_category");
+                                                subcategory16.put("sub_uid", r);
+                                                subcategory16.put("sub_c_id", 6);
+                                                subcategory16.put("sub_name","HairDressing" );
+                                                subcategory16.put("sub_id", 16);
+//                                               subcategory16.put("sub_icon",);
+                                                subcategory16.pinInBackground("pinSubCategory");
+                                                subcategory16.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+                                                ParseObject category6 = new ParseObject("Category_specific");
+                                                category6.put("c_uid", r);
+                                                category6.put("c_id", 7);
+                                                category6.put("c_name","Clothing" );
+                                                category6.put("c_type", 0);
+//                                                category6.put("c_icon",);
+                                                category6.pinInBackground("pinCategory");
+                                                category6.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory17 = new ParseObject("Sub_category");
+                                                subcategory17.put("sub_uid", r);
+                                                subcategory17.put("sub_c_id", 7);
+                                                subcategory17.put("sub_name","Shirts" );
+                                                subcategory17.put("sub_id", 17);
+//                                               subcategory17.put("sub_icon",);
+                                                subcategory17.pinInBackground("pinSubCategory");
+                                                subcategory17.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory18 = new ParseObject("Sub_category");
+                                                subcategory18.put("sub_uid", r);
+                                                subcategory18.put("sub_c_id", 7);
+                                                subcategory18.put("sub_name","Pants" );
+                                                subcategory18.put("sub_id", 18);
+//                                               subcategory18.put("sub_icon",);
+                                                subcategory18.pinInBackground("pinSubCategory");
+                                                subcategory18.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory19 = new ParseObject("Sub_category");
+                                                subcategory19.put("sub_uid", r);
+                                                subcategory19.put("sub_c_id", 7);
+                                                subcategory19.put("sub_name","T-shirts" );
+                                                subcategory19.put("sub_id", 19);
+//                                               subcategory19.put("sub_icon",);
+                                                subcategory19.pinInBackground("pinSubCategory");
+                                                subcategory19.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory20 = new ParseObject("Sub_category");
+                                                subcategory20.put("sub_uid", r);
+                                                subcategory20.put("sub_c_id", 7);
+                                                subcategory20.put("sub_name","Shoes" );
+                                                subcategory20.put("sub_id", 20);
+//                                               subcategory20.put("sub_icon",);
+                                                subcategory20.pinInBackground("pinSubCategory");
+                                                subcategory20.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory34 = new ParseObject("Sub_category");
+                                                subcategory34.put("sub_uid", r);
+                                                subcategory34.put("sub_c_id", 7);
+                                                subcategory34.put("sub_name","Sandals" );
+                                                subcategory34.put("sub_id", 34);
+//                                               subcategory34.put("sub_icon",);
+                                                subcategory34.pinInBackground("pinSubCategory");
+                                                subcategory34.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory21 = new ParseObject("Sub_category");
+                                                subcategory21.put("sub_uid", r);
+                                                subcategory21.put("sub_c_id", 7);
+                                                subcategory21.put("sub_name","Sweater" );
+                                                subcategory21.put("sub_id", 21);
+//                                               subcategory21.put("sub_icon",);
+                                                subcategory21.pinInBackground("pinSubCategory");
+                                                subcategory21.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory22 = new ParseObject("Sub_category");
+                                                subcategory22.put("sub_uid", r);
+                                                subcategory22.put("sub_c_id", 7);
+                                                subcategory22.put("sub_name","Skirts" );
+                                                subcategory22.put("sub_id", 22);
+//                                               subcategory22.put("sub_icon",);
+                                                subcategory22.pinInBackground("pinSubCategory");
+                                                subcategory22.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+                                                ParseObject subcategory23 = new ParseObject("Sub_category");
+                                                subcategory23.put("sub_uid", r);
+                                                subcategory23.put("sub_c_id", 7);
+                                                subcategory23.put("sub_name","Jackets" );
+                                                subcategory23.put("sub_id", 23);
+//                                               subcategory23.put("sub_icon",);
+                                                subcategory23.pinInBackground("pinSubCategory");
+                                                subcategory23.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category7 = new ParseObject("Category_specific");
+                                                category7.put("c_uid", r);
+                                                category7.put("c_id", 8);
+                                                category7.put("c_name","Bills" );
+                                                category7.put("c_type", 0);
+//                                                category7.put("c_icon",);
+                                                category7.pinInBackground("pinCategory");
+                                                category7.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory24 = new ParseObject("Sub_category");
+                                                subcategory24.put("sub_uid", r);
+                                                subcategory24.put("sub_c_id", 8);
+                                                subcategory24.put("sub_name","Phone Bill" );
+                                                subcategory24.put("sub_id", 24);
+//                                               subcategory24.put("sub_icon",);
+                                                subcategory24.pinInBackground("pinSubCategory");
+                                                subcategory24.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory25 = new ParseObject("Sub_category");
+                                                subcategory25.put("sub_uid", r);
+                                                subcategory25.put("sub_c_id", 8);
+                                                subcategory25.put("sub_name","Electricity Bill" );
+                                                subcategory25.put("sub_id", 25);
+//                                               subcategory25.put("sub_icon",);
+                                                subcategory25.pinInBackground("pinSubCategory");
+                                                subcategory25.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory26 = new ParseObject("Sub_category");
+                                                subcategory26.put("sub_uid", r);
+                                                subcategory26.put("sub_c_id", 8);
+                                                subcategory26.put("sub_name","Water Bill" );
+                                                subcategory26.put("sub_id", 26);
+//                                               subcategory26.put("sub_icon",);
+                                                subcategory26.pinInBackground("pinSubCategory");
+                                                subcategory26.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category8 = new ParseObject("Category_specific");
+                                                category8.put("c_uid", r);
+                                                category8.put("c_id", 9);
+                                                category8.put("c_name","Stationary" );
+                                                category8.put("c_type", 0);
+//                                                category8.put("c_icon",);
+                                                category8.pinInBackground("pinCategory");
+                                                category8.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+                                                ParseObject subcategory27 = new ParseObject("Sub_category");
+                                                subcategory27.put("sub_uid", r);
+                                                subcategory27.put("sub_c_id", 9);
+                                                subcategory27.put("sub_name","Copy" );
+                                                subcategory27.put("sub_id", 27);
+//                                               subcategory27.put("sub_icon",);
+                                                subcategory27.pinInBackground("pinSubCategory");
+                                                subcategory27.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+                                                ParseObject subcategory28 = new ParseObject("Sub_category");
+                                                subcategory28.put("sub_uid", r);
+                                                subcategory28.put("sub_c_id", 9);
+                                                subcategory28.put("sub_name","Pen" );
+                                                subcategory28.put("sub_id", 28);
+//                                               subcategory28.put("sub_icon",);
+                                                subcategory28.pinInBackground("pinSubCategory");
+                                                subcategory28.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory29 = new ParseObject("Sub_category");
+                                                subcategory29.put("sub_uid", r);
+                                                subcategory29.put("sub_c_id", 9);
+                                                subcategory29.put("sub_name","Pencil" );
+                                                subcategory29.put("sub_id", 29);
+//                                               subcategory29.put("sub_icon",);
+                                                subcategory29.pinInBackground("pinSubCategory");
+                                                subcategory29.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category9 = new ParseObject("Category_specific");
+                                                category9.put("c_uid", r);
+                                                category9.put("c_id", 10);
+                                                category9.put("c_name","Educational" );
+                                                category9.put("c_type", 0);
+//                                                category9.put("c_icon",);
+                                                category9.pinInBackground("pinCategory");
+                                                category9.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory30 = new ParseObject("Sub_category");
+                                                subcategory30.put("sub_uid", r);
+                                                subcategory30.put("sub_c_id", 10);
+                                                subcategory30.put("sub_name","Tution Fee" );
+                                                subcategory30.put("sub_id", 30);
+//                                               subcategory30.put("sub_icon",);
+                                                subcategory30.pinInBackground("pinSubCategory");
+                                                subcategory30.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory31 = new ParseObject("Sub_category");
+                                                subcategory31.put("sub_uid", r);
+                                                subcategory31.put("sub_c_id", 10);
+                                                subcategory31.put("sub_name","Admission Fee" );
+                                                subcategory31.put("sub_id", 31);
+//                                               subcategory31.put("sub_icon",);
+                                                subcategory31.pinInBackground("pinSubCategory");
+                                                subcategory31.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+
+                                                ParseObject category10 = new ParseObject("Category_specific");
+                                                category10.put("c_uid", r);
+                                                category10.put("c_id", 11);
+                                                category10.put("c_name","Salary" );
+                                                category10.put("c_type", 1);
+//                                                category10.put("c_icon",);
+                                                category10.pinInBackground("pinCategory");
+                                                category10.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category11 = new ParseObject("Category_specific");
+                                                category11.put("c_uid", r);
+                                                category11.put("c_id", 12);
+                                                category11.put("c_name","Wages" );
+                                                category11.put("c_type", 1);
+//                                                category11.put("c_icon",);
+                                                category11.pinInBackground("pinCategory");
+                                                category11.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory32 = new ParseObject("Sub_category");
+                                                subcategory32.put("sub_uid", r);
+                                                subcategory32.put("sub_c_id", 12);
+                                                subcategory32.put("sub_name","Daily" );
+                                                subcategory32.put("sub_id", 32);
+//                                               subcategory32.put("sub_icon",);
+                                                subcategory32.pinInBackground("pinSubCategory");
+                                                subcategory32.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject subcategory33 = new ParseObject("Sub_category");
+                                                subcategory33.put("sub_uid", r);
+                                                subcategory33.put("sub_c_id", 12);
+                                                subcategory33.put("sub_name","Weekly" );
+                                                subcategory33.put("sub_id", 33);
+//                                               subcategory33.put("sub_icon",);
+                                                subcategory33.pinInBackground("pinSubCategory");
+                                                subcategory33.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("SubCat saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category12 = new ParseObject("Category_specific");
+                                                category12.put("c_uid", r);
+                                                category12.put("c_id", 13);
+                                                category12.put("c_name","Provident Fund" );
+                                                category12.put("c_type", 1);
+//                                                category12.put("c_icon",);
+                                                category12.pinInBackground("pinCategory");
+                                                category12.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category13 = new ParseObject("Category_specific");
+                                                category13.put("c_uid", r);
+                                                category13.put("c_id", 14);
+                                                category13.put("c_name","Med_Claim" );
+                                                category13.put("c_type", 1);
+//                                                category13.put("c_icon",);
+                                                category13.pinInBackground("pinCategory");
+                                                category13.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category14 = new ParseObject("Category_specific");
+                                                category14.put("c_uid", r);
+                                                category14.put("c_id", 15);
+                                                category14.put("c_name","Pension" );
+                                                category14.put("c_type", 1);
+//                                                category14.put("c_icon",);
+                                                category14.pinInBackground("pinCategory");
+                                                category14.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category15 = new ParseObject("Category_specific");
+                                                category15.put("c_uid", r);
+                                                category15.put("c_id", 16);
+                                                category15.put("c_name","Capital Gains" );
+                                                category15.put("c_type", 1);
+//                                                category15.put("c_icon",);
+                                                category15.pinInBackground("pinCategory");
+                                                category15.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
+                                                ParseObject category16 = new ParseObject("Category_specific");
+                                                category16.put("c_uid", r);
+                                                category16.put("c_id", 17);
+                                                category16.put("c_name","House Property" );
+                                                category16.put("c_type", 1);
+//                                                category16.put("c_icon",);
+                                                category16.pinInBackground("pinCategory");
+                                                category16.saveEventually(new SaveCallback() {
+                                                    @Override
+                                                    public void done(com.parse.ParseException e) {
+                                                        Log.i("Category saveEventually", "YES! YES! YES!");
+                                                    }
+                                                });
                                             }
                                             else
                                             {
