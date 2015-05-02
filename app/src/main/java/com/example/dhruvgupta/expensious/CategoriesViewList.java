@@ -121,13 +121,18 @@ public class CategoriesViewList extends ActionBarActivity
                 startActivity(i);
             }
         });
+        this.getSupportActionBar().setTitle("Category");
     }
 
     @Override
     public void onResume() {
         super.onResume();
         cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
-
+        al.clear();
+        ids.clear();
+        s.clear();
+        mapExpense.clear();
+        mapIncome.clear();
         for(int i=0;i<cat_al.size();i++)
         {
             CategoryDB_Specific categoryDB_specific=cat_al.get(i);

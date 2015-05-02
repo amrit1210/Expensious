@@ -27,6 +27,9 @@ import com.parse.SaveCallback;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * Created by Amrit on 4/23/2015.
  */
@@ -50,6 +53,7 @@ public void onInt(Bundle bundle) {
     super.onInt(bundle);
 
     this.setDefaultStartPositionNavigation(8);
+    this.getSupportActionBar().setTitle("Settings");
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //
@@ -110,6 +114,60 @@ public void onInt(Bundle bundle) {
         LayoutInflater inflater = getLayoutInflater();
         View v1 = inflater.inflate(R.layout.activity_about,null);
         setContentView(v1);
+    }
+
+    public void onClearData(View v)
+    {
+        //deleteAccounts
+       ArrayList<AccountsDB> al_account= dbHelper.getAllAccounts(sp.getInt("UID", 0));
+        Iterator <AccountsDB> iterator_account=al_account.iterator();
+        while(iterator_account.hasNext())
+        {
+            AccountsDB accountsDB=iterator_account.next();
+            dbHelper.deleteAccount(accountsDB.acc_id,sp.getInt("UID",0));
+        }
+        //deletePerson
+        ArrayList<PersonDB> al_person= dbHelper.getAllPersons(sp.getInt("UID", 0));
+        Iterator <PersonDB> iterator_person=al_person.iterator();
+        while(iterator_account.hasNext())
+        {
+            PersonDB PersonDB=iterator_person.next();
+            dbHelper.deletePerson(PersonDB.p_id,sp.getInt("UID",0));
+        }
+        //deleteTransaction
+        ArrayList<TransactionsDB> al_transaction= dbHelper.getAllTransactions(sp.getInt("UID", 0));
+        Iterator <TransactionsDB> iterator_transaction=al_transaction.iterator();
+        while(iterator_transaction.hasNext())
+        {
+            TransactionsDB transactionsDB=iterator_transaction.next();
+            dbHelper.deleteTransaction(transactionsDB.t_id,sp.getInt("UID",0));
+        }
+        //deleteRecursiveTransaction
+        ArrayList<RecursiveDB> al_Rec_transaction= dbHelper.getAllRecursive(sp.getInt("UID", 0));
+        Iterator <RecursiveDB> iterator_rec_transaction=al_Rec_transaction.iterator();
+        while(iterator_rec_transaction.hasNext())
+        {
+            RecursiveDB recursiveDB=iterator_rec_transaction.next();
+            dbHelper.deleteRecursive(recursiveDB.rec_id,sp.getInt("UID",0));
+        }
+        //deleteBudget
+        ArrayList<BudgetDB> al_Budget= dbHelper.getAllBudgets(sp.getInt("UID", 0));
+        Iterator <BudgetDB> iterator_Budget=al_Budget.iterator();
+        while(iterator_Budget.hasNext())
+        {
+            BudgetDB budgetDB=iterator_Budget.next();
+            dbHelper.deleteBudget(budgetDB.b_id,sp.getInt("UID",0));
+        }
+        //deleteloanDebt
+        ArrayList<LoanDebtDB> al_loandebt= dbHelper.getAllLoanDebt(sp.getInt("UID", 0),0);
+        Iterator <LoanDebtDB> iterator_loandebt=al_loandebt.iterator();
+        while(iterator_loandebt.hasNext())
+        {
+            LoanDebtDB loanDebtDB=iterator_loandebt.next();
+            dbHelper.deleteLoanDebt(loanDebtDB.l_id,sp.getInt("UID",0));
+        }
+
+        Toast.makeText(getApplicationContext(),"Data is cleared",Toast.LENGTH_LONG).show();
     }
 
     public void onHelp(View v){

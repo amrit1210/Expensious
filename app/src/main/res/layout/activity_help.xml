@@ -88,7 +88,7 @@
                 android:visibility="gone"
                 android:layout_below="@+id/faq7"
                 android:layout_marginTop="5sp"
-                android:text=" A: You may select the period for report by going into Setting and then tap Change Period to select the period."/>
+                android:text=" A: You may select the period directly from the spinner available in reports."/>
 
             <TextView
                 android:layout_width="match_parent"

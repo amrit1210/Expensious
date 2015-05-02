@@ -94,6 +94,7 @@
             android:textSize="20sp"
             android:layout_marginLeft="5dp"
             android:text="@string/clear"
+            android:onClick="onClearData"
             android:clickable="true"/>
     </LinearLayout>
 

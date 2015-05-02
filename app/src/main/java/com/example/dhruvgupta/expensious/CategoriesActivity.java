@@ -65,6 +65,8 @@ public class CategoriesActivity extends ActionBarActivity
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.commit();
 
+        this.getSupportActionBar().setTitle("Category");
+
     }
 
     @Override

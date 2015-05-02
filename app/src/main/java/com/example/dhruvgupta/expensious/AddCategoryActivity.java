@@ -75,7 +75,7 @@ public class AddCategoryActivity extends ActionBarActivity
         mCat_Sub=(RadioButton)findViewById(R.id.add_cat_radio_sub);
         mCat_Spinner_Sub=(Spinner)findViewById(R.id.spinner_category);
         c_img_string=null;
-
+         this.getSupportActionBar().setTitle("Category");
         sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         mCat_Spinner_Sub.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {

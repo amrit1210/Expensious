@@ -39,7 +39,6 @@ public class RecursiveService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Toast.makeText(this, "YES! YES! YES!", Toast.LENGTH_SHORT).show();
         Log.i("service: ", "YES! YES! YES!");
         sp = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         al = dbHelper.getAllRecursive(sp.getInt("UID", 0));
