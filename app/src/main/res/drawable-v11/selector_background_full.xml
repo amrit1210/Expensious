@@ -7,7 +7,7 @@
         android:drawable="@color/white_15_percent" />
 
     <item
-        android:drawable="@color/main_color_300"
+        android:drawable="@color/main_color_500"
         android:state_activated="true"/>
 
     <item

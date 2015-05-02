@@ -38,7 +38,6 @@ import java.util.List;
 public class LoginActivity extends ActionBarActivity
 {
     EditText mEmail,mPassword;
-    CheckBox mRemember;
     DBHelper dbHelper;
     SharedPreferences sharedPreferences;
 
@@ -49,7 +48,6 @@ public class LoginActivity extends ActionBarActivity
         setContentView(R.layout.activity_login);
         mEmail=(EditText)findViewById(R.id.logIn_email);
         mPassword=(EditText)findViewById(R.id.logIn_password);
-        mRemember=(CheckBox)findViewById(R.id.logIn_remember);
 		dbHelper =new DBHelper(LoginActivity.this);
         CategoryDB_Master categoryDB_master=new CategoryDB_Master();
     }

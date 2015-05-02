@@ -19,7 +19,8 @@
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:clickable="true"
-            android:id="@+id/report_spinner_period" />
+            android:id="@+id/report_spinner_period"
+            style="@style/SpinnerTextColor"/>
 
         <Spinner
             android:layout_width="wrap_content"
@@ -29,7 +30,8 @@
             android:layout_marginTop="5dp"
             android:layout_gravity="center"
             android:clickable="true"
-            android:id="@+id/report_spinner_type" />
+            android:id="@+id/report_spinner_type"
+            style="@style/SpinnerTextColor"/>
 			
 	</LinearLayout>
 
