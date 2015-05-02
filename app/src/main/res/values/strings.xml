@@ -140,8 +140,8 @@
     <array name="period">
         <item name="0">YEARLY</item>
         <item name="1">MONTHLY</item>
-        <item name="3">DAILY</item>
-        <item name="4">CUSTOM</item>
+        <item name="2">DAILY</item>
+        <item name="3">CUSTOM</item>
     </array>
 
     <array name="report_type">

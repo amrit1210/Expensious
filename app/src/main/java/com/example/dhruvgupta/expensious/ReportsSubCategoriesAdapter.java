@@ -92,7 +92,7 @@ public class ReportsSubCategoriesAdapter extends ArrayAdapter<SubCategoryDB>
                     sysDate=year_date.format(d);
                     if(sysDate.equals(PieChartActivity.year))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_sub_id == db.sub_id)
                             {
@@ -106,7 +106,7 @@ public class ReportsSubCategoriesAdapter extends ArrayAdapter<SubCategoryDB>
                     sysDate=month_date.format(d);
                     if(sysDate.equals(PieChartActivity.month_name))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_sub_id == db.sub_id)
                             {
@@ -115,12 +115,12 @@ public class ReportsSubCategoriesAdapter extends ArrayAdapter<SubCategoryDB>
                         }
                     }
                 }
-                else if(period == 3)
+                else if(period == 2)
                 {
                     sysDate = sdf.format(d);
                     if (sysDate.equals(PieChartActivity.day))
                     {
-                        if (transactionsDB.t_type.equals("Expense"))
+                        if (transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_sub_id == db.sub_id)
                             {
@@ -129,11 +129,11 @@ public class ReportsSubCategoriesAdapter extends ArrayAdapter<SubCategoryDB>
                         }
                     }
                 }
-                else if(period == 4)
+                else if(period == 3)
                 {
                     if(!d.before(PieChartActivity.start) && !d.after(PieChartActivity.end))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_sub_id == db.sub_id)
                             {

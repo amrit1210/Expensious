@@ -92,7 +92,7 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
                     sysDate=year_date.format(d);
                     if(sysDate.equals(PieChartActivity.year))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_from_acc == db.acc_id)
                             {
@@ -106,7 +106,7 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
                     sysDate=month_date.format(d);
                     if(sysDate.equals(PieChartActivity.month_name))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_from_acc == db.acc_id)
                             {
@@ -115,12 +115,12 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
                         }
                     }
                 }
-                else if(period == 3)
+                else if(period == 2)
                 {
                     sysDate=sdf.format(d);
                     if(sysDate.equals(PieChartActivity.day))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_from_acc == db.acc_id)
                             {
@@ -129,13 +129,13 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
                         }
                     }
                 }
-                else if(period == 4)
+                else if(period == 3)
                 {
                     if(!d.before(PieChartActivity.start) && !d.after(PieChartActivity.end))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
-                            if(transactionsDB.t_c_id == db.acc_id)
+                            if(transactionsDB.t_from_acc == db.acc_id)
                             {
                                 amount += transactionsDB.t_balance;
                             }

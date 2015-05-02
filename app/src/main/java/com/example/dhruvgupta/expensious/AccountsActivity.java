@@ -143,6 +143,15 @@ public class AccountsActivity extends AbstractNavigationDrawerActivity
             allAccounts= dbHelper.getAllAccounts(sp.getInt("UID",0));
             accountsAdapter =new AccountsAdapter(getActivity(),R.layout.list_account,allAccounts);
             listView.setAdapter(accountsAdapter);
+
+            amt = 0;
+            accountsDBIterator =allAccounts.iterator();
+            while (accountsDBIterator.hasNext())
+            {
+                accountsDB = accountsDBIterator.next();
+                amt +=accountsDB.acc_balance;
+            }
+            mAcc_amt.setText(amt+"");
         }
 
 

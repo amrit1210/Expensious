@@ -92,7 +92,7 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
                     sysDate=year_date.format(d);
                     if(sysDate.equals(PieChartActivity.year))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_p_id == db.p_id)
                             {
@@ -106,7 +106,21 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
                     sysDate=month_date.format(d);
                     if(sysDate.equals(PieChartActivity.month_name))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
+                        {
+                            if(transactionsDB.t_p_id == db.p_id)
+                            {
+                                amount += transactionsDB.t_balance;
+                            }
+                        }
+                    }
+                }
+                else if(period == 2)
+                {
+                    sysDate=sdf.format(d);
+                    if(sysDate.equals(PieChartActivity.day))
+                    {
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_p_id == db.p_id)
                             {
@@ -117,23 +131,9 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
                 }
                 else if(period == 3)
                 {
-                    sysDate=sdf.format(d);
-                    if(sysDate.equals(PieChartActivity.day))
-                    {
-                        if(transactionsDB.t_type.equals("Expense"))
-                        {
-                            if(transactionsDB.t_p_id == db.p_id)
-                            {
-                                amount += transactionsDB.t_balance;
-                            }
-                        }
-                    }
-                }
-                else if(period == 4)
-                {
                     if(!d.before(PieChartActivity.start) && !d.after(PieChartActivity.end))
                     {
-                        if(transactionsDB.t_type.equals("Expense"))
+                        if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1)
                         {
                             if(transactionsDB.t_p_id == db.p_id)
                             {

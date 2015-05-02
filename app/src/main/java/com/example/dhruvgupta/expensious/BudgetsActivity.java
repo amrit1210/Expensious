@@ -144,14 +144,13 @@ public void onInt(Bundle bundle) {
                     if (!sysDate.before(startDb) && !sysDate.after(endDb))
                     {
                         amt = dbBudget.b_amount;
-
                         while (transactionsDBIterator.hasNext())
                         {
                             dbTrans = transactionsDBIterator.next();
                             try
                             {
                                 transDate =sdf.parse(dbTrans.t_date);
-                                if(!(transDate.before(startDb) && transDate.after(endDb)))
+                                if(!((transDate.before(startDb)) && !(transDate.after(endDb))))
                                 {
                                     spent += dbTrans.t_balance;
                                 }
