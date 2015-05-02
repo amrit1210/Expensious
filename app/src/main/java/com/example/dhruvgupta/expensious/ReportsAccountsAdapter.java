@@ -147,9 +147,9 @@ public class ReportsAccountsAdapter extends ArrayAdapter<AccountsDB>
             {
                 e.printStackTrace();
             }
-            amt.setText(amount+"");
-        }
 
+        }
+        amt.setText(amount+"");
         return convertView;
     }
 }

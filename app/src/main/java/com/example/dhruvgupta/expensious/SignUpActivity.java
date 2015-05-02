@@ -817,7 +817,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 subcategory11.put("sub_c_id", 4);
                                                 subcategory11.put("sub_name","Property Tax" );
                                                 subcategory11.put("sub_id", 11);
-//                                               subcategory11.put("sub_icon",);
+                                               subcategory11.put("sub_icon",c_img_string);
                                                 subcategory11.pinInBackground("pinSubCategory");
                                                 subcategory11.saveEventually(new SaveCallback() {
                                                     @Override
@@ -870,7 +870,8 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
                                                 b = baos.toByteArray();
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
-                                                dbHelper.addSubCategory(r,"Surgery",5,c_img_string);
+                                                Log.i("Surgery","sur");
+                                                dbHelper.addSubCategory(5,"Surgery",r,c_img_string);
                                                 ParseObject subcategory12 = new ParseObject("Sub_category");
                                                 subcategory12.put("sub_uid", r);
                                                 subcategory12.put("sub_c_id", 5);
@@ -884,6 +885,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                Log.i("Surgery1","sur1");
                                                 fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.grey);
                                                 image_stream = null;
                                                 try
@@ -899,7 +901,8 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
                                                 b = baos.toByteArray();
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
-                                                dbHelper.addSubCategory(r,"Medicines",5,c_img_string);
+                                                Log.i("Medicines","Medicines");
+                                                dbHelper.addSubCategory(5,"Medicines",r,c_img_string);
                                                 ParseObject subcategory13 = new ParseObject("Sub_category");
                                                 subcategory13.put("sub_uid", r);
                                                 subcategory13.put("sub_c_id", 5);
@@ -913,6 +916,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                Log.i("Medicines1","Medicines1");
                                                 fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.gift);
                                                 image_stream = null;
                                                 try

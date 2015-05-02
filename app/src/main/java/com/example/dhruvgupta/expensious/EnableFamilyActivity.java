@@ -31,7 +31,7 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
     public void onInt(Bundle bundle) {
         super.onInt(bundle);
 
-        this.setDefaultStartPositionNavigation(6);
+        this.setDefaultStartPositionNavigation(5);
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //

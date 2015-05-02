@@ -52,7 +52,7 @@ public class SettingsActivity extends AbstractNavigationDrawerActivity
 public void onInt(Bundle bundle) {
     super.onInt(bundle);
 
-    this.setDefaultStartPositionNavigation(8);
+    this.setDefaultStartPositionNavigation(7);
     this.getSupportActionBar().setTitle("Settings");
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -129,7 +129,7 @@ public void onInt(Bundle bundle) {
         //deletePerson
         ArrayList<PersonDB> al_person= dbHelper.getAllPersons(sp.getInt("UID", 0));
         Iterator <PersonDB> iterator_person=al_person.iterator();
-        while(iterator_account.hasNext())
+        while(iterator_person.hasNext())
         {
             PersonDB PersonDB=iterator_person.next();
             dbHelper.deletePerson(PersonDB.p_id,sp.getInt("UID",0));

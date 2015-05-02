@@ -147,9 +147,9 @@ public class ReportsPersonsAdapter extends ArrayAdapter<PersonDB>
             {
                 e.printStackTrace();
             }
-            amt.setText(amount+"");
-        }
 
+        }
+        amt.setText(amount+"");
         return convertView;
     }
 }

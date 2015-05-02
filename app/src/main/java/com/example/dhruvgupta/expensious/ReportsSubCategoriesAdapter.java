@@ -147,9 +147,9 @@ public class ReportsSubCategoriesAdapter extends ArrayAdapter<SubCategoryDB>
             {
                 e.printStackTrace();
             }
-            amt.setText(amount+"");
-        }
 
+        }
+        amt.setText(amount+"");
         return convertView;
     }
 }

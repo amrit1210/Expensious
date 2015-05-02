@@ -47,14 +47,14 @@ public class RecursiveActivity extends AbstractNavigationDrawerActivity
 public void onInt(Bundle bundle) {
     super.onInt(bundle);
 
-    this.setDefaultStartPositionNavigation(3);
+    this.setDefaultStartPositionNavigation(2);
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //
 //        AccountsFragment fragment = new AccountsFragment();
 //        fragmentTransaction.replace(R.id.container, fragment);
 //        fragmentTransaction.commit();
-    this.getSupportActionBar().setTitle("Recursive");
+    this.getSupportActionBar().setTitle("Recursive Transaction");
 }
 
     public static class RecursiveFragment extends Fragment

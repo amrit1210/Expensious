@@ -3,6 +3,7 @@ package com.example.dhruvgupta.expensious;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +88,7 @@ public class ReportsCategoriesAdapter extends ArrayAdapter<CategoryDB_Specific>
             try
             {
                 Date d = sdf.parse(transactionsDB.t_date);
+                Log.d("transDB", "amt = " + transactionsDB.t_balance);
                 if(period == 0)
                 {
                     sysDate=year_date.format(d);
@@ -147,8 +149,9 @@ public class ReportsCategoriesAdapter extends ArrayAdapter<CategoryDB_Specific>
             {
                 e.printStackTrace();
             }
-            amt.setText(amount+"");
+//            amt.setText(amount+"");
         }
+        amt.setText(amount+"");
         return convertView;
     }
 }

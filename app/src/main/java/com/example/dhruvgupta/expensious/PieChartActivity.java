@@ -68,7 +68,8 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
     {
         super.onInt(bundle);
 
-        this.setDefaultStartPositionNavigation(7);
+        this.setDefaultStartPositionNavigation(6);
+        this.getSupportActionBar().setTitle("Reports");
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //

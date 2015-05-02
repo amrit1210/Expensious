@@ -41,6 +41,7 @@ public class CategoriesAdapter extends ArrayAdapter<String>
         context1=context;
         layout=resource;
         al=objects;
+        Log.i("Catadapal:",al+"");
     }
 
 
@@ -56,9 +57,9 @@ public class CategoriesAdapter extends ArrayAdapter<String>
             convertView=in.inflate(layout,null);
         }
         //ListView listView=(ListView)convertView.findViewById(R.id.category_list);
-        final CircularImageView image=(CircularImageView)convertView.findViewById(R.id.list_category_img);
-        final TextView name=(TextView)convertView.findViewById(R.id.list_category_name);
-        final TextView id=(TextView)convertView.findViewById(R.id.list_category_id);
+         CircularImageView image=(CircularImageView)convertView.findViewById(R.id.list_category_img);
+         TextView name=(TextView)convertView.findViewById(R.id.list_category_name);
+        TextView id=(TextView)convertView.findViewById(R.id.list_category_id);
 
         String c_id=al.get(position);
         Log.i("c_id", c_id);
@@ -78,6 +79,7 @@ public class CategoriesAdapter extends ArrayAdapter<String>
         }
         Cursor c=dbHelper.getCategoryData(cat_id,sp.getInt("UID",0));
         Log.i("Cursor Category :",cat_id+"");
+        Log.i("cursor",subcat_id+"");
         c.moveToFirst();
         u_id=c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_UID));
         if(subcat_id==0)
@@ -98,7 +100,6 @@ public class CategoriesAdapter extends ArrayAdapter<String>
                 Log.i("Excep:PersonAdapter",e.getMessage());
             }
             id.setText(c_id);
-            c.close();
         }
         else if(subcat_id>0)
         {
@@ -109,7 +110,7 @@ public class CategoriesAdapter extends ArrayAdapter<String>
             name.setText(c_name);
             try
             {
-                String c_img=c.getString(c.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_ICON));
+                String c_img=c1.getString(c1.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_ICON));
                 Log.i("SubCategory Img:",c_img);
                 byte[] decodedString = Base64.decode(c_img.trim(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
@@ -118,12 +119,12 @@ public class CategoriesAdapter extends ArrayAdapter<String>
             }
             catch (Exception e)
             {
-                Log.i("Excep:PersonAdapter",e.getMessage());
+                Log.i("Excep:Category Adapter",e.getMessage());
             }
             id.setText(c_id);
             c1.close();
         }
-
+        c.close();
         return convertView;
     }
 }

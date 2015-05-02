@@ -42,23 +42,23 @@ public class LoginActivity extends ActionBarActivity
     EditText mEmail,mPassword;
     DBHelper dbHelper;
     SharedPreferences sharedPreferences;
-    ImageView tutImage;
-    AnimationDrawable anim;
+//    ImageView tutImage;
+//    AnimationDrawable anim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        tutImage = (ImageView) findViewById(R.id.img_tut);
+//        tutImage = (ImageView) findViewById(R.id.img_tut);
         mEmail=(EditText)findViewById(R.id.logIn_email);
         mPassword=(EditText)findViewById(R.id.logIn_password);
-        mEmail.setSelected(false);
-        mPassword.setSelected(false);
-        tutImage.setBackgroundResource(R.drawable.tutorial);
-        anim = (AnimationDrawable) tutImage.getBackground();
+//        mEmail.setSelected(false);
+//        mPassword.setSelected(false);
+//        tutImage.setBackgroundResource(R.drawable.tutorial);
+//        anim = (AnimationDrawable) tutImage.getBackground();
         dbHelper =new DBHelper(LoginActivity.this);
-            anim.start();
+//            anim.start();
 
     }
 

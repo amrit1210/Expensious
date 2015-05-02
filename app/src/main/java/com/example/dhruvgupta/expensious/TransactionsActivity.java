@@ -48,7 +48,7 @@ public class TransactionsActivity extends AbstractNavigationDrawerActivity
     public void onInt(Bundle bundle) {
         super.onInt(bundle);
 
-        this.setDefaultStartPositionNavigation(2);
+        this.setDefaultStartPositionNavigation(1);
 //        FragmentManager fragmentManager = getFragmentManager();
 //        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //

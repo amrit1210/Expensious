@@ -42,27 +42,27 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
 
         // name of the list items
         List<String> mListNameItem = new ArrayList<>();
-        mListNameItem.add(0,"DashBoard");
-        mListNameItem.add(1, "Accounts");
-        mListNameItem.add(2, "Transactions");
-        mListNameItem.add(3, "Recursive Transaction");
-        mListNameItem.add(4, "Budget");
-        mListNameItem.add(5, "Loan/Debt");
-        mListNameItem.add(6, "Family Sharing");
-        mListNameItem.add(7, "Reports");
-        mListNameItem.add(8, "Settings");
+
+        mListNameItem.add(0, "Accounts");
+        mListNameItem.add(1, "Transactions");
+        mListNameItem.add(2, "Recursive Transaction");
+        mListNameItem.add(3, "Budget");
+        mListNameItem.add(4, "Loan/Debt");
+        mListNameItem.add(5, "Family Sharing");
+        mListNameItem.add(6, "Reports");
+        mListNameItem.add(7, "Settings");
 
         // icons list items
         List<Integer> mListIconItem = new ArrayList<>();
-        mListIconItem.add(0,R.drawable.dashboard);
-        mListIconItem.add(1,R.drawable.accounts ); //Item no icon set 0
-        mListIconItem.add(2, R.drawable.trans); //Item no icon set 0
-        mListIconItem.add(3, R.drawable.recursive);
-        mListIconItem.add(4, R.drawable.budget); //When the item is a subHeader the value of the icon 0
-        mListIconItem.add(5, R.drawable.loandebt);
-        mListIconItem.add(6, R.drawable.family);
-        mListIconItem.add(7, R.drawable.piechart);
-        mListIconItem.add(8,R.drawable.settings);
+
+        mListIconItem.add(0,R.drawable.accounts ); //Item no icon set 0
+        mListIconItem.add(1, R.drawable.trans); //Item no icon set 0
+        mListIconItem.add(2, R.drawable.recursive);
+        mListIconItem.add(3, R.drawable.budget); //When the item is a subHeader the value of the icon 0
+        mListIconItem.add(4, R.drawable.loandebt);
+        mListIconItem.add(5, R.drawable.family);
+        mListIconItem.add(6, R.drawable.piechart);
+        mListIconItem.add(7,R.drawable.settings);
 
 
         //If not please use the FooterDrawer use the setFooterVisible(boolean visible) method with value false
@@ -81,63 +81,58 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
         Fragment mFragment=null;
         Intent intent=null;
         switch (position) {
+
+
             case 0:
-//                if (this instanceof DashBoardActivity) {
-//                    mFragment = new DashBoardActivity.DashBoardFragment();
-//                } else {
-//                    intent = new Intent(this, DashBoardActivity.class);
-//                }
-                break;
-            case 1:
                 if (this instanceof AccountsActivity) {
                     mFragment = new AccountsActivity.AccountsFragment();
                 } else {
                     intent = new Intent(this, AccountsActivity.class);
                 }
                 break;
-            case 2:
+            case 1:
                 if (this instanceof TransactionsActivity) {
                     mFragment = new TransactionsActivity.TransactionFragment();
                 } else {
                     intent = new Intent(this, TransactionsActivity.class);
                 }
                 break;
-            case 3:
+            case 2:
                 if (this instanceof RecursiveActivity) {
                     mFragment = new RecursiveActivity.RecursiveFragment();
                 } else {
                     intent = new Intent(this,RecursiveActivity.class);
                 }
                 break;
-            case 4:
+            case 3:
                 if (this instanceof BudgetsActivity ) {
                     mFragment = new BudgetsActivity.BudgetFragment();
                 } else {
                     intent = new Intent(this, BudgetsActivity.class);
                 }
                 break;
-            case 5:
+            case 4:
                 if (this instanceof LoanDebtActivity) {
                     mFragment = new LoanDebtActivity.LoanDebtFragment();
                 } else {
                     intent = new Intent(this, LoanDebtActivity.class);
                 }
                 break;
-            case 6:
-//                if (this instanceof FamilySharingActivity) {
-//                    mFragment = new FamilySharingActivity.FamilySharingFragment();
-//                } else {
-//                    intent = new Intent(this, FamilySharingActivity.class);
-//                }
+            case 5:
+                if (this instanceof EnableFamilyActivity) {
+                    mFragment = new EnableFamilyActivity.EnableFamilyFragment();
+                } else {
+                    intent = new Intent(this, EnableFamilyActivity.class);
+                }
                 break;
-            case 7:
+            case 6:
                 if (this instanceof PieChartActivity) {
                     mFragment = new PieChartActivity.PieChartFragment();
                 } else {
                     intent = new Intent(this, PieChartActivity.class);
                 }
                 break;
-            case 8:
+            case 7:
                 if (this instanceof SettingsActivity) {
                     mFragment = new SettingsActivity.SettingsFragment();
                 } else {

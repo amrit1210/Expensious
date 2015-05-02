@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".LoginActivity"
     android:background="@drawable/back">
 
@@ -10,25 +14,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <ViewFlipper
             android:layout_width="match_parent"
-            android:layout_height="300sp"
-            android:id="@+id/img_tut"
-            android:adjustViewBounds="true"
-            android:focusable="true"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#ffffff"
-            android:layout_below="@+id/img_tut"
-            android:id="@+id/brk"/>
+            android:layout_height="match_parent"
+            android:id="@+id/viewFlipper"
+            android:layout_above="@+id/ll_signin"
+        />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/ll_signin"
-            android:layout_below="@+id/brk"
             android:layout_alignParentBottom="true">
 
             <LinearLayout
