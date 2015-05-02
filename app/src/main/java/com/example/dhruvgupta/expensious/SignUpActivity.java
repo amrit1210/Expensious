@@ -388,6 +388,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Settings saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Food",0,"");
                                                 ParseObject category = new ParseObject("Category_specific");
                                                 category.put("c_uid", r);
                                                 category.put("c_id", 1);
@@ -401,6 +402,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(1,"Vegetables",r);
                                                 ParseObject subcategory1 = new ParseObject("Sub_category");
                                                 subcategory1.put("sub_uid", r);
                                                 subcategory1.put("sub_c_id", 1);
@@ -414,6 +416,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(1,"Fruits",r);
                                                 ParseObject subcategory2 = new ParseObject("Sub_category");
                                                 subcategory2.put("sub_uid", r);
                                                 subcategory2.put("sub_c_id", 1);
@@ -427,6 +430,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Entertainment",0,"");
                                                 ParseObject category1 = new ParseObject("Category_specific");
                                                 category1.put("c_uid", r);
                                                 category1.put("c_id", 2);
@@ -440,6 +444,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(2,"Movies",r);
                                                 ParseObject subcategory3 = new ParseObject("Sub_category");
                                                 subcategory3.put("sub_uid", r);
                                                 subcategory3.put("sub_c_id", 2);
@@ -453,6 +458,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(2,"Television",r);
                                                 ParseObject subcategory4 = new ParseObject("Sub_category");
                                                 subcategory4.put("sub_uid", r);
                                                 subcategory4.put("sub_c_id", 2);
@@ -466,7 +472,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
-
+                                                dbHelper.addCategorySpecific(r,"Travel",0,"");
                                                 ParseObject category2 = new ParseObject("Category_specific");
                                                 category2.put("c_uid", r);
                                                 category2.put("c_id", 3);
@@ -480,6 +486,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(3,"Auto Fare",r);
                                                 ParseObject subcategory5 = new ParseObject("Sub_category");
                                                 subcategory5.put("sub_uid", r);
                                                 subcategory5.put("sub_c_id", 3);
@@ -493,6 +500,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(3,"Bus Fare",r);
                                                 ParseObject subcategory6 = new ParseObject("Sub_category");
                                                 subcategory6.put("sub_uid", r);
                                                 subcategory6.put("sub_c_id", 3);
@@ -506,6 +514,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(3,"Taxi Fare",r);
                                                 ParseObject subcategory7 = new ParseObject("Sub_category");
                                                 subcategory7.put("sub_uid", r);
                                                 subcategory7.put("sub_c_id", 1);
@@ -519,6 +528,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(3,"Flight Fare",r);
                                                 ParseObject subcategory8 = new ParseObject("Sub_category");
                                                 subcategory8.put("sub_uid", r);
                                                 subcategory8.put("sub_c_id", 3);
@@ -533,7 +543,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                     }
                                                 });
 
-
+                                                dbHelper.addCategorySpecific(r,"Tax Payment",0,"");
                                                 ParseObject category3 = new ParseObject("Category_specific");
                                                 category3.put("c_uid", r);
                                                 category3.put("c_id", 4);
@@ -547,6 +557,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(4,"Income Tax",r);
                                                 ParseObject subcategory9 = new ParseObject("Sub_category");
                                                 subcategory9.put("sub_uid", r);
                                                 subcategory9.put("sub_c_id", 4);
@@ -560,6 +571,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(4,"Sales Tax",r);
                                                 ParseObject subcategory10 = new ParseObject("Sub_category");
                                                 subcategory10.put("sub_uid", r);
                                                 subcategory10.put("sub_c_id", 4);
@@ -573,6 +585,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(4,"Property Tax",r);
                                                 ParseObject subcategory11 = new ParseObject("Sub_category");
                                                 subcategory11.put("sub_uid", r);
                                                 subcategory11.put("sub_c_id", 4);
@@ -586,7 +599,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
-
+                                                dbHelper.addCategorySpecific(r,"Health",0,"");
                                                 ParseObject category4 = new ParseObject("Category_specific");
                                                 category4.put("c_uid", r);
                                                 category4.put("c_id", 5);
@@ -600,7 +613,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
-
+                                                dbHelper.addSubCategory(r,"Surgery",5);
                                                 ParseObject subcategory12 = new ParseObject("Sub_category");
                                                 subcategory12.put("sub_uid", r);
                                                 subcategory12.put("sub_c_id", 5);
@@ -614,6 +627,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(r,"Medicines",5);
                                                 ParseObject subcategory13 = new ParseObject("Sub_category");
                                                 subcategory13.put("sub_uid", r);
                                                 subcategory13.put("sub_c_id", 5);
@@ -627,6 +641,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Beauty",0,"");
                                                 ParseObject category5 = new ParseObject("Category_specific");
                                                 category5.put("c_uid", r);
                                                 category5.put("c_id", 6);
@@ -640,7 +655,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
-
+                                                dbHelper.addSubCategory(6,"Manicure",r);
                                                 ParseObject subcategory14 = new ParseObject("Sub_category");
                                                 subcategory14.put("sub_uid", r);
                                                 subcategory14.put("sub_c_id", 6);
@@ -654,6 +669,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(6,"Padicure",r);
                                                 ParseObject subcategory15 = new ParseObject("Sub_category");
                                                 subcategory15.put("sub_uid", r);
                                                 subcategory15.put("sub_c_id", 6);
@@ -667,6 +683,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(6,"HairDressing",r);
                                                 ParseObject subcategory16 = new ParseObject("Sub_category");
                                                 subcategory16.put("sub_uid", r);
                                                 subcategory16.put("sub_c_id", 6);
@@ -680,7 +697,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
-
+                                                dbHelper.addCategorySpecific(r,"Clothing",0,"");
                                                 ParseObject category6 = new ParseObject("Category_specific");
                                                 category6.put("c_uid", r);
                                                 category6.put("c_id", 7);
@@ -694,6 +711,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(7,"Shirts",r);
                                                 ParseObject subcategory17 = new ParseObject("Sub_category");
                                                 subcategory17.put("sub_uid", r);
                                                 subcategory17.put("sub_c_id", 7);
@@ -707,6 +725,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(7,"Pants",r);
                                                 ParseObject subcategory18 = new ParseObject("Sub_category");
                                                 subcategory18.put("sub_uid", r);
                                                 subcategory18.put("sub_c_id", 7);
@@ -720,6 +739,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(7,"T-shirts",r);
                                                 ParseObject subcategory19 = new ParseObject("Sub_category");
                                                 subcategory19.put("sub_uid", r);
                                                 subcategory19.put("sub_c_id", 7);
@@ -733,6 +753,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(7,"Shoes",r);
                                                 ParseObject subcategory20 = new ParseObject("Sub_category");
                                                 subcategory20.put("sub_uid", r);
                                                 subcategory20.put("sub_c_id", 7);
@@ -746,6 +767,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+
                                                 ParseObject subcategory34 = new ParseObject("Sub_category");
                                                 subcategory34.put("sub_uid", r);
                                                 subcategory34.put("sub_c_id", 7);
@@ -759,6 +781,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(7,"Sweater",r);
                                                 ParseObject subcategory21 = new ParseObject("Sub_category");
                                                 subcategory21.put("sub_uid", r);
                                                 subcategory21.put("sub_c_id", 7);
@@ -772,6 +795,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(7,"Skirts",r);
                                                 ParseObject subcategory22 = new ParseObject("Sub_category");
                                                 subcategory22.put("sub_uid", r);
                                                 subcategory22.put("sub_c_id", 7);
@@ -785,7 +809,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
-
+                                                dbHelper.addSubCategory(7,"Jackets",r);
                                                 ParseObject subcategory23 = new ParseObject("Sub_category");
                                                 subcategory23.put("sub_uid", r);
                                                 subcategory23.put("sub_c_id", 7);
@@ -799,6 +823,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Bills",0,"");
                                                 ParseObject category7 = new ParseObject("Category_specific");
                                                 category7.put("c_uid", r);
                                                 category7.put("c_id", 8);
@@ -812,6 +837,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(8,"Phone Bill",r);
                                                 ParseObject subcategory24 = new ParseObject("Sub_category");
                                                 subcategory24.put("sub_uid", r);
                                                 subcategory24.put("sub_c_id", 8);
@@ -825,6 +851,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(8,"Electricity Bill",r);
                                                 ParseObject subcategory25 = new ParseObject("Sub_category");
                                                 subcategory25.put("sub_uid", r);
                                                 subcategory25.put("sub_c_id", 8);
@@ -838,6 +865,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(8,"Water Bill",r);
                                                 ParseObject subcategory26 = new ParseObject("Sub_category");
                                                 subcategory26.put("sub_uid", r);
                                                 subcategory26.put("sub_c_id", 8);
@@ -851,6 +879,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Stationary",0,"");
                                                 ParseObject category8 = new ParseObject("Category_specific");
                                                 category8.put("c_uid", r);
                                                 category8.put("c_id", 9);
@@ -864,7 +893,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
-
+                                                dbHelper.addSubCategory(9,"Copy",r);
                                                 ParseObject subcategory27 = new ParseObject("Sub_category");
                                                 subcategory27.put("sub_uid", r);
                                                 subcategory27.put("sub_c_id", 9);
@@ -878,7 +907,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
-
+                                                dbHelper.addSubCategory(9,"Pen",r);
                                                 ParseObject subcategory28 = new ParseObject("Sub_category");
                                                 subcategory28.put("sub_uid", r);
                                                 subcategory28.put("sub_c_id", 9);
@@ -892,6 +921,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(9,"Pencil",r);
                                                 ParseObject subcategory29 = new ParseObject("Sub_category");
                                                 subcategory29.put("sub_uid", r);
                                                 subcategory29.put("sub_c_id", 9);
@@ -905,6 +935,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Educational",0,"");
                                                 ParseObject category9 = new ParseObject("Category_specific");
                                                 category9.put("c_uid", r);
                                                 category9.put("c_id", 10);
@@ -918,6 +949,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(10,"Tution Fee",r);
                                                 ParseObject subcategory30 = new ParseObject("Sub_category");
                                                 subcategory30.put("sub_uid", r);
                                                 subcategory30.put("sub_c_id", 10);
@@ -931,6 +963,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(10,"Admission Fee",r);
                                                 ParseObject subcategory31 = new ParseObject("Sub_category");
                                                 subcategory31.put("sub_uid", r);
                                                 subcategory31.put("sub_c_id", 10);
@@ -944,7 +977,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
-
+                                                dbHelper.addCategorySpecific(r,"Salary",1,"");
                                                 ParseObject category10 = new ParseObject("Category_specific");
                                                 category10.put("c_uid", r);
                                                 category10.put("c_id", 11);
@@ -958,6 +991,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Wages",1,"");
                                                 ParseObject category11 = new ParseObject("Category_specific");
                                                 category11.put("c_uid", r);
                                                 category11.put("c_id", 12);
@@ -971,6 +1005,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(12,"Daily",r);
                                                 ParseObject subcategory32 = new ParseObject("Sub_category");
                                                 subcategory32.put("sub_uid", r);
                                                 subcategory32.put("sub_c_id", 12);
@@ -984,6 +1019,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(12,"Weekly",r);
                                                 ParseObject subcategory33 = new ParseObject("Sub_category");
                                                 subcategory33.put("sub_uid", r);
                                                 subcategory33.put("sub_c_id", 12);
@@ -997,6 +1033,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("SubCat saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Provident Fund",0,"");
                                                 ParseObject category12 = new ParseObject("Category_specific");
                                                 category12.put("c_uid", r);
                                                 category12.put("c_id", 13);
@@ -1010,6 +1047,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Med_Claim",1,"");
                                                 ParseObject category13 = new ParseObject("Category_specific");
                                                 category13.put("c_uid", r);
                                                 category13.put("c_id", 14);
@@ -1023,6 +1061,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Pension",1,"");
                                                 ParseObject category14 = new ParseObject("Category_specific");
                                                 category14.put("c_uid", r);
                                                 category14.put("c_id", 15);
@@ -1036,6 +1075,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"Capital Gains",1,"");
                                                 ParseObject category15 = new ParseObject("Category_specific");
                                                 category15.put("c_uid", r);
                                                 category15.put("c_id", 16);
@@ -1049,6 +1089,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addCategorySpecific(r,"House Property",1,"");
                                                 ParseObject category16 = new ParseObject("Category_specific");
                                                 category16.put("c_uid", r);
                                                 category16.put("c_id", 17);
@@ -1062,6 +1103,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Category saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+                                                dbHelper.addSubCategory(7,"Sandals",r);
                                             }
                                             else
                                             {
