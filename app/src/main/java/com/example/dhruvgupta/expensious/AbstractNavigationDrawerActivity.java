@@ -42,7 +42,7 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
 
         // name of the list items
         List<String> mListNameItem = new ArrayList<>();
-        mListNameItem.add(0, "DashBoard");
+
         mListNameItem.add(1, "Accounts");
         mListNameItem.add(2, "Transactions");
         mListNameItem.add(3, "Recursive Transaction");
@@ -54,7 +54,7 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
 
         // icons list items
         List<Integer> mListIconItem = new ArrayList<>();
-        mListIconItem.add(0, R.drawable.dashboard);
+
         mListIconItem.add(1,R.drawable.accounts ); //Item no icon set 0
         mListIconItem.add(2, R.drawable.trans); //Item no icon set 0
         mListIconItem.add(3, R.drawable.recursive);
