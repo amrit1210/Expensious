@@ -14,12 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ViewFlipper
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/viewFlipper"
-            android:layout_above="@+id/ll_signin"
-        />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,6 +23,15 @@
             android:id="@+id/ll_signin"
             android:layout_alignParentBottom="true">
 
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:id="@+id/login_image"
+                android:src="@drawable/app_icon"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:adjustViewBounds="true"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
