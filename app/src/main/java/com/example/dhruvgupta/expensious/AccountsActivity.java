@@ -43,6 +43,7 @@ public class AccountsActivity extends AbstractNavigationDrawerActivity
 //        AccountsFragment fragment = new AccountsFragment();
 //        fragmentTransaction.replace(R.id.container, fragment);
 //        fragmentTransaction.commit();
+          this.getSupportActionBar().setTitle("Accounts");
 }
 
 

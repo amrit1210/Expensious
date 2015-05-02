@@ -48,6 +48,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_loan_debt);
+        this.getSupportActionBar().setTitle("Add Loan-Debt");
         mLlFromAcc = (LinearLayout) findViewById(R.id.add_loan_debt_ll_from_account);
         mLlToAcc = (LinearLayout) findViewById(R.id.add_loan_debt_ll_to_account);
         mAmt = (Button) findViewById(R.id.add_loan_debt_amt);

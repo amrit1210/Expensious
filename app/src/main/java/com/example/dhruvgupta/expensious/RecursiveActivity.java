@@ -54,6 +54,7 @@ public void onInt(Bundle bundle) {
 //        AccountsFragment fragment = new AccountsFragment();
 //        fragmentTransaction.replace(R.id.container, fragment);
 //        fragmentTransaction.commit();
+    this.getSupportActionBar().setTitle("Recursive");
 }
 
     public static class RecursiveFragment extends Fragment

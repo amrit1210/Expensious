@@ -51,6 +51,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_transaction);
+        this.getSupportActionBar().setTitle("Add Transaction");
         mDate = (Button) findViewById(R.id.add_trans_btn_date);
         mTime = (Button) findViewById(R.id.add_trans_btn_time);
         mAmt = (Button) findViewById(R.id.add_trans_btn_amt);

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -40,16 +42,24 @@ public class LoginActivity extends ActionBarActivity
     EditText mEmail,mPassword;
     DBHelper dbHelper;
     SharedPreferences sharedPreferences;
+    ImageView tutImage;
+    AnimationDrawable anim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        tutImage = (ImageView) findViewById(R.id.img_tut);
         mEmail=(EditText)findViewById(R.id.logIn_email);
         mPassword=(EditText)findViewById(R.id.logIn_password);
-		dbHelper =new DBHelper(LoginActivity.this);
-        CategoryDB_Master categoryDB_master=new CategoryDB_Master();
+        mEmail.setSelected(false);
+        mPassword.setSelected(false);
+        tutImage.setBackgroundResource(R.drawable.tutorial);
+        anim = (AnimationDrawable) tutImage.getBackground();
+        dbHelper =new DBHelper(LoginActivity.this);
+            anim.start();
+
     }
 
     public void onLogin(View v)

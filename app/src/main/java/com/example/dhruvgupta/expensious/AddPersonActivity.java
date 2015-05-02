@@ -67,7 +67,7 @@ public class AddPersonActivity  extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_person);
-
+        this.getSupportActionBar().setTitle("Add Person");
         mPerson_Color =(CircularImageView)findViewById(R.id.add_person_icon);
         mPerson_Name =(EditText)findViewById(R.id.add_person_name);
 

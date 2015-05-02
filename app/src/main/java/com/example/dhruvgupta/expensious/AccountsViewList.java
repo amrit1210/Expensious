@@ -31,7 +31,7 @@ public class AccountsViewList  extends ActionBarActivity
         setContentView(R.layout.accounts_view);
         acc_list =(ListView)findViewById(R.id.accounts_list_view);
         FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
-
+        this.getSupportActionBar().setTitle("Accounts");
         sp= getSharedPreferences("USER_PREFS",MODE_PRIVATE);
         dbHelper =new DBHelper(AccountsViewList.this);
 

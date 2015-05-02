@@ -60,6 +60,7 @@ public void onInt(Bundle bundle) {
 //        AccountsFragment fragment = new AccountsFragment();
 //        fragmentTransaction.replace(R.id.container, fragment);
 //        fragmentTransaction.commit();
+    this.getSupportActionBar().setTitle("Budgets");
 }
 
     public static class BudgetFragment extends Fragment

@@ -51,7 +51,7 @@ public class AddBudgetActivity extends ActionBarActivity
         mB_EndDate =(Button)findViewById(R.id.add_budget_btn_end_date);
         mB_Amt =(Button)findViewById(R.id.add_budget_btn_amt);
         mB_Cur =(Button)findViewById(R.id.add_budget_btn_cur);
-
+        this.getSupportActionBar().setTitle("Add Budget");
         sdf= new SimpleDateFormat("dd-MM-yyyy");
 
         final Calendar calendar = Calendar.getInstance();

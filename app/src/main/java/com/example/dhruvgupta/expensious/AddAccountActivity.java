@@ -44,7 +44,7 @@ public class AddAccountActivity extends ActionBarActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_account);
-
+        this.getSupportActionBar().setTitle("Add Account");
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         mAcc_Name=(EditText)findViewById(R.id.add_acc_name);
         mAcc_Note=(EditText)findViewById(R.id.add_acc_note);

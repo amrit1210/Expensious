@@ -59,7 +59,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_recursive);
-
+        this.getSupportActionBar().setTitle("Add Recursive");
         mStartDate = (Button) findViewById(R.id.add_recursive_btn_start_date);
         mEndDate = (Button) findViewById(R.id.add_recursive_btn_end_date);
         mTime = (Button) findViewById(R.id.add_recursive_btn_time);

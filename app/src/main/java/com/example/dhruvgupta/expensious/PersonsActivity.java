@@ -56,6 +56,7 @@ public class PersonsActivity extends ActionBarActivity
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
+        this.getSupportActionBar().setTitle("Persons");
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

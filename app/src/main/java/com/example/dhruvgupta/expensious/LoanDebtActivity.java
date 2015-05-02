@@ -41,6 +41,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
 ////        LoanDebtFragment loanDebtFragment=new LoanDebtFragment();
 ////        fragmentTransaction.replace(R.id.container,loanDebtFragment);
 ////        fragmentTransaction.commit();
+
 //
 //    }
 
@@ -54,6 +55,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
 //        AccountsFragment fragment = new AccountsFragment();
 //        fragmentTransaction.replace(R.id.container, fragment);
 //        fragmentTransaction.commit();
+        this.getSupportActionBar().setTitle("Loan-Debt");
     }
 
 
