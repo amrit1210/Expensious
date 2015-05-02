@@ -159,6 +159,7 @@ public static class CategoriesFragment extends Fragment
 
 
         registerForContextMenu(mList_cat);
+        al.clear();
         toList();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +251,7 @@ public static class CategoriesFragment extends Fragment
         c_type=0;
         //al1= setCategoryGroups();
         al.clear();
+        ids.clear();
         cat_al= dbHelper.getAllCategories(sp.getInt("UID",0),0);
         int k=0;
         for(int i=0;i<cat_al.size();i++)
@@ -264,7 +266,6 @@ public static class CategoriesFragment extends Fragment
             {
                 SubCategoryDB subCategoryDB=sub_cat_al.get(j);
                 al.add(categoryDB_specific.c_id+"."+subCategoryDB.sub_id);
-                al.add(subCategoryDB.sub_name);
                 ids.add(categoryDB_specific.c_id + "." + subCategoryDB.sub_id);
 
             }
@@ -293,7 +294,6 @@ public static class CategoriesFragment extends Fragment
 //       });
 
         Log.i(" EXPENSE ID:",ids+"");
-        ad=new CategoriesAdapter(getActivity(),R.layout.list_category,null);
         ad=new CategoriesAdapter(getActivity(),R.layout.list_category,al);
         mList_cat.setAdapter(ad);
         registerForContextMenu(mList_cat);
@@ -301,9 +301,10 @@ public static class CategoriesFragment extends Fragment
     }
     public void toList()
     {
-        Map map=new HashMap();
+
         cat_al= dbHelper.getCategories(sp.getInt("UID",0));
         //  int k=0;
+        s.clear();
         for(int i=0;i<cat_al.size();i++)
         {
             CategoryDB_Specific categoryDB_specific=cat_al.get(i);

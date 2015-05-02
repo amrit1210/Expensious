@@ -1309,8 +1309,7 @@ public class DBHelper extends SQLiteOpenHelper
             return null;
         }
     }
-
-    public boolean addSubCategory(int c_id,String name,int u_id)
+    public boolean addSubCategory(int c_id,String name,int u_id,String img)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
@@ -1319,7 +1318,7 @@ public class DBHelper extends SQLiteOpenHelper
         contentValues.put(SUBCATEGORY_COL_SUB_CID,c_id);
         contentValues.put(SUBCATEGORY_COL_SUB_NAME,name);
         contentValues.put(SUBCATEGORY_COL_SUB_UID,u_id);
-
+        contentValues.put(SUBCATEGORY_COL_SUB_ICON,img);
         return db.insert(SUBCATEGORY_TABLE, null, contentValues) > 0;
     }
 

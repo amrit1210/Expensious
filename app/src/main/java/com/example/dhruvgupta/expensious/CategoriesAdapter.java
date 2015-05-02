@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,9 @@ import android.widget.TextView;
 
 import com.pkmmte.view.CircularImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -76,13 +80,14 @@ public class CategoriesAdapter extends ArrayAdapter<String>
         Log.i("Cursor Category :",cat_id+"");
         c.moveToFirst();
         u_id=c.getInt(c.getColumnIndex(DBHelper.CATEGORY_COL_C_UID));
-        if(subcat_id<=0)
+        if(subcat_id==0)
         {
             String c_name=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_NAME));
             name.setText(c_name);
             try
             {
                 String c_img=c.getString(c.getColumnIndex(DBHelper.CATEGORY_COL_C_ICON));
+                Log.i("Category Img:",c_img);
                 byte[] decodedString = Base64.decode(c_img.trim(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
@@ -99,11 +104,13 @@ public class CategoriesAdapter extends ArrayAdapter<String>
         {
             Cursor c1=dbHelper.getSubCategoryData(subcat_id,u_id);
             c1.moveToFirst();
+
             String c_name=c1.getString(c1.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_NAME));
             name.setText(c_name);
             try
             {
                 String c_img=c.getString(c.getColumnIndex(DBHelper.SUBCATEGORY_COL_SUB_ICON));
+                Log.i("SubCategory Img:",c_img);
                 byte[] decodedString = Base64.decode(c_img.trim(), Base64.DEFAULT);
                 Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 

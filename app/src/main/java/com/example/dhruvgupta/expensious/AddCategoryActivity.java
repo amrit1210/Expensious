@@ -429,7 +429,22 @@ public class AddCategoryActivity extends ActionBarActivity
                         if(!col.equals(null))
                         {
                             colId = dbHelper.getCategoryColId(col);
-                            if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),sp.getInt("UID",0)))
+                            fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.grey);
+                            InputStream image_stream = null;
+                            try
+                            {
+                                image_stream = getContentResolver().openInputStream(fileUri);
+                            }
+                            catch (FileNotFoundException f)
+                            {
+                                f.printStackTrace();
+                            }
+                            Bitmap decodedByte= BitmapFactory.decodeStream(image_stream );
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                            b = baos.toByteArray();
+                            c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
+                            if(dbHelper.addSubCategory(colId,mCat_Name.getText().toString(),sp.getInt("UID",0),c_img_string))
                             {
                                 int sub_id = dbHelper.getSubCategoryColId(sp.getInt("UID", 0));
                                 dbHelper.getAllSubCategories(sp.getInt("UID",0),colId);
@@ -438,7 +453,7 @@ public class AddCategoryActivity extends ActionBarActivity
                                 subcategory.put("sub_uid", sp.getInt("UID", 0));
                                 subcategory.put("sub_name", mCat_Name.getText().toString());
                                 subcategory.put("sub_c_id",colId);
-
+                                subcategory.put("sub_icon",c_img_string);
                                 subcategory.pinInBackground("pinSubCategory");
                                 subcategory.saveEventually(new SaveCallback() {
                                     @Override
