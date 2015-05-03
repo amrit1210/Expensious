@@ -108,6 +108,11 @@ public class AddRecursiveActivity extends ActionBarActivity {
             }
         });
 
+        mExp.setPressed(true);
+        mExp.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mInc.setBackgroundResource(android.R.drawable.btn_default);
+        mTrans.setBackgroundResource(android.R.drawable.btn_default);
+
         mType = "Expense";
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
@@ -611,6 +616,9 @@ public class AddRecursiveActivity extends ActionBarActivity {
     public void onExpenseClick(View v)
     {
         mExp.setPressed(true);
+        mExp.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mInc.setBackgroundResource(android.R.drawable.btn_default);
+        mTrans.setBackgroundResource(android.R.drawable.btn_default);
         mLlFrom.setVisibility(View.VISIBLE);
         mLlTo.setVisibility(View.GONE);
         mLlCat.setVisibility(View.VISIBLE);
@@ -623,6 +631,9 @@ public class AddRecursiveActivity extends ActionBarActivity {
     public void onIncomeClick(View v)
     {
         mInc.setPressed(true);
+        mInc.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mExp.setBackgroundResource(android.R.drawable.btn_default);
+        mTrans.setBackgroundResource(android.R.drawable.btn_default);
         mLlFrom.setVisibility(View.GONE);
         mLlTo.setVisibility(View.VISIBLE);
         mLlCat.setVisibility(View.VISIBLE);
@@ -636,6 +647,9 @@ public class AddRecursiveActivity extends ActionBarActivity {
     public void onTransferClick(View v)
     {
         mTrans.setPressed(true);
+        mTrans.setBackgroundColor(getResources().getColor(R.color.main_color_100));
+        mExp.setBackgroundResource(android.R.drawable.btn_default);
+        mInc.setBackgroundResource(android.R.drawable.btn_default);
         mLlFrom.setVisibility(View.VISIBLE);
         mLlTo.setVisibility(View.VISIBLE);
         mLlCat.setVisibility(View.GONE);

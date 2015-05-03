@@ -47,6 +47,7 @@ public class DetailedAddLD extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailed_add_ld);
+        this.getSupportActionBar().setTitle("Add Detailed Loan-Debt");
         mLlFromAcc = (LinearLayout) findViewById(R.id.detailed_add_ld_ll_from_account);
         mLlToAcc = (LinearLayout) findViewById(R.id.detailed_add_ld_ll_to_account);
         mAmt = (Button) findViewById(R.id.detailed_add_ld_amt);

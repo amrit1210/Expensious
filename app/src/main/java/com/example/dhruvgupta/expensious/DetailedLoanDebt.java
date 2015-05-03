@@ -42,6 +42,8 @@ public class DetailedLoanDebt extends ActionBarActivity
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        this.getSupportActionBar().setTitle("Detailed Loan-Debt");
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 //        this.setDefaultStartPositionNavigation(8);
@@ -74,6 +76,7 @@ public class DetailedLoanDebt extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
              super.onCreateView(inflater, container, savedInstanceState);
             return inflater.inflate(R.layout.detailed_loan_debt,container,false);
+
         }
 
         @Override
@@ -117,9 +120,11 @@ public class DetailedLoanDebt extends ActionBarActivity
             {
                 CurrencyDB curDB = iterator.next();
                 if (curDB.c_code.equals(curCode))
+                {
                     mTotCur.setText(curDB.c_symbol);
-                mReCur.setText(curDB.c_symbol);
-                mRemainCur.setText(curDB.c_symbol);
+                    mReCur.setText(curDB.c_symbol);
+                    mRemainCur.setText(curDB.c_symbol);
+                }
             }
 
             if (type.equals("Loan"))
