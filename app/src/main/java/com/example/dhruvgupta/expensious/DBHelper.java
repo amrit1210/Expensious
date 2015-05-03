@@ -375,7 +375,20 @@ public class DBHelper extends SQLiteOpenHelper
 
         return db.insert(ACCOUNTS_TABLE, null, contentValues) > 0;
     }
+    public boolean addAccount(int u_id,int id,String name,float balance,String note,int show)
+    {
 
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(ACCOUNTS_COL_ACC_ID,id);
+        contentValues.put(ACCOUNTS_COL_ACC_UID,u_id);
+        contentValues.put(ACCOUNTS_COL_ACC_NAME,name);
+        contentValues.put(ACCOUNTS_COL_ACC_BALANCE,balance);
+        contentValues.put(ACCOUNTS_COL_ACC_NOTE,note);
+        contentValues.put(ACCOUNTS_COL_ACC_SHOW,show);
+
+        return db.insert(ACCOUNTS_TABLE, null, contentValues) > 0;
+    }
     public boolean updateAccountData(int acc_id, String name, float balance ,String note,int show,int u_id )
     {
         SQLiteDatabase db=this.getWritableDatabase();

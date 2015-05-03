@@ -22,11 +22,15 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.CountCallback;
+import com.parse.GetCallback;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -37,7 +41,7 @@ public class SettingsActivity extends AbstractNavigationDrawerActivity
 {   static TextView mCurrency,mA1,mA2,mA3,mA4,mA5,mA6,mA7,mA8,mA9,mA10;
     static DBHelper dbHelper;
     static SharedPreferences sp;
-
+    int clearData=0;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState)
 //    {
@@ -118,6 +122,7 @@ public void onInt(Bundle bundle) {
 
     public void onClearData(View v)
     {
+        clearData=1;
         //deleteAccounts
        ArrayList<AccountsDB> al_account= dbHelper.getAllAccounts(sp.getInt("UID", 0));
         Iterator <AccountsDB> iterator_account=al_account.iterator();
@@ -168,6 +173,48 @@ public void onInt(Bundle bundle) {
         }
 
         Toast.makeText(getApplicationContext(),"Data is cleared",Toast.LENGTH_LONG).show();
+    }
+
+    public void onRestoreData(View v)
+    {
+        if(clearData==1) {
+            final ParseObject account = new ParseObject("Accounts");
+
+            final ParseQuery<ParseObject> query = ParseQuery.getQuery("Accounts");
+            query.whereEqualTo("acc_uid", sp.getInt("UID", 0));
+            query.countInBackground(new CountCallback() {
+                int j = 1;
+
+                @Override
+                public void done(int i, com.parse.ParseException e) {
+                    if (e == null) {
+                        while (j <= i) {
+                            query.getInBackground(account.getObjectId(), new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject parseObject, com.parse.ParseException e) {
+                                    if (e == null) {
+                                        int acc_id = parseObject.getInt("acc_id");
+                                        String acc_name = parseObject.getString("acc_name");
+                                        float acc_bal = (Float) parseObject.get("acc_balance");
+                                        int show = parseObject.getInt("acc_show");
+                                        String note = parseObject.getString("acc_note");
+                                        if (dbHelper.addAccount(sp.getInt("UID", 0), acc_id, acc_name, acc_bal, note, show)) {
+                                            Log.i("Account added :", acc_id + "");
+                                        }
+                                        j++;
+                                    } else {
+                                    }
+                                }
+                            });
+                        }
+
+                    }
+                }
+            });
+        }
+        else
+        {
+        }
     }
 
     public void onHelp(View v){
