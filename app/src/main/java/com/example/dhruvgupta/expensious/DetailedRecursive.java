@@ -86,7 +86,7 @@ public class DetailedRecursive extends ActionBarActivity
             dbHelper =new DBHelper(getActivity());
 
             rec_id = getActivity().getIntent().getIntExtra("REC_ID", 0);
-            Cursor c = dbHelper.getRecursiveData(rec_id);
+            Cursor c = dbHelper.getRecursiveData(rec_id, sp.getInt("UID", 0));
             c.moveToFirst();
             s_date.setText(c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_START_DATE)));
             e_date.setText(c.getString(c.getColumnIndex(DBHelper.RECURSIVE_COL_END_DATE)));
@@ -125,7 +125,7 @@ public class DetailedRecursive extends ActionBarActivity
 
             if(id==R.id.Edit)
             {
-                Cursor c= dbHelper.getTransactionData(transactionsDB.t_id);
+                Cursor c= dbHelper.getTransactionData(transactionsDB.t_id, sp.getInt("UID", 0));
                 c.moveToFirst();
                 int t_id=c.getInt(c.getColumnIndex(DBHelper.TRANSACTION_COL_ID));
                 int t_u_id=c.getInt(c.getColumnIndex(DBHelper.TRANSACTION_COL_UID));
@@ -171,7 +171,7 @@ public class DetailedRecursive extends ActionBarActivity
 
                     if (t_type_old.equals("Expense"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(t_from_old);
+                        Cursor cursor = dbHelper.getAccountData(t_from_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -187,7 +187,7 @@ public class DetailedRecursive extends ActionBarActivity
                     }
                     else if (t_type_old.equals("Income"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(t_to_old);
+                        Cursor cursor = dbHelper.getAccountData(t_to_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -203,7 +203,7 @@ public class DetailedRecursive extends ActionBarActivity
                     }
                     else if (t_type_old.equals("Transfer"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(t_to_old);
+                        Cursor cursor = dbHelper.getAccountData(t_to_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -217,7 +217,7 @@ public class DetailedRecursive extends ActionBarActivity
                         dbHelper.updateAccountData(t_to_old, name, bal, note, show, uid);
                         cursor.close();
 
-                        Cursor cursor1 = dbHelper.getAccountData(t_from_old);
+                        Cursor cursor1 = dbHelper.getAccountData(t_from_old, sp.getInt("UID", 0));
                         cursor1.moveToFirst();
 
                         float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));

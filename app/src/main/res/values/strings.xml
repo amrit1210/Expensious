@@ -169,5 +169,6 @@
     <string name="font_icon_note">{fa-file-text}</string>
     <string name="font_icon_clear">{fa-trash}</string>
     <string name="font_icon_currency">{fa-money}</string>
+    <string name="font_icon_check">{fa-check}</string>
 
 </resources>

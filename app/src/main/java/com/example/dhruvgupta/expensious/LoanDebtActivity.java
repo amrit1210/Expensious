@@ -118,7 +118,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
             int id = item.getItemId();
 
             if (id == R.id.Edit) {
-                Cursor c = dbHelper.getLoanDebtData(loanDebtDB.l_id);
+                Cursor c = dbHelper.getLoanDebtData(loanDebtDB.l_id, sp.getInt("UID", 0));
                 c.moveToFirst();
                 int l_id = c.getInt(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_ID));
                 int l_u_id = c.getInt(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_UID));
@@ -171,7 +171,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
 
                     if (l_type_old.equals("Loan"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(l_from_old);
+                        Cursor cursor = dbHelper.getAccountData(l_from_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -202,7 +202,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                             while (iterator.hasNext())
                             {
                                 LoanDebtDB ldDB = iterator.next();
-                                Cursor c = dbHelper.getAccountData(ldDB.l_to_acc);
+                                Cursor c = dbHelper.getAccountData(ldDB.l_to_acc, sp.getInt("UID", 0));
                                 c.moveToFirst();
                                 if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
 
@@ -247,7 +247,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                     }
                     else if (l_type_old.equals("Debt"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(l_to_old);
+                        Cursor cursor = dbHelper.getAccountData(l_to_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -278,7 +278,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                             while (iterator.hasNext())
                             {
                                 LoanDebtDB ldDB = iterator.next();
-                                Cursor c = dbHelper.getAccountData(ldDB.l_from_acc);
+                                Cursor c = dbHelper.getAccountData(ldDB.l_from_acc, sp.getInt("UID", 0));
                                 c.moveToFirst();
                                 Log.i("While", "inside while debt");
 

@@ -64,7 +64,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
         dbHelper = new DBHelper(AddLoanDebtActivity.this);
         sp = getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         mLoan.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mDebt.setBackgroundResource(android.R.drawable.btn_default);
+        mDebt.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
         mMonth = calendar.get(Calendar.MONTH);
@@ -131,7 +131,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                 l_toAcc=0;
                 to_acc=null;
                 if(l_fromAcc!=0) {
-                    Cursor c1 = dbHelper.getAccountData(l_fromAcc);
+                    Cursor c1 = dbHelper.getAccountData(l_fromAcc, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mFromAcc.setText(from_acc);
@@ -153,7 +153,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                 l_fromAcc=0;
                 from_acc=null;
                 if(l_toAcc!=0) {
-                    Cursor c1 = dbHelper.getAccountData(l_toAcc);
+                    Cursor c1 = dbHelper.getAccountData(l_toAcc, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     to_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mToAcc.setText(to_acc);
@@ -239,7 +239,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
 
     public void onLoanClick(View v) {
         mLoan.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mDebt.setBackgroundResource(android.R.drawable.btn_default);
+        mDebt.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mLlFromAcc.setVisibility(View.VISIBLE);
         mLlToAcc.setVisibility(View.GONE);
         mType = "Loan";
@@ -250,7 +250,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
 
     public void onDebtClick(View v){
         mDebt.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mLoan.setBackgroundResource(android.R.drawable.btn_default);
+        mLoan.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mLlFromAcc.setVisibility(View.GONE);
         mLlToAcc.setVisibility(View.VISIBLE);
         mType = "Debt";
@@ -348,7 +348,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
 
                         if (l_type_old.equals("Loan"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(l_from_old);
+                            Cursor cursor = dbHelper.getAccountData(l_from_old, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -372,7 +372,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                         }
                         else if (l_type_old.equals("Debt"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(l_to_old);
+                            Cursor cursor = dbHelper.getAccountData(l_to_old, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -397,7 +397,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
 
                         if (l_type.equals("Loan"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(l_fromAcc);
+                            Cursor cursor = dbHelper.getAccountData(l_fromAcc, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -421,7 +421,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                         }
                         else if (l_type.equals("Debt"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(l_toAcc);
+                            Cursor cursor = dbHelper.getAccountData(l_toAcc, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -485,7 +485,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                                 }
                             });
 
-                            Cursor cursor = dbHelper.getAccountData(acc_id);
+                            Cursor cursor = dbHelper.getAccountData(acc_id, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -547,7 +547,7 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                                     Log.i("Trans saveEventually", "YES! YES! YES!");
                                 }
                             });
-                            Cursor cursor = dbHelper.getAccountData(acc_id);
+                            Cursor cursor = dbHelper.getAccountData(acc_id, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));

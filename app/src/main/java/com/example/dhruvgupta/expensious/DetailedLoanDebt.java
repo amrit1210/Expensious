@@ -100,7 +100,7 @@ public class DetailedLoanDebt extends ActionBarActivity
             dbHelper =new DBHelper(getActivity());
 
             ld_id = getActivity().getIntent().getIntExtra("LD_ID", 0);
-            Cursor c = dbHelper.getLoanDebtData(ld_id);
+            Cursor c = dbHelper.getLoanDebtData(ld_id, sp.getInt("UID", 0));
             c.moveToFirst();
             type = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_TYPE));
             Log.i("type", c.getFloat(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_BALANCE))+"");
@@ -135,15 +135,13 @@ public class DetailedLoanDebt extends ActionBarActivity
             ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), ld_id);
             float balance = 0;
             Iterator<LoanDebtDB> ld_iterator;
-            if (!arrayList.isEmpty())
-            {
-                ld_iterator = arrayList.iterator();
-                while (iterator.hasNext())
+
+            ld_iterator = arrayList.iterator();
+                while (ld_iterator.hasNext())
                 {
                     LoanDebtDB ldDB = ld_iterator.next();
                     balance += ldDB.l_balance;
                 }
-            }
 
             mReAmt.setText(balance + "");
             mRemaining.setText(Float.parseFloat(mTotal.getText().toString()) - balance + "");
@@ -178,7 +176,7 @@ public class DetailedLoanDebt extends ActionBarActivity
             int id = item.getItemId();
 
             if (id == R.id.Edit) {
-                Cursor c = dbHelper.getLoanDebtData(loanDebtDB.l_id);
+                Cursor c = dbHelper.getLoanDebtData(loanDebtDB.l_id, sp.getInt("UID", 0));
                 c.moveToFirst();
                 int l_id = c.getInt(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_ID));
                 int l_u_id = c.getInt(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_UID));
@@ -231,7 +229,7 @@ public class DetailedLoanDebt extends ActionBarActivity
                     loanDebt.pinInBackground("pinLoanDebtsDelete");
                     if (l_type_old.equals("Loan"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(l_to_old);
+                        Cursor cursor = dbHelper.getAccountData(l_to_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -255,7 +253,7 @@ public class DetailedLoanDebt extends ActionBarActivity
                     }
                     else if (l_type_old.equals("Debt"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(l_from_old);
+                        Cursor cursor = dbHelper.getAccountData(l_from_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));

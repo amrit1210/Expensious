@@ -93,7 +93,7 @@ public class RecursiveService extends Service {
 
                         if (recDB.rec_type.equals("Expense"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(recDB.rec_from_acc);
+                            Cursor cursor = dbHelper.getAccountData(recDB.rec_from_acc, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -120,7 +120,7 @@ public class RecursiveService extends Service {
                         }
                         else if (recDB.rec_type.equals("Income"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(recDB.rec_to_acc);
+                            Cursor cursor = dbHelper.getAccountData(recDB.rec_to_acc, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -147,7 +147,7 @@ public class RecursiveService extends Service {
                         }
                         else if (recDB.rec_type.equals("Transfer"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(recDB.rec_from_acc);
+                            Cursor cursor = dbHelper.getAccountData(recDB.rec_from_acc, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -171,7 +171,7 @@ public class RecursiveService extends Service {
 
                             cursor.close();
 
-                            Cursor cursor1 = dbHelper.getAccountData(recDB.rec_to_acc);
+                            Cursor cursor1 = dbHelper.getAccountData(recDB.rec_to_acc, sp.getInt("UID", 0));
                             cursor1.moveToFirst();
 
                             float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));

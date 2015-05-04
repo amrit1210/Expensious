@@ -49,7 +49,15 @@ public class LoginActivity extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+
+        if (sharedPreferences.getInt("UID", 0) == 0)
+            setContentView(R.layout.activity_login);
+        else
+        {
+            Intent i = new Intent(LoginActivity.this, PieChartActivity.class);
+            startActivity(i);
+        }
 //        tutImage = (ImageView) findViewById(R.id.img_tut);
         mEmail=(EditText)findViewById(R.id.logIn_email);
         mPassword=(EditText)findViewById(R.id.logIn_password);
@@ -113,7 +121,6 @@ public class LoginActivity extends ActionBarActivity
 //                            Uri fileUri = Uri.parse(file.getUrl());
 //                            URL fileUrl = fileUri.to
 
-                            sharedPreferences = getSharedPreferences("USER_PREFS",MODE_PRIVATE);
                             SharedPreferences.Editor spEdit = sharedPreferences.edit();
                             spEdit.putString("EMAIL",user.getEmail());
                             spEdit.putString("USERNAME",user.getString("uname"));
@@ -138,8 +145,8 @@ public class LoginActivity extends ActionBarActivity
 //                            Intent i=new Intent(LoginActivity.this,AddLoanDebtActivity.class);
                             startActivity(i);
 
-                            Intent intent = new Intent(LoginActivity.this, WebSyncService.class);
-                            startService(intent);
+//                            Intent intent = new Intent(LoginActivity.this, WebSyncService.class);
+//                            startService(intent);
                         } else {
                             // Login failed. Look at the ParseException to see what happened.
                             Toast.makeText(LoginActivity.this, "Email not Verified", Toast.LENGTH_LONG).show();

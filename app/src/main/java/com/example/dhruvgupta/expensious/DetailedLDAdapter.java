@@ -98,7 +98,7 @@ public class DetailedLDAdapter extends ArrayAdapter {
         {
             String from_acc=null;
             if(trans_db.l_from_acc!=0) {
-                Cursor c = dbHelper.getAccountData(trans_db.l_from_acc);
+                Cursor c = dbHelper.getAccountData(trans_db.l_from_acc, sp.getInt("UID", 0));
                 c.moveToFirst();
                 from_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                 c.close();
@@ -109,7 +109,7 @@ public class DetailedLDAdapter extends ArrayAdapter {
         {
             String to_acc=null;
             if(trans_db.l_to_acc!=0) {
-                Cursor c = dbHelper.getAccountData(trans_db.l_to_acc);
+                Cursor c = dbHelper.getAccountData(trans_db.l_to_acc, sp.getInt("UID", 0));
                 c.moveToFirst();
                 to_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                 c.close();

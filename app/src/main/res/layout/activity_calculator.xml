@@ -215,7 +215,7 @@
                 android:stateListAnimator="@android:animator/fade_in"
                 android:text="0"/>
 
-            <Button
+            <IconButton
                 style="@style/ButtonStyle.Calculator"
                 android:id="@+id/result"
                 android:text="="

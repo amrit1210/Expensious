@@ -34,6 +34,9 @@ public class SplashActivity extends ActionBarActivity
                 {
                     Intent i=new Intent(SplashActivity.this,LoginActivity.class);
                     startActivity(i);
+                    Intent intent = new Intent(SplashActivity.this, WebSyncService.class);
+                    startService(intent);
+                    SplashActivity.this.finish();
                 }
             }
         });

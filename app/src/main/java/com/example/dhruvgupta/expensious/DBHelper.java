@@ -375,6 +375,7 @@ public class DBHelper extends SQLiteOpenHelper
 
         return db.insert(ACCOUNTS_TABLE, null, contentValues) > 0;
     }
+
     public boolean addAccount(int u_id,int id,String name,float balance,String note,int show)
     {
 
@@ -389,6 +390,7 @@ public class DBHelper extends SQLiteOpenHelper
 
         return db.insert(ACCOUNTS_TABLE, null, contentValues) > 0;
     }
+
     public boolean updateAccountData(int acc_id, String name, float balance ,String note,int show,int u_id )
     {
         SQLiteDatabase db=this.getWritableDatabase();
@@ -409,12 +411,13 @@ public class DBHelper extends SQLiteOpenHelper
         return db.delete(ACCOUNTS_TABLE, ACCOUNTS_COL_ACC_ID +"="+ id +" and "+ ACCOUNTS_COL_ACC_UID +"="+ u_id, null);
     }
 
-    public Cursor getAccountData(int id)
+    public Cursor getAccountData(int id, int uid)
     {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select * from "+ ACCOUNTS_TABLE +" where "+ ACCOUNTS_COL_ACC_ID +"="+ id, null);
+            return db.rawQuery("select * from "+ ACCOUNTS_TABLE +" where "+ ACCOUNTS_COL_ACC_ID +"="+ id + " and " +
+                    ACCOUNTS_COL_ACC_UID +"="+ uid, null);
         }
         catch(Exception ae)
         {
@@ -520,12 +523,13 @@ public class DBHelper extends SQLiteOpenHelper
         return db.delete(BUDGETS_TABLE, BUDGETS_COL_B_ID +"="+ b_id +" and "+ BUDGETS_COL_B_UID +"="+ u_id, null);
     }
 
-    public Cursor getBudgetData(int b_id)
+    public Cursor getBudgetData(int b_id, int uid)
     {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select * from "+ BUDGETS_TABLE +" where "+ BUDGETS_COL_B_ID +"="+ b_id, null);
+            return db.rawQuery("select * from "+ BUDGETS_TABLE +" where "+ BUDGETS_COL_B_ID +"="+ b_id + " and " +
+                    BUDGETS_COL_B_UID +"="+ uid, null);
         }
         catch(Exception ae)
         {
@@ -651,12 +655,13 @@ public class DBHelper extends SQLiteOpenHelper
         return db.delete(TRANSACTION_TABLE, TRANSACTION_COL_ID +"="+ id +" and "+ TRANSACTION_COL_UID +"="+ u_id, null);
     }
 
-    public Cursor getTransactionData(int id)
+    public Cursor getTransactionData(int id, int uid)
     {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select * from "+ TRANSACTION_TABLE +" where "+ TRANSACTION_COL_ID +"="+ id, null);
+            return db.rawQuery("select * from "+ TRANSACTION_TABLE +" where "+ TRANSACTION_COL_ID +"="+ id + " and " +
+                    TRANSACTION_COL_UID +"="+ uid, null);
         }
         catch(Exception ae)
         {
@@ -834,12 +839,13 @@ public class DBHelper extends SQLiteOpenHelper
         return db.delete(RECURSIVE_TABLE, RECURSIVE_COL_ID +"="+ id +" and "+ RECURSIVE_COL_UID +"="+ u_id, null);
     }
 
-    public Cursor getRecursiveData(int id)
+    public Cursor getRecursiveData(int id, int uid)
     {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select * from "+ RECURSIVE_TABLE +" where "+ RECURSIVE_COL_ID +"="+ id, null);
+            return db.rawQuery("select * from "+ RECURSIVE_TABLE +" where "+ RECURSIVE_COL_ID +"="+ id + " and " +
+                    RECURSIVE_COL_UID +"="+ uid, null);
         }
         catch(Exception ae)
         {
@@ -931,16 +937,17 @@ public class DBHelper extends SQLiteOpenHelper
         return db.insert(PERSON_TABLE, null, contentValues) > 0;
     }
 
-    public boolean updatePersonData(int id, String name,String color, String colorCode)
+    public boolean updatePersonData(int id, String name,String color, String colorCode, int uid)
     {
         SQLiteDatabase db=this.getWritableDatabase();
         ContentValues contentValues=new ContentValues();
 
         contentValues.put(PERSON_COL_NAME,name);
+        contentValues.put(PERSON_COL_UID, uid);
         contentValues.put(PERSON_COL_COLOR,color);
         contentValues.put(PERSON_COL_COLOR_CODE,colorCode);
 
-        return db.update(PERSON_TABLE, contentValues, PERSON_COL_ID +"="+ id, null) > 0;
+        return db.update(PERSON_TABLE, contentValues, PERSON_COL_ID +"="+ id + " and " + PERSON_COL_UID + "=" + uid, null) > 0;
     }
 
     public int deletePerson(int id,int u_id)
@@ -1100,7 +1107,7 @@ public class DBHelper extends SQLiteOpenHelper
         return db.delete(CATEGORY_SPECIFIC, CATEGORY_COL_C_ID +"="+ id +" and "+ CATEGORY_COL_C_UID +"="+ u_id, null);
     }
 
-    public int getCategoryColIduid(int u_id)
+    public int getCategoryColIdUid(int u_id)
     {
         int cid = 0;
         try
@@ -1205,12 +1212,12 @@ public class DBHelper extends SQLiteOpenHelper
 
     }
 
-    public int getCategoryColId(String c_name)
+    public int getCategoryColId(String c_name, int uid)
     {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ CATEGORY_SPECIFIC, null);
+            Cursor c = db.rawQuery("select * from "+ CATEGORY_SPECIFIC + " where " + CATEGORY_COL_C_UID + "=" + uid, null);
             String s;
             int cat_id = 0;
             c.moveToFirst();
@@ -1345,6 +1352,7 @@ public class DBHelper extends SQLiteOpenHelper
 
         return db.update(SUBCATEGORY_TABLE, contentValues, SUBCATEGORY_COL_SUB_ID +"="+ id+" and "+SUBCATEGORY_COL_SUB_UID+" = "+u_id, null) > 0;
     }
+
     public ArrayList<String> getSubCategoryColName(int u_id,int c_id)
     {
         ArrayList<String> arrayList = new ArrayList<>();
@@ -1415,12 +1423,12 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    public int getSubCategoryColIds(String c_name)
+    public int getSubCategoryColIds(String c_name, int uid)
     {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE, null);
+            Cursor c = db.rawQuery("select * from "+ SUBCATEGORY_TABLE + " where " + SUBCATEGORY_COL_SUB_UID + "=" + uid, null);
             String s;
 //            int k=countCategory();
             //int cat_id[] =new int[k];
@@ -1609,12 +1617,13 @@ public class DBHelper extends SQLiteOpenHelper
             return 0;
         }
     }
-    public Cursor getLoanDebtData(int id)
+    public Cursor getLoanDebtData(int id, int uid)
     {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery("select * from "+ LOAN_DEBT_TABLE +" where "+ LOAN_DEBT_COL_ID +"="+ id, null);
+            return db.rawQuery("select * from "+ LOAN_DEBT_TABLE +" where "+ LOAN_DEBT_COL_ID +"="+ id + " and " +
+                    LOAN_DEBT_COL_UID + "=" + uid, null);
         }
         catch(Exception ae)
         {

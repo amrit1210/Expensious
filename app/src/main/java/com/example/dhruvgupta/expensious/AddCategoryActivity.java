@@ -356,7 +356,7 @@ public class AddCategoryActivity extends ActionBarActivity
                     else if(mCat_rg_type.getCheckedRadioButtonId()== mCat_Sub.getId())
                     {
                         dbHelper =new DBHelper(AddCategoryActivity.this);
-                        colId = dbHelper.getCategoryColId(col);
+                        colId = dbHelper.getCategoryColId(col, sp.getInt("UID", 0));
                         Log.i("COLID SUBCATEGORY:",colId+"");
                         if(colId>0)
                         {
@@ -397,7 +397,7 @@ public class AddCategoryActivity extends ActionBarActivity
                         {
                             Log.i("Category 1", mCat_Name.getText().toString() + c_IE_type + mCat_image.toString());
                             Toast.makeText(AddCategoryActivity.this, "Main Category Added " + c_IE_type, Toast.LENGTH_SHORT).show();
-                            int cid = dbHelper.getCategoryColIduid(sp.getInt("UID", 0));
+                            int cid = dbHelper.getCategoryColIdUid(sp.getInt("UID", 0));
 
                             ParseObject category = new ParseObject("Category_specific");
                             category.put("c_id", cid);
@@ -428,7 +428,7 @@ public class AddCategoryActivity extends ActionBarActivity
 
                         if(!col.equals(null))
                         {
-                            colId = dbHelper.getCategoryColId(col);
+                            colId = dbHelper.getCategoryColId(col, sp.getInt("UID", 0));
                             fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.grey);
                             InputStream image_stream = null;
                             try

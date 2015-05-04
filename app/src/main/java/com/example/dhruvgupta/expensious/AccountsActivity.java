@@ -165,7 +165,7 @@ public class AccountsActivity extends AbstractNavigationDrawerActivity
 
             if(id==R.id.Edit)
             {
-                Cursor c= dbHelper.getAccountData(acc_DB.acc_id);
+                Cursor c= dbHelper.getAccountData(acc_DB.acc_id, sp.getInt("UID", 0));
                 c.moveToFirst();
                 int acc_id=c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_ID));
                 int acc_uid=c.getInt(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_UID));

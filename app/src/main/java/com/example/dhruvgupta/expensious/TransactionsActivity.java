@@ -108,7 +108,7 @@ public class TransactionsActivity extends AbstractNavigationDrawerActivity
 
             if(id==R.id.Edit)
             {
-                Cursor c= dbHelper.getTransactionData(transactionsDB.t_id);
+                Cursor c= dbHelper.getTransactionData(transactionsDB.t_id, sp.getInt("UID", 0));
                 c.moveToFirst();
                 int t_id=c.getInt(c.getColumnIndex(DBHelper.TRANSACTION_COL_ID));
                 int t_u_id=c.getInt(c.getColumnIndex(DBHelper.TRANSACTION_COL_UID));
@@ -171,7 +171,7 @@ public class TransactionsActivity extends AbstractNavigationDrawerActivity
 
                     if (t_type_old.equals("Expense"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(t_from_old);
+                        Cursor cursor = dbHelper.getAccountData(t_from_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -197,7 +197,7 @@ public class TransactionsActivity extends AbstractNavigationDrawerActivity
                     }
                     else if (t_type_old.equals("Income"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(t_to_old);
+                        Cursor cursor = dbHelper.getAccountData(t_to_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -223,7 +223,7 @@ public class TransactionsActivity extends AbstractNavigationDrawerActivity
                     }
                     else if (t_type_old.equals("Transfer"))
                     {
-                        Cursor cursor = dbHelper.getAccountData(t_to_old);
+                        Cursor cursor = dbHelper.getAccountData(t_to_old, sp.getInt("UID", 0));
                         cursor.moveToFirst();
 
                         float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -247,7 +247,7 @@ public class TransactionsActivity extends AbstractNavigationDrawerActivity
 
                         cursor.close();
 
-                        Cursor cursor1 = dbHelper.getAccountData(t_from_old);
+                        Cursor cursor1 = dbHelper.getAccountData(t_from_old, sp.getInt("UID", 0));
                         cursor1.moveToFirst();
 
                         float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));

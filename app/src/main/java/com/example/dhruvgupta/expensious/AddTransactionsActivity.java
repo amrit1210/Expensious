@@ -77,8 +77,8 @@ public class AddTransactionsActivity extends ActionBarActivity {
         mHour = calendar.get(Calendar.HOUR_OF_DAY);
         mMin = calendar.get(Calendar.MINUTE);
         mExp.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mInc.setBackgroundResource(android.R.drawable.btn_default);
-        mTrans.setBackgroundResource(android.R.drawable.btn_default);
+        mInc.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mTrans.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         mFromAcc.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,7 +171,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                 t_toAccount=0;
                 to_acc=null;
                 if(t_fromAccount!=0) {
-                    Cursor c1 = dbHelper.getAccountData(t_fromAccount);
+                    Cursor c1 = dbHelper.getAccountData(t_fromAccount, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mFromAcc.setText(from_acc);
@@ -193,7 +193,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                 t_fromAccount=0;
                 from_acc=null;
                 if(t_toAccount!=0) {
-                    Cursor c1 = dbHelper.getAccountData(t_toAccount);
+                    Cursor c1 = dbHelper.getAccountData(t_toAccount, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     to_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mToAcc.setText(to_acc);
@@ -218,14 +218,14 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                  person=null;
                  if(t_fromAccount!=0) {
-                     Cursor c1 = dbHelper.getAccountData(t_fromAccount);
+                     Cursor c1 = dbHelper.getAccountData(t_fromAccount, sp.getInt("UID", 0));
                      c1.moveToFirst();
                      from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                      mFromAcc.setText(from_acc);
                      c1.close();
                  }
                  if(t_toAccount!=0) {
-                     Cursor c2 = dbHelper.getAccountData(t_toAccount);
+                     Cursor c2 = dbHelper.getAccountData(t_toAccount, sp.getInt("UID", 0));
                      c2.moveToFirst();
                       to_acc = c2.getString(c2.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                      mToAcc.setText(to_acc);
@@ -378,7 +378,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                         if (t_type_old.equals("Expense"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(t_from_old);
+                            Cursor cursor = dbHelper.getAccountData(t_from_old, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -404,7 +404,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         }
                         else if (t_type_old.equals("Income"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(t_to_old);
+                            Cursor cursor = dbHelper.getAccountData(t_to_old, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -430,7 +430,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         }
                         else if (t_type_old.equals("Transfer"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(t_to_old);
+                            Cursor cursor = dbHelper.getAccountData(t_to_old, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -454,7 +454,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                             cursor.close();
 
-                            Cursor cursor1 = dbHelper.getAccountData(t_from_old);
+                            Cursor cursor1 = dbHelper.getAccountData(t_from_old, sp.getInt("UID", 0));
                             cursor1.moveToFirst();
 
                             float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -481,7 +481,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                         if (t_type.equals("Expense"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(t_fromAccount);
+                            Cursor cursor = dbHelper.getAccountData(t_fromAccount, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -507,7 +507,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         }
                         else if (t_type.equals("Income"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(t_toAccount);
+                            Cursor cursor = dbHelper.getAccountData(t_toAccount, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -533,7 +533,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                         }
                         else if (t_type.equals("Transfer"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(t_toAccount);
+                            Cursor cursor = dbHelper.getAccountData(t_toAccount, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -557,7 +557,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                             cursor.close();
 
-                            Cursor cursor1 = dbHelper.getAccountData(t_fromAccount);
+                            Cursor cursor1 = dbHelper.getAccountData(t_fromAccount, sp.getInt("UID", 0));
                             cursor1.moveToFirst();
 
                             float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -637,7 +637,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                                 }
                             });
 
-                            Cursor cursor = dbHelper.getAccountData(acc_id);
+                            Cursor cursor = dbHelper.getAccountData(acc_id, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -707,7 +707,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                                 }
                             });
 
-                            Cursor cursor = dbHelper.getAccountData(acc_id);
+                            Cursor cursor = dbHelper.getAccountData(acc_id, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -777,7 +777,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
                                 }
                             });
 
-                            Cursor cursor = dbHelper.getAccountData(acc_id);
+                            Cursor cursor = dbHelper.getAccountData(acc_id, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -801,7 +801,7 @@ public class AddTransactionsActivity extends ActionBarActivity {
 
                             cursor.close();
 
-                            Cursor cursor1 = dbHelper.getAccountData(acc_id1);
+                            Cursor cursor1 = dbHelper.getAccountData(acc_id1, sp.getInt("UID", 0));
                             cursor1.moveToFirst();
 
                             float bal1 = cursor1.getFloat(cursor1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -877,8 +877,8 @@ public class AddTransactionsActivity extends ActionBarActivity {
     {
         mExp.setPressed(true);
         mExp.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mInc.setBackgroundResource(android.R.drawable.btn_default);
-        mTrans.setBackgroundResource(android.R.drawable.btn_default);
+        mInc.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mTrans.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mLlFrom.setVisibility(View.VISIBLE);
         mLlTo.setVisibility(View.GONE);
         mLlCat.setVisibility(View.VISIBLE);
@@ -892,8 +892,8 @@ public class AddTransactionsActivity extends ActionBarActivity {
     {
         mInc.setPressed(true);
         mInc.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mExp.setBackgroundResource(android.R.drawable.btn_default);
-        mTrans.setBackgroundResource(android.R.drawable.btn_default);
+        mExp.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mTrans.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mLlFrom.setVisibility(View.GONE);
         mLlTo.setVisibility(View.VISIBLE);
         mLlCat.setVisibility(View.VISIBLE);
@@ -908,8 +908,8 @@ public class AddTransactionsActivity extends ActionBarActivity {
     {
         mTrans.setPressed(true);
         mTrans.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mExp.setBackgroundResource(android.R.drawable.btn_default);
-        mInc.setBackgroundResource(android.R.drawable.btn_default);
+        mExp.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mInc.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mLlFrom.setVisibility(View.VISIBLE);
         mLlTo.setVisibility(View.VISIBLE);
         mLlCat.setVisibility(View.GONE);

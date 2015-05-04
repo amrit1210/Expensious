@@ -9,6 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
+
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +27,12 @@ import br.liveo.navigationliveo.NavigationLiveo;
 public class AbstractNavigationDrawerActivity extends NavigationLiveo implements NavigationLiveoListener {
 
     Bitmap decodedByte = null;
+    SharedPreferences sp, sp1;
 
     @Override
     public void onUserInformation() {
-        SharedPreferences sp =getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-        SharedPreferences sp1 =getSharedPreferences("USER_IMAGE",MODE_PRIVATE);
+        sp =getSharedPreferences("USER_PREFS",MODE_PRIVATE);
+        sp1 =getSharedPreferences("USER_IMAGE",MODE_PRIVATE);
 
         this.mUserName.setText(sp.getString("USERNAME","abc"));
         this.mUserEmail.setText(sp.getString("EMAIL","abc@xyz.com"));
@@ -51,6 +57,7 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
         mListNameItem.add(5, "Family Sharing");
         mListNameItem.add(6, "Reports");
         mListNameItem.add(7, "Settings");
+        mListNameItem.add(8, "Logout");
 
         // icons list items
         List<Integer> mListIconItem = new ArrayList<>();
@@ -63,6 +70,7 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
         mListIconItem.add(5, R.drawable.family);
         mListIconItem.add(6, R.drawable.piechart);
         mListIconItem.add(7,R.drawable.settings);
+        mListIconItem.add(8,R.drawable.settings);
 
 
         //If not please use the FooterDrawer use the setFooterVisible(boolean visible) method with value false
@@ -138,6 +146,26 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
                 } else {
                     intent = new Intent(this, SettingsActivity.class);
                 }
+                break;
+            case 8:
+                ParseUser.logOutInBackground(new LogOutCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null)
+                        {
+                            Toast.makeText(AbstractNavigationDrawerActivity.this, "Logout", Toast.LENGTH_LONG).show();
+                            SharedPreferences.Editor spEdit= sp.edit();
+                            spEdit.clear();
+                            spEdit.commit();
+                            Intent i = new Intent(AbstractNavigationDrawerActivity.this, LoginActivity.class);
+                            startActivity(i);
+                        }
+                        else
+                        {
+                            Toast.makeText(AbstractNavigationDrawerActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
                 break;
 
         }

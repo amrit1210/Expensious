@@ -127,7 +127,7 @@ public class RecursiveAdapter extends ArrayAdapter {
         {
             String from_acc=null;
             if(trans_db.rec_from_acc!=0) {
-                Cursor c = dbHelper.getAccountData(trans_db.rec_from_acc);
+                Cursor c = dbHelper.getAccountData(trans_db.rec_from_acc, sp.getInt("UID", 0));
                 c.moveToFirst();
                 from_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                 c.close();
@@ -138,7 +138,7 @@ public class RecursiveAdapter extends ArrayAdapter {
         {
             String to_acc=null;
             if(trans_db.rec_to_acc!=0) {
-                Cursor c = dbHelper.getAccountData(trans_db.rec_to_acc);
+                Cursor c = dbHelper.getAccountData(trans_db.rec_to_acc, sp.getInt("UID", 0));
                 c.moveToFirst();
                 to_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                 c.close();
@@ -149,10 +149,10 @@ public class RecursiveAdapter extends ArrayAdapter {
         {
             String from_acc=null,to_acc=null;
             if(trans_db.rec_from_acc!=0 && trans_db.rec_to_acc!=0) {
-                Cursor c = dbHelper.getAccountData(trans_db.rec_from_acc);
+                Cursor c = dbHelper.getAccountData(trans_db.rec_from_acc, sp.getInt("UID", 0));
                 c.moveToFirst();
                 from_acc = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
-                Cursor c1 = dbHelper.getAccountData(trans_db.rec_to_acc);
+                Cursor c1 = dbHelper.getAccountData(trans_db.rec_to_acc, sp.getInt("UID", 0));
                 c1.moveToFirst();
                 to_acc = c1.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                 c.close();

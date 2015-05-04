@@ -196,7 +196,7 @@ public void onInt(Bundle bundle) {
 
             if(id==R.id.Edit)
             {
-                Cursor c= dbHelper.getBudgetData(bud_db.b_id);
+                Cursor c= dbHelper.getBudgetData(bud_db.b_id, sp.getInt("UID", 0));
                 c.moveToFirst();
                 int b_id=c.getInt(c.getColumnIndex(DBHelper.BUDGETS_COL_B_ID));
                 int b_uid=c.getInt(c.getColumnIndex(DBHelper.BUDGETS_COL_B_UID));

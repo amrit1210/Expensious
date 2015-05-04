@@ -67,10 +67,11 @@ public class Calculator extends ActionBarActivity
                 {
                     compute();
                     Logic = '=';
-                    mEquals.setText("Done");
+                    mEquals.setText(getString(R.string.font_icon_check));
                 }
                 else
                 {
+                    compute();
                     Intent i = new Intent();
                     i.putExtra("RESULT",result);
                     setResult(1, i);
@@ -135,7 +136,7 @@ public class Calculator extends ActionBarActivity
             case R.id.digit_7:
             case R.id.digit_8:
             case R.id.digit_9:
-                mEquals.setText("=");
+                mEquals.setText(getString(R.string.font_icon_check));
                 inDigit = ((Button) v).getText().toString();
                 if(inDigit.equals("1"))
                 {

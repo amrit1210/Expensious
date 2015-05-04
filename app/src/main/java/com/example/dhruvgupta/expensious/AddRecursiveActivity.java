@@ -110,8 +110,8 @@ public class AddRecursiveActivity extends ActionBarActivity {
 
         mExp.setPressed(true);
         mExp.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mInc.setBackgroundResource(android.R.drawable.btn_default);
-        mTrans.setBackgroundResource(android.R.drawable.btn_default);
+        mInc.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mTrans.setBackgroundColor(getResources().getColor(android.R.color.transparent));
 
         mType = "Expense";
         final Calendar calendar = Calendar.getInstance();
@@ -203,7 +203,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                 rec_toAccount =0;
                 to_acc=null;
                 if(rec_fromAccount !=0) {
-                    Cursor c1 = dbHelper.getAccountData(rec_fromAccount);
+                    Cursor c1 = dbHelper.getAccountData(rec_fromAccount, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mFromAcc.setText(from_acc);
@@ -225,7 +225,7 @@ public class AddRecursiveActivity extends ActionBarActivity {
                 rec_fromAccount =0;
                 from_acc=null;
                 if(rec_toAccount !=0) {
-                    Cursor c1 = dbHelper.getAccountData(rec_toAccount);
+                    Cursor c1 = dbHelper.getAccountData(rec_toAccount, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     to_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mToAcc.setText(to_acc);
@@ -247,14 +247,14 @@ public class AddRecursiveActivity extends ActionBarActivity {
                 rec_person =0;
                 person=null;
                 if(rec_fromAccount !=0) {
-                    Cursor c1 = dbHelper.getAccountData(rec_fromAccount);
+                    Cursor c1 = dbHelper.getAccountData(rec_fromAccount, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mFromAcc.setText(from_acc);
                     c1.close();
                 }
                 if(rec_toAccount !=0) {
-                    Cursor c2 = dbHelper.getAccountData(rec_toAccount);
+                    Cursor c2 = dbHelper.getAccountData(rec_toAccount, sp.getInt("UID", 0));
                     c2.moveToFirst();
                     to_acc = c2.getString(c2.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mToAcc.setText(to_acc);
@@ -617,8 +617,8 @@ public class AddRecursiveActivity extends ActionBarActivity {
     {
         mExp.setPressed(true);
         mExp.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mInc.setBackgroundResource(android.R.drawable.btn_default);
-        mTrans.setBackgroundResource(android.R.drawable.btn_default);
+        mInc.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mTrans.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mLlFrom.setVisibility(View.VISIBLE);
         mLlTo.setVisibility(View.GONE);
         mLlCat.setVisibility(View.VISIBLE);
@@ -632,8 +632,8 @@ public class AddRecursiveActivity extends ActionBarActivity {
     {
         mInc.setPressed(true);
         mInc.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mExp.setBackgroundResource(android.R.drawable.btn_default);
-        mTrans.setBackgroundResource(android.R.drawable.btn_default);
+        mExp.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mTrans.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mLlFrom.setVisibility(View.GONE);
         mLlTo.setVisibility(View.VISIBLE);
         mLlCat.setVisibility(View.VISIBLE);
@@ -648,8 +648,8 @@ public class AddRecursiveActivity extends ActionBarActivity {
     {
         mTrans.setPressed(true);
         mTrans.setBackgroundColor(getResources().getColor(R.color.main_color_100));
-        mExp.setBackgroundResource(android.R.drawable.btn_default);
-        mInc.setBackgroundResource(android.R.drawable.btn_default);
+        mExp.setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        mInc.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mLlFrom.setVisibility(View.VISIBLE);
         mLlTo.setVisibility(View.VISIBLE);
         mLlCat.setVisibility(View.GONE);

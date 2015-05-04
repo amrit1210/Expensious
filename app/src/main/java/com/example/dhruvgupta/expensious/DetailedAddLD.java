@@ -122,7 +122,7 @@ public class DetailedAddLD extends ActionBarActivity {
                 mLlToAcc.setVisibility(View.GONE);
 
                 if(l_fromAcc!=0) {
-                    Cursor c1 = dbHelper.getAccountData(l_fromAcc);
+                    Cursor c1 = dbHelper.getAccountData(l_fromAcc, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mFromAcc.setText(from_acc);
@@ -138,7 +138,7 @@ public class DetailedAddLD extends ActionBarActivity {
                 mLlToAcc.setVisibility(View.VISIBLE);
 
                 if(l_toAcc!=0) {
-                    Cursor c1 = dbHelper.getAccountData(l_toAcc);
+                    Cursor c1 = dbHelper.getAccountData(l_toAcc, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     to_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mToAcc.setText(to_acc);
@@ -149,7 +149,7 @@ public class DetailedAddLD extends ActionBarActivity {
         else
         {
             l_parent = getIntent().getIntExtra("LD_ID", 0);
-            Cursor c = dbHelper.getLoanDebtData(l_parent);
+            Cursor c = dbHelper.getLoanDebtData(l_parent, sp.getInt("UID", 0));
             c.moveToFirst();
             l_type = c.getString(c.getColumnIndex(DBHelper.LOAN_DEBT_COL_TYPE));
 
@@ -162,7 +162,7 @@ public class DetailedAddLD extends ActionBarActivity {
                 mLlToAcc.setVisibility(View.GONE);
 
                 if(l_fromAcc!=0) {
-                    Cursor c1 = dbHelper.getAccountData(l_fromAcc);
+                    Cursor c1 = dbHelper.getAccountData(l_fromAcc, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     from_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mFromAcc.setText(from_acc);
@@ -178,7 +178,7 @@ public class DetailedAddLD extends ActionBarActivity {
                 mLlToAcc.setVisibility(View.VISIBLE);
 
                 if(l_toAcc!=0) {
-                    Cursor c1 = dbHelper.getAccountData(l_toAcc);
+                    Cursor c1 = dbHelper.getAccountData(l_toAcc, sp.getInt("UID", 0));
                     c1.moveToFirst();
                     to_acc = c1.getString(c1.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                     mToAcc.setText(to_acc);
@@ -330,7 +330,7 @@ public class DetailedAddLD extends ActionBarActivity {
 
                         if (l_type_old.equals("Debt"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(l_from_old);
+                            Cursor cursor = dbHelper.getAccountData(l_from_old, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -354,7 +354,7 @@ public class DetailedAddLD extends ActionBarActivity {
                         }
                         else if (l_type_old.equals("Loan"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(l_to_old);
+                            Cursor cursor = dbHelper.getAccountData(l_to_old, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -379,7 +379,7 @@ public class DetailedAddLD extends ActionBarActivity {
 
                         if (l_type.equals("Debt"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(l_fromAcc);
+                            Cursor cursor = dbHelper.getAccountData(l_fromAcc, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -403,7 +403,7 @@ public class DetailedAddLD extends ActionBarActivity {
                         }
                         else if (l_type.equals("Loan"))
                         {
-                            Cursor cursor = dbHelper.getAccountData(l_toAcc);
+                            Cursor cursor = dbHelper.getAccountData(l_toAcc, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -465,7 +465,7 @@ public class DetailedAddLD extends ActionBarActivity {
                                     Log.i("Trans saveEventually", "YES! YES! YES!");
                                 }
                             });
-                            Cursor cursor = dbHelper.getAccountData(acc_id);
+                            Cursor cursor = dbHelper.getAccountData(acc_id, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
@@ -526,7 +526,7 @@ public class DetailedAddLD extends ActionBarActivity {
                                 }
                             });
 
-                            Cursor cursor = dbHelper.getAccountData(acc_id);
+                            Cursor cursor = dbHelper.getAccountData(acc_id, sp.getInt("UID", 0));
                             cursor.moveToFirst();
 
                             float bal = cursor.getFloat(cursor.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));

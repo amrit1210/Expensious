@@ -187,7 +187,7 @@ public class AddPersonActivity  extends ActionBarActivity
                 }
                 if (mPerson_Name.getError() == null)
                 {
-                    if(dbHelper.updatePersonData(p_id,mPerson_Name.getText().toString(),color,colorCode))
+                    if(dbHelper.updatePersonData(p_id,mPerson_Name.getText().toString(),color,colorCode, sp.getInt("UID", 0)))
                     {
                         Toast.makeText(AddPersonActivity.this, "Person Updated", Toast.LENGTH_LONG).show();
 

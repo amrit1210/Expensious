@@ -115,7 +115,7 @@ public void onInt(Bundle bundle) {
 
             if(id==R.id.Edit)
             {
-                Cursor c= dbHelper.getRecursiveData(recursiveDB.rec_id);
+                Cursor c= dbHelper.getRecursiveData(recursiveDB.rec_id, sp.getInt("UID", 0));
                 c.moveToFirst();
                 int rec_id=c.getInt(c.getColumnIndex(DBHelper.RECURSIVE_COL_ID));
                 int rec_u_id=c.getInt(c.getColumnIndex(DBHelper.RECURSIVE_COL_UID));
