@@ -154,11 +154,6 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
                         if (e == null)
                         {
                             Toast.makeText(AbstractNavigationDrawerActivity.this, "Logout", Toast.LENGTH_LONG).show();
-                            SharedPreferences.Editor spEdit= sp.edit();
-                            spEdit.clear();
-                            spEdit.commit();
-                            Intent i = new Intent(AbstractNavigationDrawerActivity.this, LoginActivity.class);
-                            startActivity(i);
                         }
                         else
                         {
@@ -166,6 +161,14 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
                         }
                     }
                 });
+                SharedPreferences.Editor spEdit= sp.edit();
+                spEdit.clear();
+                spEdit.commit();
+                SharedPreferences.Editor spEdit1= sp1.edit();
+                spEdit1.clear();
+                spEdit1.commit();
+                Intent i = new Intent(AbstractNavigationDrawerActivity.this, LoginActivity.class);
+                startActivity(i);
                 break;
 
         }

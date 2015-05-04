@@ -1004,28 +1004,29 @@ public class WebSyncService extends Service {
         });
 
         //Delete LoanDebts
-        final ParseQuery<ParseObject> deleteLoanDebts = ParseQuery.getQuery("Loan_debt");
-        deleteLoanDebts.whereEqualTo("loan_debt_uid", sp.getInt("UID", 0));
-        deleteLoanDebts.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseObject> deleteLD = ParseQuery.getQuery("Loan_debt");
+        deleteLD.whereEqualTo("loan_debt_uid", sp.getInt("UID", 0));
+        deleteLD.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> parseObjects, ParseException e) {
                 if (e == null)
                 {
                     for (final ParseObject todo : parseObjects) {
 
-                        ParseQuery<ParseObject> deleteLoanDebts2 = ParseQuery.getQuery("Loan_debt");
-                        deleteLoanDebts2.fromPin("pinLoanDebtsDelete");
-                        deleteLoanDebts2.findInBackground(new FindCallback<ParseObject>() {
+                        ParseQuery<ParseObject> deleteLD2 = ParseQuery.getQuery("Loan_debt");
+                        deleteLD2.fromPin("pinLoanDebtsDelete");
+                        deleteLD2.findInBackground(new FindCallback<ParseObject>() {
                             @Override
                             public void done(List<ParseObject> parseObjects1, ParseException e) {
                                 for (final ParseObject todo1 : parseObjects1) {
+                                    Log.i("vals", todo.getInt("loan_debt_uid") + ":" + todo1.getInt("loan_debt_uid") + ":" + todo.getInt("loan_debt_id") + ":" + todo1.getInt("loan_debt_id"));
                                     if ((todo.getInt("loan_debt_uid") == todo1.getInt("loan_debt_uid")) && (todo.getInt("loan_debt_id") == todo1.getInt("loan_debt_id")))
                                     {
                                         todo.deleteInBackground(new DeleteCallback() {
                                             @Override
                                             public void done(ParseException e) {
                                                 todo1.unpinInBackground("pinLoanDebtsDelete");
-                                                System.out.println("LoanDebts DATA is deleted ..... ");
+                                                System.out.println("Loan debt DATA is deleted ..... ");
                                             }
                                         });
                                     }
@@ -1036,7 +1037,7 @@ public class WebSyncService extends Service {
                 }
                 else
                 {
-                    Log.i("MainActivity", "syncTodosToLoanDebtsDelete: Error finding pinned todos: " + e.getMessage());
+                    Log.i("MainActivity", "syncTodosToLdDelete: Error finding pinned todos: " + e.getMessage());
                     e.printStackTrace();
                 }
             }

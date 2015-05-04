@@ -1570,6 +1570,7 @@ public class DBHelper extends SQLiteOpenHelper
             {
                 LoanDebtDB p1 = new LoanDebtDB();
                 p1.l_id = c.getInt(c.getColumnIndex(LOAN_DEBT_COL_ID));
+                p1.l_u_id = c.getInt(c.getColumnIndex(LOAN_DEBT_COL_UID));
                 p1.l_balance = c.getFloat(c.getColumnIndex(LOAN_DEBT_COL_BALANCE));
                 p1.l_date = c.getString(c.getColumnIndex(LOAN_DEBT_COL_DATE));
                 p1.l_time = c.getString(c.getColumnIndex(LOAN_DEBT_COL_TIME));

@@ -196,14 +196,12 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
 
                         ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
                         Iterator <LoanDebtDB> iterator;
-                        if (!arrayList.isEmpty())
-                        {
+//                        if (!arrayList.isEmpty())
+//                        {
                             iterator = arrayList.iterator();
                             while (iterator.hasNext())
                             {
                                 LoanDebtDB ldDB = iterator.next();
-                                Cursor c = dbHelper.getAccountData(ldDB.l_to_acc, sp.getInt("UID", 0));
-                                c.moveToFirst();
                                 if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
 
                                     ParseObject loan_debt = new ParseObject("Loan_debt");
@@ -220,6 +218,8 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                     loan_debt.put("loan_debt_person", ldDB.l_person);
                                     loan_debt.pinInBackground("pinLoanDebtsDelete");
 
+                                    Cursor c = dbHelper.getAccountData(ldDB.l_to_acc, sp.getInt("UID", 0));
+                                    c.moveToFirst();
                                     float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                                     String name1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
                                     String note1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NOTE));
@@ -242,7 +242,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                     c.close();
                                 }
                             }
-                        }
+//                        }
 
                     }
                     else if (l_type_old.equals("Debt"))
@@ -272,14 +272,12 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                         ArrayList<LoanDebtDB> arrayList = dbHelper.getAllLoanDebt(sp.getInt("UID", 0), l_id);
 
                         Iterator <LoanDebtDB> iterator;
-                        if (!arrayList.isEmpty())
-                        {
+//                        if (!arrayList.isEmpty())
+//                        {
                             iterator = arrayList.iterator();
                             while (iterator.hasNext())
                             {
                                 LoanDebtDB ldDB = iterator.next();
-                                Cursor c = dbHelper.getAccountData(ldDB.l_from_acc, sp.getInt("UID", 0));
-                                c.moveToFirst();
                                 Log.i("While", "inside while debt");
 
                                 if (dbHelper.deleteLoanDebt(ldDB.l_id, sp.getInt("UID", 0)) > 0) {
@@ -297,6 +295,8 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                     loan_debt.put("loan_debt_person", ldDB.l_person);
                                     loan_debt.pinInBackground("pinLoanDebtsDelete");
 
+                                    Cursor c = dbHelper.getAccountData(ldDB.l_from_acc, sp.getInt("UID", 0));
+                                    c.moveToFirst();
                                     Log.i("If While", "inside if while debt");
                                     float bal1 = c.getFloat(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_BALANCE));
                                     String name1 = c.getString(c.getColumnIndex(DBHelper.ACCOUNTS_COL_ACC_NAME));
@@ -318,7 +318,7 @@ public class LoanDebtActivity extends AbstractNavigationDrawerActivity
                                     c.close();
                                 }
                             }
-                        }
+//                        }
 
                     }
 
