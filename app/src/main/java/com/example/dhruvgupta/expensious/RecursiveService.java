@@ -281,7 +281,7 @@ public class RecursiveService extends Service {
         mBuilder.setContentTitle("Recursive Transaction");
         mBuilder.setContentText("Your recursive transaction has been performed.");
         mBuilder.setTicker("Recursive Transaction");
-        mBuilder.setSmallIcon(R.drawable.user_48);
+        mBuilder.setSmallIcon(R.drawable.app_icon);
         mBuilder.setSound(soundUri);
         mBuilder.setContentIntent(pIntent);
 

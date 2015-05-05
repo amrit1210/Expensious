@@ -1062,7 +1062,7 @@ public class WebSyncService extends Service {
                         });
                     }
                 } else {
-                    Log.i("MainActivity", "syncTodosToAccSettings: Error finding pinned todos: " + e.getMessage());
+                    Log.i("MainActivity", "syncTodosToAddSettings: Error finding pinned todos: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -1080,56 +1080,47 @@ public class WebSyncService extends Service {
 
                         ParseQuery<ParseObject> updateSettings2 = ParseQuery.getQuery("Settings");
                         updateSettings2.fromPin("pinSettingsUpdate");
-                        updateSettings2.getInBackground(todo.getObjectId(), new GetCallback<ParseObject>() {
+                        updateSettings2.findInBackground(new FindCallback<ParseObject>() {
                             @Override
-                            public void done(ParseObject parseObject, ParseException e) {
-                                if (e == null) {
-                                    parseObject.put("objectId", todo.getObjectId());
-                                    parseObject.put("settings_uid", todo.getInt("settings_uid"));
-                                    parseObject.put("settings_cur_code", todo.getInt("settings_cur_code"));
-                                    parseObject.saveInBackground(new SaveCallback() {
+                            public void done(List<ParseObject> parseObjects1, ParseException e) {
+                                for (final ParseObject todo1 : parseObjects1) {
+                                    if ((todo.getInt("settings_uid") == todo1.getInt("settings_uid")) && (todo.getInt("settings_id") == todo1.getInt("settings_id")))
+                                    {
+                                        todo.fetchInBackground(new GetCallback<ParseObject>() {
+                                            @Override
+                                            public void done(ParseObject parseObject, ParseException e) {
+                                                if (e==null)
+                                                {
+                                                    parseObject.put("objectId", todo.getObjectId());
+                                                    parseObject.put("settings_uid", todo1.getInt("settings_uid"));
+                                                    parseObject.put("settings_cur_code", todo1.getString("settings_cur_code"));
+                                                    parseObject.saveInBackground(new SaveCallback() {
 
-                                        @Override
-                                        public void done(ParseException e) {
-                                            todo.unpinInBackground("pinSettingsUpdate");
-                                            System.out.println("Settings DATA is updated ..... ");
-                                        }
-                                    });
-                                } else {
+                                                        @Override
+                                                        public void done(ParseException e) {
+                                                            todo1.unpinInBackground("pinSettingssUpdate");
+                                                            System.out.println("Settings DATA is updated ..... ");
+                                                        }
+                                                    });
+                                                }
+                                                else
+                                                {
 
+                                                }
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         });
                     }
-                } else {
-                    Log.i("MainActivity", "syncTodosToTransUpdate: Error finding pinned todos: " + e.getMessage());
+                }
+                else {
+                    Log.i("MainActivity", "syncTodosToSettingsUpdate: Error finding pinned todos: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
 
-
-//        final ParseQuery<ParseObject> updateSettings = ParseQuery.getQuery("Settings");
-//        updateSettings.whereEqualTo("settings_uid", sp.getInt("UID", 0));
-//        updateSettings.
-//// Retrieve the object by id
-//        updateSettings.getFirstInBackground(new GetCallback<ParseObject>() {
-//            public void done(ParseObject parseObject, ParseException e) {
-//                if (e == null) {
-//                    parseObject.put("objectId", parseObject.getObjectId());
-//                    parseObject.put("settings_uid", parseObject.getInt("settings_uid"));
-//                    parseObject.put("settings_cur_code", parseObject.getInt("settings_cur_code"));
-//                    parseObject.saveInBackground(new SaveCallback() {
-//
-//                        @Override
-//                        public void done(ParseException e) {
-//                            todo1.unpinInBackground("pinSettingsUpdate");
-//                            System.out.println("Settings DATA is updated ..... ");
-//                        }
-//                    });
-//
-//                }
-//            }
-//        });
         });
         return Service.START_STICKY;
     }

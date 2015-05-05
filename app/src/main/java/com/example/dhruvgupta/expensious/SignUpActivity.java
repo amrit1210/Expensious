@@ -53,7 +53,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
     Uri fileUri;
     byte[] b;
     DBHelper dbHelper;
-    ArrayList<SignUpDB> al;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -66,7 +66,6 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
         mImage = (CircularImageView)findViewById(R.id.signup_image);
 
         dbHelper =new DBHelper(SignUpActivity.this);
-        al=new ArrayList<>();
 
         mName.setOnFocusChangeListener(new View.OnFocusChangeListener()
         {
@@ -379,6 +378,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         }
                                                     }
                                                 });
+
                                                 ParseObject settings = new ParseObject("Settings");
                                                 settings.put("settings_uid", r);
                                                 settings.put("settings_cur_code", cur);
@@ -389,6 +389,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                         Log.i("Settings saveEventually", "YES! YES! YES!");
                                                     }
                                                 });
+
                                                 fileUri = Uri.parse("android.resource://com.example.dhruvgupta.expensious/" + R.drawable.food);
                                                 InputStream image_stream = null;
                                                 try
@@ -1823,7 +1824,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                 mConfirm_Password.setError("Enter Confirm Password");
             }
         }
-        al= dbHelper.getAllUsers();
+
     }
 
     class Async extends AsyncTask<String, String, String>
