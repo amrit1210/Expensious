@@ -43,8 +43,9 @@
     <string name="alert">Alert</string>
     <string name="person">Person</string>
     <string name="period">Change Period</string>
-    <string name="clear">Clear Data</string>
-    <string name="restore">Restore Data</string>
+    <string name="clear">Clear Local Data</string>
+    <string name="clearAll">Clear All Data</string>
+    <string name="restore">Restore Local Data</string>
     <string name="category">Customize Category</string>
     <string name="currency">Change Currency</string>
     <string name="recurring">Recurring</string>
@@ -168,6 +169,7 @@
     <string name="font_icon_person">{fa-male}</string>
     <string name="font_icon_note">{fa-file-text}</string>
     <string name="font_icon_clear">{fa-trash}</string>
+    <string name="font_icon_restore">{fa-reply}</string>
     <string name="font_icon_currency">{fa-money}</string>
     <string name="font_icon_check">{fa-check}</string>
 

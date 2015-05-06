@@ -122,117 +122,152 @@ public void onInt(Bundle bundle) {
         setContentView(v1);
     }
 
-    public void onClearData(View v)
+    public void onClearData(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setTitle("Delete local data");
+        builder.setMessage("All your local data will be cleared, and can be restored");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dbHelper.deleteAllData(sp.getInt("UID", 0));
+                Toast.makeText(getApplicationContext(), "Data is cleared", Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create();
+        builder.show();
+    }
+
+    public void onClearAllData(View v)
     {
-        dbHelper.deleteAllData(sp.getInt("UID", 0));
-
-
-
-        final ParseQuery<ParseObject> accounts = ParseQuery.getQuery("Accounts");
-        accounts.whereEqualTo("acc_uid", sp.getInt("UID", 0));
-        accounts.findInBackground(new FindCallback<ParseObject>() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setTitle("Delete all data");
+        builder.setMessage("All your data will be cleared, and can never be restored");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                for (final ParseObject parseObject : parseObjects) {
-                    if (e == null) {
-                        parseObject.deleteEventually();
+            public void onClick(DialogInterface dialog, int which) {
+                dbHelper.deleteAllData(sp.getInt("UID", 0));
+
+                final ParseQuery<ParseObject> accounts = ParseQuery.getQuery("Accounts");
+                accounts.whereEqualTo("acc_uid", sp.getInt("UID", 0));
+                accounts.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                        for (final ParseObject parseObject : parseObjects) {
+                            if (e == null) {
+                                parseObject.deleteEventually();
+                            }
+                        }
                     }
-                }
+                });
+
+                final ParseQuery<ParseObject> budgets = ParseQuery.getQuery("Budgets");
+                budgets.whereEqualTo("b_uid", sp.getInt("UID", 0));
+                budgets.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                        for (final ParseObject parseObject : parseObjects) {
+                            if (e == null) {
+                                parseObject.deleteEventually();
+                            }
+                        }
+                    }
+                });
+
+                final ParseQuery<ParseObject> transactions = ParseQuery.getQuery("Transactions");
+                transactions.whereEqualTo("trans_uid", sp.getInt("UID", 0));
+                transactions.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                        for (final ParseObject parseObject : parseObjects) {
+                            if (e == null) {
+                                parseObject.deleteEventually();
+                            }
+                        }
+                    }
+                });
+
+                final ParseQuery<ParseObject> recursive = ParseQuery.getQuery("Recursive");
+                recursive.whereEqualTo("rec_uid", sp.getInt("UID", 0));
+                recursive.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                        for (final ParseObject parseObject : parseObjects) {
+                            if (e == null) {
+                                parseObject.deleteEventually();
+                            }
+                        }
+                    }
+                });
+
+                final ParseQuery<ParseObject> persons = ParseQuery.getQuery("Persons");
+                persons.whereEqualTo("p_uid", sp.getInt("UID", 0));
+                persons.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                        for (final ParseObject parseObject : parseObjects) {
+                            if (e == null) {
+                                parseObject.deleteEventually();
+                            }
+                        }
+                    }
+                });
+
+                final ParseQuery<ParseObject> category_specific = ParseQuery.getQuery("Category_specific");
+                category_specific.whereEqualTo("c_uid", sp.getInt("UID", 0));
+                category_specific.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                        for (final ParseObject parseObject : parseObjects) {
+                            if (e == null) {
+                                parseObject.deleteEventually();
+                            }
+                        }
+                    }
+                });
+
+                final ParseQuery<ParseObject> sub_category = ParseQuery.getQuery("Sub_category");
+                sub_category.whereEqualTo("sub_uid", sp.getInt("UID", 0));
+                sub_category.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                        for (final ParseObject parseObject : parseObjects) {
+                            if (e == null) {
+                                parseObject.deleteEventually();
+                            }
+                        }
+                    }
+                });
+
+                final ParseQuery<ParseObject> loan_debt = ParseQuery.getQuery("Loan_debt");
+                loan_debt.whereEqualTo("loan_debt_uid", sp.getInt("UID", 0));
+                loan_debt.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                        for (final ParseObject parseObject : parseObjects) {
+                            if (e == null) {
+                                parseObject.deleteEventually();
+                            }
+                        }
+                    }
+                });
+
+                Toast.makeText(getApplicationContext(),"Data is cleared",Toast.LENGTH_LONG).show();
             }
         });
-
-        final ParseQuery<ParseObject> budgets = ParseQuery.getQuery("Budgets");
-        budgets.whereEqualTo("b_uid", sp.getInt("UID", 0));
-        budgets.findInBackground(new FindCallback<ParseObject>() {
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                for (final ParseObject parseObject : parseObjects) {
-                    if (e == null) {
-                        parseObject.deleteEventually();
-                    }
-                }
+            public void onClick(DialogInterface dialog, int which) {
+
             }
         });
-
-        final ParseQuery<ParseObject> transactions = ParseQuery.getQuery("Transactions");
-        transactions.whereEqualTo("trans_uid", sp.getInt("UID", 0));
-        transactions.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                for (final ParseObject parseObject : parseObjects) {
-                    if (e == null) {
-                        parseObject.deleteEventually();
-                    }
-                }
-            }
-        });
-
-        final ParseQuery<ParseObject> recursive = ParseQuery.getQuery("Recursive");
-        recursive.whereEqualTo("rec_uid", sp.getInt("UID", 0));
-        recursive.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                for (final ParseObject parseObject : parseObjects) {
-                    if (e == null) {
-                        parseObject.deleteEventually();
-                    }
-                }
-            }
-        });
-
-        final ParseQuery<ParseObject> persons = ParseQuery.getQuery("Persons");
-        persons.whereEqualTo("p_uid", sp.getInt("UID", 0));
-        persons.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                for (final ParseObject parseObject : parseObjects) {
-                    if (e == null) {
-                        parseObject.deleteEventually();
-                    }
-                }
-            }
-        });
-
-        final ParseQuery<ParseObject> category_specific = ParseQuery.getQuery("Category_specific");
-        category_specific.whereEqualTo("c_uid", sp.getInt("UID", 0));
-        category_specific.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                for (final ParseObject parseObject : parseObjects) {
-                    if (e == null) {
-                        parseObject.deleteEventually();
-                    }
-                }
-            }
-        });
-
-        final ParseQuery<ParseObject> sub_category = ParseQuery.getQuery("Sub_category");
-        sub_category.whereEqualTo("sub_uid", sp.getInt("UID", 0));
-        sub_category.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                for (final ParseObject parseObject : parseObjects) {
-                    if (e == null) {
-                        parseObject.deleteEventually();
-                    }
-                }
-            }
-        });
-
-        final ParseQuery<ParseObject> loan_debt = ParseQuery.getQuery("Loan_debt");
-        loan_debt.whereEqualTo("loan_debt_uid", sp.getInt("UID", 0));
-        loan_debt.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                for (final ParseObject parseObject : parseObjects) {
-                    if (e == null) {
-                        parseObject.deleteEventually();
-                    }
-                }
-            }
-        });
-
-        Toast.makeText(getApplicationContext(),"Data is cleared",Toast.LENGTH_LONG).show();
+        builder.create();
+        builder.show();
     }
 
     public void onRestoreData(View v)
