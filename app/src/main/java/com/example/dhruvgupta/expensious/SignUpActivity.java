@@ -353,6 +353,8 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                             {
                                                 user.put("uid", r);
                                                 user.put("uname", mName.getText().toString());
+                                                user.put("has_request", 0);
+                                                user.put("is_head", 0);
                                                 user.put("fid", 0);
                                                 user.put("userimage", file);
 

@@ -102,12 +102,12 @@ public class LoginActivity extends ActionBarActivity
                             file.getDataInBackground(new GetDataCallback() {
                                 @Override
                                 public void done(byte[] bytes, ParseException e) {
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0 , bytes.length);
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                     ByteArrayOutputStream byteArr = new ByteArrayOutputStream();
                                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArr);
                                     String path = MediaStore.Images.Media.insertImage(LoginActivity.this.getContentResolver(), bitmap, "Title", null);
                                     Uri image = Uri.parse(path);
-                                    Log.i("byte", image+ " ; " + bytes);
+                                    Log.i("byte", image + " ; " + bytes);
 
                                     SharedPreferences sp1 = getSharedPreferences("USER_IMAGE", MODE_PRIVATE);
                                     SharedPreferences.Editor spEdit = sp1.edit();
@@ -119,8 +119,11 @@ public class LoginActivity extends ActionBarActivity
 
                             SharedPreferences.Editor spEdit = sp.edit();
                             spEdit.putString("EMAIL",user.getEmail());
-                            spEdit.putString("USERNAME",user.getString("uname"));
+                            spEdit.putString("USERNAME", user.getString("uname"));
                             spEdit.putInt("UID", user.getInt("uid"));
+                            spEdit.putInt("FID", user.getInt("fid"));
+                            spEdit.putInt("REQUEST", user.getInt("has_request"));
+                            spEdit.putInt("HEAD", user.getInt("is_head"));
                             spEdit.commit();
 
 //                            ArrayList al = dbHelper.getSettingsUid();
