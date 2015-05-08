@@ -1,18 +1,25 @@
 package com.example.dhruvgupta.expensious;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -28,11 +35,28 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
 
     Bitmap decodedByte = null;
     SharedPreferences sp, sp1;
+    int fid, has_req, is_head;
 
     @Override
     public void onUserInformation() {
-        sp =getSharedPreferences("USER_PREFS",MODE_PRIVATE);
-        sp1 =getSharedPreferences("USER_IMAGE",MODE_PRIVATE);
+        sp =getSharedPreferences("USER_PREFS", MODE_PRIVATE);
+        sp1 =getSharedPreferences("USER_IMAGE", MODE_PRIVATE);
+
+        ParseUser user = ParseUser.getCurrentUser();
+        fid = user.getInt("fid");
+        is_head = user.getInt("is_head");
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Family_request");
+        query.whereEqualTo("uid", sp.getInt("UID", 0));
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (parseObject == null)
+                    has_req = 0;
+                else
+                    has_req = parseObject.getInt("has_request");
+            }
+        });
 
         this.mUserName.setText(sp.getString("USERNAME","abc"));
         this.mUserEmail.setText(sp.getString("EMAIL","abc@xyz.com"));
@@ -70,8 +94,14 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
         mListIconItem.add(5, R.drawable.family);
         mListIconItem.add(6, R.drawable.piechart);
         mListIconItem.add(7,R.drawable.settings);
-        mListIconItem.add(8,R.drawable.settings);
+        mListIconItem.add(8, R.drawable.settings);
 
+        SparseIntArray mSparseCounterItem = new SparseIntArray(); //indicate all items that have a counter
+
+        if (has_req != 0)
+            mSparseCounterItem.put(5, 1);
+        else
+            mSparseCounterItem.clear();
 
         //If not please use the FooterDrawer use the setFooterVisible(boolean visible) method with value false
        // this.setFooterInformationDrawer(R.string.settings, R.drawable.ic_settings_black_24dp);
@@ -127,11 +157,39 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
                 }
                 break;
             case 5:
-                if (this instanceof EnableFamilyActivity) {
-                    mFragment = new EnableFamilyActivity.EnableFamilyFragment();
-                } else {
-                    intent = new Intent(this, EnableFamilyActivity.class);
+                if (CheckInternet(AbstractNavigationDrawerActivity.this))
+                {
+                    if (has_req != 0)
+                    {
+                        if (this instanceof AcceptFamilyActivity) {
+                            mFragment = new AcceptFamilyActivity.AcceptFamilyFragment();
+                        } else {
+                            intent = new Intent(this, AcceptFamilyActivity.class);
+                        }
+                    }
+                    else if (fid == 0)
+                    {
+                        if (this instanceof EnableFamilyActivity) {
+                            mFragment = new EnableFamilyActivity.EnableFamilyFragment();
+                        } else {
+                            intent = new Intent(this, EnableFamilyActivity.class);
+                        }
+                    }
+                    else if (is_head == 1)
+                    {
+                        if (this instanceof HeadFamilyView) {
+                            mFragment = new HeadFamilyView.HeadFamilyViewFragment();
+                        } else {
+                            intent = new Intent(this, HeadFamilyView.class);
+                        }
+                    }
+                    else
+                    {
+
+                    }
                 }
+                else
+                    Toast.makeText(AbstractNavigationDrawerActivity.this, "No internet connection", Toast.LENGTH_LONG).show();
                 break;
             case 6:
                 if (this instanceof PieChartActivity) {
@@ -194,5 +252,15 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
     @Override
     public void onClickUserPhotoNavigation(View view) {
 
+    }
+
+    public boolean CheckInternet(Context ctx) {
+        ConnectivityManager connec = (ConnectivityManager) ctx
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobile = connec.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        // Check if wifi or mobile network is available or not. If any of them is
+        // available or connected then it will return true, otherwise false;
+        return wifi.isConnected() || mobile.isConnected();
     }
 }

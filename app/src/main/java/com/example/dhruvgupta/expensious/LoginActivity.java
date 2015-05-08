@@ -411,23 +411,23 @@ public class LoginActivity extends ActionBarActivity
                     }
                 });
 
-                final ParseQuery<ParseObject> settings = ParseQuery.getQuery("Settings");
-                settings.whereEqualTo("settings_uid", sp.getInt("UID", 0));
-                settings.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-                        for (final ParseObject parseObject : parseObjects) {
-                            if (e == null) {
-                                String settings_cur_code = parseObject.getString("settings_cur_code");
-                                ArrayList al = dbHelper.getSettingsUid();
-                                if (! al.contains(sp.getInt("UID", 0)))
-                                    if (dbHelper.addSettings(sp.getInt("UID", 0), settings_cur_code)) {
-                                        Log.i("Settings added :", settings_cur_code);
-                                    }
-                            }
-                        }
-                    }
-                });
+//                final ParseQuery<ParseObject> settings = ParseQuery.getQuery("Settings");
+//                settings.whereEqualTo("settings_uid", sp.getInt("UID", 0));
+//                settings.findInBackground(new FindCallback<ParseObject>() {
+//                    @Override
+//                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+//                        for (final ParseObject parseObject : parseObjects) {
+//                            if (e == null) {
+//                                String settings_cur_code = parseObject.getString("settings_cur_code");
+//                                ArrayList al = dbHelper.getSettingsUid();
+//                                if (! al.contains(sp.getInt("UID", 0)))
+//                                    if (dbHelper.addSettings(sp.getInt("UID", 0), settings_cur_code)) {
+//                                        Log.i("Settings added :", settings_cur_code);
+//                                    }
+//                            }
+//                        }
+//                    }
+//                });
             }
             catch (Exception e)
             {

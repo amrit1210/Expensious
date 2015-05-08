@@ -11,7 +11,7 @@
         android:paddingTop="30dp"
         android:textSize="20sp"
         android:text="Tap To Accept request"
-        android:id="@+id/invite_btn"
+        android:id="@+id/accept_btn"
         android:stateListAnimator="@android:animator/fade_in"
         android:background="@drawable/family5"/>
 

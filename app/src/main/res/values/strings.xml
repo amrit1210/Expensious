@@ -64,6 +64,8 @@
     <string name="repay">Repay/Recover : </string>
     <string name="main_category">Main Category</string>
     <string name="sub_category">Sub Category of</string>
+    <string name="family_name">Family : </string>
+    <string name="head">Head :</string>
     <string name="reset_pass">To reset your password, enter the email you registered with Expensious</string>
 
     <array  name="main_categories_expense">

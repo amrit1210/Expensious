@@ -37,6 +37,7 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
 //        AccountsFragment fragment = new AccountsFragment();
 //        fragmentTransaction.replace(R.id.container, fragment);
 //        fragmentTransaction.commit();
+        this.getSupportActionBar().setTitle("Family Sharing");
     }
 
 
@@ -64,6 +65,7 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
             mEnableBtn = (Button) rootView.findViewById(R.id.enable_btn);
             mEnableLl = (LinearLayout) rootView.findViewById(R.id.enable_ll);
             mSaveBtn = (Button) rootView.findViewById(R.id.enable_save);
+            sp = getActivity().getSharedPreferences("USER_PREFS", MODE_PRIVATE);
 
             mEnableBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -80,20 +82,18 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
             });
         }
 
-        public void onEnableSave (View view)
+        public void onEnableSave (View v)
         {
             ParseObject family = new ParseObject("Family");
             family.put("f_id", sp.getInt("UID", 0));
             family.put("h_id", sp.getInt("UID", 0));
             family.put("f_name", mFamilyName.getText().toString());
+            family.pinInBackground("pinFamily");
             family.saveEventually(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(getActivity(), "Family Added", Toast.LENGTH_LONG).show();
-//                        Intent i = new Intent(getActivity(), HeadFamilyView.class);
-//                        startActivity(i);
-//                        getActivity().finish();
                     }
                 }
             });
@@ -105,19 +105,26 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
                 public void done(ParseObject parseObject, ParseException e) {
                     ParseUser user = ParseUser.getCurrentUser();
                     user.put("fid", sp.getInt("UID", 0));
-                    user.put("has_request", 0);
                     user.put("is_head", 1);
                     user.saveEventually(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            if (e == null)
+                            if (e == null) {
                                 Toast.makeText(getActivity(), "User Updated", Toast.LENGTH_LONG).show();
+                                Intent i = new Intent(getActivity(), HeadFamilyView.class);
+                                startActivity(i);
+                                getActivity().finish();
+                            }
                             else
                                 Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                            }
                         }
-                    });
+
+                        );
+                    }
                 }
-            });
+
+                );
+            }
         }
-    }
 }

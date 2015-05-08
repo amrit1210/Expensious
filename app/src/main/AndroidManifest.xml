@@ -62,7 +62,14 @@
             android:name=".AddRecursiveActivity"/>
         <activity
             android:name=".AddTransactionsActivity"/>
-        <activity android:name=".EnableFamilyActivity"
+        <activity
+            android:name=".EnableFamilyActivity"
+            android:theme="@style/nLiveoDrawer"/>
+        <activity
+            android:name=".HeadFamilyView"
+            android:theme="@style/nLiveoDrawer"/>
+        <activity
+            android:name=".AcceptFamilyActivity"
             android:theme="@style/nLiveoDrawer"/>
         <activity
             android:name=".DetailedRecursive"

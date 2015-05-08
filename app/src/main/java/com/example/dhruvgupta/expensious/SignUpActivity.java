@@ -381,6 +381,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                     }
                                                 });
 
+                                                dbHelper.addSettings(r, "INR");
                                                 ParseObject settings = new ParseObject("Settings");
                                                 settings.put("settings_uid", r);
                                                 settings.put("settings_cur_code", cur);
