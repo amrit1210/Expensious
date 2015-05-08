@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.parse.GetCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -121,8 +122,12 @@ public class HeadFamilyView extends AbstractNavigationDrawerActivity {
                                             else
                                             {
                                                 ParseObject addReq = new ParseObject("Family_request");
+                                                ParseACL addAcl = new ParseACL();
+                                                addAcl.setPublicReadAccess(true);
+                                                addAcl.setPublicWriteAccess(true);
                                                 addReq.put("uid", uid);
                                                 addReq.put("has_request", f_id);
+                                                addReq.setACL(addAcl);
                                                 addReq.pinInBackground("pinRequest");
                                                 addReq.saveEventually(new SaveCallback() {
                                                     @Override

@@ -10,11 +10,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -35,28 +37,12 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
 
     Bitmap decodedByte = null;
     SharedPreferences sp, sp1;
-    int fid, has_req, is_head;
+    int fid, has_req, is_head, uid;
 
     @Override
     public void onUserInformation() {
         sp =getSharedPreferences("USER_PREFS", MODE_PRIVATE);
         sp1 =getSharedPreferences("USER_IMAGE", MODE_PRIVATE);
-
-        ParseUser user = ParseUser.getCurrentUser();
-        fid = user.getInt("fid");
-        is_head = user.getInt("is_head");
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Family_request");
-        query.whereEqualTo("uid", sp.getInt("UID", 0));
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject parseObject, ParseException e) {
-                if (parseObject == null)
-                    has_req = 0;
-                else
-                    has_req = parseObject.getInt("has_request");
-            }
-        });
 
         this.mUserName.setText(sp.getString("USERNAME","abc"));
         this.mUserEmail.setText(sp.getString("EMAIL","abc@xyz.com"));
@@ -69,6 +55,28 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
     public void onInt(Bundle bundle) {
 
         this.setNavigationListener(this);
+        ParseUser user = ParseUser.getCurrentUser();
+        fid = user.getInt("fid");
+        is_head = user.getInt("is_head");
+        uid = user.getInt("uid");
+
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Family_request");
+        query.whereEqualTo("uid", uid);
+
+        try {
+            ParseObject parseObject = query.getFirst();
+            if (parseObject == null) {
+                Log.i("hasIn", "is null");
+                has_req = 0;
+            } else {
+                Log.i("hasIn", "is not null");
+                has_req = parseObject.getInt("has_request");
+            }
+            Log.i("hasIn", has_req + "");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Log.i("has", has_req+"");
 
         // name of the list items
         List<String> mListNameItem = new ArrayList<>();
@@ -108,7 +116,7 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
 
         this.setFooterNavigationVisible(false);
 
-        this.setNavigationAdapter(mListNameItem, mListIconItem);
+        this.setNavigationAdapter(mListNameItem, mListIconItem, null, mSparseCounterItem);
     }
 
 

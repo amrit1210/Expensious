@@ -106,6 +106,7 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
                     ParseUser user = ParseUser.getCurrentUser();
                     user.put("fid", sp.getInt("UID", 0));
                     user.put("is_head", 1);
+                    user.pinInBackground("pinUser");
                     user.saveEventually(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {

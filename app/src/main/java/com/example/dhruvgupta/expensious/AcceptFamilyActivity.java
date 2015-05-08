@@ -58,6 +58,8 @@ public class AcceptFamilyActivity extends AbstractNavigationDrawerActivity {
             super.onActivityCreated(savedInstanceState);
             View rootView = getView();
 
+            sp = getActivity().getSharedPreferences("USER_PREFS", MODE_PRIVATE);
+
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Family_request");
             query.whereEqualTo("uid", sp.getInt("UID", 0));
             query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -116,6 +118,7 @@ public class AcceptFamilyActivity extends AbstractNavigationDrawerActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     ParseUser user = ParseUser.getCurrentUser();
                     user.put("fid", req);
+                    user.pinInBackground("pinUser");
                     user.saveEventually(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -130,6 +133,7 @@ public class AcceptFamilyActivity extends AbstractNavigationDrawerActivity {
                     query.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override
                         public void done(ParseObject parseObject, ParseException e) {
+                            parseObject.pinInBackground("pinRequestDelete");
                             parseObject.deleteEventually(new DeleteCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -149,6 +153,7 @@ public class AcceptFamilyActivity extends AbstractNavigationDrawerActivity {
                     query.getFirstInBackground(new GetCallback<ParseObject>() {
                         @Override
                         public void done(ParseObject parseObject, ParseException e) {
+                            parseObject.pinInBackground("pinRequestDelete");
                             parseObject.deleteEventually(new DeleteCallback() {
                                 @Override
                                 public void done(ParseException e) {
