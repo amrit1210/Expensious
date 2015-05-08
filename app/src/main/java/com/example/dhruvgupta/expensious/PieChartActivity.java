@@ -1,6 +1,7 @@
 package com.example.dhruvgupta.expensious;
 
 import android.app.DatePickerDialog;
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -125,12 +127,114 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
             return  inflater.inflate(R.layout.activity_report,container,false);
         }
 
-        public void SpinnerType(int actionId)
+        public void SpinnerType(final int actionId)
         {
             if(actionId == 0)
             {
                 mAmt_Category.clear();
                 mCat.clear();
+                mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        CategoryDB_Specific cat=(CategoryDB_Specific)mLv_Pie.getItemAtPosition(position);
+                        long cat_id=mLv_Pie.getItemIdAtPosition(position);
+                        Log.i("Category_pie:",cat.c_name+" "+cat_id);
+                        ArrayList al=dbHelper.getAllSubCategories(sp.getInt("UID",0),cat.c_id);
+                        PieChartActivity.actionId=3;
+                        Log.i("ALSubCatPie:",al+"");
+                        mSub.clear();
+                        mAmt_Sub.clear();
+                        subCategoryDBIterator =al.iterator();
+                        while (subCategoryDBIterator.hasNext())
+                        {
+                            subCategoryDB=subCategoryDBIterator.next();
+                            transactionsDBIterator =allTransactions.iterator();
+                            mAmount=0;
+                            while (transactionsDBIterator.hasNext())
+                            {
+                                try
+                                {
+                                    transactionsDB=transactionsDBIterator.next();
+                                    Date d=sdf.parse(transactionsDB.t_date);
+                                    if(p == 0)
+                                    {
+                                        sysDate=year_date.format(d);
+                                        if(sysDate.equals(year))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                            {
+                                                if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(p == 1)
+                                    {
+                                        sysDate=month_date.format(d);
+                                        if(sysDate.equals(month_name))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                            {
+                                                if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(p == 2)
+                                    {
+                                        sysDate=sdf.format(d);
+                                        if(sysDate.equals(day))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                            {
+                                                if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if(p == 3)
+                                    {
+                                        if(!d.before(start) && !d.after(end))
+                                        {
+                                            if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                            {
+                                                if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                {
+                                                    mAmount += transactionsDB.t_balance;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                catch(ParseException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                            }
+                            if(mAmount!=0)
+                            {
+                                mSub.add(subCategoryDB.sub_name);
+                                mAmt_Sub.add(mAmount);
+                            }
+                        }
+                        mPie.setCenterText("Sub Categories");
+                        PieChartActivity.actionId=3;
+                        setData(mAmt_Sub.size() - 1,PieChartActivity.actionId );
+                        PieChartActivity.actionId=0;
+//                        reportsSubCategoriesAdapter =new ReportsSubCategoriesAdapter(getActivity(),R.layout.list_report,allSubCategories,p);
+//                        mLv_Pie.setAdapter(reportsSubCategoriesAdapter);
+
+                    }
+
+
+                });
+
                 categoryDBIterator =allCategories.iterator();
                 while (categoryDBIterator.hasNext())
                 {
@@ -214,11 +318,19 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                 setData(mAmt_Category.size() - 1, actionId);
                 reportsCategoriesAdapter =new ReportsCategoriesAdapter(getActivity(),R.layout.list_report,allCategories,mPeriod_adapter);
                 mLv_Pie.setAdapter(reportsCategoriesAdapter);
+                
             }
             else if(actionId == 1)
             {
                 mAmt.clear();
                 mAcc.clear();
+                mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i("Item Clicked :","No");
+                    }
+                });
                 accountsDBIterator =allAccounts.iterator();
                 while (accountsDBIterator.hasNext())
                 {
@@ -307,6 +419,13 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
             {
                 mPer.clear();
                 mAmt_Person.clear();
+                mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i("Item Clicked :","No");
+                    }
+                });
                 personDBIterator=allPersons.iterator();
                 while (personDBIterator.hasNext())
                 {
@@ -395,6 +514,13 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
             {
                 mSub.clear();
                 mAmt_Sub.clear();
+                mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.i("Item Clicked :","No");
+                    }
+                });
                 subCategoryDBIterator =allSubCategories.iterator();
                 while (subCategoryDBIterator.hasNext())
                 {
@@ -478,6 +604,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                 setData(mAmt_Sub.size() - 1, actionId);
                 reportsSubCategoriesAdapter =new ReportsSubCategoriesAdapter(getActivity(),R.layout.list_report,allSubCategories,mPeriod_adapter);
                 mLv_Pie.setAdapter(reportsSubCategoriesAdapter);
+
             }
             legend = mPie.getLegend();
             mPie.setUsePercentValues(true);
@@ -487,26 +614,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
             mPie.setDrawHoleEnabled(true);
             mPie.setRotationAngle(0);
             mPie.setRotationEnabled(false);
-            mPie.setOnChartValueSelectedListener(new OnChartValueSelectedListener()
-            {
-                @Override
-                public void onValueSelected(Entry entry, int i, Highlight highlight)
-                {
-                    if(entry==null)
-                    {
-                        return;
-                    }
-                    Log.i("Val Selected","Value:" + entry.getVal() + "xIndex" + entry.getXIndex()+entry.getData());
-                }
 
-                @Override
-                public void onNothingSelected()
-                {
-                    Log.i("PieChart","Nothing Selected");
-                }
-            });
-            legend.setXEntrySpace(7f);
-            legend.setYEntrySpace(5f);
         }
 
         @Override
@@ -700,8 +808,10 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
                 {
+
                     mTypeAdapter = (int) mSpinner_type.getSelectedItemId();
                     actionId = mTypeAdapter;
+                    Log.i("actionId:",actionId+"");
                     SpinnerType(actionId);
 //                    if(actionId == 0)
 //                    {
@@ -1178,11 +1288,120 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         setData(mAmt_Category.size() - 1, actionId);
                         reportsCategoriesAdapter =new ReportsCategoriesAdapter(getActivity(),R.layout.list_report,allCategories,mPeriod_adapter);
                         mLv_Pie.setAdapter(reportsCategoriesAdapter);
+                        mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                CategoryDB_Specific cat=(CategoryDB_Specific)mLv_Pie.getItemAtPosition(position);
+                                long cat_id=mLv_Pie.getItemIdAtPosition(position);
+                                Log.i("Category_pie:",cat.c_name+" "+cat_id);
+                                ArrayList al=dbHelper.getAllSubCategories(sp.getInt("UID",0),cat.c_id);
+                                PieChartActivity.actionId=3;
+                                Log.i("ALSubCatPie:",al+"");
+                                mSub.clear();
+                                mAmt_Sub.clear();
+                                subCategoryDBIterator =al.iterator();
+                                while (subCategoryDBIterator.hasNext())
+                                {
+                                    subCategoryDB=subCategoryDBIterator.next();
+                                    transactionsDBIterator =allTransactions.iterator();
+                                    mAmount=0;
+                                    while (transactionsDBIterator.hasNext())
+                                    {
+                                        try
+                                        {
+                                            transactionsDB=transactionsDBIterator.next();
+                                            Date d=sdf.parse(transactionsDB.t_date);
+                                            if(p == 0)
+                                            {
+                                                sysDate=year_date.format(d);
+                                                if(sysDate.equals(year))
+                                                {
+                                                    if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                                    {
+                                                        if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                        {
+                                                            mAmount += transactionsDB.t_balance;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else if(p == 1)
+                                            {
+                                                sysDate=month_date.format(d);
+                                                if(sysDate.equals(month_name))
+                                                {
+                                                    if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                                    {
+                                                        if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                        {
+                                                            mAmount += transactionsDB.t_balance;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else if(p == 2)
+                                            {
+                                                sysDate=sdf.format(d);
+                                                if(sysDate.equals(day))
+                                                {
+                                                    if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                                    {
+                                                        if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                        {
+                                                            mAmount += transactionsDB.t_balance;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else if(p == 3)
+                                            {
+                                                if(!d.before(start) && !d.after(end))
+                                                {
+                                                    if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                                    {
+                                                        if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                        {
+                                                            mAmount += transactionsDB.t_balance;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        catch(ParseException e)
+                                        {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    if(mAmount!=0)
+                                    {
+                                        mSub.add(subCategoryDB.sub_name);
+                                        mAmt_Sub.add(mAmount);
+                                    }
+                                }
+                                mPie.setCenterText("Sub Categories");
+                                PieChartActivity.actionId=3;
+                                setData(mAmt_Sub.size() - 1,PieChartActivity.actionId );
+                                PieChartActivity.actionId=0;
+//                        reportsSubCategoriesAdapter =new ReportsSubCategoriesAdapter(getActivity(),R.layout.list_report,allSubCategories,p);
+//                        mLv_Pie.setAdapter(reportsSubCategoriesAdapter);
+
+                            }
+
+
+                        });
+
                     }
                     else if(actionId == 1)
                     {
                         mAmt.clear();
                         mAcc.clear();
+                        mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Log.i("Item Clicked :","No");
+                            }
+                        });
                         accountsDBIterator=allAccounts.iterator();
                         while (accountsDBIterator.hasNext())
                         {
@@ -1258,6 +1477,13 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                     {
                         mAmt_Person.clear();
                         mPer.clear();
+                        mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Log.i("Item Clicked :","No");
+                            }
+                        });
                         personDBIterator=allPersons.iterator();
                         while (personDBIterator.hasNext())
                         {
@@ -1333,6 +1559,13 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                     {
                         mAmt_Sub.clear();
                         mSub.clear();
+                        mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Log.i("Item Clicked :","No");
+                            }
+                        });
                         subCategoryDBIterator =allSubCategories.iterator();
                         while (subCategoryDBIterator.hasNext())
                         {
@@ -1505,11 +1738,120 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                         setData(mAmt_Category.size() - 1, actionId);
                         reportsCategoriesAdapter = new ReportsCategoriesAdapter(getActivity(), R.layout.list_report, allCategories, mPeriod_adapter);
                         mLv_Pie.setAdapter(reportsCategoriesAdapter);
+                        mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                CategoryDB_Specific cat=(CategoryDB_Specific)mLv_Pie.getItemAtPosition(position);
+                                long cat_id=mLv_Pie.getItemIdAtPosition(position);
+                                Log.i("Category_pie:",cat.c_name+" "+cat_id);
+                                ArrayList al=dbHelper.getAllSubCategories(sp.getInt("UID",0),cat.c_id);
+                                PieChartActivity.actionId=3;
+                                Log.i("ALSubCatPie:",al+"");
+                                mSub.clear();
+                                mAmt_Sub.clear();
+                                subCategoryDBIterator =al.iterator();
+                                while (subCategoryDBIterator.hasNext())
+                                {
+                                    subCategoryDB=subCategoryDBIterator.next();
+                                    transactionsDBIterator =allTransactions.iterator();
+                                    mAmount=0;
+                                    while (transactionsDBIterator.hasNext())
+                                    {
+                                        try
+                                        {
+                                            transactionsDB=transactionsDBIterator.next();
+                                            Date d=sdf.parse(transactionsDB.t_date);
+                                            if(p == 0)
+                                            {
+                                                sysDate=year_date.format(d);
+                                                if(sysDate.equals(year))
+                                                {
+                                                    if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                                    {
+                                                        if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                        {
+                                                            mAmount += transactionsDB.t_balance;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else if(p == 1)
+                                            {
+                                                sysDate=month_date.format(d);
+                                                if(sysDate.equals(month_name))
+                                                {
+                                                    if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                                    {
+                                                        if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                        {
+                                                            mAmount += transactionsDB.t_balance;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else if(p == 2)
+                                            {
+                                                sysDate=sdf.format(d);
+                                                if(sysDate.equals(day))
+                                                {
+                                                    if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                                    {
+                                                        if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                        {
+                                                            mAmount += transactionsDB.t_balance;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else if(p == 3)
+                                            {
+                                                if(!d.before(start) && !d.after(end))
+                                                {
+                                                    if(transactionsDB.t_type.equals("Expense") && transactionsDB.t_show == 1 && transactionsDB.t_show == 1)
+                                                    {
+                                                        if(transactionsDB.t_sub_id == subCategoryDB.sub_id)
+                                                        {
+                                                            mAmount += transactionsDB.t_balance;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        catch(ParseException e)
+                                        {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    if(mAmount!=0)
+                                    {
+                                        mSub.add(subCategoryDB.sub_name);
+                                        mAmt_Sub.add(mAmount);
+                                    }
+                                }
+                                mPie.setCenterText("Sub Categories");
+                                PieChartActivity.actionId=3;
+                                setData(mAmt_Sub.size() - 1,PieChartActivity.actionId );
+                                PieChartActivity.actionId=0;
+//                        reportsSubCategoriesAdapter =new ReportsSubCategoriesAdapter(getActivity(),R.layout.list_report,allSubCategories,p);
+//                        mLv_Pie.setAdapter(reportsSubCategoriesAdapter);
+
+                            }
+
+
+                        });
+
                     }
                     else if (actionId == 1)
                     {
                         mAmt.clear();
                         mAcc.clear();
+                        mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Log.i("Item Clicked :","No");
+                            }
+                        });
                         accountsDBIterator = allAccounts.iterator();
                         while (accountsDBIterator.hasNext())
                         {
@@ -1585,6 +1927,13 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                     {
                         mAmt_Person.clear();
                         mPer.clear();
+                        mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Log.i("Item Clicked :","No");
+                            }
+                        });
                         personDBIterator = allPersons.iterator();
                         while (personDBIterator.hasNext())
                         {
@@ -1660,6 +2009,13 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                     {
                         mAmt_Sub.clear();
                         mSub.clear();
+                        mLv_Pie.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                Log.i("Item Clicked :","No");
+                            }
+                        });
                         subCategoryDBIterator = allSubCategories.iterator();
                         while (subCategoryDBIterator.hasNext())
                         {
@@ -1796,6 +2152,7 @@ public class PieChartActivity extends AbstractNavigationDrawerActivity
                     xValues.add(mSub.get(i));
                 }
                 dataSet = new PieDataSet(yValues, "Sub Categories");
+
             }
 
 
