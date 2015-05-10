@@ -1,5 +1,6 @@
 package com.example.dhruvgupta.expensious;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -97,7 +98,7 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
                     }
                 }
             });
-
+            final Activity thisActivity=this.getActivity();
             ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
             query.whereEqualTo("uid", sp.getInt("UID", 0));
             query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -107,11 +108,12 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
                     user.put("fid", sp.getInt("UID", 0));
                     user.put("is_head", 1);
                     user.pinInBackground("pinUser");
+
                     user.saveEventually(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
-                                Toast.makeText(getActivity(), "User Updated", Toast.LENGTH_LONG).show();
+                                Toast.makeText(thisActivity, "User Updated", Toast.LENGTH_LONG).show();
                                 Intent i = new Intent(getActivity(), HeadFamilyView.class);
                                 startActivity(i);
                                 getActivity().finish();

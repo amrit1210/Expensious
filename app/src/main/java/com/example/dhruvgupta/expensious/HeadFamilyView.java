@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseACL;
 import com.parse.ParseException;
@@ -21,6 +23,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dhruvgupta on 4/25/2015.
@@ -45,7 +50,9 @@ public class HeadFamilyView extends AbstractNavigationDrawerActivity {
         SharedPreferences sp;
         FloatingActionButton fab;
         int f_id;
-
+        ListView member_list;
+        ArrayList <SignUpDB> al;
+        FamilyMemberAdapter adapter;
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -57,9 +64,33 @@ public class HeadFamilyView extends AbstractNavigationDrawerActivity {
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
             View rootView = getView();
-
-            ParseUser user = ParseUser.getCurrentUser();
+            member_list=(ListView)rootView.findViewById(R.id.list_member);
+            final ParseUser user = ParseUser.getCurrentUser();
             f_id = user.getInt("fid");
+            al=new ArrayList<>();
+            adapter=new FamilyMemberAdapter(getActivity(), R.layout.list_person, al);
+            member_list.setAdapter(adapter);
+
+            ParseQuery<ParseObject>query1= ParseQuery.getQuery("_User");
+            query1.whereEqualTo("fid",f_id);
+            query1.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> parseObjects, ParseException e) {
+
+                    for (ParseObject obj: parseObjects) {
+                        SignUpDB usr = new SignUpDB();
+                        usr.u_fid = obj.getInt("fid");
+                        usr.u_email = obj.getString("email");
+                        usr.u_name = obj.getString("uname");
+                        usr.u_id = obj.getInt("uid");
+                        usr.u_image = obj.getString("userimage");
+
+                        al.add(usr);
+                    }
+                }
+            });
+
+            adapter.notifyDataSetChanged();
 
             fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
@@ -122,12 +153,13 @@ public class HeadFamilyView extends AbstractNavigationDrawerActivity {
                                             else
                                             {
                                                 ParseObject addReq = new ParseObject("Family_request");
+                                                //TODO: ACL
                                                 ParseACL addAcl = new ParseACL();
                                                 addAcl.setPublicReadAccess(true);
                                                 addAcl.setPublicWriteAccess(true);
+                                                addReq.setACL(addAcl);
                                                 addReq.put("uid", uid);
                                                 addReq.put("has_request", f_id);
-                                                addReq.setACL(addAcl);
                                                 addReq.pinInBackground("pinRequest");
                                                 addReq.saveEventually(new SaveCallback() {
                                                     @Override
