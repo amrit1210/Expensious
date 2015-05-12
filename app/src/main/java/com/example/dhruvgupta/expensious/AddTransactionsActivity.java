@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
+import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
@@ -615,6 +616,10 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             int tid = dbHelper.getTransactionsColId(sp.getInt("UID", 0));
 
                             ParseObject transactions = new ParseObject("Transactions");
+                            ParseACL addAcl = new ParseACL();
+                            addAcl.setPublicReadAccess(true);
+                            addAcl.setPublicWriteAccess(true);
+                            transactions.setACL(addAcl);
                             transactions.put("trans_id", tid);
                             transactions.put("trans_uid", sp.getInt("UID", 0));
                             transactions.put("trans_rec_id", 0);
@@ -685,6 +690,10 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             int tid = dbHelper.getTransactionsColId(sp.getInt("UID", 0));
 
                             ParseObject transactions = new ParseObject("Transactions");
+                            ParseACL addAcl = new ParseACL();
+                            addAcl.setPublicReadAccess(true);
+                            addAcl.setPublicWriteAccess(true);
+                            transactions.setACL(addAcl);
                             transactions.put("trans_id", tid);
                             transactions.put("trans_uid", sp.getInt("UID", 0));
                             transactions.put("trans_rec_id", 0);
@@ -755,6 +764,10 @@ public class AddTransactionsActivity extends ActionBarActivity {
                             int tid = dbHelper.getTransactionsColId(sp.getInt("UID", 0));
 
                             ParseObject transactions = new ParseObject("Transactions");
+                            ParseACL addAcl = new ParseACL();
+                            addAcl.setPublicReadAccess(true);
+                            addAcl.setPublicWriteAccess(true);
+                            transactions.setACL(addAcl);
                             transactions.put("trans_id", tid);
                             transactions.put("trans_uid", sp.getInt("UID", 0));
                             transactions.put("trans_rec_id", 0);

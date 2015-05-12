@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
+import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 import com.pkmmte.view.CircularImageView;
@@ -400,6 +401,10 @@ public class AddCategoryActivity extends ActionBarActivity
                             int cid = dbHelper.getCategoryColIdUid(sp.getInt("UID", 0));
 
                             ParseObject category = new ParseObject("Category_specific");
+                            ParseACL addAcl = new ParseACL();
+                            addAcl.setPublicReadAccess(true);
+                            addAcl.setPublicWriteAccess(true);
+                            category.setACL(addAcl);
                             category.put("c_id", cid);
                             category.put("c_uid", sp.getInt("UID", 0));
                             category.put("c_name", mCat_Name.getText().toString());
@@ -449,6 +454,10 @@ public class AddCategoryActivity extends ActionBarActivity
                                 int sub_id = dbHelper.getSubCategoryColId(sp.getInt("UID", 0));
                                 dbHelper.getAllSubCategories(sp.getInt("UID",0),colId);
                                 ParseObject subcategory = new ParseObject("Sub_category");
+                                ParseACL addAcl = new ParseACL();
+                                addAcl.setPublicReadAccess(true);
+                                addAcl.setPublicWriteAccess(true);
+                                subcategory.setACL(addAcl);
                                 subcategory.put("sub_id",sub_id );
                                 subcategory.put("sub_uid", sp.getInt("UID", 0));
                                 subcategory.put("sub_name", mCat_Name.getText().toString());

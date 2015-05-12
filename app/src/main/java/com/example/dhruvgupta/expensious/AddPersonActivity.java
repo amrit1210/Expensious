@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -228,6 +229,10 @@ public class AddPersonActivity  extends ActionBarActivity
                         final int pid = dbHelper.getPersonColId(sp.getInt("UID", 0), mPerson_Name.getText().toString());
 
                         ParseObject person = new ParseObject("Persons");
+                        ParseACL addAcl = new ParseACL();
+                        addAcl.setPublicReadAccess(true);
+                        addAcl.setPublicWriteAccess(true);
+                        person.setACL(addAcl);
                         person.put("p_id", pid);
                         person.put("p_uid", sp.getInt("UID",0));
                         person.put("p_name", mPerson_Name.getText().toString());

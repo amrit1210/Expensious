@@ -2,18 +2,25 @@ package com.example.dhruvgupta.expensious;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 import com.melnykov.fab.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -34,6 +41,7 @@ public class HeadFamilyView extends AbstractNavigationDrawerActivity {
 
     public void onInt(Bundle bundle) {
         super.onInt(bundle);
+
 
         this.setDefaultStartPositionNavigation(5);
 //        FragmentManager fragmentManager = getFragmentManager();
@@ -87,16 +95,30 @@ public class HeadFamilyView extends AbstractNavigationDrawerActivity {
 
                         al.add(usr);
                     }
+                    adapter.notifyDataSetChanged();
                 }
             });
 
-            adapter.notifyDataSetChanged();
+
 
             fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onFabAdd(v);
+                }
+            });
+            member_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    SignUpDB userDB = adapter.getItem(position);
+                    Intent i = new Intent(getActivity(),DetailFamily.class);
+                    i.putExtra("User_Name", userDB.u_name);
+                    i.putExtra("u_id",userDB.u_id);
+                    i.putExtra("u_fid",userDB.u_fid);
+                    startActivity(i);
+//                    setResult(1, i);
+//                    HeadFamilyView.this.finish();
                 }
             });
         }
@@ -191,5 +213,6 @@ public class HeadFamilyView extends AbstractNavigationDrawerActivity {
             builder.show();
         }
     }
+
 }
 

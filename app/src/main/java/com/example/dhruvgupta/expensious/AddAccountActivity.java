@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
@@ -186,6 +187,10 @@ public class AddAccountActivity extends ActionBarActivity
                     final int acc_id = dbHelper.getAccountColId(sp.getInt("UID", 0), mAcc_Name.getText().toString());
 
                     ParseObject account = new ParseObject("Accounts");
+                    ParseACL addAcl = new ParseACL();
+                    addAcl.setPublicReadAccess(true);
+                    addAcl.setPublicWriteAccess(true);
+                    account.setACL(addAcl);
                     account.put("acc_id", acc_id);
                     account.put("acc_uid", sp.getInt("UID",0));
                     account.put("acc_name", mAcc_Name.getText().toString());

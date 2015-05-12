@@ -42,7 +42,7 @@ class SubCategoryDB
 class TransactionsDB
 {
     int t_id,t_u_id,t_rec_id,t_c_id,t_sub_id,t_p_id,t_from_acc,t_to_acc,t_show;
-    float t_balance;
+    Double t_balance;
     String t_type,t_note,t_date,t_time;
 }
 

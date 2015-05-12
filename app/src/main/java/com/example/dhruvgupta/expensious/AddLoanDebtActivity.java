@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
+import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
@@ -466,6 +467,10 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                             int loanDebt_id = dbHelper.getLoanDebtColId(sp.getInt("UID", 0));
 
                             ParseObject loanDebt = new ParseObject("Loan_debt");
+                            ParseACL addAcl = new ParseACL();
+                            addAcl.setPublicReadAccess(true);
+                            addAcl.setPublicWriteAccess(true);
+                            loanDebt.setACL(addAcl);
                             loanDebt.put("loan_debt_id", loanDebt_id);
                             loanDebt.put("loan_debt_uid", sp.getInt("UID", 0));
                             loanDebt.put("loan_debt_parent", 0);
@@ -529,6 +534,10 @@ public class AddLoanDebtActivity extends ActionBarActivity {
                             int loanDebt_id = dbHelper.getLoanDebtColId(sp.getInt("UID", 0));
 
                             ParseObject loanDebt = new ParseObject("Loan_debt");
+                            ParseACL addAcl = new ParseACL();
+                            addAcl.setPublicReadAccess(true);
+                            addAcl.setPublicWriteAccess(true);
+                            loanDebt.setACL(addAcl);
                             loanDebt.put("loan_debt_id", loanDebt_id);
                             loanDebt.put("loan_debt_uid", sp.getInt("UID", 0));
                             loanDebt.put("loan_debt_parent", 0);

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
+import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
@@ -472,6 +473,10 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             int recid = dbHelper.getRecursiveColId(sp.getInt("UID", 0));
 
                             ParseObject recursive = new ParseObject("Recursive");
+                            ParseACL addAcl = new ParseACL();
+                            addAcl.setPublicReadAccess(true);
+                            addAcl.setPublicWriteAccess(true);
+                            recursive.setACL(addAcl);
                             recursive.put("rec_id", recid);
                             recursive.put("rec_uid", sp.getInt("UID", 0));
                             recursive.put("rec_from_acc", acc_id);
@@ -521,6 +526,10 @@ public class AddRecursiveActivity extends ActionBarActivity {
                             int recid = dbHelper.getRecursiveColId(sp.getInt("UID", 0));
 
                             ParseObject recursive = new ParseObject("Recursive");
+                            ParseACL addAcl = new ParseACL();
+                            addAcl.setPublicReadAccess(true);
+                            addAcl.setPublicWriteAccess(true);
+                            recursive.setACL(addAcl);
                             recursive.put("rec_id", recid);
                             recursive.put("rec_uid", sp.getInt("UID", 0));
                             recursive.put("rec_from_acc", 0);

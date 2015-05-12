@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/ll_member_view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="180dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Family"
+                android:textSize="20dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="40dp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"
+                android:id="@+id/family_name"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Family Head"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:id="@+id/family_head"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Budget"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:id="@+id/user_budget"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Amount Spent"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:layout_marginRight="40dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:textSize="20dp"
+                android:textColor="@android:color/black"
+                android:id="@+id/amount_spent"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Amount Left"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="20"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            android:id="@+id/amount_left"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="5dp"/>
+    </LinearLayout>
+
+
+</LinearLayout>

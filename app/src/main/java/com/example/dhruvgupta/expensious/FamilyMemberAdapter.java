@@ -48,10 +48,10 @@ public class FamilyMemberAdapter extends ArrayAdapter<SignUpDB>
         Log.i("Position",position+"");
 
         try {
-            byte[] decodedString = Base64.decode(db.u_image.trim(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
-            mImageView.setImageBitmap(decodedByte);
+//            byte[] decodedString = Base64.decode(db.u_image.trim(), Base64.DEFAULT);
+//            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+//
+//            mImageView.setImageBitmap(decodedByte);
             mUserName.setText(db.u_name);
         }
         catch (Exception e)

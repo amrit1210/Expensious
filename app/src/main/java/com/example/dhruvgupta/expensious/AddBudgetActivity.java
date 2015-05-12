@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
+import com.parse.ParseACL;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
@@ -281,6 +282,10 @@ public class AddBudgetActivity extends ActionBarActivity
                         Toast.makeText(AddBudgetActivity.this, "Budget Updated", Toast.LENGTH_LONG).show();
 
                         ParseObject object = new ParseObject("Budget");
+                        ParseACL addAcl = new ParseACL();
+                        addAcl.setPublicReadAccess(true);
+                        addAcl.setPublicWriteAccess(true);
+                        object.setACL(addAcl);
                         object.put("b_id", b_id);
                         object.put("b_uid", sp.getInt("UID", 0));
                         object.put("b_amount", Float.parseFloat(mB_Amt.getText().toString()));
