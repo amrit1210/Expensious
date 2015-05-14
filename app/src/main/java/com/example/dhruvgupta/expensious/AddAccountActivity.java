@@ -201,7 +201,10 @@ public class AddAccountActivity extends ActionBarActivity
                     account.saveEventually(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
-                            Log.i("Account saveEventually", "YES! YES! YES!");
+                            if (e == null)
+                                Log.i("Account saveEventually", "YES! YES! YES!");
+                            else
+                                Log.i("Parse Error", e.getMessage());
                         }
                     });
 

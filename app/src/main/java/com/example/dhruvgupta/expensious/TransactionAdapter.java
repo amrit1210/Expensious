@@ -66,13 +66,13 @@ public class TransactionAdapter extends ArrayAdapter {
         curCode = c1.getString(c1.getColumnIndex(DBHelper.SETTINGS_COL_CUR_CODE));
         c1.close();
 
-        Iterator<CurrencyDB> iterator = al1.iterator();
-        while (iterator.hasNext())
-        {
-            CurrencyDB curDB = iterator.next();
-            if (curDB.c_code.equals(curCode))
-                currency.setText(curDB.c_symbol);
-        }
+            Iterator<CurrencyDB> iterator = al1.iterator();
+            while (iterator.hasNext())
+            {
+                CurrencyDB curDB = iterator.next();
+                if (curDB.c_code.equals(curCode))
+                    currency.setText(curDB.c_symbol);
+            }
 
         TransactionsDB trans_db=al.get(position);
         date.setText(trans_db.t_date);

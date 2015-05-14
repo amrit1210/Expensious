@@ -69,8 +69,13 @@
             android:name=".HeadFamilyView"
             android:theme="@style/nLiveoDrawer"/>
         <activity
+            android:name=".MemberViewActivity"
+            android:theme="@style/nLiveoDrawer"/>
+        <activity
             android:name=".AcceptFamilyActivity"
             android:theme="@style/nLiveoDrawer"/>
+        <activity
+            android:name=".DetailFamily"/>
         <activity
             android:name=".DetailedRecursive"
             android:parentActivityName=".RecursiveActivity"/>

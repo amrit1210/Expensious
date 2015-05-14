@@ -3,8 +3,8 @@
     android:oneshot="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <item android:drawable="@drawable/tut0" android:duration="5000" />
-    <item android:drawable="@drawable/tut1" android:duration="5000" />
-    <item android:drawable="@drawable/tut2" android:duration="5000" />
+    <!--<item android:drawable="@drawable/tut0" android:duration="5000" />-->
+    <!--<item android:drawable="@drawable/tut1" android:duration="5000" />-->
+    <!--<item android:drawable="@drawable/tut2" android:duration="5000" />-->
 
 </animation-list>

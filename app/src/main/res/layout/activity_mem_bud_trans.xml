@@ -18,15 +18,17 @@
             style="@style/TextViewAppearance.Heading"
             android:text="0.0"
             android:editable="false"
-            android:layout_weight="2"
+            android:layout_width="wrap_content"
             android:inputType="number"
-            android:gravity="left"
+            android:gravity="right"
             android:id="@+id/budget_bal"/>
 
         <TextView
             style="@style/TextViewAppearance.Heading"
             android:text="Cur"
-            android:layout_weight="2.5"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:layout_width="wrap_content"
             android:gravity="start"
             android:id="@+id/budget_cur"/>
 

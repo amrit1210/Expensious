@@ -193,7 +193,11 @@ public class AbstractNavigationDrawerActivity extends NavigationLiveo implements
                     }
                     else
                     {
-
+                        if (this instanceof MemberViewActivity) {
+                            mFragment = new MemberViewActivity.MemberViewFragment();
+                        } else {
+                            intent = new Intent(this, MemberViewActivity.class);
+                        }
                     }
                 }
                 else

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -86,6 +87,10 @@ public class EnableFamilyActivity extends AbstractNavigationDrawerActivity {
         public void onEnableSave (View v)
         {
             ParseObject family = new ParseObject("Family");
+            ParseACL addAcl = new ParseACL();
+            addAcl.setPublicReadAccess(true);
+            addAcl.setPublicWriteAccess(true);
+            family.setACL(addAcl);
             family.put("f_id", sp.getInt("UID", 0));
             family.put("h_id", sp.getInt("UID", 0));
             family.put("f_name", mFamilyName.getText().toString());

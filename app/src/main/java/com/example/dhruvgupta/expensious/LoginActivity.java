@@ -84,9 +84,6 @@ public class LoginActivity extends ActionBarActivity
         }
         if (mEmail.length() != 0 || mPassword.length() != 0)
         {
-            Async async = new Async();
-            async.execute();
-
             final ProgressDialog Dialog = new ProgressDialog(LoginActivity.this);
             Dialog.setMessage("Please Wait");
             Dialog.show();
@@ -125,6 +122,9 @@ public class LoginActivity extends ActionBarActivity
                             spEdit.putInt("REQUEST", user.getInt("has_request"));
                             spEdit.putInt("HEAD", user.getInt("is_head"));
                             spEdit.commit();
+
+                            Async async = new Async();
+                            async.execute();
 
 //                            ArrayList al = dbHelper.getSettingsUid();
 //                            if (! al.contains(sp.getInt("UID", 0)))
@@ -216,6 +216,7 @@ public class LoginActivity extends ActionBarActivity
         protected void onPreExecute()
         {
             super.onPreExecute();
+            Toast.makeText(LoginActivity.this, "Please Wait.... Data is being syncing", Toast.LENGTH_LONG).show();
             Dialog.setMessage("Please Wait.... Data is being syncing");
             Dialog.show();
         }
@@ -226,8 +227,21 @@ public class LoginActivity extends ActionBarActivity
             try
             {
                 dbHelper.deleteAllData(sp.getInt("UID", 0));
+                dbHelper.deleteSettings(sp.getInt("UID", 0));
+
                 final ParseQuery<ParseObject> accounts = ParseQuery.getQuery("Accounts");
                 accounts.whereEqualTo("acc_uid", sp.getInt("UID", 0));
+//                List<ParseObject> acc_list = accounts.find();
+//                for (final ParseObject parseObject : acc_list) {
+//                    int acc_id = parseObject.getInt("acc_id");
+//                    String acc_name = parseObject.getString("acc_name");
+//                    float acc_bal = Float.parseFloat(parseObject.getDouble("acc_balance") + "");
+//                    int show = parseObject.getInt("acc_show");
+//                    String note = parseObject.getString("acc_note");
+//                    if (dbHelper.addAccount(sp.getInt("UID", 0), acc_id, acc_name, acc_bal, note, show)) {
+//                        Log.i("Account added list:", acc_id + "");
+//                    }
+//                }
                 accounts.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
@@ -235,7 +249,7 @@ public class LoginActivity extends ActionBarActivity
                             if (e == null) {
                                 int acc_id = parseObject.getInt("acc_id");
                                 String acc_name = parseObject.getString("acc_name");
-                                float acc_bal = Float.parseFloat(parseObject.getDouble("acc_balance")+"");
+                                float acc_bal = Float.parseFloat(parseObject.getDouble("acc_balance") + "");
                                 int show = parseObject.getInt("acc_show");
                                 String note = parseObject.getString("acc_note");
                                 if (dbHelper.addAccount(sp.getInt("UID", 0), acc_id, acc_name, acc_bal, note, show)) {
@@ -411,23 +425,29 @@ public class LoginActivity extends ActionBarActivity
                     }
                 });
 
-//                final ParseQuery<ParseObject> settings = ParseQuery.getQuery("Settings");
-//                settings.whereEqualTo("settings_uid", sp.getInt("UID", 0));
-//                settings.findInBackground(new FindCallback<ParseObject>() {
-//                    @Override
-//                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
-//                        for (final ParseObject parseObject : parseObjects) {
-//                            if (e == null) {
-//                                String settings_cur_code = parseObject.getString("settings_cur_code");
-//                                ArrayList al = dbHelper.getSettingsUid();
-//                                if (! al.contains(sp.getInt("UID", 0)))
-//                                    if (dbHelper.addSettings(sp.getInt("UID", 0), settings_cur_code)) {
-//                                        Log.i("Settings added :", settings_cur_code);
-//                                    }
-//                            }
-//                        }
+                final ParseQuery<ParseObject> settings = ParseQuery.getQuery("Settings");
+                settings.whereEqualTo("settings_uid", sp.getInt("UID", 0));
+//                List<ParseObject> set_list = settings.find();
+//                for (final ParseObject parseObject : set_list) {
+//                    String settings_cur_code = parseObject.getString("settings_cur_code");
+//                    Log.i("adding settings:", settings_cur_code);
+//                    if (dbHelper.addSettings(sp.getInt("UID", 0), settings_cur_code)) {
+//                        Log.i("Settings added list:", settings_cur_code);
 //                    }
-//                });
+//                }
+                settings.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> parseObjects, com.parse.ParseException e) {
+                        for (final ParseObject parseObject : parseObjects) {
+                            if (e == null) {
+                                String settings_cur_code = parseObject.getString("settings_cur_code");
+                                if (dbHelper.addSettings(sp.getInt("UID", 0), settings_cur_code)) {
+                                    Log.i("Settings added :", settings_cur_code);
+                                }
+                            }
+                        }
+                    }
+                });
             }
             catch (Exception e)
             {
@@ -440,6 +460,7 @@ public class LoginActivity extends ActionBarActivity
         protected void onPostExecute(String s)
         {
             Dialog.dismiss();
+            Toast.makeText(LoginActivity.this, "Data syncing complete...", Toast.LENGTH_LONG).show();
 
         }
     }

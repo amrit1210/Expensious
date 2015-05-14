@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -383,6 +384,10 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addSettings(r, "INR");
                                                 ParseObject settings = new ParseObject("Settings");
+                                                ParseACL addAcl = new ParseACL();
+                                                addAcl.setPublicReadAccess(true);
+                                                addAcl.setPublicWriteAccess(true);
+                                                settings.setACL(addAcl);
                                                 settings.put("settings_uid", r);
                                                 settings.put("settings_cur_code", cur);
                                                 settings.pinInBackground("pinSettings");
@@ -408,8 +413,9 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 decodedByte.compress(Bitmap.CompressFormat.PNG, 100, baos);
                                                 b = baos.toByteArray();
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
-                                                dbHelper.addCategorySpecific(r,"Food",0,c_img_string);
+                                                dbHelper.addCategorySpecific(r, "Food", 0, c_img_string);
                                                 ParseObject category = new ParseObject("Category_specific");
+                                                category.setACL(addAcl);
                                                 category.put("c_uid", r);
                                                 category.put("c_id", 1);
                                                 category.put("c_name","Food" );
@@ -439,11 +445,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(1,"Vegetables",r,c_img_string);
                                                 ParseObject subcategory1 = new ParseObject("Sub_category");
+                                                subcategory1.setACL(addAcl);
                                                 subcategory1.put("sub_uid", r);
                                                 subcategory1.put("sub_c_id", 1);
                                                 subcategory1.put("sub_name","Vegetables" );
                                                 subcategory1.put("sub_id", 1);
-                                               subcategory1.put("sub_icon",c_img_string);
+                                                subcategory1.put("sub_icon",c_img_string);
                                                 subcategory1.pinInBackground("pinSubCategory");
                                                 subcategory1.saveEventually(new SaveCallback() {
                                                     @Override
@@ -468,6 +475,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(1,"Fruits",r,c_img_string);
                                                 ParseObject subcategory2 = new ParseObject("Sub_category");
+                                                subcategory2.setACL(addAcl);
                                                 subcategory2.put("sub_uid", r);
                                                 subcategory2.put("sub_c_id", 1);
                                                 subcategory2.put("sub_name","Fruits" );
@@ -497,6 +505,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addCategorySpecific(r,"Entertainment",0,c_img_string);
                                                 ParseObject category1 = new ParseObject("Category_specific");
+                                                category1.setACL(addAcl);
                                                 category1.put("c_uid", r);
                                                 category1.put("c_id", 2);
                                                 category1.put("c_name","Entertainment" );
@@ -526,6 +535,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(2,"Movies",r,c_img_string);
                                                 ParseObject subcategory3 = new ParseObject("Sub_category");
+                                                subcategory3.setACL(addAcl);
                                                 subcategory3.put("sub_uid", r);
                                                 subcategory3.put("sub_c_id", 2);
                                                 subcategory3.put("sub_name","Movies" );
@@ -555,11 +565,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(2,"Television",r,c_img_string);
                                                 ParseObject subcategory4 = new ParseObject("Sub_category");
+                                                subcategory4.setACL(addAcl);
                                                 subcategory4.put("sub_uid", r);
                                                 subcategory4.put("sub_c_id", 2);
                                                 subcategory4.put("sub_name","Television" );
                                                 subcategory4.put("sub_id", 4);
-                                               subcategory4.put("sub_icon",c_img_string);
+                                                subcategory4.put("sub_icon",c_img_string);
                                                 subcategory4.pinInBackground("pinSubCategory");
                                                 subcategory4.saveEventually(new SaveCallback() {
                                                     @Override
@@ -584,6 +595,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addCategorySpecific(r,"Travel",0,c_img_string);
                                                 ParseObject category2 = new ParseObject("Category_specific");
+                                                category2.setACL(addAcl);
                                                 category2.put("c_uid", r);
                                                 category2.put("c_id", 3);
                                                 category2.put("c_name","Travel" );
@@ -613,11 +625,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(3,"Auto Fare",r,c_img_string);
                                                 ParseObject subcategory5 = new ParseObject("Sub_category");
+                                                subcategory5.setACL(addAcl);
                                                 subcategory5.put("sub_uid", r);
                                                 subcategory5.put("sub_c_id", 3);
                                                 subcategory5.put("sub_name","Auto Fare" );
                                                 subcategory5.put("sub_id", 5);
-                                               subcategory5.put("sub_icon",c_img_string);
+                                                subcategory5.put("sub_icon",c_img_string);
                                                 subcategory5.pinInBackground("pinSubCategory");
                                                 subcategory5.saveEventually(new SaveCallback() {
                                                     @Override
@@ -642,11 +655,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(3,"Bus Fare",r,c_img_string);
                                                 ParseObject subcategory6 = new ParseObject("Sub_category");
+                                                subcategory6.setACL(addAcl);
                                                 subcategory6.put("sub_uid", r);
                                                 subcategory6.put("sub_c_id", 3);
                                                 subcategory6.put("sub_name","Bus Fare" );
                                                 subcategory6.put("sub_id", 6);
-                                               subcategory6.put("sub_icon",c_img_string);
+                                                subcategory6.put("sub_icon",c_img_string);
                                                 subcategory6.pinInBackground("pinSubCategory");
                                                 subcategory6.saveEventually(new SaveCallback() {
                                                     @Override
@@ -671,11 +685,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(3,"Taxi Fare",r,c_img_string);
                                                 ParseObject subcategory7 = new ParseObject("Sub_category");
+                                                subcategory7.setACL(addAcl);
                                                 subcategory7.put("sub_uid", r);
                                                 subcategory7.put("sub_c_id", 3);
                                                 subcategory7.put("sub_name","Taxi Fare" );
                                                 subcategory7.put("sub_id", 7);
-                                               subcategory7.put("sub_icon",c_img_string);
+                                                subcategory7.put("sub_icon",c_img_string);
                                                 subcategory7.pinInBackground("pinSubCategory");
                                                 subcategory7.saveEventually(new SaveCallback() {
                                                     @Override
@@ -700,11 +715,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(3,"Flight Fare",r,c_img_string);
                                                 ParseObject subcategory8 = new ParseObject("Sub_category");
+                                                subcategory8.setACL(addAcl);
                                                 subcategory8.put("sub_uid", r);
                                                 subcategory8.put("sub_c_id", 3);
                                                 subcategory8.put("sub_name","Flight Fare" );
                                                 subcategory8.put("sub_id", 8);
-                                               subcategory8.put("sub_icon",c_img_string);
+                                                subcategory8.put("sub_icon",c_img_string);
                                                 subcategory8.pinInBackground("pinSubCategory");
                                                 subcategory8.saveEventually(new SaveCallback() {
                                                     @Override
@@ -730,6 +746,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addCategorySpecific(r,"Tax Payment",0,c_img_string);
                                                 ParseObject category3 = new ParseObject("Category_specific");
+                                                category3.setACL(addAcl);
                                                 category3.put("c_uid", r);
                                                 category3.put("c_id", 4);
                                                 category3.put("c_name","Tax Payment" );
@@ -759,11 +776,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(4,"Income Tax",r,c_img_string);
                                                 ParseObject subcategory9 = new ParseObject("Sub_category");
+                                                subcategory9.setACL(addAcl);
                                                 subcategory9.put("sub_uid", r);
                                                 subcategory9.put("sub_c_id", 4);
                                                 subcategory9.put("sub_name","Income Tax" );
                                                 subcategory9.put("sub_id", 9);
-                                               subcategory9.put("sub_icon",c_img_string);
+                                                subcategory9.put("sub_icon",c_img_string);
                                                 subcategory9.pinInBackground("pinSubCategory");
                                                 subcategory9.saveEventually(new SaveCallback() {
                                                     @Override
@@ -788,11 +806,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(4,"Sales Tax",r,c_img_string);
                                                 ParseObject subcategory10 = new ParseObject("Sub_category");
+                                                subcategory10.setACL(addAcl);
                                                 subcategory10.put("sub_uid", r);
                                                 subcategory10.put("sub_c_id", 4);
                                                 subcategory10.put("sub_name","Sales Tax" );
                                                 subcategory10.put("sub_id", 10);
-                                               subcategory10.put("sub_icon",c_img_string);
+                                                subcategory10.put("sub_icon",c_img_string);
                                                 subcategory10.pinInBackground("pinSubCategory");
                                                 subcategory10.saveEventually(new SaveCallback() {
                                                     @Override
@@ -817,11 +836,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(4,"Property Tax",r,c_img_string);
                                                 ParseObject subcategory11 = new ParseObject("Sub_category");
+                                                subcategory11.setACL(addAcl);
                                                 subcategory11.put("sub_uid", r);
                                                 subcategory11.put("sub_c_id", 4);
                                                 subcategory11.put("sub_name","Property Tax" );
                                                 subcategory11.put("sub_id", 11);
-                                               subcategory11.put("sub_icon",c_img_string);
+                                                subcategory11.put("sub_icon",c_img_string);
                                                 subcategory11.pinInBackground("pinSubCategory");
                                                 subcategory11.saveEventually(new SaveCallback() {
                                                     @Override
@@ -847,6 +867,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addCategorySpecific(r,"Health",0,c_img_string);
                                                 ParseObject category4 = new ParseObject("Category_specific");
+                                                category4.setACL(addAcl);
                                                 category4.put("c_uid", r);
                                                 category4.put("c_id", 5);
                                                 category4.put("c_name","Health" );
@@ -877,11 +898,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 Log.i("Surgery","sur");
                                                 dbHelper.addSubCategory(5,"Surgery",r,c_img_string);
                                                 ParseObject subcategory12 = new ParseObject("Sub_category");
+                                                subcategory12.setACL(addAcl);
                                                 subcategory12.put("sub_uid", r);
                                                 subcategory12.put("sub_c_id", 5);
                                                 subcategory12.put("sub_name","Surgery" );
                                                 subcategory12.put("sub_id", 12);
-                                               subcategory12.put("sub_icon",c_img_string);
+                                                subcategory12.put("sub_icon",c_img_string);
                                                 subcategory12.pinInBackground("pinSubCategory");
                                                 subcategory12.saveEventually(new SaveCallback() {
                                                     @Override
@@ -908,11 +930,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 Log.i("Medicines","Medicines");
                                                 dbHelper.addSubCategory(5,"Medicines",r,c_img_string);
                                                 ParseObject subcategory13 = new ParseObject("Sub_category");
+                                                subcategory13.setACL(addAcl);
                                                 subcategory13.put("sub_uid", r);
                                                 subcategory13.put("sub_c_id", 5);
                                                 subcategory13.put("sub_name","Medicines" );
                                                 subcategory13.put("sub_id", 13);
-                                               subcategory13.put("sub_icon",c_img_string);
+                                                subcategory13.put("sub_icon",c_img_string);
                                                 subcategory13.pinInBackground("pinSubCategory");
                                                 subcategory13.saveEventually(new SaveCallback() {
                                                     @Override
@@ -938,6 +961,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addCategorySpecific(r,"Beauty",0,c_img_string);
                                                 ParseObject category5 = new ParseObject("Category_specific");
+                                                category5.setACL(addAcl);
                                                 category5.put("c_uid", r);
                                                 category5.put("c_id", 6);
                                                 category5.put("c_name","Beauty" );
@@ -967,6 +991,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(6,"Manicure",r,c_img_string);
                                                 ParseObject subcategory14 = new ParseObject("Sub_category");
+                                                subcategory14.setACL(addAcl);
                                                 subcategory14.put("sub_uid", r);
                                                 subcategory14.put("sub_c_id", 6);
                                                 subcategory14.put("sub_name","Manicure" );
@@ -996,11 +1021,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(6,"Padicure",r,c_img_string);
                                                 ParseObject subcategory15 = new ParseObject("Sub_category");
+                                                subcategory15.setACL(addAcl);
                                                 subcategory15.put("sub_uid", r);
                                                 subcategory15.put("sub_c_id", 6);
                                                 subcategory15.put("sub_name","Padicure" );
                                                 subcategory15.put("sub_id", 15);
-                                               subcategory15.put("sub_icon",c_img_string);
+                                                subcategory15.put("sub_icon",c_img_string);
                                                 subcategory15.pinInBackground("pinSubCategory");
                                                 subcategory15.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1025,11 +1051,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(6,"HairDressing",r,c_img_string);
                                                 ParseObject subcategory16 = new ParseObject("Sub_category");
+                                                subcategory16.setACL(addAcl);
                                                 subcategory16.put("sub_uid", r);
                                                 subcategory16.put("sub_c_id", 6);
                                                 subcategory16.put("sub_name","HairDressing" );
                                                 subcategory16.put("sub_id", 16);
-                                               subcategory16.put("sub_icon",c_img_string);
+                                                subcategory16.put("sub_icon",c_img_string);
                                                 subcategory16.pinInBackground("pinSubCategory");
                                                 subcategory16.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1054,6 +1081,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addCategorySpecific(r,"Clothing",0,c_img_string);
                                                 ParseObject category6 = new ParseObject("Category_specific");
+                                                category6.setACL(addAcl);
                                                 category6.put("c_uid", r);
                                                 category6.put("c_id", 7);
                                                 category6.put("c_name","Clothing" );
@@ -1083,11 +1111,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(7,"Shirts",r,c_img_string);
                                                 ParseObject subcategory17 = new ParseObject("Sub_category");
+                                                subcategory17.setACL(addAcl);
                                                 subcategory17.put("sub_uid", r);
                                                 subcategory17.put("sub_c_id", 7);
                                                 subcategory17.put("sub_name","Shirts" );
                                                 subcategory17.put("sub_id", 17);
-                                               subcategory17.put("sub_icon",c_img_string);
+                                                subcategory17.put("sub_icon",c_img_string);
                                                 subcategory17.pinInBackground("pinSubCategory");
                                                 subcategory17.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1112,11 +1141,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(7,"Pants",r,c_img_string);
                                                 ParseObject subcategory18 = new ParseObject("Sub_category");
+                                                subcategory18.setACL(addAcl);
                                                 subcategory18.put("sub_uid", r);
                                                 subcategory18.put("sub_c_id", 7);
                                                 subcategory18.put("sub_name","Pants" );
                                                 subcategory18.put("sub_id", 18);
-                                               subcategory18.put("sub_icon",c_img_string);
+                                                subcategory18.put("sub_icon",c_img_string);
                                                 subcategory18.pinInBackground("pinSubCategory");
                                                 subcategory18.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1141,11 +1171,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(7,"T-shirts",r,c_img_string);
                                                 ParseObject subcategory19 = new ParseObject("Sub_category");
+                                                subcategory19.setACL(addAcl);
                                                 subcategory19.put("sub_uid", r);
                                                 subcategory19.put("sub_c_id", 7);
                                                 subcategory19.put("sub_name","T-shirts" );
                                                 subcategory19.put("sub_id", 19);
-                                               subcategory19.put("sub_icon",c_img_string);
+                                                subcategory19.put("sub_icon",c_img_string);
                                                 subcategory19.pinInBackground("pinSubCategory");
                                                 subcategory19.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1170,11 +1201,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(7,"Shoes",r,c_img_string);
                                                 ParseObject subcategory20 = new ParseObject("Sub_category");
+                                                subcategory20.setACL(addAcl);
                                                 subcategory20.put("sub_uid", r);
                                                 subcategory20.put("sub_c_id", 7);
                                                 subcategory20.put("sub_name","Shoes" );
                                                 subcategory20.put("sub_id", 20);
-                                               subcategory20.put("sub_icon",c_img_string);
+                                                subcategory20.put("sub_icon",c_img_string);
                                                 subcategory20.pinInBackground("pinSubCategory");
                                                 subcategory20.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1199,11 +1231,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(7,"Sweater",r,c_img_string);
                                                 ParseObject subcategory21 = new ParseObject("Sub_category");
+                                                category.setACL(addAcl);
                                                 subcategory21.put("sub_uid", r);
                                                 subcategory21.put("sub_c_id", 7);
                                                 subcategory21.put("sub_name","Sweater" );
                                                 subcategory21.put("sub_id", 21);
-                                               subcategory21.put("sub_icon",c_img_string);
+                                                subcategory21.put("sub_icon",c_img_string);
                                                 subcategory21.pinInBackground("pinSubCategory");
                                                 subcategory21.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1228,11 +1261,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(7,"Skirts",r,c_img_string);
                                                 ParseObject subcategory22 = new ParseObject("Sub_category");
+                                                subcategory22.setACL(addAcl);
                                                 subcategory22.put("sub_uid", r);
                                                 subcategory22.put("sub_c_id", 7);
                                                 subcategory22.put("sub_name","Skirts" );
                                                 subcategory22.put("sub_id", 22);
-                                               subcategory22.put("sub_icon",c_img_string);
+                                                subcategory22.put("sub_icon", c_img_string);
                                                 subcategory22.pinInBackground("pinSubCategory");
                                                 subcategory22.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1257,11 +1291,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(7,"Jackets",r,c_img_string);
                                                 ParseObject subcategory23 = new ParseObject("Sub_category");
+                                                subcategory23.setACL(addAcl);
                                                 subcategory23.put("sub_uid", r);
                                                 subcategory23.put("sub_c_id", 7);
                                                 subcategory23.put("sub_name","Jackets" );
                                                 subcategory23.put("sub_id", 23);
-                                               subcategory23.put("sub_icon",c_img_string);
+                                                subcategory23.put("sub_icon",c_img_string);
                                                 subcategory23.pinInBackground("pinSubCategory");
                                                 subcategory23.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1286,6 +1321,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addCategorySpecific(r,"Bills",0,c_img_string);
                                                 ParseObject category7 = new ParseObject("Category_specific");
+                                                category7.setACL(addAcl);
                                                 category7.put("c_uid", r);
                                                 category7.put("c_id", 8);
                                                 category7.put("c_name","Bills" );
@@ -1315,11 +1351,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(8,"Phone Bill",r,c_img_string);
                                                 ParseObject subcategory24 = new ParseObject("Sub_category");
+                                                subcategory24.setACL(addAcl);
                                                 subcategory24.put("sub_uid", r);
                                                 subcategory24.put("sub_c_id", 8);
                                                 subcategory24.put("sub_name","Phone Bill" );
                                                 subcategory24.put("sub_id", 24);
-                                               subcategory24.put("sub_icon",c_img_string);
+                                                subcategory24.put("sub_icon",c_img_string);
                                                 subcategory24.pinInBackground("pinSubCategory");
                                                 subcategory24.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1344,11 +1381,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(8,"Electricity Bill",r,c_img_string);
                                                 ParseObject subcategory25 = new ParseObject("Sub_category");
+                                                subcategory25.setACL(addAcl);
                                                 subcategory25.put("sub_uid", r);
                                                 subcategory25.put("sub_c_id", 8);
                                                 subcategory25.put("sub_name","Electricity Bill" );
                                                 subcategory25.put("sub_id", 25);
-                                               subcategory25.put("sub_icon",c_img_string);
+                                                subcategory25.put("sub_icon",c_img_string);
                                                 subcategory25.pinInBackground("pinSubCategory");
                                                 subcategory25.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1388,6 +1426,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addCategorySpecific(r,"Stationary",0,c_img_string);
                                                 ParseObject category8 = new ParseObject("Category_specific");
+                                                category8.setACL(addAcl);
                                                 category8.put("c_uid", r);
                                                 category8.put("c_id", 9);
                                                 category8.put("c_name","Stationary" );
@@ -1402,11 +1441,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 });
                                                 dbHelper.addSubCategory(9,"Copy",r,c_img_string);
                                                 ParseObject subcategory27 = new ParseObject("Sub_category");
+                                                subcategory27.setACL(addAcl);
                                                 subcategory27.put("sub_uid", r);
                                                 subcategory27.put("sub_c_id", 9);
                                                 subcategory27.put("sub_name","Copy" );
                                                 subcategory27.put("sub_id", 27);
-                                               subcategory27.put("sub_icon",c_img_string);
+                                                subcategory27.put("sub_icon",c_img_string);
                                                 subcategory27.pinInBackground("pinSubCategory");
                                                 subcategory27.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1416,11 +1456,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 });
                                                 dbHelper.addSubCategory(9,"Pen",r,c_img_string);
                                                 ParseObject subcategory28 = new ParseObject("Sub_category");
+                                                subcategory28.setACL(addAcl);
                                                 subcategory28.put("sub_uid", r);
                                                 subcategory28.put("sub_c_id", 9);
                                                 subcategory28.put("sub_name","Pen" );
                                                 subcategory28.put("sub_id", 28);
-                                               subcategory28.put("sub_icon",c_img_string);
+                                                subcategory28.put("sub_icon",c_img_string);
                                                 subcategory28.pinInBackground("pinSubCategory");
                                                 subcategory28.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1445,11 +1486,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(9,"Pencil",r,c_img_string);
                                                 ParseObject subcategory29 = new ParseObject("Sub_category");
+                                                subcategory29.setACL(addAcl);
                                                 subcategory29.put("sub_uid", r);
                                                 subcategory29.put("sub_c_id", 9);
                                                 subcategory29.put("sub_name","Pencil" );
                                                 subcategory29.put("sub_id", 29);
-                                               subcategory29.put("sub_icon",c_img_string);
+                                                subcategory29.put("sub_icon",c_img_string);
                                                 subcategory29.pinInBackground("pinSubCategory");
                                                 subcategory29.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1474,6 +1516,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addCategorySpecific(r,"Educational",0,c_img_string);
                                                 ParseObject category9 = new ParseObject("Category_specific");
+                                                category9.setACL(addAcl);
                                                 category9.put("c_uid", r);
                                                 category9.put("c_id", 10);
                                                 category9.put("c_name","Educational" );
@@ -1488,11 +1531,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 });
                                                 dbHelper.addSubCategory(10,"Tution Fee",r,c_img_string);
                                                 ParseObject subcategory30 = new ParseObject("Sub_category");
+                                                subcategory30.setACL(addAcl);
                                                 subcategory30.put("sub_uid", r);
                                                 subcategory30.put("sub_c_id", 10);
                                                 subcategory30.put("sub_name","Tution Fee" );
                                                 subcategory30.put("sub_id", 30);
-                                               subcategory30.put("sub_icon",c_img_string);
+                                                subcategory30.put("sub_icon",c_img_string);
                                                 subcategory30.pinInBackground("pinSubCategory");
                                                 subcategory30.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1502,11 +1546,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 });
                                                 dbHelper.addSubCategory(10,"Admission Fee",r,c_img_string);
                                                 ParseObject subcategory31 = new ParseObject("Sub_category");
+                                                subcategory31.setACL(addAcl);
                                                 subcategory31.put("sub_uid", r);
                                                 subcategory31.put("sub_c_id", 10);
                                                 subcategory31.put("sub_name","Admission Fee" );
                                                 subcategory31.put("sub_id", 31);
-                                               subcategory31.put("sub_icon",c_img_string);
+                                                subcategory31.put("sub_icon",c_img_string);
                                                 subcategory31.pinInBackground("pinSubCategory");
                                                 subcategory31.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1532,6 +1577,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addCategorySpecific(r,"Salary",1,c_img_string);
                                                 ParseObject category10 = new ParseObject("Category_specific");
+                                                category10.setACL(addAcl);
                                                 category10.put("c_uid", r);
                                                 category10.put("c_id", 11);
                                                 category10.put("c_name","Salary" );
@@ -1562,6 +1608,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addCategorySpecific(r,"Wages",1,c_img_string);
                                                 ParseObject category11 = new ParseObject("Category_specific");
+                                                category11.setACL(addAcl);
                                                 category11.put("c_uid", r);
                                                 category11.put("c_id", 12);
                                                 category11.put("c_name","Wages" );
@@ -1591,11 +1638,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(12,"Daily",r,c_img_string);
                                                 ParseObject subcategory32 = new ParseObject("Sub_category");
+                                                subcategory32.setACL(addAcl);
                                                 subcategory32.put("sub_uid", r);
                                                 subcategory32.put("sub_c_id", 12);
                                                 subcategory32.put("sub_name","Daily" );
                                                 subcategory32.put("sub_id", 32);
-                                               subcategory32.put("sub_icon",c_img_string);
+                                                subcategory32.put("sub_icon",c_img_string);
                                                 subcategory32.pinInBackground("pinSubCategory");
                                                 subcategory32.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1620,11 +1668,12 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
                                                 c_img_string = Base64.encodeToString(b, Base64.DEFAULT);
                                                 dbHelper.addSubCategory(12,"Weekly",r,c_img_string);
                                                 ParseObject subcategory33 = new ParseObject("Sub_category");
+                                                subcategory33.setACL(addAcl);
                                                 subcategory33.put("sub_uid", r);
                                                 subcategory33.put("sub_c_id", 12);
                                                 subcategory33.put("sub_name","Weekly" );
                                                 subcategory33.put("sub_id", 33);
-                                               subcategory33.put("sub_icon",c_img_string);
+                                                subcategory33.put("sub_icon",c_img_string);
                                                 subcategory33.pinInBackground("pinSubCategory");
                                                 subcategory33.saveEventually(new SaveCallback() {
                                                     @Override
@@ -1650,6 +1699,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addCategorySpecific(r,"Provident Fund",1,c_img_string);
                                                 ParseObject category12 = new ParseObject("Category_specific");
+                                                category12.setACL(addAcl);
                                                 category12.put("c_uid", r);
                                                 category12.put("c_id", 13);
                                                 category12.put("c_name","Provident Fund" );
@@ -1680,6 +1730,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addCategorySpecific(r,"Med_Claim",1,c_img_string);
                                                 ParseObject category13 = new ParseObject("Category_specific");
+                                                category13.setACL(addAcl);
                                                 category13.put("c_uid", r);
                                                 category13.put("c_id", 14);
                                                 category13.put("c_name","Med_Claim" );
@@ -1710,6 +1761,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addCategorySpecific(r,"Pension",1,c_img_string);
                                                 ParseObject category14 = new ParseObject("Category_specific");
+                                                category14.setACL(addAcl);
                                                 category14.put("c_uid", r);
                                                 category14.put("c_id", 15);
                                                 category14.put("c_name","Pension" );
@@ -1740,6 +1792,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addCategorySpecific(r,"Capital Gains",1,c_img_string);
                                                 ParseObject category15 = new ParseObject("Category_specific");
+                                                category15.setACL(addAcl);
                                                 category15.put("c_uid", r);
                                                 category15.put("c_id", 16);
                                                 category15.put("c_name","Capital Gains" );
@@ -1770,6 +1823,7 @@ public class SignUpActivity extends ActionBarActivity implements PopupMenu.OnMen
 
                                                 dbHelper.addCategorySpecific(r,"House Property",1,c_img_string);
                                                 ParseObject category16 = new ParseObject("Category_specific");
+                                                category16.setACL(addAcl);
                                                 category16.put("c_uid", r);
                                                 category16.put("c_id", 17);
                                                 category16.put("c_name","House Property" );

@@ -1,8 +1,11 @@
 package com.example.dhruvgupta.expensious;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.pkmmte.view.CircularImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 /**
@@ -48,10 +58,26 @@ public class FamilyMemberAdapter extends ArrayAdapter<SignUpDB>
         Log.i("Position",position+"");
 
         try {
-//            byte[] decodedString = Base64.decode(db.u_image.trim(), Base64.DEFAULT);
-//            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//
-//            mImageView.setImageBitmap(decodedByte);
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("_User");
+            query.whereEqualTo("uid", db.u_id);
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject parseObject, ParseException e) {
+                    ParseFile file = parseObject.getParseFile("userimage");
+                    file.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] bytes, ParseException e) {
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            ByteArrayOutputStream byteArr = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArr);
+                            String path = MediaStore.Images.Media.insertImage(getContext().getContentResolver(), bitmap, "Title", null);
+                            Uri image = Uri.parse(path);
+                            Log.i("byte", image + " ; " + bytes);
+                            mImageView.setImageURI(image);
+                        }
+                    });
+                }
+            });
             mUserName.setText(db.u_name);
         }
         catch (Exception e)
