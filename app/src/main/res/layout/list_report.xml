@@ -21,8 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:text="Food"
             android:textSize="20sp"
+            android:text="Food"
+            android:textColor="#000000"
             android:id="@+id/list_report_name"/>
      </LinearLayout>
 
@@ -35,8 +36,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5000"
             android:textSize="20sp"
+            android:text="5000"
+            android:textColor="#000000"
             android:gravity="right"
             android:layout_marginRight="5dp"
             android:id="@+id/list_report_amt"/>
@@ -44,7 +46,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rs"
+            android:text="Rs."
+            android:textColor="#000000"
             android:textSize="20sp"
             android:gravity="right"
             android:id="@+id/list_report_cur"/>

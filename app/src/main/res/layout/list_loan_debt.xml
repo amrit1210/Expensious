@@ -32,21 +32,24 @@
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:id="@+id/list_loan_debt_date"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="LD Type"
                 android:id="@+id/list_loan_debt_type"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textColor="#000000"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Note"
                 android:id="@+id/list_loan_debt_note"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:textColor="#000000"/>
 
         </LinearLayout>
 
@@ -62,7 +65,8 @@
                 android:text="Time"
                 android:id="@+id/list_loan_debt_time"
                 android:gravity="right"
-                android:textSize="16sp"/>
+                android:textSize="16sp"
+                android:textColor="#000000"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,13 +78,15 @@
                     android:layout_height="wrap_content"
                     android:text="Amount"
                     android:id="@+id/list_loan_debt_amt"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cur"
                     android:id="@+id/list_loan_debt_cur"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:textColor="#000000"/>
 
             </LinearLayout>
 
@@ -90,7 +96,8 @@
                 android:text="Account"
                 android:gravity="right"
                 android:id="@+id/list_loan_debt_acc"
-                android:textSize="18sp"/>
+                android:textSize="18sp"
+                android:textColor="#000000"/>
 
         </LinearLayout>
     </LinearLayout>

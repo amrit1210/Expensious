@@ -20,7 +20,8 @@
             android:layout_gravity="center"
             android:clickable="true"
             android:id="@+id/report_spinner_period"
-            style="@style/SpinnerTextColor"/>
+            style="@style/SpinnerTextColor"
+            />
 
         <Spinner
             android:layout_width="wrap_content"
