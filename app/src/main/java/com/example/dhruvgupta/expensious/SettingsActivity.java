@@ -1,5 +1,6 @@
 package com.example.dhruvgupta.expensious;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -123,14 +124,14 @@ public void onInt(Bundle bundle) {
     }
 
     public void onClearData(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
         builder.setTitle("Delete local data");
         builder.setMessage("All your local data will be cleared, and can be restored");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dbHelper.deleteAllData(sp.getInt("UID", 0));
-                Toast.makeText(getApplicationContext(), "Data is cleared", Toast.LENGTH_LONG).show();
+                Toast.makeText(SettingsActivity.this, "Data is cleared", Toast.LENGTH_LONG).show();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -145,7 +146,7 @@ public void onInt(Bundle bundle) {
 
     public void onClearAllData(View v)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
         builder.setTitle("Delete all data");
         builder.setMessage("All your data will be cleared, and can never be restored");
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -257,7 +258,7 @@ public void onInt(Bundle bundle) {
                     }
                 });
 
-                Toast.makeText(getApplicationContext(),"Data is cleared",Toast.LENGTH_LONG).show();
+                Toast.makeText(SettingsActivity.this,"Data is cleared",Toast.LENGTH_LONG).show();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
